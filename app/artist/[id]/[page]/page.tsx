@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
     const { artistImgUrl, artist, text } = firstArtistData;
     const title = artist;
-    const currentUrl = `https://divdivdiv.com/music/artist/${artistId}/1`;
+    const currentUrl = `https://music.divdivdiv.com/artist/${artistId}/1`;
     const textPreview = text.length > 30 ? text.substring(0, 30) + "..." : text;
 
     return {

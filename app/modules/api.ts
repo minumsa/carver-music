@@ -9,7 +9,7 @@ interface InitialAlbumDataResult {
 export async function fetchInitialAlbumData(): Promise<InitialAlbumDataResult> {
   try {
     const queryString = `?scrollCount=${FIRST_SCROLL}&currentTagKey=${""}`;
-    const url = `https://divdivdiv.com/music/api${queryString}`;
+    const url = `https://music.divdivdiv.com/api${queryString}`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -68,7 +68,7 @@ export async function fetchAlbumData(albumFilters: AlbumFilters): Promise<AlbumD
 export async function fetchPostData(currentId: string): Promise<AlbumInfo> {
   try {
     const queryString = `?albumId=${currentId}`;
-    const url = `https://divdivdiv.com/music/api/post${queryString}`;
+    const url = `https://music.divdivdiv.com/api/post${queryString}`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -100,7 +100,7 @@ export async function fetchGenreData(
 ): Promise<GenreDataResult> {
   try {
     const queryString = `?currentGenre=${currentGenre}&currentPage=${currentPage}`;
-    const url = `https://divdivdiv.com/music/api/genre${queryString}`;
+    const url = `https://music.divdivdiv.com/api/genre${queryString}`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -131,7 +131,7 @@ export async function fetchArtistData(
 ): Promise<ArtistDataResult> {
   try {
     const queryString = `?artistId=${artistId}&currentPage=${currentPage}`;
-    const url = `https://divdivdiv.com/music/api/artist${queryString}`;
+    const url = `https://music.divdivdiv.com/api/artist${queryString}`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -162,7 +162,7 @@ export async function fetchTagData(
 ): Promise<TagDataResult> {
   try {
     const queryString = `?currentTag=${currentTag}&currentPage=${currentPage}`;
-    const url = `https://divdivdiv.com/music/api/tag${queryString}`;
+    const url = `https://music.divdivdiv.com/api/tag${queryString}`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -193,7 +193,7 @@ export async function fetchSearchData(
 ): Promise<SearchDataResult> {
   try {
     const queryString = `?currentKeyword=${currentKeyword}&currentPage=${currentPage}`;
-    const url = `https://divdivdiv.com/music/api/search${queryString}`;
+    const url = `https://music.divdivdiv.com/api/search${queryString}`;
 
     const response = await fetch(url, {
       method: "GET",
