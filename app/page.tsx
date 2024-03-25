@@ -1,28 +1,17 @@
-"use client";
+import { MusicLayout } from "./components/@common/MusicLayout";
+import { Grid } from "./components/main/Grid";
+import { fetchInitialAlbumData } from "./modules/api";
 
-import { imgAltAtom, imgSrcAtom, showImageAtom } from "./divdivdiv/modules/data";
-import DraggableIcons from "./divdivdiv/components/DraggableIcons";
-import { ImageModal } from "./divdivdiv/components/Modal";
-import { useAtom } from "jotai";
-import { FunctionalLayout } from "./divdivdiv/components/FunctionalLayout";
+export default async function Page() {
+  try {
+    const { albumData, totalScrollCount } = await fetchInitialAlbumData();
 
-export default function Page() {
-  const [showImage, setShowImage] = useAtom(showImageAtom);
-  const [imgSrc, setImgSrc] = useAtom(imgSrcAtom);
-  const [imgAlt, setImgAlt] = useAtom(imgAltAtom);
-
-  const handleModalClick = () => {
-    setShowImage(false);
-    setImgSrc("");
-    setImgAlt("");
-  };
-
-  return (
-    <>
-      {showImage && <ImageModal src={imgSrc} alt={imgAlt} onClick={handleModalClick} />}
-      <FunctionalLayout>
-        <DraggableIcons />
-      </FunctionalLayout>
-    </>
-  );
+    return (
+      <MusicLayout>
+        <Grid initialData={albumData} totalScrollCount={totalScrollCount} />
+      </MusicLayout>
+    );
+  } catch (error) {
+    console.error(error);
+  }
 }

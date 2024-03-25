@@ -1,13 +1,15 @@
-## 📁 divdivdiv
+## 🎧 Carver Chart
 
-<a href="https://divdivdiv.com" target="_blank">divdivdiv</a>는 제가 작업한 개인 프로젝트들을 업로드하는 포트폴리오 사이트입니다.
+[카버차트](https://music.divdivdiv.com)는 좋은 음반을 소개하는 사이트입니다.
 
 ## 🧚‍♂️ Overview
 
-- 메인 화면의 콘텐츠를 원하는 위치로 드래그
-- 사진 아이콘을 더블 클릭하면 모달 창 실행
-- 상단에 현재 날짜 및 시간, 서울의 날씨 표시
-- 한글/영문 토글 버튼으로 사이트 전체 언어 변환
+- 음반 정보와 관련 글 제공
+- 메인 화면 콘텐츠 FadeInUp CSS 애니메이션
+- 작성일/발매일/아티스트/앨범명 기준으로 콘텐츠 정렬 변경
+- 검색 기능
+- 무한 스크롤 및 페이지네이션
+- 관리자 페이지(/admin)에서 콘텐츠 업로드/수정/삭제
 
 ## ⚙️ How to use
 
@@ -24,7 +26,13 @@ npm run dev
 - TypeScript
 - React
 - Next.js
+- MongoDB
+
+## 🗄️ Reference
+
+- [react-snowfall](https://www.npmjs.com/package/react-snowfall)
+- [react-intersection-observer](https://www.npmjs.com/package/react-intersection-observer)
 
 ## 👨‍💻 Developer
 
-- <a href="https://github.com/minumsa" target="_blank">carver</a>
+- [carver](https://github.com/minumsa)
