@@ -6,7 +6,7 @@ export const metadata = {
   description: "",
   openGraph: {
     locale: "ko_KR",
-    siteName: "divdivdiv",
+    siteName: "카버차트",
     title: "카버차트",
     type: "website",
   },

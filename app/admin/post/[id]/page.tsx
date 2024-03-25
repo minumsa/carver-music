@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         description: textPreview,
         url: currentUrl,
         type: "website",
-        siteName: "divdivdiv",
+        siteName: "카버차트",
       },
     };
   } catch (error) {
