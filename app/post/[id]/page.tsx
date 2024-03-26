@@ -3,6 +3,7 @@ import { MusicLayout } from "../../components/@common/MusicLayout";
 import { Metadata } from "next/dist/lib/metadata/types/metadata-interface";
 import { PageProps } from "../../modules/types";
 import { fetchPostData } from "../../modules/api";
+import { SITE_TITLE } from "@/app/modules/constants";
 
 export default async function Page({ params }: PageProps) {
   const currentId = params.id;
@@ -39,7 +40,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         description: textPreview,
         url: currentUrl,
         type: "website",
-        siteName: "카버차트",
+        siteName: SITE_TITLE,
       },
     };
   } catch (error) {

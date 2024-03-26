@@ -6,6 +6,7 @@ import { useAtom } from "jotai";
 import { CurrentTagKeyAtom } from "../../../modules/atoms";
 import { isAdminPage } from "../../../modules/utils";
 import { toSearchPage } from "../../../modules/paths";
+import { SITE_TITLE } from "@/app/modules/constants";
 
 export const Category = () => {
   const pathName = usePathname();
@@ -32,7 +33,7 @@ export const Category = () => {
             href={isAdminPage(pathName) ? "/admin" : ""}
             onClick={scrollToTop}
           >
-            <nav>카버차트</nav>
+            <nav>{SITE_TITLE}</nav>
           </Link>
         </div>
       </div>

@@ -1,6 +1,6 @@
 ## 🎧 Carver Chart
 
-[카버차트](https://music.divdivdiv.com)는 좋은 음반을 소개하는 사이트입니다.
+[카버뮤직](https://music.divdivdiv.com)는 좋은 음반을 소개하는 사이트입니다.
 
 ## 🧚‍♂️ Overview
 

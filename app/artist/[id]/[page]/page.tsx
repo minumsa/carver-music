@@ -1,6 +1,7 @@
 import ArtistContent from "../../../components/artist/ArtistContent";
 import { MusicLayout } from "@/app/components/@common/MusicLayout";
 import { fetchArtistData } from "@/app/modules/api";
+import { SITE_TITLE } from "@/app/modules/constants";
 import { PageProps } from "@/app/modules/types";
 import { Metadata } from "next";
 
@@ -50,7 +51,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         images: [artistImgUrl],
         url: currentUrl,
         type: "website",
-        siteName: "카버차트",
+        siteName: SITE_TITLE,
         description: textPreview,
       },
     };

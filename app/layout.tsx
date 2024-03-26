@@ -1,20 +1,22 @@
 import React from "react";
 import "./globals.css";
 
+const SITE_TITLE = "카버뮤직";
+
 export const metadata = {
-  title: "카버차트",
+  title: SITE_TITLE,
   description: "",
   openGraph: {
     locale: "ko_KR",
-    siteName: "카버차트",
-    title: "카버차트",
+    siteName: SITE_TITLE,
+    title: SITE_TITLE,
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     creator: "@dev_carver",
-    description: "카버차트",
-    title: "카버차트",
+    description: SITE_TITLE,
+    title: SITE_TITLE,
   },
 };
 
