@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const { imgUrl, artist, album, text } = postData;
     const title = `${artist} - ${album}`;
     const textPreview = text.length > 30 ? text.substring(0, 30) + "..." : text;
-    const currentUrl = `https://divdivdiv.com/post/${currentId}`;
+    const currentUrl = `https://music.divdivdiv.com/post/${currentId}`;
 
     return {
       title: title,
