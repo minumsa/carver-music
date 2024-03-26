@@ -138,4 +138,8 @@
   .search-tag-container {
     display: none;
   }
+
+  .search-tag-display-item {
+    display: none;
+  }
 }
