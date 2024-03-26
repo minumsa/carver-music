@@ -5,7 +5,7 @@ import { DeleteButton } from "./assets/DeleteButton";
 import { EditButton } from "./assets/EditButton";
 import Link from "next/link";
 import { LinkIcon } from "./assets/LinkIcon";
-import { BlurImg } from "../@common/BlurImage";
+import { BlurImg } from "../@common/BlurImg";
 import { AlbumInfo } from "../../modules/types";
 
 interface PostAlbumMetadataProps {

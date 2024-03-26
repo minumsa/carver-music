@@ -6,7 +6,7 @@ import { useRef } from "react";
 import { DeleteButton } from "../../post/assets/DeleteButton";
 import { EditButton } from "../../post/assets/EditButton";
 import Link from "next/link";
-import { BlurImg } from "../BlurImage";
+import { BlurImg } from "../BlurImg";
 import { AlbumInfo } from "../../../modules/types";
 import { toArtistPage, toTagPage, toPostPage } from "../../../modules/paths";
 import { DEFAULT_TAGS } from "../../../modules/constants";

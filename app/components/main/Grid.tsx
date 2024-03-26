@@ -11,7 +11,7 @@ import "aos/dist/aos.css";
 import Aos from "aos";
 import { ContentLayout } from "../@common/ContentLayout";
 import Link from "next/link";
-import { BlurImg } from "../@common/BlurImage";
+import { BlurImg } from "../@common/BlurImg";
 import { isMobile } from "react-device-detect";
 import { InitialLoadingView } from "../@common/InitialLoadingView";
 import { AlbumInfo } from "../../modules/types";
