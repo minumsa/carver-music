@@ -7,7 +7,7 @@ import {
   scrollCountAtom,
   scrollPositionAtom,
 } from "../../modules/atoms";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const MobileTagDisplay = () => {
   const setData = useSetAtom(albumDataAtom);
@@ -15,6 +15,16 @@ export const MobileTagDisplay = () => {
   const [currentTagKey, setCurrentTagKey] = useAtom(CurrentTagKeyAtom);
   const [scrollPosition, setScrollPosition] = useAtom(scrollPositionAtom);
   const [showAllTagItems, setShowAllTagItems] = useState<boolean>(false);
+
+  useEffect(() => {
+    function scrollAndReset() {
+      window.scrollTo(0, scrollPosition);
+      setScrollPosition(0);
+    }
+
+    scrollAndReset();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTagKey]);
 
   return (
     <div
