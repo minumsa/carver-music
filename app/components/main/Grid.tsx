@@ -48,10 +48,11 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
   const currentTagKey = useAtomValue(CurrentTagKeyAtom);
   const [isScrolling, setIsScrolling] = useState(false);
 
+  // FIXME: currentTagKey가 바뀌면 Aos.init() 테스트
   useEffect(() => {
     Aos.init();
     setNewTotalScrollCount(totalScrollCount);
-  }, []);
+  }, [currentTagKey]);
 
   useEffect(() => {
     const isScrollAtOrBelowLimit = scrollCount <= newTotalScrollCount;

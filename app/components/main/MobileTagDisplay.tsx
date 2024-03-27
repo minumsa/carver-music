@@ -7,7 +7,7 @@ import {
   scrollCountAtom,
   scrollPositionAtom,
 } from "../../modules/atoms";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export const MobileTagDisplay = () => {
   const setData = useSetAtom(albumDataAtom);
@@ -16,15 +16,13 @@ export const MobileTagDisplay = () => {
   const [scrollPosition, setScrollPosition] = useAtom(scrollPositionAtom);
   const [showAllTagItems, setShowAllTagItems] = useState<boolean>(false);
 
-  useEffect(() => {
-    function scrollAndReset() {
-      window.scrollTo(0, scrollPosition);
-      setScrollPosition(0);
-    }
-
-    scrollAndReset();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentTagKey]);
+  function resetDataAndScroll(key: string) {
+    setData([]);
+    setCurrentTagKey(key);
+    setScrollCount(1);
+    window.scrollTo(0, scrollPosition);
+    setScrollPosition(0);
+  }
 
   return (
     <div
@@ -37,11 +35,7 @@ export const MobileTagDisplay = () => {
             key={index}
             className={styles["tag-display-item"]}
             onClick={() => {
-              setData([]);
-              setCurrentTagKey(key);
-              setScrollCount(1);
-              window.scrollTo(0, scrollPosition);
-              setScrollPosition(0);
+              resetDataAndScroll(key);
             }}
             style={
               currentTagKey === key || (currentTagKey === "" && key === "all")
