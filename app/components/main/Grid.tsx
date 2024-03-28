@@ -16,9 +16,9 @@ import { isMobile } from "react-device-detect";
 import { LoadingView } from "../@common/LoadingView";
 import { AlbumInfo } from "../../modules/types";
 import {
-  currentTagKeyAtom,
+  tagKeyAtom,
   albumDataAtom,
-  currentTotalScrollCountAtom,
+  totalScrollCountAtom,
   scrollCountAtom,
   scrollPositionAtom,
   isFirstFetchAtom,
@@ -41,18 +41,19 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
   const [data, setData] = useAtom(albumDataAtom);
   const [scrollCount, setScrollCount] = useAtom(scrollCountAtom);
   const [scrollPosition, setScrollPosition] = useAtom(scrollPositionAtom);
-  const [newTotalScrollCount, setNewTotalScrollCount] = useAtom(currentTotalScrollCountAtom);
+  const [newTotalScrollCount, setNewTotalScrollCount] = useAtom(totalScrollCountAtom);
   const { ref, inView } = useInView({
     threshold: 0,
     triggerOnce: true,
   });
-  const currentTagKey = useAtomValue(currentTagKeyAtom);
+  const currentTagKey = useAtomValue(tagKeyAtom);
   const [isScrolling, setIsScrolling] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFirstFetch, setIsFirstFetch] = useAtom(isFirstFetchAtom);
 
   useEffect(() => {
     Aos.init();
+    setIsFirstFetch(true);
   }, []);
 
   useEffect(() => {
@@ -95,8 +96,8 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
         setNewTotalScrollCount(tmp);
       }
 
-      if (isFirstFetch === false) {
-        setIsFirstFetch(true);
+      if (isFirstFetch) {
+        setIsFirstFetch(false);
       }
     }
 
@@ -106,6 +107,11 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
     const tagButtonClicked = currentTagKey.length > 0 && scrollCount === 1;
     const hasReachedScrollLimit = scrollCount === newTotalScrollCount;
     const hasNoData = newTotalScrollCount === 0;
+
+    // 클라이언트 사이드에서 처음 fetch할 때만 로딩 화면 보여주기
+    if (isFirstFetch && hasNoData) {
+      setIsLoading(true);
+    }
 
     // 메인화면으로 진입한 경우
     if (isInitialScroll) {
@@ -129,10 +135,6 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
       setScrollCount(UNREACHABLE_SCROLL_LIMIT);
     }
 
-    // 클라이언트 사이드에서 처음 fetch할 때만 로딩 화면 보여주기
-    if (isFirstFetch && hasNoData) {
-      setIsLoading(true);
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialData, scrollCount, currentTagKey, newTotalScrollCount]);
 
