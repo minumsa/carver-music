@@ -22,13 +22,12 @@ export async function GET(request: Request) {
       tagKeys: string;
     }
 
-    let query: Query = { tagKeys: currentTag };
-
+    const query: Query = { tagKeys: currentTag };
     const skipCount = SUB_PER_PAGE_COUNT * currentPage - SUB_PER_PAGE_COUNT;
-    const tagData =
-      currentPage === 1
-        ? await Music.find(query).sort(sortKey).limit(SUB_PER_PAGE_COUNT)
-        : await Music.find(query).sort(sortKey).skip(skipCount).limit(SUB_PER_PAGE_COUNT);
+    const isFirstPage = currentPage === 1;
+    const tagData = isFirstPage
+      ? await Music.find(query).sort(sortKey).limit(SUB_PER_PAGE_COUNT)
+      : await Music.find(query).sort(sortKey).skip(skipCount).limit(SUB_PER_PAGE_COUNT);
     const tagDataCount = await Music.find(query).count();
 
     return NextResponse.json({ tagData, tagDataCount });

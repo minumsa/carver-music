@@ -22,7 +22,7 @@ export async function GET(request: Request) {
       tagKeys?: string;
     }
 
-    let query: Query = {};
+    const query: Query = {};
 
     if (currentTagKey) {
       query.tagKeys = currentTagKey;

@@ -22,7 +22,7 @@ export async function GET(request: Request) {
       genre: string;
     }
 
-    let query: Query = { genre: currentGenre };
+    const query: Query = { genre: currentGenre };
 
     const skipCount = SUB_PER_PAGE_COUNT * currentPage - SUB_PER_PAGE_COUNT;
     const genreData =
