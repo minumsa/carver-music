@@ -13,7 +13,7 @@ import { ContentLayout } from "../@common/ContentLayout";
 import Link from "next/link";
 import { BlurImg } from "../@common/BlurImg";
 import { isMobile } from "react-device-detect";
-import { InitialLoadingView } from "../@common/InitialLoadingView";
+import { LoadingView } from "../@common/LoadingView";
 import { AlbumInfo } from "../../modules/types";
 import {
   CurrentTagKeyAtom,
@@ -47,12 +47,23 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
   });
   const currentTagKey = useAtomValue(CurrentTagKeyAtom);
   const [isScrolling, setIsScrolling] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // FIXME: currentTagKey가 바뀌면 Aos.init() 테스트
   useEffect(() => {
     Aos.init();
-    setNewTotalScrollCount(totalScrollCount);
-  }, [currentTagKey]);
+  }, []);
+
+  useEffect(() => {
+    const scrolledBefore = scrollPosition > 0;
+    function scrollAndReset() {
+      window.scrollTo(0, scrollPosition);
+      setScrollPosition(0);
+    }
+
+    if (scrolledBefore) {
+      scrollAndReset();
+    }
+  }, []);
 
   useEffect(() => {
     const isScrollAtOrBelowLimit = scrollCount <= newTotalScrollCount;
@@ -62,6 +73,7 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
         setIsScrolling(true);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
 
   useEffect(() => {
@@ -74,6 +86,7 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
       const { albumData, albumDataCount } = await fetchAlbumData(albumFilters);
       setData(prevData => [...prevData, ...albumData]);
       setIsScrolling(false);
+      setIsLoading(false);
 
       if (currentTagKey) {
         const tmp = Math.max(1, Math.ceil(albumDataCount / PER_PAGE_COUNT));
@@ -85,44 +98,47 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
     const scrollDetected =
       data.length >= 1 && scrollCount > 1 && scrollCount <= newTotalScrollCount;
     const tagButtonClicked = currentTagKey.length > 0 && scrollCount === 1;
+    const hasReachedScrollLimit = scrollCount === newTotalScrollCount;
+    const hasNoData = newTotalScrollCount === 0;
 
     // 메인화면으로 진입한 경우
     if (isInitialScroll) {
       setData(initialData);
+      setNewTotalScrollCount(totalScrollCount);
+      setIsLoading(false);
       // 데이터가 있는 상태에서 뒤로 가기 시 또는 태그 버튼을 클릭한 경우
-    } else if (scrollDetected || tagButtonClicked) {
+    }
+
+    if (scrollDetected) {
       loadData(scrollCount);
     }
 
+    if (tagButtonClicked) {
+      loadData(scrollCount);
+      setNewTotalScrollCount(0);
+    }
+
     // scrollCount가 한계치에 도달하는 경우, 더 이상 스크롤 이벤트가 발생하지 않도록 처리
-    const hasReachedScrollLimit = scrollCount === newTotalScrollCount;
     if (hasReachedScrollLimit) {
       setScrollCount(UNREACHABLE_SCROLL_LIMIT);
     }
-  }, [initialData, scrollCount, currentTagKey]);
+
+    if (hasNoData) {
+      setIsLoading(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialData, scrollCount, currentTagKey, newTotalScrollCount]);
 
   function updateScrollPosition() {
     setScrollPosition(window.scrollY);
   }
-
-  useEffect(() => {
-    const wasScrolled = scrollPosition > 0;
-    function scrollAndReset() {
-      window.scrollTo(0, scrollPosition);
-      setScrollPosition(0);
-    }
-
-    if (wasScrolled) {
-      scrollAndReset();
-    }
-  }, []);
 
   return (
     <>
       {/* 모바일 - 태그 컴포넌트 */}
       <MobileTagDisplay />
       <ContentLayout currentPage={scrollCount} dataCount={0}>
-        <InitialLoadingView totalScrollCount={totalScrollCount} />
+        <LoadingView isLoading={isLoading} />
         <ScrollingIcon isScrolling={isScrolling} />
         <div className={styles["container"]}>
           {data.map((item, index) => {
