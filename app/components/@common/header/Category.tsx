@@ -3,14 +3,14 @@ import Link from "next/link";
 import { Hamburger } from "./Hamburger";
 import { usePathname } from "next/navigation";
 import { useAtom } from "jotai";
-import { CurrentTagKeyAtom } from "../../../modules/atoms";
+import { currentTagKeyAtom } from "../../../modules/atoms";
 import { isAdminPage } from "../../../modules/utils";
 import { toSearchPage } from "../../../modules/paths";
 import { SITE_TITLE } from "@/app/modules/constants";
 
 export const Category = () => {
   const pathName = usePathname();
-  const [currentTagKey, setCurrentTagKey] = useAtom(CurrentTagKeyAtom);
+  const [currentTagKey, setCurrentTagKey] = useAtom(currentTagKeyAtom);
   const isMainPage = pathName === "" || pathName === "/admin";
 
   // 메인 페이지일 때 사이트 로고를 누르면 최상단으로 이동

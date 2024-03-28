@@ -16,11 +16,12 @@ import { isMobile } from "react-device-detect";
 import { LoadingView } from "../@common/LoadingView";
 import { AlbumInfo } from "../../modules/types";
 import {
-  CurrentTagKeyAtom,
+  currentTagKeyAtom,
   albumDataAtom,
   currentTotalScrollCountAtom,
   scrollCountAtom,
   scrollPositionAtom,
+  isFirstFetchAtom,
 } from "../../modules/atoms";
 
 import { toArtistPage, toPostPage } from "../../modules/paths";
@@ -45,9 +46,10 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
     threshold: 0,
     triggerOnce: true,
   });
-  const currentTagKey = useAtomValue(CurrentTagKeyAtom);
+  const currentTagKey = useAtomValue(currentTagKeyAtom);
   const [isScrolling, setIsScrolling] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isFirstFetch, setIsFirstFetch] = useAtom(isFirstFetchAtom);
 
   useEffect(() => {
     Aos.init();
@@ -92,6 +94,10 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
         const tmp = Math.max(1, Math.ceil(albumDataCount / PER_PAGE_COUNT));
         setNewTotalScrollCount(tmp);
       }
+
+      if (isFirstFetch === false) {
+        setIsFirstFetch(true);
+      }
     }
 
     const isInitialScroll = currentTagKey === "" && scrollCount === 1;
@@ -123,7 +129,8 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
       setScrollCount(UNREACHABLE_SCROLL_LIMIT);
     }
 
-    if (hasNoData) {
+    // 클라이언트 사이드에서 처음 fetch할 때만 로딩 화면 보여주기
+    if (isFirstFetch && hasNoData) {
       setIsLoading(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

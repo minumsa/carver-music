@@ -2,7 +2,7 @@ import { useAtom, useSetAtom } from "jotai";
 import { DEFAULT_TAGS } from "../../modules/constants";
 import styles from "./MobileTagDisplay.module.css";
 import {
-  CurrentTagKeyAtom,
+  currentTagKeyAtom,
   albumDataAtom,
   scrollCountAtom,
   scrollPositionAtom,
@@ -12,7 +12,7 @@ import { useState } from "react";
 export const MobileTagDisplay = () => {
   const setData = useSetAtom(albumDataAtom);
   const setScrollCount = useSetAtom(scrollCountAtom);
-  const [currentTagKey, setCurrentTagKey] = useAtom(CurrentTagKeyAtom);
+  const [currentTagKey, setCurrentTagKey] = useAtom(currentTagKeyAtom);
   const [scrollPosition, setScrollPosition] = useAtom(scrollPositionAtom);
   const [showAllTagItems, setShowAllTagItems] = useState<boolean>(false);
 

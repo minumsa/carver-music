@@ -5,4 +5,5 @@ export const scrollCountAtom = atom<number>(1);
 export const scrollPositionAtom = atom<number>(0);
 export const currentTotalScrollCountAtom = atom<number>(0);
 export const albumDataAtom = atom<AlbumInfo[]>([]);
-export const CurrentTagKeyAtom = atom<string>("");
+export const currentTagKeyAtom = atom<string>("");
+export const isFirstFetchAtom = atom<boolean>(false);

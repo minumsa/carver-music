@@ -3,7 +3,7 @@ import styles from "./Hamburger.module.css";
 import React, { useState } from "react";
 import Link from "next/link";
 import { useAtom } from "jotai";
-import { CurrentTagKeyAtom } from "../../../modules/atoms";
+import { currentTagKeyAtom } from "../../../modules/atoms";
 import { toGenrePage } from "../../../modules/paths";
 import { isAdminPage } from "../../../modules/utils";
 import { GENRES } from "../../../modules/constants";
@@ -12,7 +12,7 @@ export const Hamburger = () => {
   const pathName = usePathname();
   const router = useRouter();
   const [showCategory, setShowCategory] = useState<boolean>(false);
-  const [currentTagKey, setCurrentTagKey] = useAtom(CurrentTagKeyAtom);
+  const [currentTagKey, setCurrentTagKey] = useAtom(currentTagKeyAtom);
 
   return (
     <nav
