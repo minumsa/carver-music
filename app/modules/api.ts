@@ -23,7 +23,7 @@ export async function fetchInitialAlbumData(): Promise<InitialAlbumDataResult> {
     }
 
     const { albumData, albumDataCount } = await response.json();
-    const totalScrollCount = Math.max(1, Math.ceil(albumDataCount / PER_PAGE_COUNT));
+    const totalScrollCount = (1, Math.ceil(albumDataCount / PER_PAGE_COUNT));
     return { albumData, totalScrollCount };
   } catch (error) {
     throw new Error("Failed to fetch music data");
