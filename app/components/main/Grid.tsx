@@ -130,7 +130,7 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
       setNewTotalScrollCount(0);
     }
 
-    // scrollCount가 한계치에 도달하는 경우, 더 이상 스크롤 이벤트가 발생하지 않도록 처리
+    // scrollCount가 한계치에 도달하는 경우 더 이상 스크롤 이벤트가 발생하지 않도록 처리
     if (hasReachedScrollLimit) {
       setScrollCount(UNREACHABLE_SCROLL_LIMIT);
     }
