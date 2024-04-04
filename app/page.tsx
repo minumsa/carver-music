@@ -4,11 +4,12 @@ import { fetchInitialAlbumData } from "./modules/api";
 
 export default async function Page() {
   try {
-    const { albumData, totalScrollCount } = await fetchInitialAlbumData();
+    // const { albumData, totalScrollCount } = await fetchInitialAlbumData();
+    // initialData={albumData} totalScrollCount={totalScrollCount}
 
     return (
       <MusicLayout>
-        <Grid initialData={albumData} totalScrollCount={totalScrollCount} />
+        <Grid />
       </MusicLayout>
     );
   } catch (error) {
