@@ -33,11 +33,10 @@ interface GridProps {
   initialData: AlbumInfo[];
   totalScrollCount: number;
 }
-// { initialData, totalScrollCount }: GridProps
 
 const UNREACHABLE_SCROLL_LIMIT = 10000;
 
-export const Grid = () => {
+export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
   const pathName = usePathname();
   const [data, setData] = useAtom(albumDataAtom);
   const [scrollCount, setScrollCount] = useAtom(scrollCountAtom);
@@ -102,7 +101,6 @@ export const Grid = () => {
       }
     }
 
-    // const isInitialScroll = currentTagKey === "" && scrollCount === 1;
     const isInitialScroll = currentTagKey === "" && scrollCount === 1;
     const scrollDetected =
       data.length >= 1 && scrollCount > 1 && scrollCount <= newTotalScrollCount;
@@ -117,11 +115,9 @@ export const Grid = () => {
 
     // 메인화면으로 진입한 경우
     if (isInitialScroll) {
-      loadData(scrollCount);
-
-      // setData(initialData);
-      // setNewTotalScrollCount(totalScrollCount);
-      // setIsLoading(false);
+      setData(initialData);
+      setNewTotalScrollCount(totalScrollCount);
+      setIsLoading(false);
       // 데이터가 있는 상태에서 뒤로 가기 시 또는 태그 버튼을 클릭한 경우
     }
 
@@ -140,8 +136,7 @@ export const Grid = () => {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scrollCount, currentTagKey, newTotalScrollCount]);
-  // initialData,
+  }, [initialData, scrollCount, currentTagKey, newTotalScrollCount]);
 
   function updateScrollPosition() {
     setScrollPosition(window.scrollY);
