@@ -367,105 +367,128 @@ export const deleteData = async (id: string) => {
   }
 };
 
-export const fetchSpotifyAccessToken = async () => {
+const fetchSpotifyAccessToken = async () => {
   try {
-    const url = `/api/token`;
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const url = "https://accounts.spotify.com/api/token";
+    const clientId = "9ba8de463724427689b855dfcabca1b1";
+    const clientSecret = "7cfb4b90f97a4b1a8f02f2fe6d2d42bc";
+    const basicToken = btoa(`${clientId}:${clientSecret}`);
+    const headers = {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Basic ${basicToken}`,
+    };
+    const data = "grant_type=client_credentials";
+
+    const accessTokenResponse = await fetch(url, {
+      method: "POST",
+      headers,
+      body: data,
     });
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch spotify access token");
+    if (!accessTokenResponse.ok) {
+      console.error("Error: Access token fetch failed");
     }
 
-    const accessToken = await response.json();
-
-    if (!accessToken) {
-      throw new Error("Failed to retrieve access token from response data");
-    }
-
+    const response = await accessTokenResponse.json();
+    const accessToken = response.access_token;
     return accessToken;
   } catch (error) {
-    throw new Error("Failed to fetch spotify access token");
+    console.error(error);
+    return null;
   }
 };
 
 export const fetchSpotify = async (albumId: string) => {
+  if (!albumId) {
+    alert("모든 항목을 채워주세요.");
+    return;
+  }
+
+  const item = {
+    albumId: albumId,
+  };
+
   try {
-    if (!albumId) {
-      alert("모든 항목을 채워주세요.");
-      return;
+    const { accessToken } = await fetchSpotifyAccessToken();
+
+    if (!accessToken) {
+      console.error("Error: Access token is not available");
     }
 
-    const queryString = `?albumId=${albumId}`;
-    const url = `/api/spotify/fetch${queryString}`;
+    const albumUrl = `https://api.spotify.com/v1/albums/${item.albumId}`;
 
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+    const albumDataResponse = await fetch(albumUrl, { headers });
 
-    if (!response.ok) {
-      throw new Error("Error: Failed to fetch spotify data");
+    if (!albumDataResponse.ok) {
+      console.error("Error: albumData fetch failed");
     }
 
-    const { fetchedData } = await response.json();
+    const albumData = await albumDataResponse.json();
+    const { artists, tracks, id, name, label, release_date } = albumData;
+
+    const artistId = artists[0].id;
+    const artistUrl = `https://api.spotify.com/v1/artists/${artistId}`;
+
+    const artistDataResponse = await fetch(artistUrl, { headers });
+
+    if (!artistDataResponse.ok) {
+      console.error("Error: artistDataResponse fetch failed");
+    }
+
+    const artistData = await artistDataResponse.json();
+    const duration = Math.floor(
+      tracks.items.map((data: any) => data.duration_ms).reduce((a: number, b: number) => a + b) /
+        1000
+    );
+
+    const fetchedData: SpotifyAlbumData = {
+      id: id,
+      artistId: artists[0].id,
+      imgUrl: albumData.images[0].url,
+      artistImgUrl: artistData.images[0].url,
+      artist: artists[0].name,
+      album: name,
+      label: label,
+      releaseDate: release_date,
+      tracks: tracks.items.length,
+      duration: duration,
+    };
+
     return fetchedData;
   } catch (error) {
-    throw new Error("Error: Failed to fetch spotify data");
+    console.error(error);
   }
 };
 
 export const searchSpotify = async (searchKeyword: string) => {
   try {
-    const queryString = `?searchKeyword=${searchKeyword}`;
-    const url = `/api/spotify/search${queryString}`;
+    const accessToken = await fetchSpotifyAccessToken();
 
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    if (!accessToken) {
+      console.error("Error: Access token is not available");
+    }
 
-    const data = await response.json();
+    const searchUrl = `https://api.spotify.com/v1/search?q=${searchKeyword}&type=album`;
+
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+
+    const response = await fetch(searchUrl, { headers });
+
+    if (!response.ok) {
+      console.error("Error: albumData fetch failed");
+    }
+
+    const searchData = await response.json();
+    // 전체 검색 데이터에서 상위 5개만 가져오기
+    const data = searchData.albums.items.slice(0, 5);
 
     return data;
   } catch (error) {
-    throw new Error("Error: Failed to search spotify data");
+    console.error(error);
   }
 };
-
-// export const searchSpotify = async (searchKeyword: string) => {
-//   try {
-//     const { accessToken } = await fetchSpotifyAccessToken();
-
-//     if (!accessToken) {
-//       console.error("Error: Access token is not available");
-//     }
-
-//     const searchUrl = `https://api.spotify.com/v1/search?q=${searchKeyword}&type=album`;
-
-//     const headers = {
-//       Authorization: `Bearer ${accessToken}`,
-//     };
-//     const searchDataResponse = await fetch(searchUrl, { headers });
-
-//     if (!searchDataResponse.ok) {
-//       console.error("Error: albumData fetch failed");
-//     }
-
-//     const searchData = await searchDataResponse.json();
-//     // 전체 검색 데이터에서 상위 5개만 가져오기
-//     const data = searchData.albums.items.slice(0, 5);
-
-//     return data;
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };

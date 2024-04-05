@@ -22,8 +22,8 @@ export async function GET() {
       console.error("Error: Access token fetch failed");
     }
 
-    const result = await accessTokenResponse.json();
-    const accessToken = NextResponse.json(result.access_token);
+    const response = await accessTokenResponse.json();
+    const accessToken = response.access_token;
     return accessToken;
   } catch (error) {
     console.error(error);
