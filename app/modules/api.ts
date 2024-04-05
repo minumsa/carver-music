@@ -465,29 +465,19 @@ export const fetchSpotify = async (albumId: string) => {
 
 export const searchSpotify = async (searchKeyword: string) => {
   try {
-    const accessToken = await fetchSpotifyAccessToken();
+    const queryString = `?searchKeyword=${searchKeyword}`;
+    const url = `/api/spotify${queryString}`;
 
-    if (!accessToken) {
-      console.error("Error: Access token is not available");
-    }
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-    const searchUrl = `https://api.spotify.com/v1/search?q=${searchKeyword}&type=album`;
+    const result = await response.json();
 
-    const headers = {
-      Authorization: `Bearer ${accessToken}`,
-    };
-
-    const response = await fetch(searchUrl, { headers });
-
-    if (!response.ok) {
-      console.error("Error: albumData fetch failed");
-    }
-
-    const searchData = await response.json();
-    // 전체 검색 데이터에서 상위 5개만 가져오기
-    const data = searchData.albums.items.slice(0, 5);
-
-    return data;
+    return result;
   } catch (error) {
     console.error(error);
   }
