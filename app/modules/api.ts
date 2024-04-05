@@ -367,34 +367,24 @@ export const deleteData = async (id: string) => {
   }
 };
 
-// Spotify API
-const fetchSpotifyAccessToken = async () => {
+export const fetchSpotifyAccessToken = async () => {
   try {
-    const url = "https://accounts.spotify.com/api/token";
-    const clientId = "9ba8de463724427689b855dfcabca1b1";
-    const clientSecret = process.env.CLIENT_SECRET;
-    const basicToken = btoa(`${clientId}:${clientSecret}`);
-    const headers = {
-      "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: `Basic ${basicToken}`,
-    };
-    const data = "grant_type=client_credentials";
-
-    const accessTokenResponse = await fetch(url, {
-      method: "POST",
-      headers,
-      body: data,
+    const url = `/api/spotify`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
 
-    if (!accessTokenResponse.ok) {
-      console.error("Error: Access token fetch failed");
+    if (!response.ok) {
+      throw new Error("Failed to fetch spotify access token");
     }
 
-    const accessTokenData = await accessTokenResponse.json();
-    return accessTokenData.access_token;
+    const accessToken = await response.json();
+    return { accessToken };
   } catch (error) {
-    console.error(error);
-    return null;
+    throw new Error("Failed to fetch spotify access token");
   }
 };
 
@@ -409,7 +399,8 @@ export const fetchSpotify = async (albumId: string) => {
   };
 
   try {
-    const accessToken = await fetchSpotifyAccessToken();
+    const { accessToken } = await fetchSpotifyAccessToken();
+
     if (!accessToken) {
       console.error("Error: Access token is not available");
     }
@@ -464,7 +455,8 @@ export const fetchSpotify = async (albumId: string) => {
 
 export const searchSpotify = async (searchKeyword: string) => {
   try {
-    const accessToken = await fetchSpotifyAccessToken();
+    const { accessToken } = await fetchSpotifyAccessToken();
+
     if (!accessToken) {
       console.error("Error: Access token is not available");
     }
