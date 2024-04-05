@@ -372,7 +372,7 @@ const fetchSpotifyAccessToken = async () => {
   try {
     const url = "https://accounts.spotify.com/api/token";
     const clientId = "9ba8de463724427689b855dfcabca1b1";
-    const clientSecret = "7cfb4b90f97a4b1a8f02f2fe6d2d42bc";
+    const clientSecret = process.env.CLIENT_SECRET;
     const basicToken = btoa(`${clientId}:${clientSecret}`);
     const headers = {
       "Content-Type": "application/x-www-form-urlencoded",
