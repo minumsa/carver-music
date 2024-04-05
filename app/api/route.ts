@@ -117,6 +117,7 @@ export async function PUT(request: Request) {
 
     const {
       newSpotifyAlbumData,
+      originalAlbumId,
       genre,
       link,
       text,
@@ -144,7 +145,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ message: "password is not correct" }, { status: 401 });
 
     // 수정할 데이터를 id로 찾아 originalData에 할당
-    const originalData = await Music.findOne({ id });
+    const originalData = await Music.findOne({ id: originalAlbumId });
 
     if (!originalData) {
       return NextResponse.json({ message: "Data not found. Cannot update." }, { status: 404 });

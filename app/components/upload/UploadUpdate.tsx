@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./UploadUpdate.module.css";
 import React from "react";
 import {
+  UpdateData,
   UploadData,
   fetchAlbumById,
   fetchSpotify,
@@ -41,8 +42,8 @@ interface SearchData {
 // FIXME: Upload 컴포넌트와 겹치는 부분 리팩토링
 export default function UploadUpdate({ currentId }: UpdateProps) {
   const isUpdatePage = currentId.length > 0;
-  const [albumData, setAlbumData] = useState<AlbumInfo>();
   const [albumId, setAlbumId] = useState("");
+  const [newAlbumId, setNewAlbumId] = useState("");
   const [artist, setArtist] = useState("");
   const [artistId, setArtistId] = useState("");
   const [genre, setGenre] = useState<string>("");
@@ -67,7 +68,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
   // 업로드 API
   const handleUpload = async () => {
     const filteredText = text.replace(/\[\d+\]/g, "");
-    const newSpotifyAlbumData = await fetchSpotify(albumId);
+    const newSpotifyAlbumData = await fetchSpotify(newAlbumId);
 
     if (newSpotifyAlbumData) {
       const newData: UploadData = {
@@ -93,11 +94,12 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
   // 업데이트 API
   const handleUpdate = async () => {
     const filteredText = text.replace(/\[\d+\]/g, "");
-    const newSpotifyAlbumData: SpotifyAlbumData | undefined = await fetchSpotify(albumId);
+    const newSpotifyAlbumData: SpotifyAlbumData | undefined = await fetchSpotify(newAlbumId);
 
     if (newSpotifyAlbumData) {
-      const newData: UploadData = {
+      const updatedData: UpdateData = {
         newSpotifyAlbumData,
+        originalAlbumId: albumId,
         genre,
         link,
         text: filteredText,
@@ -110,7 +112,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
 
       try {
         await updateData({
-          newData,
+          updatedData,
           password,
         });
         router.back();
@@ -129,7 +131,6 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
   useEffect(() => {
     async function getData() {
       const fetchData = await fetchAlbumById(currentId);
-      setAlbumData(fetchData);
       const {
         id,
         artist,
@@ -146,6 +147,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
         blurHash,
       } = fetchData;
       setAlbumId(id);
+      setNewAlbumId(id);
       setArtist(artist);
       setArtistId(artistId);
       setGenre(genre);
@@ -188,7 +190,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
   const handleClickSearchResult = (data: SearchData) => {
     const { name, id, artists } = data;
     setArtist(artists[0].name);
-    setAlbumId(id);
+    setNewAlbumId(id);
     setSearchKeyword(name);
     setSearchData(undefined);
     setIsTyping(false);
@@ -323,7 +325,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       {/* 앨범 ID */}
       <div className={styles["block-container"]}>
         <div className={styles["block-title"]}>앨범 ID(Spotify)</div>
-        <div className={styles["input"]}>{albumId}</div>
+        <div className={styles["input"]}>{newAlbumId}</div>
       </div>
 
       {/* 발매일 */}
