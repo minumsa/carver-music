@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 
-// Spotify API
 export async function GET() {
   try {
     require("dotenv").config();
@@ -23,8 +22,9 @@ export async function GET() {
       console.error("Error: Access token fetch failed");
     }
 
-    const accessTokenData = await accessTokenResponse.json();
-    return NextResponse.json(accessTokenData.access_token);
+    const result = await accessTokenResponse.json();
+    const accessToken = NextResponse.json(result.access_token);
+    return accessToken;
   } catch (error) {
     console.error(error);
     return null;
