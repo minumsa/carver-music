@@ -64,6 +64,9 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
   const [newTagKey, setNewTagKey] = useState("");
   const [blurHash, setBlurHash] = useState("");
   const router = useRouter();
+  const updatePageExclusive = { display: isUpdatePage ? undefined : "none" };
+
+  console.log(isUpdatePage);
 
   // 업로드 API
   const handleUpload = async () => {
@@ -124,7 +127,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
 
   const handlePasswordEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      handleUpdate();
+      isUpdatePage ? handleUpdate() : handleUpload();
     }
   };
 
@@ -323,19 +326,19 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       </div>
 
       {/* 앨범 ID */}
-      <div className={styles["block-container"]}>
+      <div className={styles["block-container"]} style={updatePageExclusive}>
         <div className={styles["block-title"]}>앨범 ID(Spotify)</div>
         <div className={styles["input"]}>{newAlbumId}</div>
       </div>
 
       {/* 발매일 */}
-      <div className={styles["block-container"]}>
+      <div className={styles["block-container"]} style={updatePageExclusive}>
         <div className={styles["block-title"]}>발매일</div>
         <div className={styles["input"]}>{albumReleaseDate}</div>
       </div>
 
       {/* 아티스트 ID */}
-      <div className={styles["block-container"]}>
+      <div className={styles["block-container"]} style={updatePageExclusive}>
         <div className={styles["block-title"]}>아티스트 ID(Spotify)</div>
         <input
           className={styles["input"]}
