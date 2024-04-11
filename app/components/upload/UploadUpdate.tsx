@@ -237,7 +237,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       className={styles["container"]}
       style={showTagsModal ? { marginBottom: "150px" } : undefined}
     >
-      <div className={styles["page-title"]}>수정 페이지</div>
+      <div className={styles["page-title"]}>{`${isUpdatePage ? "수정" : "업로드"}`} 페이지</div>
 
       {/* 장르 */}
       <div className={styles["block-container"]}>
