@@ -485,7 +485,9 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
                 }}
               >
                 <span>{DEFAULT_TAGS[key]}</span>
-                <button className={styles["tag-delete-button"]}>×</button>
+                <button className={styles["tag-delete-button"]} aria-label="Delete tag">
+                  ×
+                </button>
               </div>
             );
           })}
@@ -514,7 +516,12 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
                                     }}
                                   >
                                     {GROUP_TAGS[tagTheme][tag]}
-                                    <button className={styles["tag-delete-button"]}>+</button>
+                                    <button
+                                      className={styles["tag-delete-button"]}
+                                      aria-label="Add tag"
+                                    >
+                                      +
+                                    </button>
                                   </div>
                                 )
                               );

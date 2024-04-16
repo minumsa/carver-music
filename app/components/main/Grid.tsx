@@ -179,11 +179,17 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
                 </Link>
                 <div className={styles["album-metadata"]}>
                   <Link href={toPostPage(pathName, item.id)} onClick={updateScrollPosition}>
-                    <button className={styles["album-item"]}>{`${item.album}`}</button>
+                    <button
+                      className={styles["album-item"]}
+                      aria-label={`Album: ${item.album}`}
+                    >{`${item.album}`}</button>
                   </Link>
                   <br />
                   <Link href={toArtistPage(pathName, item.artistId)} onClick={updateScrollPosition}>
-                    <button className={styles["album-item"]}>{`${item.artist}`}</button>
+                    <button
+                      className={styles["album-item"]}
+                      aria-label={`Artist: ${item.artist}`}
+                    >{`${item.artist}`}</button>
                   </Link>
                 </div>
               </div>
