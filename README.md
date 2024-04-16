@@ -28,7 +28,7 @@ npm run dev
 - MongoDB
 - Vercel
 
-## ✍️ Trouble Shooting
+## 🗄️ Trouble Shooting
 
 - [카버뮤직 트러블 슈팅 모음](https://medium.com/@icycyi92/%EC%B9%B4%EB%B2%84%EB%AE%A4%EC%A7%81-%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85-%EB%AA%A8%EC%9D%8C-4b296a4ae616)
 
