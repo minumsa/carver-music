@@ -1,4 +1,7 @@
-.tag-display-container {
+.tag-display-container,
+.tag-display-item,
+.arrow-container,
+.arrow {
   display: none;
 }
 
