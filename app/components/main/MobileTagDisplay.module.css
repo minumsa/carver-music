@@ -1,4 +1,4 @@
-.tag-display-container,
+/* .tag-display-container, */
 .tag-display-item,
 .arrow-container,
 .arrow {
@@ -6,7 +6,7 @@
 }
 
 @media (max-width: 525px) {
-  .tag-display-container {
+  /* .tag-display-container {
     box-sizing: border-box;
     display: flex;
     position: fixed;
@@ -18,7 +18,7 @@
     overflow: hidden;
     white-space: nowrap;
     z-index: 10000;
-  }
+  } */
 
   .tag-display-item {
     display: flex;

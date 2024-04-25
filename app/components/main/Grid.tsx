@@ -22,6 +22,7 @@ import {
   scrollCountAtom,
   scrollPositionAtom,
   isFirstFetchAtom,
+  showAllTagItemsAtom,
 } from "../../modules/atoms";
 
 import { toArtistPage, toPostPage } from "../../modules/paths";
@@ -50,6 +51,7 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
   const [isScrolling, setIsScrolling] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFirstFetch, setIsFirstFetch] = useAtom(isFirstFetchAtom);
+  const showAllTagItems = useAtomValue(showAllTagItemsAtom);
 
   useEffect(() => {
     Aos.init();
@@ -145,7 +147,14 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
   return (
     <>
       {/* 모바일 - 태그 컴포넌트 */}
-      <MobileTagDisplay />
+      <div
+        className={styles["tag-display-container"]}
+        style={
+          showAllTagItems ? { flexWrap: "wrap", paddingRight: "31px" } : { flexWrap: "nowrap" }
+        }
+      >
+        <MobileTagDisplay />
+      </div>
       <ContentLayout currentPage={scrollCount} dataCount={0}>
         <LoadingView isLoading={isLoading} />
         <ScrollingIcon isScrolling={isScrolling} />

@@ -7,6 +7,7 @@ import {
   scrollCountAtom,
   scrollPositionAtom,
   totalScrollCountAtom,
+  showAllTagItemsAtom,
 } from "../../modules/atoms";
 import { useState } from "react";
 
@@ -16,7 +17,7 @@ export const MobileTagDisplay = () => {
   const setNewTotalScrollCount = useSetAtom(totalScrollCountAtom);
   const [currentTagKey, setCurrentTagKey] = useAtom(tagKeyAtom);
   const [scrollPosition, setScrollPosition] = useAtom(scrollPositionAtom);
-  const [showAllTagItems, setShowAllTagItems] = useState<boolean>(false);
+  const [showAllTagItems, setShowAllTagItems] = useAtom(showAllTagItemsAtom);
 
   function resetDataAndScroll(key: string) {
     setCurrentTagKey(key);
@@ -28,10 +29,7 @@ export const MobileTagDisplay = () => {
   }
 
   return (
-    <div
-      className={styles["tag-display-container"]}
-      style={showAllTagItems ? { flexWrap: "wrap", paddingRight: "31px" } : { flexWrap: "nowrap" }}
-    >
+    <>
       {Object.keys(DEFAULT_TAGS).map((key, index) => {
         return (
           <div
@@ -62,6 +60,6 @@ export const MobileTagDisplay = () => {
           alt="arrow"
         />
       </div>
-    </div>
+    </>
   );
 };

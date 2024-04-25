@@ -77,6 +77,10 @@
   opacity: 70%;
 }
 
+.tag-display-container {
+  display: none;
+}
+
 @media (max-width: 1300px) {
   .item-container {
     --grid-item-width: calc(100% / 7);
@@ -104,5 +108,19 @@
 
   .album-metadata {
     font-size: 0.95rem;
+  }
+
+  .tag-display-container {
+    box-sizing: border-box;
+    display: flex;
+    position: fixed;
+    top: 42.5px;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--background-color);
+    padding: 5px 15px 15px 15px;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    z-index: 10000;
   }
 }
