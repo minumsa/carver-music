@@ -69,7 +69,7 @@ export const DEFAULT_TAGS: Tags = {
   diva: "#디바 🫅",
   idol: "#아이돌 🐰",
   instrumental: "#가사 없음 🎻",
-  goodLyrics: "좋은 가사 📝",
+  goodLyrics: "#좋은 가사 📝",
   citypop: "#시티팝 🌃",
   christmas: "#크리스마스 🎅",
 
@@ -135,7 +135,7 @@ export const GROUP_TAGS: GroupTags = {
     citypop: "#시티팝 🌃",
     idol: "#아이돌 🐰",
     instrumental: "#가사 없음 🎻",
-    goodLyrics: "좋은 가사 📝",
+    goodLyrics: "#좋은 가사 📝",
     diva: "#디바 🫅",
     christmas: "#크리스마스 🎅",
   },
