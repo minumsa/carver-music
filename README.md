@@ -4,10 +4,9 @@
 
 ## 🧚‍♂️ Overview
 
-- 음반 정보와 관련 글 제공
+- 음악 정보 및 리뷰 제공
 - 메인 화면 콘텐츠 FadeInUp CSS 애니메이션
-- 작성일/발매일/아티스트/앨범명 기준으로 콘텐츠 정렬 변경
-- 검색 기능
+- 검색 및 태그 기능
 - 무한 스크롤 및 페이지네이션
 - 관리자 페이지(/admin)에서 콘텐츠 업로드/수정/삭제
 
@@ -27,11 +26,11 @@ npm run dev
 - React
 - Next.js
 - MongoDB
+- Vercel
 
-## 🗄️ Reference
+## 🗄️ Trouble Shooting
 
-- [react-snowfall](https://www.npmjs.com/package/react-snowfall)
-- [react-intersection-observer](https://www.npmjs.com/package/react-intersection-observer)
+- [카버뮤직 트러블 슈팅 모음](https://medium.com/@icycyi92/%EC%B9%B4%EB%B2%84%EB%AE%A4%EC%A7%81-%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85-%EB%AA%A8%EC%9D%8C-4b296a4ae616)
 
 ## 👨‍💻 Developer
 

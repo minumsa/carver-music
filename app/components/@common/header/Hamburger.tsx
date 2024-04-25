@@ -24,8 +24,13 @@ export const Hamburger = () => {
       <button
         className={styles["hamburger-icon"]}
         style={{ display: showCategory ? "none" : "flex" }}
+        aria-label="Open category"
       ></button>
-      <button className={styles["close-icon"]} style={{ display: showCategory ? "flex" : "none" }}>
+      <button
+        className={styles["close-icon"]}
+        style={{ display: showCategory ? "flex" : "none" }}
+        aria-label="Close category"
+      >
         <div className={styles["close-text"]}>×</div>
       </button>
       {showCategory ? (
