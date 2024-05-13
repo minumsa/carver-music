@@ -66,8 +66,6 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
   const router = useRouter();
   const updatePageExclusive = { display: isUpdatePage ? undefined : "none" };
 
-  console.log(isUpdatePage);
-
   // 업로드 API
   const handleUpload = async () => {
     const filteredText = text.replace(/\[\d+\]/g, "");

@@ -312,7 +312,6 @@ export async function uploadData({ newData, password }: UploadDataParams) {
       }
 
       const data = await response.json();
-      console.log(data.message);
     } catch (error) {
       console.error("Error: ", error);
     }

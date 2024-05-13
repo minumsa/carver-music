@@ -11,14 +11,13 @@ import { SITE_TITLE } from "@/app/modules/constants";
 export const Category = () => {
   const pathName = usePathname();
   const [currentTagKey, setCurrentTagKey] = useAtom(tagKeyAtom);
-  const isMainPage = pathName === "" || pathName === "/admin";
+  const isMainPage = pathName === "/" || pathName === "/admin";
 
-  // 메인 페이지일 때 사이트 로고를 누르면 최상단으로 이동
   const scrollToTop = () => {
-    if (isMainPage) {
-      window.scrollTo(0, 0);
-      setCurrentTagKey("");
-    }
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   return (
@@ -28,13 +27,21 @@ export const Category = () => {
       <div className={styles["nav-container"]}>
         <div className={styles["nav-wrapper"]}>
           {/* 사이트 제목 */}
-          <Link
-            className={styles["title"]}
-            href={isAdminPage(pathName) ? "/admin" : ""}
-            onClick={scrollToTop}
-          >
-            <nav>{SITE_TITLE}</nav>
-          </Link>
+          {isMainPage ? (
+            <nav className={styles["title"]} onClick={scrollToTop}>
+              {SITE_TITLE}
+            </nav>
+          ) : (
+            <Link
+              className={styles["title"]}
+              href={isAdminPage(pathName) ? "/admin" : ""}
+              onClick={() => {
+                setCurrentTagKey("");
+              }}
+            >
+              <nav>{SITE_TITLE}</nav>
+            </Link>
+          )}
         </div>
       </div>
       {/* 검색 아이콘 */}
