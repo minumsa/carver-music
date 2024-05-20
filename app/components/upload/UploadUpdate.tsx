@@ -215,18 +215,20 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
   }, [modalRef]);
 
   const deleteTagItem = (selectedKey: string) => {
-    setCurrentTagKeys(prevTagKeys => prevTagKeys.filter(prevTagKey => prevTagKey !== selectedKey));
+    setCurrentTagKeys((prevTagKeys) =>
+      prevTagKeys.filter((prevTagKey) => prevTagKey !== selectedKey),
+    );
   };
 
   const addTagItem = (selectedKey: string) => {
-    setCurrentTagKeys(prevTagKeys => [...prevTagKeys, selectedKey]);
+    setCurrentTagKeys((prevTagKeys) => [...prevTagKeys, selectedKey]);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const isExisingTag = currentTagKeys.includes(newTagKey);
 
     if (e.key === "Enter") {
-      if (!isExisingTag) setCurrentTagKeys(prevTagKeys => [...prevTagKeys, newTagKey]);
+      if (!isExisingTag) setCurrentTagKeys((prevTagKeys) => [...prevTagKeys, newTagKey]);
     }
   };
 
@@ -244,7 +246,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
           <select
             className={styles["small-input"]}
             value={genre}
-            onChange={e => {
+            onChange={(e) => {
               setGenre(e.target.value);
             }}
           >
@@ -259,12 +261,14 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
           </select>
         </div>
       </div>
+
+      {/* 애플뮤직 링크 */}
       <div className={styles["block-container"]}>
         <div className={styles["block-title"]}>링크(Apple Music)</div>
         <input
           className={styles["input"]}
           value={link}
-          onChange={e => {
+          onChange={(e) => {
             setLink(e.target.value);
           }}
         />
@@ -277,7 +281,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
           <input
             className={styles["input"]}
             value={searchKeyword}
-            onChange={e => {
+            onChange={(e) => {
               setSearchKeyword(e.target.value);
               setIsTyping(true);
             }}
@@ -341,7 +345,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
         <input
           className={styles["input"]}
           value={artistId}
-          onChange={e => {
+          onChange={(e) => {
             setArtistId(e.target.value);
           }}
         />
@@ -353,7 +357,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
         <input
           className={styles["input"]}
           value={blurHash}
-          onChange={e => {
+          onChange={(e) => {
             setBlurHash(e.target.value);
           }}
         />
@@ -380,7 +384,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
         <textarea
           className={`${styles["input"]} ${styles["input-text"]}`}
           value={text}
-          onChange={e => {
+          onChange={(e) => {
             setText(e.target.value);
           }}
         />
@@ -406,7 +410,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
                     <div
                       className={styles["video-button"]}
                       onClick={() => {
-                        setVideoCount(prev => prev + 1);
+                        setVideoCount((prev) => prev + 1);
                         setVideos([...videos, { title: "", url: "" }]);
                       }}
                     >
@@ -417,7 +421,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
                     <div
                       className={styles["video-button"]}
                       onClick={() => {
-                        setVideoCount(prev => prev - 1);
+                        setVideoCount((prev) => prev - 1);
                         const copiedVideos = [...videos];
                         copiedVideos.splice(index, 1);
                         setVideos(copiedVideos);
@@ -434,7 +438,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
                     <div
                       className={styles["video-button"]}
                       onClick={() => {
-                        setVideoCount(prev => prev - 1);
+                        setVideoCount((prev) => prev - 1);
                         const copiedVideos = [...videos];
                         copiedVideos.splice(index, 1);
                         setVideos(copiedVideos);
@@ -449,7 +453,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
             <input
               className={`${styles["input"]} ${styles["input-link"]}`}
               value={videos[index].title}
-              onChange={e => {
+              onChange={(e) => {
                 copiedVideos[index] = { ...copiedVideos[index], title: e.target.value };
                 setVideos(copiedVideos);
               }}
@@ -460,7 +464,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
             <input
               className={`${styles["input"]} ${styles["input-link"]}`}
               value={videos[index].url}
-              onChange={e => {
+              onChange={(e) => {
                 copiedVideos[index] = { ...copiedVideos[index], url: e.target.value };
                 setVideos(copiedVideos);
               }}
@@ -502,7 +506,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
                           <div className={styles["tag-block-title"]}>{tagTheme}</div>
                           <div className={styles["tag-block-item-container"]} key={index}>
                             {/* 해당 종류의 태그 출력 */}
-                            {Object.keys(GROUP_TAGS[tagTheme]).map(tag => {
+                            {Object.keys(GROUP_TAGS[tagTheme]).map((tag) => {
                               const isExistingTag = currentTagKeys.includes(tag);
                               return (
                                 !isExistingTag && (
@@ -540,7 +544,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
             onClick={() => {
               setShowTagsModal(true);
             }}
-            onChange={e => {
+            onChange={(e) => {
               const tmp = e.target.value;
               if (tmp.startsWith("#")) {
                 setNewTagKey(tmp);
@@ -558,7 +562,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
         <div className={styles["block-title"]}>작성일</div>
         <DatePicker
           selected={uploadDate}
-          onChange={date => date && setUploadDate(date)}
+          onChange={(date) => date && setUploadDate(date)}
           dateFormat={"yyyy/MM/dd"}
           className={`${styles["date-input"]} ${styles["input"]}`}
         />
@@ -570,7 +574,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
         <input
           className={styles["small-input"]}
           value={password}
-          onChange={e => {
+          onChange={(e) => {
             setPassword(e.target.value);
           }}
           onKeyDown={handlePasswordEnter}
