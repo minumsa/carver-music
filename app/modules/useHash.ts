@@ -5,7 +5,7 @@ export function useBlurhash(
   blurhash: string,
   width: number,
   height: number,
-  punch?: number
+  punch?: number,
 ): string | null {
   punch = punch || 1;
 
@@ -28,9 +28,9 @@ export function useBlurhash(
       const imageData = context.createImageData(width, height);
       imageData.data.set(pixels);
       context.putImageData(imageData, 0, 0);
-      canvas.toBlob(blob => {
+      canvas.toBlob((blob) => {
         if (!isCancelled && blob) {
-          setUrl(oldUrl => {
+          setUrl((oldUrl) => {
             if (oldUrl) {
               URL.revokeObjectURL(oldUrl);
             }
@@ -42,7 +42,7 @@ export function useBlurhash(
 
     return function cleanupBlurhash() {
       isCancelled = true;
-      setUrl(oldUrl => {
+      setUrl((oldUrl) => {
         if (oldUrl) {
           URL.revokeObjectURL(oldUrl);
         }
