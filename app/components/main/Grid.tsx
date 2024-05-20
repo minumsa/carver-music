@@ -74,7 +74,7 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
     const isScrollAtOrBelowLimit = scrollCount <= newTotalScrollCount;
     if (inView) {
       if (isScrollAtOrBelowLimit) {
-        setScrollCount(prevCount => prevCount + 1);
+        setScrollCount((prevCount) => prevCount + 1);
         setIsScrolling(true);
       }
     }
@@ -89,7 +89,7 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
       };
 
       const { albumData, albumDataCount } = await fetchAlbumData(albumFilters);
-      setData(prevData => [...prevData, ...albumData]);
+      setData((prevData) => [...prevData, ...albumData]);
       setIsScrolling(false);
       setIsLoading(false);
 

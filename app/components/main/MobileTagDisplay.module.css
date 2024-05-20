@@ -1,4 +1,4 @@
-/* .tag-display-container, */
+.container,
 .tag-display-item,
 .arrow-container,
 .arrow {
@@ -6,19 +6,9 @@
 }
 
 @media (max-width: 525px) {
-  /* .tag-display-container {
-    box-sizing: border-box;
+  .container {
     display: flex;
-    position: fixed;
-    top: 42.5px;
-    border-bottom: 1px solid var(--border-color);
-    background-color: var(--background-color);
-    padding: 5px 15px 15px 15px;
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    z-index: 10000;
-  } */
+  }
 
   .tag-display-item {
     display: flex;

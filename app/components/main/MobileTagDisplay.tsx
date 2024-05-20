@@ -9,7 +9,6 @@ import {
   totalScrollCountAtom,
   showAllTagItemsAtom,
 } from "../../modules/atoms";
-import { useState } from "react";
 
 export const MobileTagDisplay = () => {
   const setData = useSetAtom(albumDataAtom);
@@ -29,7 +28,7 @@ export const MobileTagDisplay = () => {
   }
 
   return (
-    <>
+    <div className={styles.container}>
       {Object.keys(DEFAULT_TAGS).map((key, index) => {
         return (
           <div
@@ -60,6 +59,6 @@ export const MobileTagDisplay = () => {
           alt="arrow"
         />
       </div>
-    </>
+    </div>
   );
 };
