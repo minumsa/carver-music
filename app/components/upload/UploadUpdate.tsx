@@ -17,6 +17,8 @@ import "rc-rate/assets/index.css";
 import { useRouter } from "next/navigation";
 import { AlbumInfo, SpotifyAlbumData } from "../../modules/types";
 import { GENRES, DEFAULT_TAGS, GROUP_TAGS } from "../../modules/constants";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface UpdateProps {
   currentId: string;
@@ -86,8 +88,10 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
 
       try {
         await uploadData({ newData, password });
+        toast.success("게시글 작성 완료 😻");
       } catch (error) {
         console.error("uploadData 호출에 실패했습니다:", error);
+        toast.error("게시글 작성 실패 😿");
       }
     }
   };
@@ -116,7 +120,6 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
           updatedData,
           password,
         });
-        router.back();
       } catch (error) {
         console.error("updateData 호출에 실패했습니다:", error);
       }
@@ -232,12 +235,16 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
     }
   };
 
+  const notify = () => toast("Wow so easy!");
+
   return (
     <div
       className={styles["container"]}
       style={showTagsModal ? { marginBottom: "150px" } : undefined}
     >
-      <div className={styles["page-title"]}>{`${isUpdatePage ? "수정" : "업로드"}`} 페이지</div>
+      <div className={styles["page-title"]} onClick={notify}>
+        {`${isUpdatePage ? "수정" : "업로드"}`} 페이지
+      </div>
 
       {/* 장르 */}
       <div className={styles["block-container"]}>

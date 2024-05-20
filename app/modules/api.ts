@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { FIRST_SCROLL, PER_PAGE_COUNT } from "./constants";
 import { AlbumInfo, SpotifyAlbumData } from "./types";
 
@@ -96,7 +97,7 @@ interface GenreDataResult {
 
 export async function fetchGenreData(
   currentGenre: string,
-  currentPage: number
+  currentPage: number,
 ): Promise<GenreDataResult> {
   try {
     const queryString = `?currentGenre=${currentGenre}&currentPage=${currentPage}`;
@@ -127,7 +128,7 @@ interface ArtistDataResult {
 
 export async function fetchArtistData(
   artistId: string,
-  currentPage: number
+  currentPage: number,
 ): Promise<ArtistDataResult> {
   try {
     const queryString = `?artistId=${artistId}&currentPage=${currentPage}`;
@@ -158,7 +159,7 @@ interface TagDataResult {
 
 export async function fetchTagData(
   currentTag: string,
-  currentPage: number
+  currentPage: number,
 ): Promise<TagDataResult> {
   try {
     const queryString = `?currentTag=${currentTag}&currentPage=${currentPage}`;
@@ -189,7 +190,7 @@ interface SearchDataResult {
 
 export async function fetchSearchData(
   currentKeyword: string,
-  currentPage: number
+  currentPage: number,
 ): Promise<SearchDataResult> {
   try {
     const queryString = `?currentKeyword=${currentKeyword}&currentPage=${currentPage}`;
@@ -355,13 +356,14 @@ export const updateData = async ({ updatedData, password }: UpdateDataParams) =>
       });
 
       if (response.status === 401) {
-        alert("관리자 비밀번호가 틀렸습니다.");
+        toast.error("관리자 비밀번호가 틀렸습니다! 🙀");
       } else if (response.status === 404) {
-        alert("존재하지 않는 앨범입니다.");
+        toast.warn("존재하지 않는 앨범입니다! 🙀");
       } else if (!response.ok) {
+        toast.error("데이터 수정 실패 😿");
         throw new Error("데이터 수정에 실패했습니다.");
       } else {
-        alert("데이터가 성공적으로 수정되었습니다.");
+        toast.success("데이터 수정 완료 😻");
       }
     } catch (error) {
       console.error(error);
