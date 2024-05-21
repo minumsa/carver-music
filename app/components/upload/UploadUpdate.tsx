@@ -19,7 +19,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useForm } from "react-hook-form";
 import { AlbumSearchModal } from "./AlbumSearchModal";
-import VideoLinksEditor from "./VideoLinksEditor";
+import VideoLinksEditor from "./VideoLinksEditor/VideoLinksEditor";
 import { TagsEditor } from "./TagsEditor/TagsEditor";
 
 interface UpdateProps {
@@ -280,8 +280,6 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
         videoCount={videoCount}
         setVideoCount={setVideoCount}
         setVideos={setVideos}
-        searchKeyword={searchKeyword}
-        artist={artist}
       />
 
       {/* 작성일 */}

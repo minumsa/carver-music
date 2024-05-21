@@ -1,4 +1,12 @@
+.container {
+  width: 100%;
+  padding: 35px 0 0 0;
+}
+
 .block_container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
   width: 100%;
   padding: 35px 0;
   border-bottom: 1px dashed var(--border-color);
@@ -8,7 +16,6 @@
   display: flex;
   align-items: center;
   color: var(--text-color);
-  margin-bottom: 20px;
 }
 
 .video_button_container {
@@ -41,6 +48,8 @@
   box-sizing: border-box;
 }
 
-.video_link_title {
-  margin: 30px 0 20px 0;
+.block_wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
 }
