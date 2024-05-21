@@ -29,6 +29,7 @@ import { toArtistPage, toPostPage } from "../../modules/paths";
 import { MobileTagDisplay } from "./MobileTagDisplay";
 import { PER_PAGE_COUNT } from "../../modules/constants";
 import { ScrollingIcon } from "./ScrollingIcon";
+import useScrollReset from "@/app/hooks/useScrollReset";
 
 interface GridProps {
   initialData: AlbumInfo[];
@@ -58,17 +59,7 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
     setIsFirstFetch(true);
   }, []);
 
-  useEffect(() => {
-    const scrolledBefore = scrollPosition > 0;
-    function scrollAndReset() {
-      window.scrollTo(0, scrollPosition);
-      setScrollPosition(0);
-    }
-
-    if (scrolledBefore) {
-      scrollAndReset();
-    }
-  }, []);
+  useScrollReset();
 
   useEffect(() => {
     const isScrollAtOrBelowLimit = scrollCount <= newTotalScrollCount;
