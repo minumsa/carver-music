@@ -14,12 +14,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import Rate from "rc-rate";
 import "rc-rate/assets/index.css";
 import { SearchData, SpotifyAlbumData, Video } from "../../modules/types";
-import { GENRES, DEFAULT_TAGS, GROUP_TAGS } from "../../modules/constants";
+import { GENRES } from "../../modules/constants";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useForm } from "react-hook-form";
 import { AlbumSearchModal } from "./AlbumSearchModal";
 import VideoLinksEditor from "./VideoLinksEditor";
+import { TagsEditor } from "./TagsEditor";
 
 interface UpdateProps {
   currentId: string;
@@ -42,10 +43,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
   const [searchKeyword, setSearchKeyword] = useState<string>("");
   const [searchData, setSearchData] = useState<SearchData[]>();
   const [isTyping, setIsTyping] = useState(false);
-  const modalRef = useRef<HTMLDivElement>(null);
   const [currentTagKeys, setCurrentTagKeys] = useState<string[]>([]);
-  const [showTagsModal, setShowTagsModal] = useState(false);
-  const [newTagKey, setNewTagKey] = useState("");
   const [blurHash, setBlurHash] = useState("");
   const updatePageExclusive = { display: isUpdatePage ? undefined : "none" };
   const { register, handleSubmit, setValue, getValues, watch } = useForm({
@@ -152,47 +150,8 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
     setIsTyping(false);
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const isClickedOutsideModal =
-        modalRef.current && !modalRef.current.contains(event.target as Node);
-      if (isClickedOutsideModal) {
-        setIsTyping(false);
-        setShowTagsModal(false);
-        setNewTagKey("");
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [modalRef]);
-
-  const deleteTagItem = (selectedKey: string) => {
-    setCurrentTagKeys((prevTagKeys) =>
-      prevTagKeys.filter((prevTagKey) => prevTagKey !== selectedKey),
-    );
-  };
-
-  const addTagItem = (selectedKey: string) => {
-    setCurrentTagKeys((prevTagKeys) => [...prevTagKeys, selectedKey]);
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    const isExisingTag = currentTagKeys.includes(newTagKey);
-
-    if (e.key === "Enter") {
-      if (!isExisingTag) setCurrentTagKeys((prevTagKeys) => [...prevTagKeys, newTagKey]);
-    }
-  };
-
   return (
-    <form
-      onSubmit={onSubmit}
-      className={styles["container"]}
-      style={showTagsModal ? { marginBottom: "150px" } : undefined}
-    >
+    <form onSubmit={onSubmit} className={styles["container"]}>
       <div className={styles["page-title"]}>{`${isUpdatePage ? "수정" : "업로드"}`} 페이지</div>
 
       {/* 장르 */}
@@ -323,88 +282,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       />
 
       {/* 태그 */}
-      <div ref={modalRef} className={styles["block-container"]}>
-        <div className={styles["block-title"]}>태그</div>
-        <div className={styles["tag-list-container"]}>
-          {currentTagKeys.map((key, index) => {
-            return (
-              <div
-                className={styles["tag-item"]}
-                key={index}
-                onClick={() => {
-                  deleteTagItem(key);
-                }}
-              >
-                <span>{DEFAULT_TAGS[key]}</span>
-                <button className={styles["tag-delete-button"]} aria-label="Delete tag">
-                  ×
-                </button>
-              </div>
-            );
-          })}
-          {showTagsModal && (
-            <div className={styles["tag-modal-container"]}>
-              <div className={styles["tag-modal"]}>
-                <div className={styles["tag-item-container"]}>
-                  {/* 태그 종류 출력 */}
-                  {Object.keys(GROUP_TAGS).map((tagTheme, index) => {
-                    const isNormalTag = tagTheme !== "모두보기";
-                    return (
-                      isNormalTag && (
-                        <React.Fragment key={index}>
-                          <div className={styles["tag-block-title"]}>{tagTheme}</div>
-                          <div className={styles["tag-block-item-container"]} key={index}>
-                            {/* 해당 종류의 태그 출력 */}
-                            {Object.keys(GROUP_TAGS[tagTheme]).map((tag) => {
-                              const isExistingTag = currentTagKeys.includes(tag);
-                              return (
-                                !isExistingTag && (
-                                  <div
-                                    className={styles["tag-item"]}
-                                    key={tag}
-                                    onClick={() => {
-                                      addTagItem(tag);
-                                    }}
-                                  >
-                                    {GROUP_TAGS[tagTheme][tag]}
-                                    <button
-                                      className={styles["tag-delete-button"]}
-                                      aria-label="Add tag"
-                                    >
-                                      +
-                                    </button>
-                                  </div>
-                                )
-                              );
-                            })}
-                          </div>
-                        </React.Fragment>
-                      )
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          )}
-          <input
-            value={newTagKey}
-            className={styles["tag-item-input"]}
-            placeholder="태그 생성"
-            onClick={() => {
-              setShowTagsModal(true);
-            }}
-            onChange={(e) => {
-              const tmp = e.target.value;
-              if (tmp.startsWith("#")) {
-                setNewTagKey(tmp);
-              } else {
-                setNewTagKey("#" + tmp);
-              }
-            }}
-            onKeyDown={handleKeyPress}
-          />
-        </div>
-      </div>
+      <TagsEditor currentTagKeys={currentTagKeys} setCurrentTagKeys={setCurrentTagKeys} />
 
       {/* 작성일 */}
       <div className={styles["block-container"]}>
