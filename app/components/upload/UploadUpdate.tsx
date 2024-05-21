@@ -20,7 +20,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useForm } from "react-hook-form";
 import { AlbumSearchModal } from "./AlbumSearchModal";
 import VideoLinksEditor from "./VideoLinksEditor";
-import { TagsEditor } from "./TagsEditor";
+import { TagsEditor } from "./TagsEditor/TagsEditor";
 
 interface UpdateProps {
   currentId: string;

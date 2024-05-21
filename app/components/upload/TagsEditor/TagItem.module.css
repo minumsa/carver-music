@@ -1,0 +1,24 @@
+.tag_item {
+  display: flex;
+  align-items: center;
+  color: var(--text-color);
+  font-size: 1rem;
+  line-height: 250%;
+  height: 22px;
+  background-color: #ffffff1a;
+  border-radius: 20px;
+  padding: 7px 11px;
+  margin: 5px 5px 5px 0;
+  cursor: pointer;
+}
+
+.tag_item:hover {
+  background-color: black;
+}
+
+.tag_delete_button {
+  background-color: unset;
+  margin-left: 5px;
+  padding: 0 1px 2px 0;
+  font-size: 1.1rem;
+}

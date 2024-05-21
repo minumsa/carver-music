@@ -2,6 +2,7 @@ import { DEFAULT_TAGS, GROUP_TAGS } from "@/app/modules/constants";
 import styles from "./TagsEditor.module.css";
 import React, { useRef, useState } from "react";
 import useOutsideClick from "@/app/hooks/useOutsideClick";
+import { TagItem } from "./TagItem";
 
 interface TagsEditorProps {
   currentTagKeys: string[];
@@ -42,21 +43,8 @@ export const TagsEditor = ({ currentTagKeys, setCurrentTagKeys }: TagsEditorProp
     <div ref={modalRef} className={styles.block_container}>
       <div className={styles.block_title}>태그</div>
       <div className={styles.tag_list_container}>
-        {currentTagKeys.map((key: string, index: number) => {
-          return (
-            <div
-              className={styles.tag_item}
-              key={index}
-              onClick={() => {
-                deleteTagItem(key);
-              }}
-            >
-              <span>{DEFAULT_TAGS[key]}</span>
-              <button className={styles.tag_delete_button} aria-label="Delete tag">
-                ×
-              </button>
-            </div>
-          );
+        {currentTagKeys.map((key: string) => {
+          return <TagItem key={key} onDelete={deleteTagItem} />;
         })}
         {showTagsModal && (
           <div className={styles.tag_modal_container}>
