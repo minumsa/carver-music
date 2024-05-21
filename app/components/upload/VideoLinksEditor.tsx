@@ -24,8 +24,8 @@ export default function VideoLinksEditor({
     const videoNumber = index + 1;
     const isFirstVideo = index === 0;
     return (
-      <div key={index} className={styles["block-container"]}>
-        <div className={styles["block-title"]}>
+      <div key={index} className={styles.block_container}>
+        <div className={styles.block_title}>
           {isFirstVideo ? (
             <>
               <a
@@ -34,9 +34,9 @@ export default function VideoLinksEditor({
               >
                 <div>{`영상 제목 ${videoNumber}`}</div>
               </a>
-              <div className={styles["video-button-container"]}>
+              <div className={styles.video_button_container}>
                 <div
-                  className={styles["video-button"]}
+                  className={styles.video_button}
                   onClick={() => {
                     setVideoCount((prev) => prev + 1);
                     setVideos([...videos, { title: "", url: "" }]);
@@ -45,9 +45,9 @@ export default function VideoLinksEditor({
                   +
                 </div>
               </div>
-              <div className={styles["video-button-container"]}>
+              <div className={styles.video_button_container}>
                 <div
-                  className={styles["video-button"]}
+                  className={styles.video_button}
                   onClick={() => {
                     setVideoCount((prev) => prev - 1);
                     const copiedVideos = [...videos];
@@ -62,9 +62,9 @@ export default function VideoLinksEditor({
           ) : (
             <>
               <div>{`영상 제목 ${videoNumber}`}</div>
-              <div className={styles["video-button-container"]}>
+              <div className={styles.video_button_container}>
                 <div
-                  className={styles["video-button"]}
+                  className={styles.video_button}
                   onClick={() => {
                     setVideoCount((prev) => prev - 1);
                     const copiedVideos = [...videos];
@@ -79,7 +79,7 @@ export default function VideoLinksEditor({
           )}
         </div>
         <input
-          className={`${styles["input"]} ${styles["input-link"]}`}
+          className={styles.input}
           value={videos[index].title}
           onChange={(e) => {
             copiedVideos[index] = { ...copiedVideos[index], title: e.target.value };
@@ -87,10 +87,10 @@ export default function VideoLinksEditor({
           }}
         />
         <div
-          className={`${styles["block-title"]} ${styles["video-link-title"]}`}
+          className={`${styles.block_title} ${styles.video_link_title}`}
         >{`영상 링크 ${videoNumber}`}</div>
         <input
-          className={`${styles["input"]} ${styles["input-link"]}`}
+          className={styles.input}
           value={videos[index].url}
           onChange={(e) => {
             copiedVideos[index] = { ...copiedVideos[index], url: e.target.value };
