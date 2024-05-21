@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { decode } from "blurhash";
 
-export function useBlurhash(
+export default function useBlurhash(
   blurhash: string,
   width: number,
   height: number,
