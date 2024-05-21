@@ -9,10 +9,10 @@ import React from "react";
 import { useInView } from "react-intersection-observer";
 import "aos/dist/aos.css";
 import Aos from "aos";
+import { isMobile } from "react-device-detect";
 import { ContentLayout } from "../@common/ContentLayout";
 import Link from "next/link";
 import { BlurImg } from "../@common/BlurImg";
-import { isMobile } from "react-device-detect";
 import { LoadingView } from "../@common/LoadingView";
 import { AlbumInfo } from "../../modules/types";
 import {
@@ -23,6 +23,7 @@ import {
   scrollPositionAtom,
   isFirstFetchAtom,
   showAllTagItemsAtom,
+  isScrollingAtom,
 } from "../../modules/atoms";
 
 import { toArtistPage, toPostPage } from "../../modules/paths";
@@ -30,6 +31,7 @@ import { MobileTagDisplay } from "./MobileTagDisplay";
 import { PER_PAGE_COUNT } from "../../modules/constants";
 import { ScrollingIcon } from "./ScrollingIcon";
 import useScrollReset from "@/app/hooks/useScrollReset";
+import useScrollUpdate from "@/app/hooks/useScrollUpdate";
 
 interface GridProps {
   initialData: AlbumInfo[];
@@ -49,28 +51,18 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
     triggerOnce: true,
   });
   const currentTagKey = useAtomValue(tagKeyAtom);
-  const [isScrolling, setIsScrolling] = useState(false);
+  const [isScrolling, setIsScrolling] = useAtom(isScrollingAtom);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFirstFetch, setIsFirstFetch] = useAtom(isFirstFetchAtom);
   const showAllTagItems = useAtomValue(showAllTagItemsAtom);
 
   useEffect(() => {
-    Aos.init();
+    // Aos.init();
     setIsFirstFetch(true);
   }, []);
 
   useScrollReset();
-
-  useEffect(() => {
-    const isScrollAtOrBelowLimit = scrollCount <= newTotalScrollCount;
-    if (inView) {
-      if (isScrollAtOrBelowLimit) {
-        setScrollCount((prevCount) => prevCount + 1);
-        setIsScrolling(true);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inView]);
+  useScrollUpdate(inView);
 
   useEffect(() => {
     async function loadData(scrollCount: number) {
@@ -158,10 +150,10 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
             const blurHash = item.blurHash ?? "";
             return isLastDataOdd ? null : (
               <div
-                data-aos="fade-up"
-                data-aos-duration={400}
-                data-aos-offset={isMobile ? 40 : 90}
-                data-aos-once="true"
+                // data-aos="fade-up"
+                // data-aos-duration={400}
+                // data-aos-offset={isMobile ? 40 : 90}
+                // data-aos-once="true"
                 key={index}
                 className={`${styles["item-container"]}`}
                 ref={isLastItem ? ref : undefined}
