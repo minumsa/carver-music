@@ -14,10 +14,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Rate from "rc-rate";
 import "rc-rate/assets/index.css";
-import { useRouter } from "next/navigation";
 import { AlbumInfo, SpotifyAlbumData } from "../../modules/types";
 import { GENRES, DEFAULT_TAGS, GROUP_TAGS } from "../../modules/constants";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 interface UpdateProps {
@@ -64,7 +63,6 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
   const [showTagsModal, setShowTagsModal] = useState(false);
   const [newTagKey, setNewTagKey] = useState("");
   const [blurHash, setBlurHash] = useState("");
-  const router = useRouter();
   const updatePageExclusive = { display: isUpdatePage ? undefined : "none" };
 
   // 업로드 API
