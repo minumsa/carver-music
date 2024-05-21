@@ -41,7 +41,6 @@ interface SearchData {
   id: string;
 }
 
-// FIXME: Upload 컴포넌트와 겹치는 부분 리팩토링
 export default function UploadUpdate({ currentId }: UpdateProps) {
   const isUpdatePage = currentId.length > 0;
   const [albumId, setAlbumId] = useState("");

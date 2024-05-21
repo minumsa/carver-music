@@ -54,6 +54,7 @@ export const AlbumPanel = ({ albumData }: AlbumProps) => {
                     <h2>{album}</h2>
                   </Link>
                   {/* 별점 */}
+                  {/* FIXME: star-color.webp => svg 파일로 변경하기 */}
                   <div className={styles["star-container"]}>
                     <img
                       className={styles["colored-star"]}
