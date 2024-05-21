@@ -104,6 +104,10 @@
   z-index: 1;
 }
 
+.rc_rate {
+  font-size: 45px;
+}
+
 /* Media Queries */
 @media (max-width: 920px) {
   .container {

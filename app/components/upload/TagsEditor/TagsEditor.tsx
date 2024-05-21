@@ -1,8 +1,8 @@
-import { DEFAULT_TAGS, GROUP_TAGS } from "@/app/modules/constants";
 import styles from "./TagsEditor.module.css";
 import React, { useRef, useState } from "react";
 import useOutsideClick from "@/app/hooks/useOutsideClick";
 import { TagItem } from "./TagItem";
+import { TagModal } from "./TagModal";
 
 interface TagsEditorProps {
   currentTagKeys: string[];
@@ -47,43 +47,11 @@ export const TagsEditor = ({ currentTagKeys, setCurrentTagKeys }: TagsEditorProp
           return <TagItem key={key} onDelete={deleteTagItem} />;
         })}
         {showTagsModal && (
-          <div className={styles.tag_modal_container}>
-            <div className={styles.tag_modal}>
-              <div className={styles.tag_item_container}>
-                {Object.keys(GROUP_TAGS).map((tagTheme, index) => {
-                  const isNormalTag = tagTheme !== "모두보기";
-                  return (
-                    isNormalTag && (
-                      <React.Fragment key={index}>
-                        <div className={styles.tag_block_title}>{tagTheme}</div>
-                        <div className={styles.tag_block_item_container} key={index}>
-                          {Object.keys(GROUP_TAGS[tagTheme]).map((tag) => {
-                            const isExistingTag = currentTagKeys.includes(tag);
-                            return (
-                              !isExistingTag && (
-                                <div
-                                  className={styles.tag_item}
-                                  key={tag}
-                                  onClick={() => {
-                                    addTagItem(tag);
-                                  }}
-                                >
-                                  {GROUP_TAGS[tagTheme][tag]}
-                                  <button className={styles.tag_delete_button} aria-label="Add tag">
-                                    +
-                                  </button>
-                                </div>
-                              )
-                            );
-                          })}
-                        </div>
-                      </React.Fragment>
-                    )
-                  );
-                })}
-              </div>
-            </div>
-          </div>
+          <TagModal
+            currentTagKeys={currentTagKeys}
+            addTagItem={addTagItem}
+            onClose={() => setShowTagsModal(false)}
+          />
         )}
         <input
           value={newTagKey}

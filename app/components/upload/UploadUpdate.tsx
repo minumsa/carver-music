@@ -255,7 +255,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
           onChange={(value: number) => {
             setScore(value);
           }}
-          className={styles["rc-rate"]}
+          className={styles.rc_rate}
         />
       </div>
 
