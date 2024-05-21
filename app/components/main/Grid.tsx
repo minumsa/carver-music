@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import styles from "./Grid.module.css";
 import { AlbumFilters, fetchAlbumData } from "../../modules/api";
 import { usePathname } from "next/navigation";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import React from "react";
 import { useInView } from "react-intersection-observer";
 import "aos/dist/aos.css";
@@ -42,7 +42,7 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
   const pathName = usePathname();
   const [data, setData] = useAtom(albumDataAtom);
   const [scrollCount, setScrollCount] = useAtom(scrollCountAtom);
-  const [scrollPosition, setScrollPosition] = useAtom(scrollPositionAtom);
+  const setScrollPosition = useSetAtom(scrollPositionAtom);
   const [newTotalScrollCount, setNewTotalScrollCount] = useAtom(totalScrollCountAtom);
   const { ref, inView } = useInView({
     threshold: 0,
@@ -101,7 +101,7 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
     const hasReachedScrollLimit = scrollCount === newTotalScrollCount;
     const hasNoData = newTotalScrollCount === 0;
 
-    // 클라이언트 사이드에서 처음 fetch할 때만 로딩 화면 보여주기
+    // 모바일: 클라이언트 사이드에서 처음 fetch할 때만 로딩 화면 보여주기
     if (isFirstFetch && hasNoData) {
       setIsLoading(true);
     }

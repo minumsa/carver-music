@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { useBlurhash } from "../../modules/useHash";
+import { useBlurhash } from "../../hooks/useHash";
 import { useInView } from "react-intersection-observer";
 
 interface BlurImgProps {
