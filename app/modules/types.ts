@@ -16,7 +16,7 @@ export interface Genres {
   [key: string]: string;
 }
 
-interface Video {
+export interface Video {
   title: string;
   url: string;
 }
