@@ -43,8 +43,8 @@ export const TagsEditor = ({ currentTagKeys, setCurrentTagKeys }: TagsEditorProp
     <div ref={modalRef} className={styles.block_container}>
       <div className={styles.block_title}>태그</div>
       <div className={styles.tag_list_container}>
-        {currentTagKeys.map((key: string) => {
-          return <TagItem key={key} onDelete={deleteTagItem} />;
+        {currentTagKeys.map((tagKey: string) => {
+          return <TagItem tagKey={tagKey} onDelete={deleteTagItem} />;
         })}
         {showTagsModal && (
           <TagModal
