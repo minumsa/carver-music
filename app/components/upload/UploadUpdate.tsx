@@ -271,6 +271,9 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
         />
       </div>
 
+      {/* 태그 */}
+      <TagsEditor currentTagKeys={currentTagKeys} setCurrentTagKeys={setCurrentTagKeys} />
+
       {/* 비디오 링크 */}
       <VideoLinksEditor
         videos={videos}
@@ -280,9 +283,6 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
         searchKeyword={searchKeyword}
         artist={artist}
       />
-
-      {/* 태그 */}
-      <TagsEditor currentTagKeys={currentTagKeys} setCurrentTagKeys={setCurrentTagKeys} />
 
       {/* 작성일 */}
       <div className={styles["block-container"]}>
