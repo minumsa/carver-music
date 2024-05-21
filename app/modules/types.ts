@@ -69,3 +69,15 @@ export interface UpdateInfo {
   musicVideoTitle?: string;
   musicVideoUrl?: string;
 }
+
+type Artist = { name: string };
+type Image = { url: string };
+
+export interface SearchData {
+  albums: AlbumInfo[];
+  artists: Artist[];
+  name: string;
+  release_date: string;
+  images: Image[];
+  id: string;
+}

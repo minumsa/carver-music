@@ -13,11 +13,12 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Rate from "rc-rate";
 import "rc-rate/assets/index.css";
-import { AlbumInfo, SpotifyAlbumData } from "../../modules/types";
+import { SearchData, SpotifyAlbumData } from "../../modules/types";
 import { GENRES, DEFAULT_TAGS, GROUP_TAGS } from "../../modules/constants";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useForm } from "react-hook-form";
+import { AlbumSearchModal } from "./AlbumSearchModal";
 
 interface UpdateProps {
   currentId: string;
@@ -26,18 +27,6 @@ interface UpdateProps {
 interface Video {
   title: string;
   url: string;
-}
-
-type Artist = { name: string };
-type Image = { url: string };
-
-interface SearchData {
-  albums: AlbumInfo[];
-  artists: Artist[];
-  name: string;
-  release_date: string;
-  images: Image[];
-  id: string;
 }
 
 export default function UploadUpdate({ currentId }: UpdateProps) {
@@ -258,43 +247,9 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
             }}
             placeholder="검색어를 입력해주세요"
           />
-          <div
-            className={styles["search-album-modal-container"]}
-            style={{ display: searchData ? "flex" : "none" }}
-          >
-            {searchData?.map((data, index) => {
-              const { artists, name, release_date, images } = data;
-              const artist = artists[0].name;
-              const album = name;
-              const releaseYear = release_date.slice(0, 4);
-              const imgUrl = images[2].url;
-              return (
-                <div
-                  className={styles["search-album-modal"]}
-                  key={index}
-                  onClick={() => {
-                    handleClickSearchResult(data);
-                  }}
-                >
-                  <div className={styles["search-album-image-container"]}>
-                    <img
-                      className={styles["search-album-image"]}
-                      src={imgUrl}
-                      alt="search-album-image"
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className={styles["search-album-text"]}>
-                    <div>
-                      <span className={styles["search-album-title"]}>{album}</span>
-                      <span className={styles["release-year"]}>({releaseYear})</span>
-                    </div>
-                    <div>{artist}</div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          {searchData && (
+            <AlbumSearchModal searchData={searchData} onSelect={handleClickSearchResult} />
+          )}
         </div>
       </div>
 

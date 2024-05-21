@@ -114,54 +114,6 @@
   left: -1px;
 }
 
-.search-album-modal-container {
-  position: absolute;
-
-  display: flex;
-  flex-direction: column;
-  width: 500px;
-  background-color: var(--input-background-color);
-  padding: 30px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  top: calc(100% + 1px);
-  left: -1px;
-  z-index: 2;
-}
-
-.search-album-modal {
-  display: flex;
-  color: var(--text-color);
-  cursor: pointer;
-  padding: 5px;
-}
-
-.search-album-image-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.search-album-image {
-  width: 70px;
-  height: 70px;
-}
-
-.search-album-text {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 10px;
-  font-size: 1.1rem;
-}
-
-.search-album-title {
-  font-weight: 500;
-}
-
-.release-year {
-  padding-left: 5px;
-}
-
 /* Tag Styles */
 
 .tag-list-container {
