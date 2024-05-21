@@ -242,7 +242,7 @@ interface Video {
   url: string;
 }
 
-export interface UploadData {
+export interface NewData {
   newSpotifyAlbumData: SpotifyAlbumData;
   genre: string;
   link: string;
@@ -254,26 +254,17 @@ export interface UploadData {
   blurHash: string;
 }
 
-export interface UpdateData {
-  newSpotifyAlbumData: SpotifyAlbumData;
+export interface NewDataForUpdate extends NewData {
   originalAlbumId: string;
-  genre: string;
-  link: string;
-  text: string;
-  uploadDate: Date;
-  score: number;
-  videos: Video[];
-  tagKeys: string[];
-  blurHash: string;
 }
 
 export interface UploadDataParams {
-  newData: UploadData;
+  newData: NewData;
   password: string;
 }
 
 export interface UpdateDataParams {
-  updatedData: UpdateData;
+  newData: NewDataForUpdate;
   password: string;
 }
 
@@ -319,7 +310,7 @@ export async function uploadData({ newData, password }: UploadDataParams) {
   }
 }
 
-export const updateData = async ({ updatedData, password }: UpdateDataParams) => {
+export const updateData = async ({ newData, password }: UpdateDataParams) => {
   const {
     newSpotifyAlbumData,
     originalAlbumId,
@@ -331,9 +322,9 @@ export const updateData = async ({ updatedData, password }: UpdateDataParams) =>
     videos,
     tagKeys,
     blurHash,
-  } = updatedData;
+  } = newData;
 
-  if (updatedData !== null) {
+  if (newData !== null) {
     try {
       const response = await fetch("/api", {
         method: "PUT",

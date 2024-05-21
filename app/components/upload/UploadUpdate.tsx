@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./UploadUpdate.module.css";
 import React from "react";
 import {
-  UpdateData,
-  UploadData,
+  NewDataForUpdate,
   fetchAlbumById,
   fetchSpotify,
   searchSpotify,
@@ -18,6 +17,7 @@ import { AlbumInfo, SpotifyAlbumData } from "../../modules/types";
 import { GENRES, DEFAULT_TAGS, GROUP_TAGS } from "../../modules/constants";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useForm } from "react-hook-form";
 
 interface UpdateProps {
   currentId: string;
@@ -42,7 +42,6 @@ interface SearchData {
 
 export default function UploadUpdate({ currentId }: UpdateProps) {
   const isUpdatePage = currentId.length > 0;
-  const [albumId, setAlbumId] = useState("");
   const [newAlbumId, setNewAlbumId] = useState("");
   const [artist, setArtist] = useState("");
   const [artistId, setArtistId] = useState("");
@@ -64,42 +63,19 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
   const [newTagKey, setNewTagKey] = useState("");
   const [blurHash, setBlurHash] = useState("");
   const updatePageExclusive = { display: isUpdatePage ? undefined : "none" };
+  const { register, handleSubmit, setValue, getValues, watch } = useForm({
+    defaultValues: {
+      albumId: "",
+    },
+  });
 
-  // 업로드 API
-  const handleUpload = async () => {
-    const filteredText = text.replace(/\[\d+\]/g, "");
-    const newSpotifyAlbumData = await fetchSpotify(newAlbumId);
-
-    if (newSpotifyAlbumData) {
-      const newData: UploadData = {
-        newSpotifyAlbumData,
-        genre,
-        link,
-        text: filteredText,
-        uploadDate,
-        score,
-        videos,
-        tagKeys: currentTagKeys,
-        blurHash,
-      };
-
-      try {
-        await uploadData({ newData, password });
-        toast.success("게시글 작성 완료 😻");
-      } catch (error) {
-        console.error("uploadData 호출에 실패했습니다:", error);
-        toast.error("게시글 작성 실패 😿");
-      }
-    }
-  };
-
-  // 업데이트 API
-  const handleUpdate = async () => {
+  const onSubmit = handleSubmit(async (data) => {
+    const { albumId } = data;
     const filteredText = text.replace(/\[\d+\]/g, "");
     const newSpotifyAlbumData: SpotifyAlbumData | undefined = await fetchSpotify(newAlbumId);
 
     if (newSpotifyAlbumData) {
-      const updatedData: UpdateData = {
+      const newData: NewDataForUpdate = {
         newSpotifyAlbumData,
         originalAlbumId: albumId,
         genre,
@@ -113,21 +89,15 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       };
 
       try {
-        await updateData({
-          updatedData,
-          password,
-        });
+        const apiMethod = isUpdatePage ? updateData : uploadData;
+        await apiMethod({ newData, password });
+        toast.success(isUpdatePage ? "수정 완료 😻" : "게시글 작성 완료 😻");
       } catch (error) {
-        console.error("updateData 호출에 실패했습니다:", error);
+        console.error(`${isUpdatePage ? "updateData" : "uploadData"} 호출에 실패했습니다:`, error);
+        toast.error(`${isUpdatePage ? "수정 실패 😿" : "게시글 작성 실패 😿"}`);
       }
     }
-  };
-
-  const handlePasswordEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      isUpdatePage ? handleUpdate() : handleUpload();
-    }
-  };
+  });
 
   useEffect(() => {
     async function getData() {
@@ -147,7 +117,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
         releaseDate,
         blurHash,
       } = fetchData;
-      setAlbumId(id);
+      setValue("albumId", id);
       setNewAlbumId(id);
       setArtist(artist);
       setArtistId(artistId);
@@ -232,16 +202,13 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
     }
   };
 
-  const notify = () => toast("Wow so easy!");
-
   return (
-    <div
+    <form
+      onSubmit={onSubmit}
       className={styles["container"]}
       style={showTagsModal ? { marginBottom: "150px" } : undefined}
     >
-      <div className={styles["page-title"]} onClick={notify}>
-        {`${isUpdatePage ? "수정" : "업로드"}`} 페이지
-      </div>
+      <div className={styles["page-title"]}>{`${isUpdatePage ? "수정" : "업로드"}`} 페이지</div>
 
       {/* 장르 */}
       <div className={styles["block-container"]}>
@@ -581,19 +548,13 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
           onChange={(e) => {
             setPassword(e.target.value);
           }}
-          onKeyDown={handlePasswordEnter}
         />
       </div>
 
       {/* 제출 버튼 */}
       <div className={styles["submit-container"]}>
-        <div
-          className={`${styles["button"]} ${styles["submit"]}`}
-          onClick={isUpdatePage ? handleUpdate : handleUpload}
-        >
-          제출하기
-        </div>
+        <div className={`${styles["button"]} ${styles["submit"]}`}>제출하기</div>
       </div>
-    </div>
+    </form>
   );
 }
