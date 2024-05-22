@@ -15,7 +15,6 @@ import Rate from "rc-rate";
 import "rc-rate/assets/index.css";
 import { SearchData, SpotifyAlbumData, Video } from "../../modules/types";
 import { GENRES } from "../../modules/constants";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useForm } from "react-hook-form";
 import { AlbumSearchModal } from "./AlbumSearchModal";
@@ -29,32 +28,32 @@ interface UpdateProps {
 
 export default function UploadUpdate({ currentId }: UpdateProps) {
   const isUpdatePage = currentId.length > 0;
-  const [newAlbumId, setNewAlbumId] = useState("");
-  const [artist, setArtist] = useState("");
-  const [artistId, setArtistId] = useState("");
-  const [genre, setGenre] = useState<string>("");
-  const [link, setLink] = useState<string>("");
-  const [text, setText] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [score, setScore] = useState<number>(0);
   const [albumReleaseDate, setAlbumReleaseDate] = useState<string>("");
   const [uploadDate, setUploadDate] = useState(new Date());
   const [videoCount, setVideoCount] = useState(1);
   const [videos, setVideos] = useState<Video[]>([{ title: "", url: "" }]);
-  const [searchKeyword, setSearchKeyword] = useState<string>("");
   const [searchData, setSearchData] = useState<SearchData[]>();
   const [isTyping, setIsTyping] = useState(false);
   const [currentTagKeys, setCurrentTagKeys] = useState<string[]>([]);
-  const [blurHash, setBlurHash] = useState("");
   const updatePageExclusive = { display: isUpdatePage ? undefined : "none" };
   const { register, handleSubmit, setValue, getValues, watch } = useForm({
     defaultValues: {
       albumId: "",
+      newAlbumId: "",
+      artist: "",
+      artistId: "",
+      genre: "",
+      link: "",
+      text: "",
+      blurHash: "",
+      searchKeyword: "",
     },
   });
 
   const onSubmit = handleSubmit(async (data) => {
-    const { albumId } = data;
+    const { albumId, newAlbumId, genre, link, text, blurHash } = data;
     const filteredText = text.replace(/\[\d+\]/g, "");
     const newSpotifyAlbumData: SpotifyAlbumData | undefined = await fetchSpotify(newAlbumId);
 
@@ -75,10 +74,8 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       try {
         const apiMethod = isUpdatePage ? updateData : uploadData;
         await apiMethod({ newData, password });
-        toast.success(isUpdatePage ? "수정 완료 😻" : "게시글 작성 완료 😻");
       } catch (error) {
         console.error(`${isUpdatePage ? "updateData" : "uploadData"} 호출에 실패했습니다:`, error);
-        toast.error(`${isUpdatePage ? "수정 실패 😿" : "게시글 작성 실패 😿"}`);
       }
     }
   });
@@ -102,16 +99,16 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
         blurHash,
       } = fetchData;
       setValue("albumId", id);
-      setNewAlbumId(id);
-      setArtist(artist);
-      setArtistId(artistId);
-      setGenre(genre);
-      setLink(link);
-      setText(text);
+      setValue("newAlbumId", id);
+      setValue("artist", artist);
+      setValue("artistId", artistId);
+      setValue("genre", genre);
+      setValue("link", link);
+      setValue("text", text);
+      setValue("blurHash", blurHash);
+      setValue("searchKeyword", album);
       setScore(score);
       setUploadDate(new Date(uploadDate));
-      setSearchKeyword(album);
-      setBlurHash(blurHash);
       setAlbumReleaseDate(new Date(releaseDate).toString());
 
       const releaseYearTagKey = getDecadeTagKey(releaseDate);
@@ -134,12 +131,12 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
   }, [currentId]);
 
   const handleSearch = async () => {
-    const result = await searchSpotify(searchKeyword);
+    const result = await searchSpotify(getValues("searchKeyword"));
     setSearchData(result);
   };
 
   useEffect(() => {
-    const isSearching = isTyping && searchKeyword;
+    const isSearching = isTyping && getValues("searchKeyword");
     if (isSearching) {
       const typingTimer = setTimeout(() => {
         handleSearch();
@@ -147,16 +144,16 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
 
       return () => clearTimeout(typingTimer);
     }
-  }, [searchKeyword, isTyping]);
+  }, [getValues("searchKeyword"), isTyping]);
 
   const handleClickSearchResult = (data: SearchData) => {
     const { name, id, artists, release_date } = data;
     const releaseYearTagKey = getDecadeTagKey(release_date);
 
     setCurrentTagKeys([releaseYearTagKey]);
-    setArtist(artists[0].name);
-    setNewAlbumId(id);
-    setSearchKeyword(name);
+    setValue("artist", artists[0].name);
+    setValue("newAlbumId", id);
+    setValue("searchKeyword", name);
     setSearchData(undefined);
     setIsTyping(false);
   };
@@ -170,10 +167,10 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
         <div className={styles.blockTitle}>장르</div>
         <div className={styles.selectContainer}>
           <select
+            {...register("genre")}
             className={styles.smallInput}
-            value={genre}
             onChange={(e) => {
-              setGenre(e.target.value);
+              setValue("genre", e.target.value);
             }}
           >
             <option value="">--장르를 선택해주세요--</option>
@@ -192,10 +189,10 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       <div className={styles.blockContainer}>
         <div className={styles.blockTitle}>링크(Apple Music)</div>
         <input
+          {...register("link")}
           className={styles.input}
-          value={link}
           onChange={(e) => {
-            setLink(e.target.value);
+            setValue("link", e.target.value);
           }}
         />
       </div>
@@ -205,10 +202,10 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
         <div className={styles.blockTitle}>앨범 제목</div>
         <div style={{ position: "relative" }}>
           <input
+            {...register("searchKeyword")}
             className={styles.input}
-            value={searchKeyword}
             onChange={(e) => {
-              setSearchKeyword(e.target.value);
+              setValue("searchKeyword", e.target.value);
               setIsTyping(true);
             }}
             placeholder="검색어를 입력해주세요"
@@ -222,7 +219,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       {/* 앨범 ID */}
       <div className={styles.blockContainer} style={updatePageExclusive}>
         <div className={styles.blockTitle}>앨범 ID(Spotify)</div>
-        <div className={styles.input}>{newAlbumId}</div>
+        <div className={styles.input}>{getValues("newAlbumId")}</div>
       </div>
 
       {/* 발매일 */}
@@ -235,10 +232,10 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       <div className={styles.blockContainer} style={updatePageExclusive}>
         <div className={styles.blockTitle}>아티스트 ID(Spotify)</div>
         <input
+          {...register("artistId")}
           className={styles.input}
-          value={artistId}
           onChange={(e) => {
-            setArtistId(e.target.value);
+            setValue("artistId", e.target.value);
           }}
         />
       </div>
@@ -247,10 +244,10 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       <div className={styles.blockContainer}>
         <div className={styles.blockTitle}>BlurHash String</div>
         <input
+          {...register("blurHash")}
           className={styles.input}
-          value={blurHash}
           onChange={(e) => {
-            setBlurHash(e.target.value);
+            setValue("blurHash", e.target.value);
           }}
         />
       </div>
@@ -274,10 +271,10 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       <div className={styles.blockContainer}>
         <div className={styles.blockTitle}>글</div>
         <textarea
+          {...register("text")}
           className={`${styles.input} ${styles.inputText}`}
-          value={text}
           onChange={(e) => {
-            setText(e.target.value);
+            setValue("text", e.target.value);
           }}
         />
       </div>
