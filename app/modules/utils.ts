@@ -32,3 +32,9 @@ export const formatDate = (date: Date | string) => {
   const newDate = new Date(date);
   return `${newDate.getFullYear()}년 ${newDate.getMonth() + 1}월 ${newDate.getDate()}일`;
 };
+
+export const getDecadeTagKey = (releaseDate: string) => {
+  const formattedDate = new Date(releaseDate);
+  const formattedReleaseYear = Math.floor(formattedDate.getFullYear() / 10) * 10;
+  return `decade${formattedReleaseYear}s`;
+};

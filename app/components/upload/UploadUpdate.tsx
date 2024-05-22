@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./UploadUpdate.module.css";
 import React from "react";
 import {
@@ -21,6 +21,7 @@ import { useForm } from "react-hook-form";
 import { AlbumSearchModal } from "./AlbumSearchModal";
 import VideoLinksEditor from "./VideoLinksEditor/VideoLinksEditor";
 import { TagsEditor } from "./TagsEditor/TagsEditor";
+import { getDecadeTagKey } from "@/app/modules/utils";
 
 interface UpdateProps {
   currentId: string;
@@ -110,11 +111,18 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       setScore(score);
       setUploadDate(new Date(uploadDate));
       setSearchKeyword(album);
-      setCurrentTagKeys(tagKeys);
-      setAlbumReleaseDate(new Date(releaseDate).toString());
       setBlurHash(blurHash);
+      setAlbumReleaseDate(new Date(releaseDate).toString());
 
+      const releaseYearTagKey = getDecadeTagKey(releaseDate);
+      const hasReleaseYearTag = tagKeys.includes(releaseYearTagKey);
       const hasVideo = videos.length > 0;
+
+      if (hasReleaseYearTag) {
+        setCurrentTagKeys([...tagKeys]);
+      } else {
+        setCurrentTagKeys([...tagKeys, releaseYearTagKey]);
+      }
 
       if (hasVideo) {
         setVideos(videos);
@@ -142,7 +150,10 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
   }, [searchKeyword, isTyping]);
 
   const handleClickSearchResult = (data: SearchData) => {
-    const { name, id, artists } = data;
+    const { name, id, artists, release_date } = data;
+    const releaseYearTagKey = getDecadeTagKey(release_date);
+
+    setCurrentTagKeys([releaseYearTagKey]);
     setArtist(artists[0].name);
     setNewAlbumId(id);
     setSearchKeyword(name);
