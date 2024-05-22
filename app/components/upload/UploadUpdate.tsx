@@ -307,7 +307,9 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
 
       {/* 제출 버튼 */}
       <div className={styles.submitContainer}>
-        <div className={`${styles.button} ${styles.submit}`}>제출하기</div>
+        <button type="submit" className={`${styles.button} ${styles.submit}`}>
+          제출하기
+        </button>
       </div>
     </form>
   );

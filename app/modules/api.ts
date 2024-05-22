@@ -294,13 +294,14 @@ export async function uploadData({ newData, password }: UploadDataParams) {
       });
 
       if (response.status === 401) {
-        alert("관리자 비밀번호가 틀렸습니다.");
+        toast.warn("관리자 비밀번호가 틀렸습니다! 🙀");
       } else if (response.status === 409) {
-        alert("이미 존재하는 데이터입니다.");
+        toast.warn("이미 존재하는 앨범입니다! 🙀");
       } else if (!response.ok) {
+        toast.error("데이터 업로드 실패 😿");
         throw new Error("데이터 업로드에 실패했습니다.");
       } else {
-        alert("데이터가 성공적으로 저장되었습니다.");
+        toast.success("데이터 업로드 완료 😻");
       }
 
       const data = await response.json();
