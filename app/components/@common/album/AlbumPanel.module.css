@@ -103,24 +103,25 @@
   overflow: hidden;
   text-align: justify;
   word-break: normal;
-  --linesCount: 3;
-  --blurHeight: 40px;
-  --blurLength: 5px;
-  --fadeLength: 5;
-  --fadeDirection: 270deg;
+  --lines-count: 3;
+  --blur-height: 40px;
+  --blur-length: 5px;
+  --fade-length: 5;
+  --fade-direction: 270deg;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: var(--linesCount);
+  -webkit-line-clamp: var(--lines-count);
   mask: linear-gradient(
       0deg,
       transparent,
-      transparent var(--blurHeight),
-      var(--backgroundColor) var(--blurHeight)
+      transparent var(--blur-height),
+      var(--background-color) var(--blur-height)
     ),
     linear-gradient(
       270deg,
       transparent,
-      transparent calc((var(--blurLength) * var(--fadeLength)) + var(--blurHeight)),
-      var(--backgroundColor) calc((var(--blurLength) * var(--fadeLength)) + (var(--blurHeight) * 2))
+      transparent calc((var(--blur-length) * var(--fade-length)) + var(--blur-height)),
+      var(--background-color)
+        calc((var(--blur-length) * var(--fade-length)) + (var(--blur-height) * 2))
     );
 }
 
@@ -222,10 +223,10 @@
   }
 
   .blurEnd {
-    --linesCount: 3;
-    --fadeLength: 5;
-    --blurHeight: 40px;
-    --blurLength: 5px;
+    --lines-count: 3;
+    --fade-length: 5;
+    --blur-height: 40px;
+    --blur-length: 5px;
   }
 
   .moreButton {

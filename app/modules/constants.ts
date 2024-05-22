@@ -79,6 +79,7 @@ export const DEFAULT_TAGS: Tags = {
   koreanTop100Albums: "#한국대중음악 100대 명반 💿",
   rollingStonesTop500Albums: "#롤링스톤 500대 명반 👅",
   rollingStonesTop100AlbumsJapan: "#롤링스톤 재팬 100대 명반 👅",
+  appleMusic100Albums: "#애플뮤직 100대 명반 🍎",
 
   // 모두 보기
   "": "모두 보기",
@@ -146,6 +147,7 @@ export const GROUP_TAGS: GroupTags = {
     koreanTop100Albums: "#한국대중음악 100대 명반 💿",
     rollingStonesTop500Albums: "#롤링스톤 500대 명반 👅",
     rollingStonesTop100AlbumsJapan: "#롤링스톤 재팬 100대 명반 👅",
+    appleMusic100Albums: "#애플뮤직 100대 명반 🍎",
   },
 
   모두보기: {
