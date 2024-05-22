@@ -32,17 +32,17 @@ export const PostAlbumMetadata = ({ postData }: PostAlbumMetadataProps) => {
   const hasVideo = videos[0]?.title.length > 0;
 
   return (
-    <header className={styles["container"]}>
+    <header className={styles.container}>
       {/* 이미지 관련 코드 */}
-      <div className={styles["album-image-container"]}>
+      <div className={styles.albumImageContainer}>
         <a href={link} target="_blank">
-          <BlurImg className={styles["album-image"]} blurHash={blurHash} src={imgUrl} punch={1} />
+          <BlurImg className={styles.albumImage} blurHash={blurHash} src={imgUrl} punch={1} />
         </a>
       </div>
 
-      <div className={styles["metadata-container"]}>
+      <div className={styles.metadataContainer}>
         {/* 아티스트 정보 */}
-        <div className={styles["metadata-title"]}>아티스트</div>
+        <div className={styles.metadataTitle}>아티스트</div>
         <Link
           href={isAdminPage(pathName) ? `/admin/artist/${artistId}/1` : `/artist/${artistId}/1`}
         >
@@ -51,19 +51,19 @@ export const PostAlbumMetadata = ({ postData }: PostAlbumMetadataProps) => {
         <LinkIcon />
 
         {/* 앨범 정보 */}
-        <div className={styles["metadata-title"]}>앨범</div>
+        <div className={styles.metadataTitle}>앨범</div>
         <div>{album}</div>
 
         {/* 레이블 정보 */}
-        <div className={styles["metadata-title"]}>레이블</div>
+        <div className={styles.metadataTitle}>레이블</div>
         <div>{label}</div>
 
         {/* 발매일 정보 */}
-        <div className={styles["metadata-title"]}>발매일</div>
+        <div className={styles.metadataTitle}>발매일</div>
         <div>{formatDate(releaseDate)}</div>
 
         {/* 러닝타임 정보 */}
-        <div className={styles["metadata-title"]}>러닝타임</div>
+        <div className={styles.metadataTitle}>러닝타임</div>
         <div>
           {albumDuration}, {tracks}곡
         </div>
@@ -71,8 +71,8 @@ export const PostAlbumMetadata = ({ postData }: PostAlbumMetadataProps) => {
         {/* 비디오 정보 */}
         {hasVideo && (
           <>
-            <div className={styles["metadata-title"]}>비디오</div>
-            {postData.videos.map(video => {
+            <div className={styles.metadataTitle}>비디오</div>
+            {postData.videos.map((video) => {
               const { title, url } = video;
               return (
                 <div key={title}>
@@ -87,19 +87,19 @@ export const PostAlbumMetadata = ({ postData }: PostAlbumMetadataProps) => {
         )}
 
         {/* 스트리밍 정보 */}
-        <div className={styles["metadata-title"]}>스트리밍</div>
-        <div className={styles["streaming-icon-container"]}>
+        <div className={styles.metadataTitle}>스트리밍</div>
+        <div className={styles.streamingIconContainer}>
           <a href={link} target="_blank">
-            <img src="/icons/apple.svg" alt="link-icon" className={styles["apple-icon"]}></img>
+            <img src="/icons/apple.svg" alt="link-icon" className={styles.appleIcon}></img>
           </a>
           <a href={`https://open.spotify.com/album/${id}`} target="_blank">
-            <img src="/icons/spotify.svg" alt="link-icon" className={styles["spotify-icon"]}></img>
+            <img src="/icons/spotify.svg" alt="link-icon" className={styles.spotifyIcon}></img>
           </a>
         </div>
 
         {/* 관리자 페이지 정보 */}
         {isAdminPage(pathName) && (
-          <div className={styles["admin-button-container"]}>
+          <div className={styles.adminButtonContainer}>
             <EditButton data={postData} />
             <DeleteButton data={postData} />
           </div>

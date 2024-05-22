@@ -151,15 +151,15 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
   };
 
   return (
-    <form onSubmit={onSubmit} className={styles["container"]}>
-      <div className={styles["page-title"]}>{`${isUpdatePage ? "수정" : "업로드"}`} 페이지</div>
+    <form onSubmit={onSubmit} className={styles.container}>
+      <div className={styles.pageTitle}>{`${isUpdatePage ? "수정" : "업로드"}`} 페이지</div>
 
       {/* 장르 */}
-      <div className={styles["block-container"]}>
-        <div className={styles["block-title"]}>장르</div>
-        <div className={styles["select-container"]}>
+      <div className={styles.blockContainer}>
+        <div className={styles.blockTitle}>장르</div>
+        <div className={styles.selectContainer}>
           <select
-            className={styles["small-input"]}
+            className={styles.smallInput}
             value={genre}
             onChange={(e) => {
               setGenre(e.target.value);
@@ -178,10 +178,10 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       </div>
 
       {/* 애플뮤직 링크 */}
-      <div className={styles["block-container"]}>
-        <div className={styles["block-title"]}>링크(Apple Music)</div>
+      <div className={styles.blockContainer}>
+        <div className={styles.blockTitle}>링크(Apple Music)</div>
         <input
-          className={styles["input"]}
+          className={styles.input}
           value={link}
           onChange={(e) => {
             setLink(e.target.value);
@@ -190,11 +190,11 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       </div>
 
       {/* 앨범 제목 */}
-      <div className={styles["block-container"]}>
-        <div className={styles["block-title"]}>앨범 제목</div>
+      <div className={styles.blockContainer}>
+        <div className={styles.blockTitle}>앨범 제목</div>
         <div style={{ position: "relative" }}>
           <input
-            className={styles["input"]}
+            className={styles.input}
             value={searchKeyword}
             onChange={(e) => {
               setSearchKeyword(e.target.value);
@@ -209,22 +209,22 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       </div>
 
       {/* 앨범 ID */}
-      <div className={styles["block-container"]} style={updatePageExclusive}>
-        <div className={styles["block-title"]}>앨범 ID(Spotify)</div>
-        <div className={styles["input"]}>{newAlbumId}</div>
+      <div className={styles.blockContainer} style={updatePageExclusive}>
+        <div className={styles.blockTitle}>앨범 ID(Spotify)</div>
+        <div className={styles.input}>{newAlbumId}</div>
       </div>
 
       {/* 발매일 */}
-      <div className={styles["block-container"]} style={updatePageExclusive}>
-        <div className={styles["block-title"]}>발매일</div>
-        <div className={styles["input"]}>{albumReleaseDate}</div>
+      <div className={styles.blockContainer} style={updatePageExclusive}>
+        <div className={styles.blockTitle}>발매일</div>
+        <div className={styles.input}>{albumReleaseDate}</div>
       </div>
 
       {/* 아티스트 ID */}
-      <div className={styles["block-container"]} style={updatePageExclusive}>
-        <div className={styles["block-title"]}>아티스트 ID(Spotify)</div>
+      <div className={styles.blockContainer} style={updatePageExclusive}>
+        <div className={styles.blockTitle}>아티스트 ID(Spotify)</div>
         <input
-          className={styles["input"]}
+          className={styles.input}
           value={artistId}
           onChange={(e) => {
             setArtistId(e.target.value);
@@ -233,10 +233,10 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       </div>
 
       {/* BlurHash String */}
-      <div className={styles["block-container"]}>
-        <div className={styles["block-title"]}>BlurHash String</div>
+      <div className={styles.blockContainer}>
+        <div className={styles.blockTitle}>BlurHash String</div>
         <input
-          className={styles["input"]}
+          className={styles.input}
           value={blurHash}
           onChange={(e) => {
             setBlurHash(e.target.value);
@@ -245,8 +245,8 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       </div>
 
       {/* 별점 */}
-      <div className={styles["block-container"]}>
-        <div className={styles["block-title"]}>별점</div>
+      <div className={styles.blockContainer}>
+        <div className={styles.blockTitle}>별점</div>
         <Rate
           defaultValue={3}
           value={score}
@@ -255,15 +255,15 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
           onChange={(value: number) => {
             setScore(value);
           }}
-          className={styles.rc_rate}
+          className={styles.rcRate}
         />
       </div>
 
       {/* 글 */}
-      <div className={styles["block-container"]}>
-        <div className={styles["block-title"]}>글</div>
+      <div className={styles.blockContainer}>
+        <div className={styles.blockTitle}>글</div>
         <textarea
-          className={`${styles["input"]} ${styles["input-text"]}`}
+          className={`${styles.input} ${styles.inputText}`}
           value={text}
           onChange={(e) => {
             setText(e.target.value);
@@ -283,21 +283,21 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       />
 
       {/* 작성일 */}
-      <div className={styles["block-container"]}>
-        <div className={styles["block-title"]}>작성일</div>
+      <div className={styles.blockContainer}>
+        <div className={styles.blockTitle}>작성일</div>
         <DatePicker
           selected={uploadDate}
           onChange={(date) => date && setUploadDate(date)}
           dateFormat={"yyyy/MM/dd"}
-          className={`${styles["date-input"]} ${styles["input"]}`}
+          className={`${styles.dateInput} ${styles.input}`}
         />
       </div>
 
       {/* 관리자 비밀번호 */}
-      <div className={styles["block-container"]}>
-        <div className={styles["block-title"]}>관리자 비밀번호</div>
+      <div className={styles.blockContainer}>
+        <div className={styles.blockTitle}>관리자 비밀번호</div>
         <input
-          className={styles["small-input"]}
+          className={styles.smallInput}
           value={password}
           onChange={(e) => {
             setPassword(e.target.value);
@@ -306,8 +306,8 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       </div>
 
       {/* 제출 버튼 */}
-      <div className={styles["submit-container"]}>
-        <div className={`${styles["button"]} ${styles["submit"]}`}>제출하기</div>
+      <div className={styles.submitContainer}>
+        <div className={`${styles.button} ${styles.submit}`}>제출하기</div>
       </div>
     </form>
   );

@@ -9,8 +9,8 @@ export const LoadingView = ({ isLoading }: LoadingProps) => {
 
   return (
     <div style={{ display: isLoading ? "flex" : "none" }}>
-      <div className={styles["loading-background"]}></div>
-      <div className={styles["loading-text"]}>{loadingText}</div>
+      <div className={styles.loadingBackground}></div>
+      <div className={styles.loadingText}>{loadingText}</div>
     </div>
   );
 };

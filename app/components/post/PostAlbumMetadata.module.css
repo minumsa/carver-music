@@ -6,35 +6,34 @@
   line-height: 200%;
 }
 
-.album-image-container {
+.albumImageContainer {
   position: relative;
   width: 300px;
   height: 300px;
 }
 
-.album-image {
+.albumImage {
   cursor: pointer;
   width: 100%;
   aspect-ratio: 1 / 1;
-  /* box-shadow: 0 10px 20px 0 var(--background-color) 0005e; */
 }
 
-.album-image::after {
+.albumImage::after {
   display: block;
   content: "";
 }
 
-.metadata-container {
+.metadataContainer {
   margin: 10px 0 0 0;
   line-height: 160%;
 }
 
-.metadata-title {
+.metadataTitle {
   margin: 15px 0 5px 0;
   font-weight: 600;
 }
 
-.black-masking {
+.blackMasking {
   z-index: 2;
   background-color: var(--background-color);
   text-indent: 0;
@@ -43,31 +42,31 @@
   font-weight: 400;
 }
 
-.link-icon {
+.linkIcon {
   position: absolute;
   margin: 6.5px 0 0 5px;
   height: 18px;
 }
 
-.apple-icon {
+.appleIcon {
   position: absolute;
   margin: 6px 0 0 0;
   height: 20px;
 }
 
-.spotify-icon {
+.spotifyIcon {
   position: absolute;
   margin: 7px 0 0 29px;
   height: 20px;
 }
 
-.admin-button-container {
+.adminButtonContainer {
   display: flex;
   justify-content: center;
   margin: 20px 0 0 0;
 }
 
-.streaming-icon-container {
+.streamingIconContainer {
   height: 30px;
 }
 
@@ -79,11 +78,11 @@
     height: fit-content;
   }
 
-  .metadata-container {
+  .metadataContainer {
     max-width: 400px;
   }
 
-  .link-icon {
+  .linkIcon {
     position: absolute;
     margin: 6px 0 0 4px;
     height: 16px;
@@ -91,25 +90,25 @@
 }
 
 @media (max-width: 525px) {
-  .album-image-container {
+  .albumImageContainer {
     width: 100%;
   }
 
-  .album-image-container {
+  .albumImageContainer {
     width: 100%;
   }
 
-  .metadata-container {
+  .metadataContainer {
     z-index: 1;
     width: 100%;
     font-size: 1.05rem;
   }
 
-  .metadata-title {
+  .metadataTitle {
     font-size: 1.05rem;
   }
 
-  .admin-button-container {
+  .adminButtonContainer {
     justify-content: center;
   }
 }

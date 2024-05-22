@@ -40,9 +40,9 @@ export const TagsEditor = ({ currentTagKeys, setCurrentTagKeys }: TagsEditorProp
   useOutsideClick(modalRef, handleOutsideClick);
 
   return (
-    <div ref={modalRef} className={styles.block_container}>
-      <div className={styles.block_title}>태그</div>
-      <div className={styles.tag_list_container}>
+    <div ref={modalRef} className={styles.blockContainer}>
+      <div className={styles.blockTitle}>태그</div>
+      <div className={styles.tagListContainer}>
         {currentTagKeys.map((tagKey: string) => {
           return <TagItem tagKey={tagKey} onDelete={deleteTagItem} />;
         })}
@@ -55,7 +55,7 @@ export const TagsEditor = ({ currentTagKeys, setCurrentTagKeys }: TagsEditorProp
         )}
         <input
           value={newTagKey}
-          className={styles.tag_item_input}
+          className={styles.tagItemInput}
           placeholder="태그 생성"
           onClick={() => {
             setShowTagsModal(true);

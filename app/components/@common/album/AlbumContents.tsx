@@ -15,7 +15,7 @@ export const AlbumContents = ({ albumData }: AlbumContentsProps) => {
     return (
       <article
         key={index}
-        className={styles["container"]}
+        className={styles.container}
         style={
           isLastDataPerPage || isLastData
             ? undefined

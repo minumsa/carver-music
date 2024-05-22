@@ -1,17 +1,17 @@
-.search-input-container {
+.searchInputContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 85px 0 30px 0;
 }
 
-.search-page-input-container {
+.searchPageInputContainer {
   position: relative;
   width: 480px;
   height: 60px;
 }
 
-.search-page-input {
+.searchPageInput {
   box-sizing: border-box;
   margin: 1px 0 0 0;
   border: 1px solid var(--text-color);
@@ -24,14 +24,14 @@
   font-size: 1.3rem;
 }
 
-.search-page-input-icon {
+.searchPageInputIcon {
   position: absolute;
   top: calc(50% + 1px);
   left: 30px;
   transform: translate(-50%, -50%);
 }
 
-.search-result-container {
+.searchResultContainer {
   display: flex;
   justify-content: center;
   padding: 30px 0 40px 0;
@@ -39,14 +39,14 @@
   font-style: italic;
 }
 
-.search-tag-container {
+.searchTagContainer {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   width: 850px;
 }
 
-.search-tag-display-item {
+.searchTagDisplayItem {
   display: flex;
   align-items: center;
   margin: 3px;
@@ -61,17 +61,17 @@
 }
 
 @media (max-width: 900px) {
-  .search-input-container {
+  .searchInputContainer {
     margin: 0 30px;
   }
 
-  .search-page-input-container {
+  .searchPageInputContainer {
     width: 100%;
     max-width: 480px;
     height: 60px;
   }
 
-  .search-page-input {
+  .searchPageInput {
     box-sizing: border-box;
     margin: 1px 0 0 0;
     border: 1px solid var(--text-color);
@@ -86,14 +86,14 @@
     font-weight: 300;
   }
 
-  .search-page-input-icon {
+  .searchPageInputIcon {
     position: absolute;
     top: calc(50% + 1px);
     left: 30px;
     transform: translate(-50%, -50%);
   }
 
-  .search-tag-container {
+  .searchTagContainer {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -103,19 +103,19 @@
 }
 
 @media (max-width: 525px) {
-  .search-input-container {
+  .searchInputContainer {
     padding: 20px 0 0 0;
     width: 100%;
   }
 
-  .search-page-input-container {
+  .searchPageInputContainer {
     display: flex;
     position: relative;
     justify-content: center;
     width: 100%;
   }
 
-  .search-page-input {
+  .searchPageInput {
     box-sizing: border-box;
     margin: 0 15px;
     padding: 0 30px 0 40px;
@@ -124,22 +124,22 @@
     font-weight: 400;
   }
 
-  .search-page-input-icon {
+  .searchPageInputIcon {
     top: calc(50% - 4px);
     left: 37px;
     transform: translate(-50%, -50%);
   }
 
-  .search-result-container {
+  .searchResultContainer {
     padding: 15px 0 0 0;
     font-size: 1.05rem;
   }
 
-  .search-tag-container {
+  .searchTagContainer {
     display: none;
   }
 
-  .search-tag-display-item {
+  .searchTagDisplayItem {
     display: none;
   }
 }

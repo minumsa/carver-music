@@ -16,26 +16,26 @@ export const Hamburger = () => {
 
   return (
     <nav
-      className={styles["container"]}
+      className={styles.container}
       onClick={() => {
         setShowCategory(!showCategory);
       }}
     >
       <button
-        className={styles["hamburger-icon"]}
+        className={styles.hamburgerIcon}
         style={{ display: showCategory ? "none" : "flex" }}
         aria-label="Open category"
       ></button>
       <button
-        className={styles["close-icon"]}
+        className={styles.closeIcon}
         style={{ display: showCategory ? "flex" : "none" }}
         aria-label="Close category"
       >
-        <div className={styles["close-text"]}>×</div>
+        <div className={styles.closeText}>×</div>
       </button>
       {showCategory ? (
-        <ul className={styles["category"]}>
-          {Object.keys(GENRES).map(category => {
+        <ul className={styles.category}>
+          {Object.keys(GENRES).map((category) => {
             return (
               <React.Fragment key={category}>
                 <Link
@@ -44,7 +44,7 @@ export const Hamburger = () => {
                     setCurrentTagKey("");
                   }}
                 >
-                  <li className={styles["category-item"]}>{GENRES[category]}</li>
+                  <li className={styles.categoryItem}>{GENRES[category]}</li>
                 </Link>
               </React.Fragment>
             );
@@ -52,10 +52,10 @@ export const Hamburger = () => {
         </ul>
       ) : null}
       {showCategory && isAdminPage(pathName) && (
-        <div className={styles["admin-category"]}>
-          <div className={styles["category-item-title"]}>관리자 메뉴</div>
+        <div className={styles.adminCategory}>
+          <div className={styles.categoryItemTitle}>관리자 메뉴</div>
           <div
-            className={styles["category-item"]}
+            className={styles.categoryItem}
             onClick={() => {
               router.push("/admin/upload");
             }}

@@ -9,7 +9,7 @@ interface DeleteButtonProps {
 export const DeleteButton = ({ data }: DeleteButtonProps) => {
   return (
     <div
-      className={styles["admin-button"]}
+      className={styles.adminButton}
       onClick={() => {
         deleteData(data.id);
       }}

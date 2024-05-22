@@ -42,30 +42,30 @@ export default function SearchContent({ data, searchInfo }: SearchContentProps) 
 
   return (
     <ContentLayout currentPage={currentPage} dataCount={totalDataLength}>
-      <div className={styles["search-input-container"]}>
-        <div className={styles["search-page-input-container"]}>
+      <div className={styles.searchInputContainer}>
+        <div className={styles.searchPageInputContainer}>
           <input
-            className={styles["search-page-input"]}
+            className={styles.searchPageInput}
             placeholder="앨범, 아티스트, 키워드 검색"
-            onChange={e => {
+            onChange={(e) => {
               setKeyword(e.target.value);
             }}
             onKeyDown={handleEnter}
           />
           <img
-            className={styles["search-page-input-icon"]}
+            className={styles.searchPageInputIcon}
             src={"/icons/magnifying-glass.svg"}
             alt="search-page-input-icon"
           ></img>
         </div>
-        <div className={styles["search-result-container"]}>
+        <div className={styles.searchResultContainer}>
           {decodedKeyword
             ? totalDataLength
               ? `"${decodedKeyword}"에 관련된 총 ${totalDataLength}건의 검색 결과`
               : `"${decodedKeyword}"에 관련된 검색 결과가 없습니다.`
             : "앨범 제목, 아티스트 또는 키워드 등을 검색해보세요."}
         </div>
-        <div className={styles["search-tag-container"]}>
+        <div className={styles.searchTagContainer}>
           {Object.keys(DEFAULT_TAGS).map((key, index) => {
             // "모두 보기" 태그(버튼)은 모바일 메인 화면에서만 표시
             const isAllItemKey = key === "";
@@ -73,7 +73,7 @@ export default function SearchContent({ data, searchInfo }: SearchContentProps) 
               !isAllItemKey && (
                 <div
                   key={index}
-                  className={styles["search-tag-display-item"]}
+                  className={styles.searchTagDisplayItem}
                   onClick={() => {
                     isAdminPage(pathName)
                       ? router.push(`/admin/search/tag/${key}/1`)

@@ -1,6 +1,6 @@
 .container,
-.tag-display-item,
-.arrow-container,
+.tagDisplayItem,
+.arrowContainer,
 .arrow {
   display: none;
 }
@@ -10,7 +10,7 @@
     display: flex;
   }
 
-  .tag-display-item {
+  .tagDisplayItem {
     display: flex;
     align-items: center;
     margin: 3px;
@@ -24,7 +24,7 @@
     font-size: 0.92rem;
   }
 
-  .arrow-container {
+  .arrowContainer {
     display: flex;
     position: absolute;
     top: 6px;

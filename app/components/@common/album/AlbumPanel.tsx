@@ -37,10 +37,10 @@ export const AlbumPanel = ({ albumData }: AlbumProps) => {
 
   return (
     <>
-      <Link className={styles["album-image-container"]} href={toPostPage(pathName, id)}>
-        <BlurImg className={styles["album-image"]} blurHash={blurHash} src={imgUrl} punch={1} />
+      <Link className={styles.albumImageContainer} href={toPostPage(pathName, id)}>
+        <BlurImg className={styles.albumImage} blurHash={blurHash} src={imgUrl} punch={1} />
       </Link>
-      <div className={styles["album-metadata-container"]}>
+      <div className={styles.albumMetadataContainer}>
         {text.split("\n").map((text, index) => {
           const longTextStandard = isMobile ? 100 : 180;
           const isFirstParagraph = index === 0;
@@ -49,15 +49,15 @@ export const AlbumPanel = ({ albumData }: AlbumProps) => {
             return (
               <div key={index}>
                 {/* 앨범 타이틀 */}
-                <div className={styles["album-title"]}>
+                <div className={styles.albumTitle}>
                   <Link href={toPostPage(pathName, id)}>
                     <h2>{album}</h2>
                   </Link>
                   {/* 별점 */}
                   {/* FIXME: star-color.webp => svg 파일로 변경하기 */}
-                  <div className={styles["star-container"]}>
+                  <div className={styles.starContainer}>
                     <img
-                      className={styles["colored-star"]}
+                      className={styles.coloredStar}
                       src="/icons/star-color.webp"
                       alt="colored-star"
                       style={
@@ -70,23 +70,23 @@ export const AlbumPanel = ({ albumData }: AlbumProps) => {
                       loading="lazy"
                     />
                     <img
-                      className={styles["mono-star"]}
+                      className={styles.monoStar}
                       src="/icons/star-mono.webp"
                       alt="mono-star"
                       loading="lazy"
                     />
                   </div>
                 </div>
-                <div className={styles["metadata-preview"]}>
+                <div className={styles.metadataPreview}>
                   {/* 아티스트 이미지 */}
                   <Link
-                    className={styles["artist-image-container"]}
+                    className={styles.artistImageContainer}
                     href={toArtistPage(pathName, artistId)}
                   >
                     <img
                       src={artistImgUrl}
                       alt={artist}
-                      className={styles["artist-image"]}
+                      className={styles.artistImage}
                       loading="lazy"
                     />
                   </Link>
@@ -98,27 +98,27 @@ export const AlbumPanel = ({ albumData }: AlbumProps) => {
                   </div>
                 </div>
                 {/* 텍스트 미리보기 및 더 보기 링크 */}
-                <div className={styles["text-container"]}>
+                <div className={styles.textContainer}>
                   <p
                     ref={divRef}
-                    className={`${styles["text"]} ${isLongText ? styles["blur-end"] : undefined}`}
+                    className={`${styles.text} ${isLongText ? styles.blurEnd : undefined}`}
                   >
                     {text}
                   </p>
                   {isLongText && (
                     <Link href={toPostPage(pathName, id)}>
-                      <div className={styles["more-button"]}>더 보기</div>
+                      <div className={styles.moreButton}>더 보기</div>
                     </Link>
                   )}
                 </div>
                 {/* 앨범 태그 */}
-                <div className={styles["tag-container"]}>
+                <div className={styles.tagContainer}>
                   {tagKeys.map((tagKey: string, index: number) => {
                     return (
                       <Link
                         href={toTagPage(pathName, tagKey)}
                         key={index}
-                        className={styles["tag-item"]}
+                        className={styles.tagItem}
                       >
                         {DEFAULT_TAGS[tagKey]}
                       </Link>
@@ -127,7 +127,7 @@ export const AlbumPanel = ({ albumData }: AlbumProps) => {
                 </div>
                 {/* 관리자 페이지 - 수정 및 삭제 버튼 */}
                 {isAdminPage(pathName) && (
-                  <div className={styles["admin-button-container"]}>
+                  <div className={styles.adminButtonContainer}>
                     <EditButton data={albumData} />
                     <DeleteButton data={albumData} />
                   </div>

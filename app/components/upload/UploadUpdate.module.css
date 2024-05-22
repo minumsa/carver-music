@@ -10,20 +10,20 @@
   max-width: 880px;
 }
 
-.page-title {
+.pageTitle {
   text-align: center;
   margin-bottom: 100px;
   font-style: italic;
 }
 
 /* Block Styles */
-.block-container {
+.blockContainer {
   width: 100%;
   padding: 35px 0;
   border-bottom: 1px dashed var(--border-color);
 }
 
-.block-title {
+.blockTitle {
   display: flex;
   align-items: center;
   color: var(--text-color);
@@ -35,9 +35,9 @@
 }
 
 /* Form Styles */
-.small-input,
+.smallInput,
 .input,
-.date-input {
+.dateInput {
   width: 100%;
   height: 55px;
   padding: 10px 15px;
@@ -48,20 +48,20 @@
   box-sizing: border-box;
 }
 
-.small-input {
+.smallInput {
   max-width: 300px;
 }
 
-.date-input {
+.dateInput {
   width: 300px;
 }
 
-.small-input-container {
+.smallInputContainer {
   width: calc(100% + 20px);
   height: 50px;
 }
 
-.input-text {
+.inputText {
   height: 400px;
   padding: 10px 15px;
   line-height: 210%;
@@ -87,14 +87,14 @@
   background-color: var(--text-color);
 }
 
-.submit-container {
+.submitContainer {
   display: flex;
   justify-content: center;
   padding: 35px 0;
 }
 
 /* Modal Styles */
-.album-search-result-modal {
+.albumSearchResultModal {
   position: absolute;
   display: flex;
   width: 500px;
@@ -104,7 +104,7 @@
   z-index: 1;
 }
 
-.rc_rate {
+.rcRate {
   font-size: 45px;
 }
 
@@ -127,7 +127,7 @@
     box-sizing: border-box;
   }
 
-  .input-text {
+  .inputText {
     height: 180px;
   }
 }

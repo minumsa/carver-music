@@ -33,7 +33,7 @@ export const MobileTagDisplay = () => {
         return (
           <div
             key={index}
-            className={styles["tag-display-item"]}
+            className={styles.tagDisplayItem}
             onClick={() => {
               resetDataAndScroll(key);
             }}
@@ -48,13 +48,13 @@ export const MobileTagDisplay = () => {
         );
       })}
       <div
-        className={styles["arrow-container"]}
+        className={styles.arrowContainer}
         onClick={() => {
           setShowAllTagItems(!showAllTagItems);
         }}
       >
         <img
-          className={styles["arrow"]}
+          className={styles.arrow}
           src={showAllTagItems ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"}
           alt="arrow"
         />

@@ -17,19 +17,19 @@ export const AlbumSearchModal = ({ searchData, onSelect }: SearchResultProps) =>
         const imgUrl = images[2].url;
         return (
           <div
-            className={styles.modal_wrapper}
+            className={styles.modalWrapper}
             key={index}
             onClick={() => {
               onSelect(data);
             }}
           >
-            <div className={styles.album_image_wrapper}>
-              <img className={styles.album_image} src={imgUrl} alt="album_image" loading="lazy" />
+            <div className={styles.albumImageWrapper}>
+              <img className={styles.albumImage} src={imgUrl} alt="album_image" loading="lazy" />
             </div>
-            <div className={styles.album_metadata_wrapper}>
+            <div className={styles.albumMetadataWrapper}>
               <div>
-                <span className={styles.album_title}>{album}</span>
-                <span className={styles.release_year}>({releaseYear})</span>
+                <span className={styles.albumTitle}>{album}</span>
+                <span className={styles.releaseYear}>({releaseYear})</span>
               </div>
               <div>{artist}</div>
             </div>

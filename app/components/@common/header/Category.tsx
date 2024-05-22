@@ -21,19 +21,19 @@ export const Category = () => {
   };
 
   return (
-    <div className={styles["container"]}>
+    <div className={styles.container}>
       {/* 햄버거 메뉴 */}
       <Hamburger />
-      <div className={styles["nav-container"]}>
-        <div className={styles["nav-wrapper"]}>
+      <div className={styles.navContainer}>
+        <div className={styles.navWrapper}>
           {/* 사이트 제목 */}
           {isMainPage ? (
-            <nav className={styles["title"]} onClick={scrollToTop}>
+            <nav className={styles.title} onClick={scrollToTop}>
               {SITE_TITLE}
             </nav>
           ) : (
             <Link
-              className={styles["title"]}
+              className={styles.title}
               href={isAdminPage(pathName) ? "/admin" : ""}
               onClick={() => {
                 setCurrentTagKey("");
@@ -51,7 +51,7 @@ export const Category = () => {
           setCurrentTagKey("");
         }}
       >
-        <nav className={styles["search-icon"]}></nav>
+        <nav className={styles.searchIcon}></nav>
       </Link>
     </div>
   );

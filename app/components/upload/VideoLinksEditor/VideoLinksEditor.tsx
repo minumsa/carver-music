@@ -17,12 +17,12 @@ export default function VideoLinksEditor({
 }: VideoLinksEditorProps) {
   const videoTemplateArray = new Array(videoCount).fill(null);
   return (
-    <div className={styles.block_container}>
-      <div className={styles.block_title}>
+    <div className={styles.blockContainer}>
+      <div className={styles.blockTitle}>
         영상
-        <div className={styles.video_button_container}>
+        <div className={styles.videoButtonContainer}>
           <div
-            className={styles.video_button}
+            className={styles.videoButton}
             onClick={() => {
               setVideoCount((prev) => prev + 1);
               setVideos([...videos, { title: "", url: "" }]);
@@ -36,13 +36,13 @@ export default function VideoLinksEditor({
         const copiedVideos = [...videos];
         const videoNumber = index + 1;
         return (
-          <div key={index} className={styles.block_wrapper}>
-            <div className={styles.block_title}>
+          <div key={index} className={styles.blockWrapper}>
+            <div className={styles.blockTitle}>
               <>
                 <div>{`제목 ${videoNumber}`}</div>
-                <div className={styles.video_button_container}>
+                <div className={styles.videoButtonContainer}>
                   <div
-                    className={styles.video_button}
+                    className={styles.videoButton}
                     onClick={() => {
                       setVideoCount((prev) => prev - 1);
                       const copiedVideos = [...videos];
@@ -63,7 +63,7 @@ export default function VideoLinksEditor({
                 setVideos(copiedVideos);
               }}
             />
-            <div className={styles.block_title}>{`링크 ${videoNumber}`}</div>
+            <div className={styles.blockTitle}>{`링크 ${videoNumber}`}</div>
             <input
               className={styles.input}
               value={videos[index].url}

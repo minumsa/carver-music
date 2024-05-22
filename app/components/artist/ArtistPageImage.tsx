@@ -10,11 +10,11 @@ export const ArtistPageImage = ({ artistData }: ArtistPageImageProps) => {
   const { artist, artistImgUrl } = firstArtistData;
 
   return (
-    <div className={styles["container"]}>
-      <div className={styles["artist-image-container"]}>
-        <img className={styles["artist-image"]} src={artistImgUrl} alt={artist} loading="lazy" />
+    <div className={styles.container}>
+      <div className={styles.artistImageContainer}>
+        <img className={styles.artistImage} src={artistImgUrl} alt={artist} loading="lazy" />
       </div>
-      <div className={styles["artist-name"]}>{artist}</div>
+      <div className={styles.artistName}>{artist}</div>
     </div>
   );
 };

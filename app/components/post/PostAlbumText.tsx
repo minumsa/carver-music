@@ -15,7 +15,7 @@ export const PostText = ({ postData }: PostTextProps) => {
   const paragraphs = text.split("\n");
 
   return (
-    <article className={styles["container"]}>
+    <article className={styles.container}>
       {paragraphs.map((paragraph, index) => {
         const isLineBreak = paragraph === "";
         const isSubTitle =
@@ -26,14 +26,14 @@ export const PostText = ({ postData }: PostTextProps) => {
         ) : (
           <p
             key={index}
-            className={styles["paragraph"]}
+            className={styles.paragraph}
             style={isSubTitle ? { fontWeight: 600 } : undefined}
           >
             {paragraph}
           </p>
         );
       })}
-      <div className={styles["tag-container"]}>
+      <div className={styles.tagContainer}>
         {tagKeys.map((tagKey: string, index: number) => {
           return (
             <Link
@@ -41,16 +41,16 @@ export const PostText = ({ postData }: PostTextProps) => {
                 isAdminPage(pathName) ? `/admin/search/tag/${tagKey}/1` : `/search/tag/${tagKey}/1`
               }
               key={index}
-              className={styles["tag-item"]}
+              className={styles.tagItem}
             >
               {DEFAULT_TAGS[tagKey]}
             </Link>
           );
         })}
       </div>
-      <div className={styles["post-divider"]}></div>
-      <div className={styles["post-date-container"]}>
-        <div className={styles["post-date"]}>작성일</div>
+      <div className={styles.postDivider}></div>
+      <div className={styles.postDateContainer}>
+        <div className={styles.postDate}>작성일</div>
         <div>{formatDate(uploadDate)}</div>
       </div>
     </article>

@@ -11,7 +11,7 @@ export const MusicLayout = ({ children }: { children: React.ReactNode }) => {
   const pathName = usePathname();
 
   return (
-    <div className={styles["layout-container"]}>
+    <div className={styles.layoutContainer}>
       <ToastContainer
         position="top-right" // 알람 위치 지정
         autoClose={3000} // 자동 off 시간
@@ -26,12 +26,12 @@ export const MusicLayout = ({ children }: { children: React.ReactNode }) => {
         style={{ zIndex: 100000 }}
       />
       {/* <Snow /> */}
-      <div className={styles["container"]}>
-        <header className={styles["category-container"]}>
+      <div className={styles.container}>
+        <header className={styles.categoryContainer}>
           <Category />
         </header>
         <main
-          className={styles["content-container"]}
+          className={styles.contentContainer}
           style={{ alignItems: isUploadPage(pathName) ? "center" : undefined }}
         >
           {children}

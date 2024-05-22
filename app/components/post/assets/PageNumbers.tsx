@@ -1,7 +1,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SUB_PER_PAGE_COUNT } from "../../../modules/constants";
-import styles from "./Test.module.css";
+import styles from "./PageNumbers.module.css";
 
 interface PageNumbersProps {
   currentPage: number;
@@ -43,9 +43,9 @@ export const PageNumbers = ({ currentPage, dataCount }: PageNumbersProps) => {
   };
 
   return (
-    <footer className={styles["page-container"]}>
+    <footer className={styles.pageContainer}>
       {currentPage > PAGE_SIZE && (
-        <div className={styles["page"]} onClick={goToPrevPage}>
+        <div className={styles.page} onClick={goToPrevPage}>
           〈
         </div>
       )}
@@ -58,7 +58,7 @@ export const PageNumbers = ({ currentPage, dataCount }: PageNumbersProps) => {
           return (
             <div
               key={index}
-              className={styles["page"]}
+              className={styles.page}
               onClick={() => {
                 router.push(`${pathNameWithoutPageNumber}/${pageNumber}`);
               }}
@@ -72,7 +72,7 @@ export const PageNumbers = ({ currentPage, dataCount }: PageNumbersProps) => {
         }
       })}
       {totalPageCount - maxPage > 0 && (
-        <div className={styles["page"]} onClick={goToNextPage}>
+        <div className={styles.page} onClick={goToNextPage}>
           〉
         </div>
       )}

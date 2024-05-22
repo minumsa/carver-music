@@ -1,17 +1,17 @@
-.block_container {
+.blockContainer {
   width: 100%;
   padding: 35px 0;
   border-bottom: 1px dashed var(--border-color);
 }
 
-.block_title {
+.blockTitle {
   display: flex;
   align-items: center;
   color: var(--text-color);
   margin-bottom: 20px;
 }
 
-.tag_list_container {
+.tagListContainer {
   display: flex;
   align-items: center;
   position: relative;
@@ -28,13 +28,13 @@
   box-sizing: border-box;
 }
 
-.tag_item_container {
+.tagItemContainer {
   display: flex;
   flex-direction: column;
 }
 
-.tag_item,
-.tag_item_input {
+.tagItem,
+.tagItemInput {
   display: flex;
   align-items: center;
   color: var(--text-color);
@@ -48,6 +48,6 @@
   cursor: pointer;
 }
 
-.tag_item_input {
+.tagItemInput {
   min-width: 200px;
 }

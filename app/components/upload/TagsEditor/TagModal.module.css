@@ -1,4 +1,4 @@
-.tag_modal_container {
+.tagModalContainer {
   width: 880px;
   position: absolute;
   display: flex;
@@ -13,25 +13,25 @@
   box-sizing: border-box;
 }
 
-.tag_modal {
+.tagModal {
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.tag_block_title {
+.tagBlockTitle {
   font-size: 1.05rem;
   margin: 0 0 5px 3px;
   font-weight: 500;
 }
 
-.tag_block_item_container {
+.tagBlockItemContainer {
   display: flex;
   flex-wrap: wrap;
   margin: 0 0 10px 0;
 }
 
-.tag_item {
+.tagItem {
   display: flex;
   align-items: center;
   color: var(--text-color);
@@ -45,11 +45,11 @@
   cursor: pointer;
 }
 
-.tag_item:hover {
+.tagItem:hover {
   background-color: black;
 }
 
-.tag_delete_button {
+.tagDeleteButton {
   background-color: unset;
   margin-left: 5px;
   padding: 0 1px 2px 0;

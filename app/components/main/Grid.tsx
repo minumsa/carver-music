@@ -131,7 +131,7 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
     <>
       {/* 모바일 - 태그 컴포넌트 */}
       <div
-        className={styles["tag-display-container"]}
+        className={styles.tagDisplayContainer}
         style={
           showAllTagItems ? { flexWrap: "wrap", paddingRight: "31px" } : { flexWrap: "nowrap" }
         }
@@ -141,7 +141,7 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
       <ContentLayout currentPage={scrollCount} dataCount={0}>
         <LoadingView isLoading={isLoading} />
         <ScrollingIcon isScrolling={isScrolling} />
-        <div className={styles["container"]}>
+        <div className={styles.container}>
           {data.map((item, index) => {
             const totalItemCount = data.length;
             const isLastDataOdd = index === totalItemCount - 1 && totalItemCount % 2 === 1;
@@ -155,30 +155,30 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
                 // data-aos-offset={isMobile ? 40 : 90}
                 // data-aos-once="true"
                 key={index}
-                className={`${styles["item-container"]}`}
+                className={`${styles.itemContainer}`}
                 ref={isLastItem ? ref : undefined}
               >
                 <Link href={toPostPage(pathName, item.id)} onClick={updateScrollPosition}>
-                  <div className={styles["album-image-container"]}>
+                  <div className={styles.albumImageContainer}>
                     <BlurImg
-                      className={styles["album-image"]}
+                      className={styles.albumImage}
                       blurHash={blurHash}
                       src={imgUrl}
                       punch={1}
                     />
                   </div>
                 </Link>
-                <div className={styles["album-metadata"]}>
+                <div className={styles.albumMetadata}>
                   <Link href={toPostPage(pathName, item.id)} onClick={updateScrollPosition}>
                     <button
-                      className={styles["album-item"]}
+                      className={styles.albumItem}
                       aria-label={`Album: ${item.album}`}
                     >{`${item.album}`}</button>
                   </Link>
                   <br />
                   <Link href={toArtistPage(pathName, item.artistId)} onClick={updateScrollPosition}>
                     <button
-                      className={styles["album-item"]}
+                      className={styles.albumItem}
                       aria-label={`Artist: ${item.artist}`}
                     >{`${item.artist}`}</button>
                   </Link>

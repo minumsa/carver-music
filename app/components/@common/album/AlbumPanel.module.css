@@ -1,4 +1,4 @@
-.album-image-container {
+.albumImageContainer {
   display: flex;
   flex-direction: column;
   min-width: 300px;
@@ -10,24 +10,24 @@
   overflow: hidden;
 }
 
-.album-image {
+.albumImage {
   width: 100%;
   height: 100%;
 }
 
-.album-image {
+.albumImage {
   transition: transform 0.2s ease-in-out;
 }
 
-.album-image:hover {
+.albumImage:hover {
   transform: scale(1.1);
 }
 
-.album-image:not(:hover) {
+.albumImage:not(:hover) {
   transform: scale(1);
 }
 
-.album-metadata-container {
+.albumMetadataContainer {
   display: flex;
   align-items: center;
   width: 100%;
@@ -37,46 +37,46 @@
   word-break: normal;
 }
 
-.text-container {
+.textContainer {
   position: relative;
   width: 100%;
 }
 
-.album-title {
+.albumTitle {
   display: flex;
   align-items: center;
   margin: 0 0 10px 0;
 }
 
-.star-container {
+.starContainer {
   display: flex;
   position: relative;
   align-items: center;
   margin: 2px 0 0 10px;
 }
 
-.colored-star {
+.coloredStar {
   display: absolute;
   z-index: 2;
   width: 100px;
   height: 20px;
 }
 
-.mono-star {
+.monoStar {
   position: absolute;
   z-index: 1;
   width: 100px;
   height: 20px;
 }
 
-.metadata-preview {
+.metadataPreview {
   display: flex;
   align-items: center;
   margin: 0 0 5px 0;
   font-size: 1rem;
 }
 
-.artist-image-container {
+.artistImageContainer {
   margin: 0 10px 0 0;
   cursor: pointer;
   width: 30px;
@@ -85,7 +85,7 @@
   user-select: auto;
 }
 
-.artist-image {
+.artistImage {
   border-radius: 50%;
   width: 100%;
   height: 100%;
@@ -98,51 +98,50 @@
   margin: 0;
 }
 
-.blur-end {
+.blurEnd {
   display: -webkit-box;
   overflow: hidden;
   text-align: justify;
   word-break: normal;
-  --lines-count: 3;
-  --blur-height: 40px;
-  --blur-length: 5px;
-  --fade-length: 5;
-  --fade-direction: 270deg;
+  --linesCount: 3;
+  --blurHeight: 40px;
+  --blurLength: 5px;
+  --fadeLength: 5;
+  --fadeDirection: 270deg;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: var(--lines-count);
+  -webkit-line-clamp: var(--linesCount);
   mask: linear-gradient(
       0deg,
       transparent,
-      transparent var(--blur-height),
-      var(--background-color) var(--blur-height)
+      transparent var(--blurHeight),
+      var(--backgroundColor) var(--blurHeight)
     ),
     linear-gradient(
       270deg,
       transparent,
-      transparent calc((var(--blur-length) * var(--fade-length)) + var(--blur-height)),
-      var(--background-color)
-        calc((var(--blur-length) * var(--fade-length)) + (var(--blur-height) * 2))
+      transparent calc((var(--blurLength) * var(--fadeLength)) + var(--blurHeight)),
+      var(--backgroundColor) calc((var(--blurLength) * var(--fadeLength)) + (var(--blurHeight) * 2))
     );
 }
 
-.more-button {
+.moreButton {
   position: absolute;
   right: 0;
   bottom: 0;
   z-index: 200;
   cursor: pointer;
-  color: var(--text-color);
+  color: var(--textColor);
   font-size: 1.2rem;
   font-weight: 450;
 }
 
-.tag-container {
+.tagContainer {
   display: flex;
   flex-wrap: wrap;
   margin: 13px 0 0 0;
 }
 
-.tag-item {
+.tagItem {
   display: flex;
   align-items: center;
   margin: 0 3px 3px 0;
@@ -153,18 +152,18 @@
   height: 20px;
   line-height: 250%;
   word-break: normal;
-  color: var(--text-color);
+  color: var(--textColor);
   font-size: 0.95rem;
 }
 
-.admin-button-container {
+.adminButtonContainer {
   display: flex;
   justify-content: flex-end;
   margin: 20px 0 0 0;
 }
 
 @media (max-width: 800px) {
-  .album-image-container {
+  .albumImageContainer {
     flex-direction: column;
     align-items: center;
     margin: 0 0 20px 0;
@@ -172,47 +171,47 @@
     height: 100%;
   }
 
-  .album-image {
+  .albumImage {
     width: 100%;
     height: 100%;
   }
 
-  .album-metadata-container {
+  .albumMetadataContainer {
     box-sizing: border-box;
     padding: 0;
     height: fit-content;
     line-height: 200%;
   }
 
-  .album-title {
+  .albumTitle {
     justify-content: center;
   }
 
-  .metadata-preview {
+  .metadataPreview {
     justify-content: center;
   }
 }
 
 @media (max-width: 525px) {
-  .album-image-container {
+  .albumImageContainer {
     width: 280px;
     height: 280px;
   }
 
-  .album-image {
+  .albumImage {
     width: 280px;
     height: 280px;
   }
 
-  .album-title {
+  .albumTitle {
     padding: 0;
   }
 
-  .star-container {
+  .starContainer {
     display: none;
   }
 
-  .artist-image-container {
+  .artistImageContainer {
     width: 25px;
     height: 25px;
   }
@@ -222,21 +221,21 @@
     word-break: normal;
   }
 
-  .blur-end {
-    --lines-count: 3;
-    --fade-length: 5;
-    --blur-height: 40px;
-    --blur-length: 5px;
+  .blurEnd {
+    --linesCount: 3;
+    --fadeLength: 5;
+    --blurHeight: 40px;
+    --blurLength: 5px;
   }
 
-  .more-button {
+  .moreButton {
     bottom: 0.5px;
     margin: 0 15px 0 0;
     font-size: 0.9rem;
     font-weight: 600;
   }
 
-  .admin-button-container {
+  .adminButtonContainer {
     justify-content: center;
   }
 }

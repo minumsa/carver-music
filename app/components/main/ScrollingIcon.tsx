@@ -26,7 +26,7 @@ export const ScrollingIcon = ({ isScrolling }: LoadingIconProps) => {
 
   return (
     <div style={{ display: displayStatus }}>
-      <SpinningCircles className={styles["spinning-circles"]} />
+      <SpinningCircles className={styles.spinningCircles} />
     </div>
   );
 };

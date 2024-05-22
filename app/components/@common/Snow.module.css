@@ -5,20 +5,11 @@
   z-index: -1;
   width: 100%;
   height: 100%;
+  background-image: none;
+  background-size: 100%;
+  animation: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-use-select: none;
   user-select: none;
-}
-
-.snowfall-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  background-image: none;
-  background-size: 100%;
-  width: 100%;
-  height: 100%;
-  animation: none;
 }

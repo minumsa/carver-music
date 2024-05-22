@@ -10,9 +10,9 @@ export const TagItem = ({ tagKey, onDelete }: TagItemProps) => {
   const tagName = DEFAULT_TAGS[tagKey];
 
   return (
-    <div className={styles.tag_item} key={tagKey} onClick={() => onDelete(tagKey)}>
+    <div className={styles.tagItem} key={tagKey} onClick={() => onDelete(tagKey)}>
       <span>{tagName}</span>
-      <button className={styles.tag_delete_button} aria-label="Delete tag">
+      <button className={styles.tagDeleteButton} aria-label="Delete tag">
         ×
       </button>
     </div>

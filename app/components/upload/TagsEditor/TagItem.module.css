@@ -1,4 +1,4 @@
-.tag_item {
+.tagItem {
   display: flex;
   align-items: center;
   color: var(--text-color);
@@ -12,11 +12,11 @@
   cursor: pointer;
 }
 
-.tag_item:hover {
+.tagItem:hover {
   background-color: black;
 }
 
-.tag_delete_button {
+.tagDeleteButton {
   background-color: unset;
   margin-left: 5px;
   padding: 0 1px 2px 0;

@@ -3,7 +3,7 @@
   padding: 35px 0 0 0;
 }
 
-.block_container {
+.blockContainer {
   display: flex;
   flex-direction: column;
   row-gap: 20px;
@@ -12,13 +12,13 @@
   border-bottom: 1px dashed var(--border-color);
 }
 
-.block_title {
+.blockTitle {
   display: flex;
   align-items: center;
   color: var(--text-color);
 }
 
-.video_button_container {
+.videoButtonContainer {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -29,7 +29,7 @@
   margin: 2px 0 0 5px;
 }
 
-.video_button {
+.videoButton {
   color: var(--input-background-color);
   font-weight: 500;
   font-size: 1rem;
@@ -48,7 +48,7 @@
   box-sizing: border-box;
 }
 
-.block_wrapper {
+.blockWrapper {
   display: flex;
   flex-direction: column;
   row-gap: 20px;
