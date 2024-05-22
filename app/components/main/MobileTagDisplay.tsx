@@ -28,7 +28,10 @@ export const MobileTagDisplay = () => {
   }
 
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.tagDisplayContainer}
+      style={showAllTagItems ? { flexWrap: "wrap", paddingRight: "31px" } : { flexWrap: "nowrap" }}
+    >
       {Object.keys(DEFAULT_TAGS).map((key, index) => {
         return (
           <div

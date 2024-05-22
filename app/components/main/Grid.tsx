@@ -130,14 +130,9 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
   return (
     <>
       {/* 모바일 - 태그 컴포넌트 */}
-      <div
-        className={styles.tagDisplayContainer}
-        style={
-          showAllTagItems ? { flexWrap: "wrap", paddingRight: "31px" } : { flexWrap: "nowrap" }
-        }
-      >
-        <MobileTagDisplay />
-      </div>
+
+      <MobileTagDisplay />
+
       <ContentLayout currentPage={scrollCount} dataCount={0}>
         <LoadingView isLoading={isLoading} />
         <ScrollingIcon isScrolling={isScrolling} />

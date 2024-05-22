@@ -1,4 +1,4 @@
-.container,
+.tagDisplayContainer,
 .tagDisplayItem,
 .arrowContainer,
 .arrow {
@@ -6,8 +6,18 @@
 }
 
 @media (max-width: 525px) {
-  .container {
+  .tagDisplayContainer {
+    box-sizing: border-box;
     display: flex;
+    position: fixed;
+    top: 42.5px;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--background-color);
+    padding: 5px 15px 15px 15px;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    z-index: 10000;
   }
 
   .tagDisplayItem {
