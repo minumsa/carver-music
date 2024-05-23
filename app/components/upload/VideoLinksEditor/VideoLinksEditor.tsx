@@ -3,9 +3,9 @@ import styles from "./VideoLinksEditor.module.css";
 import { Video } from "@/app/modules/types";
 
 interface VideoLinksEditorProps {
-  videos: Video[];
   videoCount: number;
   setVideoCount: React.Dispatch<React.SetStateAction<number>>;
+  videos: Video[];
   setVideos: React.Dispatch<React.SetStateAction<Video[]>>;
 }
 

@@ -26,19 +26,31 @@ interface UpdateProps {
   currentId: string;
 }
 
+export interface Form {
+  albumId: string;
+  newAlbumId: string;
+  artist: string;
+  artistId: string;
+  genre: string;
+  link: string;
+  text: string;
+  blurHash: string;
+  searchKeyword: string;
+  score: number;
+  albumReleaseDate: string;
+  uploadDate: Date;
+  videos: Video[];
+  videoCount: number;
+  currentTagKeys: string[];
+  password: string;
+}
+
 export default function UploadUpdate({ currentId }: UpdateProps) {
   const isUpdatePage = currentId.length > 0;
-  const [password, setPassword] = useState<string>("");
-  const [score, setScore] = useState<number>(0);
-  const [albumReleaseDate, setAlbumReleaseDate] = useState<string>("");
-  const [uploadDate, setUploadDate] = useState(new Date());
-  const [videoCount, setVideoCount] = useState(1);
-  const [videos, setVideos] = useState<Video[]>([{ title: "", url: "" }]);
   const [searchData, setSearchData] = useState<SearchData[]>();
   const [isTyping, setIsTyping] = useState(false);
-  const [currentTagKeys, setCurrentTagKeys] = useState<string[]>([]);
   const updatePageExclusive = { display: isUpdatePage ? undefined : "none" };
-  const { register, handleSubmit, setValue, getValues, watch } = useForm({
+  const { register, handleSubmit, setValue, getValues, watch } = useForm<Form>({
     defaultValues: {
       albumId: "",
       newAlbumId: "",
@@ -49,11 +61,30 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       text: "",
       blurHash: "",
       searchKeyword: "",
+      score: 3,
+      albumReleaseDate: "",
+      uploadDate: new Date(),
+      videos: [{ title: "", url: "" }],
+      videoCount: 1,
+      currentTagKeys: [],
+      password: "",
     },
   });
 
   const onSubmit = handleSubmit(async (data) => {
-    const { albumId, newAlbumId, genre, link, text, blurHash } = data;
+    const {
+      albumId,
+      newAlbumId,
+      genre,
+      link,
+      text,
+      blurHash,
+      score,
+      videos,
+      uploadDate,
+      currentTagKeys,
+      password,
+    } = data;
     const filteredText = text.replace(/\[\d+\]/g, "");
     const newSpotifyAlbumData: SpotifyAlbumData | undefined = await fetchSpotify(newAlbumId);
 
@@ -107,23 +138,24 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       setValue("text", text);
       setValue("blurHash", blurHash);
       setValue("searchKeyword", album);
-      setScore(score);
-      setUploadDate(new Date(uploadDate));
-      setAlbumReleaseDate(new Date(releaseDate).toString());
+      setValue("score", score);
+      setValue("uploadDate", uploadDate);
+      setValue("albumReleaseDate", new Date(releaseDate).toString());
 
       const releaseYearTagKey = getDecadeTagKey(releaseDate);
+      ``;
       const hasReleaseYearTag = tagKeys.includes(releaseYearTagKey);
       const hasVideo = videos.length > 0;
 
       if (hasReleaseYearTag) {
-        setCurrentTagKeys([...tagKeys]);
+        setValue("currentTagKeys", [tagKeys]);
       } else {
-        setCurrentTagKeys([...tagKeys, releaseYearTagKey]);
+        setValue("currentTagKeys", [...tagKeys, releaseYearTagKey]);
       }
 
       if (hasVideo) {
-        setVideos(videos);
-        setVideoCount(videos.length);
+        setValue("videos", videos);
+        setValue("videoCount", videos.length);
       }
     }
 
@@ -131,12 +163,12 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
   }, [currentId]);
 
   const handleSearch = async () => {
-    const result = await searchSpotify(getValues("searchKeyword"));
+    const result = await searchSpotify(watch("searchKeyword"));
     setSearchData(result);
   };
 
   useEffect(() => {
-    const isSearching = isTyping && getValues("searchKeyword");
+    const isSearching = isTyping && watch("searchKeyword");
     if (isSearching) {
       const typingTimer = setTimeout(() => {
         handleSearch();
@@ -144,13 +176,13 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
 
       return () => clearTimeout(typingTimer);
     }
-  }, [getValues("searchKeyword"), isTyping]);
+  }, [watch("searchKeyword"), isTyping]);
 
   const handleClickSearchResult = (data: SearchData) => {
     const { name, id, artists, release_date } = data;
     const releaseYearTagKey = getDecadeTagKey(release_date);
 
-    setCurrentTagKeys([releaseYearTagKey]);
+    setValue("currentTagKeys", [releaseYearTagKey]);
     setValue("artist", artists[0].name);
     setValue("newAlbumId", id);
     setValue("searchKeyword", name);
@@ -225,7 +257,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       {/* 발매일 */}
       <div className={styles.blockContainer} style={updatePageExclusive}>
         <div className={styles.blockTitle}>발매일</div>
-        <div className={styles.input}>{albumReleaseDate}</div>
+        <div className={styles.input}>{getValues("albumReleaseDate")}</div>
       </div>
 
       {/* 아티스트 ID */}
@@ -257,11 +289,11 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
         <div className={styles.blockTitle}>별점</div>
         <Rate
           defaultValue={3}
-          value={score}
+          value={watch("score")}
           count={5}
           allowHalf={true}
           onChange={(value: number) => {
-            setScore(value);
+            setValue("score", value);
           }}
           className={styles.rcRate}
         />
@@ -279,23 +311,37 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
         />
       </div>
 
+      {/* FIXME: setValues props 타입 최대한 적절하게 변경 */}
       {/* 태그 */}
-      <TagsEditor currentTagKeys={currentTagKeys} setCurrentTagKeys={setCurrentTagKeys} />
+      <TagsEditor
+        currentTagKeys={watch("currentTagKeys")}
+        setCurrentTagKeys={(action) => {
+          const result =
+            typeof action === "function" ? action(getValues("currentTagKeys")) : action;
+          setValue("currentTagKeys", result);
+        }}
+      />
 
       {/* 비디오 링크 */}
       <VideoLinksEditor
-        videos={videos}
-        videoCount={videoCount}
-        setVideoCount={setVideoCount}
-        setVideos={setVideos}
+        videos={watch("videos")}
+        videoCount={watch("videoCount")}
+        setVideoCount={(action) => {
+          const result = typeof action === "function" ? action(getValues("videoCount")) : action;
+          setValue("videoCount", result);
+        }}
+        setVideos={(action) => {
+          const result = typeof action === "function" ? action(getValues("videos")) : action;
+          setValue("videos", result);
+        }}
       />
 
       {/* 작성일 */}
       <div className={styles.blockContainer}>
         <div className={styles.blockTitle}>작성일</div>
         <DatePicker
-          selected={uploadDate}
-          onChange={(date) => date && setUploadDate(date)}
+          selected={watch("uploadDate")}
+          onChange={(date) => date && setValue("uploadDate", date)}
           dateFormat={"yyyy/MM/dd"}
           className={`${styles.dateInput} ${styles.input}`}
         />
@@ -305,10 +351,10 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       <div className={styles.blockContainer}>
         <div className={styles.blockTitle}>관리자 비밀번호</div>
         <input
+          {...register("password")}
           className={styles.smallInput}
-          value={password}
           onChange={(e) => {
-            setPassword(e.target.value);
+            setValue("password", e.target.value);
           }}
         />
       </div>

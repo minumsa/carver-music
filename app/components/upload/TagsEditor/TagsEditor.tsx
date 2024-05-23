@@ -15,8 +15,8 @@ export const TagsEditor = ({ currentTagKeys, setCurrentTagKeys }: TagsEditorProp
   const modalRef = useRef<HTMLDivElement>(null);
 
   const deleteTagItem = (selectedKey: string) => {
-    setCurrentTagKeys((prevTagKeys) =>
-      prevTagKeys.filter((prevTagKey) => prevTagKey !== selectedKey),
+    setCurrentTagKeys((prevTagKeys: string[]) =>
+      prevTagKeys.filter((prevTagKey: string) => prevTagKey !== selectedKey),
     );
   };
 
