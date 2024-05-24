@@ -141,7 +141,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       setValue("blurHash", blurHash);
       setValue("searchKeyword", album);
       setValue("score", score);
-      setValue("uploadDate", uploadDate);
+      setValue("uploadDate", new Date(uploadDate));
       setValue("albumReleaseDate", new Date(releaseDate).toString());
 
       const releaseYearTagKey = getDecadeTagKey(releaseDate);
