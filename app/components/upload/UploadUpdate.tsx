@@ -315,7 +315,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       {/* FIXME: setValues props 타입 최대한 적절하게 변경 */}
       {/* 태그 */}
       <TagsEditor
-        currentTagKeys={watch("currentTagKeys")}
+        currentTagKeys={watch("currentTagKeys").flat()}
         setCurrentTagKeys={(action) => {
           const result =
             typeof action === "function" ? action(getValues("currentTagKeys")) : action;
