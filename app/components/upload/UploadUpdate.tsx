@@ -100,7 +100,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
         uploadDate,
         score,
         videos,
-        tagKeys: currentTagKeys,
+        tagKeys: currentTagKeys.flat(),
         blurHash,
       };
 
@@ -356,6 +356,12 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
           className={styles.smallInput}
           onChange={(e) => {
             setValue("password", e.target.value);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              onSubmit();
+            }
           }}
         />
       </div>
