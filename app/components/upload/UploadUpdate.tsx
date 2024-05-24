@@ -22,6 +22,8 @@ import VideoLinksEditor from "./VideoLinksEditor/VideoLinksEditor";
 import { TagsEditor } from "./TagsEditor/TagsEditor";
 import { getDecadeTagKey } from "@/app/modules/utils";
 
+const TYPING_DELAY_MS = 1000;
+
 interface UpdateProps {
   currentId: string;
 }
@@ -172,7 +174,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
     if (isSearching) {
       const typingTimer = setTimeout(() => {
         handleSearch();
-      }, 1000);
+      }, TYPING_DELAY_MS);
 
       return () => clearTimeout(typingTimer);
     }
@@ -181,7 +183,6 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
   const handleClickSearchResult = (data: SearchData) => {
     const { name, id, artists, release_date } = data;
     const releaseYearTagKey = getDecadeTagKey(release_date);
-
     setValue("currentTagKeys", [releaseYearTagKey]);
     setValue("artist", artists[0].name);
     setValue("newAlbumId", id);
