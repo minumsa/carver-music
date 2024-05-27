@@ -2,6 +2,7 @@ import connectMongoDB from "@/app/modules/mongodb";
 import Music from "@/models/music";
 import { NextResponse } from "next/server";
 import { SUB_PER_PAGE_COUNT } from "../../modules/constants";
+import { SortKey } from "@/app/modules/types";
 
 export async function GET(request: Request) {
   try {
@@ -12,8 +13,7 @@ export async function GET(request: Request) {
     const currentPage = Number(url.searchParams.get("currentPage"));
     const currentKeyword: any = url.searchParams.get("currentKeyword");
 
-    type SortOrder = 1 | -1;
-    const sortKey: { [key: string]: SortOrder } = { artist: 1, releaseDate: 1 };
+    const sortKey: SortKey = { artist: 1, releaseDate: 1 };
 
     let skipCount = SUB_PER_PAGE_COUNT * currentPage - SUB_PER_PAGE_COUNT;
     const searchData = await Music.find({

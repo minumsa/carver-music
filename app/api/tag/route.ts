@@ -1,8 +1,12 @@
 import connectMongoDB from "@/app/modules/mongodb";
 import Music from "@/models/music";
 import { NextResponse } from "next/server";
-import { SortOrder } from "mongoose";
 import { SUB_PER_PAGE_COUNT } from "../../modules/constants";
+import { SortKey } from "@/app/modules/types";
+
+interface Query {
+  tagKeys: string;
+}
 
 export async function GET(request: Request) {
   try {
@@ -12,15 +16,7 @@ export async function GET(request: Request) {
     const currentPage = Number(url.searchParams.get("currentPage"));
     const currentTag = url.searchParams.get("currentTag") ?? "";
 
-    interface SortKey {
-      [key: string]: SortOrder;
-    }
-
     const sortKey: SortKey = { score: -1, artist: 1 };
-
-    interface Query {
-      tagKeys: string;
-    }
 
     const query: Query = { tagKeys: currentTag };
     const skipCount = SUB_PER_PAGE_COUNT * currentPage - SUB_PER_PAGE_COUNT;

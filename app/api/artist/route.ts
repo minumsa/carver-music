@@ -2,6 +2,7 @@ import connectMongoDB from "@/app/modules/mongodb";
 import Music from "@/models/music";
 import { NextResponse } from "next/server";
 import { SUB_PER_PAGE_COUNT } from "../../modules/constants";
+import { SortKey } from "@/app/modules/types";
 
 export async function GET(request: Request) {
   try {
@@ -13,9 +14,7 @@ export async function GET(request: Request) {
     const currentPage = Number(url.searchParams.get("currentPage"));
     const skipCount = SUB_PER_PAGE_COUNT * currentPage - SUB_PER_PAGE_COUNT;
 
-    type ReleaseDate = 1 | -1;
-    const sortKey: { [key: string]: ReleaseDate } = { releaseDate: -1 };
-
+    const sortKey: SortKey = { releaseDate: -1 };
     const artistData = await Music.find({ artistId: artistId })
       .sort(sortKey)
       .skip(skipCount)

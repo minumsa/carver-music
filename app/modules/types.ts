@@ -1,3 +1,5 @@
+import { SortOrder } from "mongoose";
+
 export interface Genres {
   pop: string;
   kpop: string;
@@ -81,3 +83,9 @@ export interface SearchData {
   images: Image[];
   id: string;
 }
+
+export interface SortKey {
+  [key: string]: SortOrder;
+}
+
+export type CashedAccessToken = string | null;

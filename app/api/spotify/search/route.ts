@@ -1,15 +1,15 @@
+import { CashedAccessToken } from "@/app/modules/types";
 import { NextResponse } from "next/server";
 
-let cachedAccessToken: string | null = null;
+let cachedAccessToken: CashedAccessToken = null;
 let tokenExpirationTime: number = 0;
 
 async function getToken() {
   try {
-    const tokenNotExpired = cachedAccessToken && Date.now() < tokenExpirationTime;
+    const isTokenValid = Date.now() < tokenExpirationTime;
+    const tokenNotExpired = cachedAccessToken && isTokenValid;
 
-    if (tokenNotExpired) {
-      return cachedAccessToken;
-    }
+    if (tokenNotExpired) return cachedAccessToken;
 
     require("dotenv").config();
     const url = "https://accounts.spotify.com/api/token";
@@ -33,6 +33,9 @@ async function getToken() {
     }
 
     const response = await accessTokenResponse.json();
+
+    // tokenExpirationTime이 1시간으로 설정되어 있으므로, 1시간 후에 만료
+    // 만료 전이면 토큰을 재사용하고, 그렇지 않으면 새로운 토큰을 발급
     cachedAccessToken = response.access_token;
     tokenExpirationTime = Date.now() + 3600 * 1000;
 
