@@ -48,6 +48,7 @@ export async function POST(request: Request) {
 
     const {
       newSpotifyAlbumData,
+      title,
       genre,
       link,
       text,
@@ -81,6 +82,7 @@ export async function POST(request: Request) {
     }
 
     const newData = new Music({
+      title,
       id,
       imgUrl,
       artistImgUrl,
@@ -117,6 +119,7 @@ export async function PUT(request: Request) {
     const {
       newSpotifyAlbumData,
       originalAlbumId,
+      title,
       genre,
       link,
       text,
@@ -159,6 +162,7 @@ export async function PUT(request: Request) {
       album,
       label,
       releaseDate,
+      title,
       genre,
       link,
       text,

@@ -243,6 +243,7 @@ interface Video {
 }
 
 export interface NewData {
+  title?: string;
   newSpotifyAlbumData: SpotifyAlbumData;
   genre: string;
   link: string;
@@ -269,8 +270,18 @@ export interface UpdateDataParams {
 }
 
 export async function uploadData({ newData, password }: UploadDataParams) {
-  const { newSpotifyAlbumData, genre, link, text, uploadDate, score, videos, tagKeys, blurHash } =
-    newData;
+  const {
+    newSpotifyAlbumData,
+    title,
+    genre,
+    link,
+    text,
+    uploadDate,
+    score,
+    videos,
+    tagKeys,
+    blurHash,
+  } = newData;
 
   if (newData) {
     try {
@@ -281,6 +292,7 @@ export async function uploadData({ newData, password }: UploadDataParams) {
         },
         body: JSON.stringify({
           newSpotifyAlbumData,
+          title,
           genre,
           link,
           text,
@@ -303,8 +315,6 @@ export async function uploadData({ newData, password }: UploadDataParams) {
       } else {
         toast.success("데이터 업로드 완료 😻");
       }
-
-      const data = await response.json();
     } catch (error) {
       console.error("Error: ", error);
     }
@@ -315,6 +325,7 @@ export const updateData = async ({ newData, password }: UpdateDataParams) => {
   const {
     newSpotifyAlbumData,
     originalAlbumId,
+    title,
     genre,
     link,
     text,
@@ -335,6 +346,7 @@ export const updateData = async ({ newData, password }: UpdateDataParams) => {
         body: JSON.stringify({
           newSpotifyAlbumData,
           originalAlbumId,
+          title,
           genre,
           link,
           text,

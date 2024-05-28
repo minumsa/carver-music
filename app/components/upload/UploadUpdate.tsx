@@ -29,6 +29,7 @@ interface UpdateProps {
 }
 
 export interface Form {
+  title?: string;
   albumId: string;
   newAlbumId: string;
   artist: string;
@@ -54,6 +55,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
   const updatePageExclusive = { display: isUpdatePage ? undefined : "none" };
   const { register, handleSubmit, setValue, getValues, watch } = useForm<Form>({
     defaultValues: {
+      title: "",
       albumId: "",
       newAlbumId: "",
       artist: "",
@@ -75,6 +77,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
 
   const onSubmit = handleSubmit(async (data) => {
     const {
+      title,
       albumId,
       newAlbumId,
       genre,
@@ -93,6 +96,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
     if (newSpotifyAlbumData) {
       const newData: NewDataForUpdate = {
         newSpotifyAlbumData,
+        title,
         originalAlbumId: albumId,
         genre,
         link,
@@ -297,6 +301,18 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
             setValue("score", value);
           }}
           className={styles.rcRate}
+        />
+      </div>
+
+      {/* 제목 */}
+      <div className={styles.blockContainer}>
+        <div className={styles.blockTitle}>제목</div>
+        <input
+          {...register("title")}
+          className={styles.input}
+          onChange={(e) => {
+            setValue("title", e.target.value);
+          }}
         />
       </div>
 

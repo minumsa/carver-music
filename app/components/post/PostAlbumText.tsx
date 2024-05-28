@@ -11,11 +11,12 @@ interface PostTextProps {
 
 export const PostText = ({ postData }: PostTextProps) => {
   const pathName = usePathname();
-  const { text, tagKeys, uploadDate } = postData;
+  const { title, text, tagKeys, uploadDate } = postData;
   const paragraphs = text.split("\n");
 
   return (
     <article className={styles.container}>
+      {title && <h1 className={styles.title}>{title}</h1>}
       {paragraphs.map((paragraph, index) => {
         const isLineBreak = paragraph === "";
         const isSubTitle =

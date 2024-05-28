@@ -36,6 +36,7 @@ export interface SpotifyAlbumData {
 }
 
 export interface AlbumInfo {
+  title: string;
   id: string;
   artistId: string;
   imgUrl: string;

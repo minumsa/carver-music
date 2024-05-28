@@ -6,6 +6,7 @@ interface Video extends Document {
 }
 
 interface MusicData extends Document {
+  title: string;
   id: string;
   imgUrl: string;
   artistId: string;
@@ -34,6 +35,7 @@ const videoSchema = new mongoose.Schema({
 });
 
 const musicSchema = new mongoose.Schema({
+  title: String,
   id: String,
   imgUrl: String,
   artistId: String,
