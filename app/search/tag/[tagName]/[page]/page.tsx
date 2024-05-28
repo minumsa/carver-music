@@ -2,8 +2,9 @@ import SearchContent from "@/app/components/search/SearchContent";
 import { MusicLayout } from "@/app/components/@common/MusicLayout";
 import { PageProps } from "@/app/modules/types";
 import { fetchTagData } from "@/app/modules/api";
+import Error from "@/app/components/@common/Error";
 
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params }: PageProps): Promise<React.ReactElement> {
   const currentTag: string = params.tagName;
   const currentPage: number = params.page;
 
@@ -22,6 +23,6 @@ export default async function Page({ params }: PageProps) {
       </MusicLayout>
     );
   } catch (error) {
-    console.error(error);
+    return <Error error={error as Error} />;
   }
 }

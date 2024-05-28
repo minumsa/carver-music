@@ -4,8 +4,9 @@ import { Metadata } from "next/dist/lib/metadata/types/metadata-interface";
 import { PageProps } from "../../modules/types";
 import { fetchPostData } from "../../modules/api";
 import { SITE_TITLE } from "@/app/modules/constants";
+import Error from "@/app/components/@common/Error";
 
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params }: PageProps): Promise<React.ReactElement> {
   const currentId = params.id;
 
   try {
@@ -17,33 +18,29 @@ export default async function Page({ params }: PageProps) {
       </MusicLayout>
     );
   } catch (error) {
-    console.error(error);
+    return <Error error={error as Error} />;
   }
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const currentId = params.id;
 
-  try {
-    const postData = await fetchPostData(currentId);
-    const { imgUrl, artist, album, text } = postData;
-    const title = `${artist} - ${album}`;
-    const textPreview = text.length > 30 ? text.substring(0, 30) + "..." : text;
-    const currentUrl = `https://music.divdivdiv.com/post/${currentId}`;
+  const postData = await fetchPostData(currentId);
+  const { imgUrl, artist, album, text } = postData;
+  const title = `${artist} - ${album}`;
+  const textPreview = text.length > 30 ? text.substring(0, 30) + "..." : text;
+  const currentUrl = `https://music.divdivdiv.com/post/${currentId}`;
 
-    return {
+  return {
+    title: title,
+    description: textPreview,
+    openGraph: {
       title: title,
+      images: [imgUrl],
       description: textPreview,
-      openGraph: {
-        title: title,
-        images: [imgUrl],
-        description: textPreview,
-        url: currentUrl,
-        type: "website",
-        siteName: SITE_TITLE,
-      },
-    };
-  } catch (error) {
-    throw new Error(`Failed to generate post metadata for post ID: ${currentId}`);
-  }
+      url: currentUrl,
+      type: "website",
+      siteName: SITE_TITLE,
+    },
+  };
 }
