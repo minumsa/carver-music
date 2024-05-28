@@ -27,13 +27,7 @@ export async function GET(request: Request) {
       .skip(skipCount)
       .limit(SUB_PER_PAGE_COUNT);
 
-    const searchDataCount = await Music.find({
-      $or: [
-        { text: { $regex: new RegExp(currentKeyword, "i") } }, // 'i' 옵션은 대소문자를 구별하지 않도록 설정
-        { artist: { $regex: new RegExp(currentKeyword, "i") } },
-        { album: { $regex: new RegExp(currentKeyword, "i") } },
-      ],
-    }).count();
+    const searchDataCount = searchData.length;
 
     return NextResponse.json({ searchData, searchDataCount });
   } catch (error) {
