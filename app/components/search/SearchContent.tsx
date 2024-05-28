@@ -27,6 +27,8 @@ export default function SearchContent({ data, searchInfo }: SearchContentProps) 
   const pathName = usePathname();
   const decodedKeyword = decodeURIComponent(currentKeyword);
   const [keyword, setKeyword] = useState("");
+  // "모두 보기" 태그(버튼)은 모바일 메인 화면에서만 표시되도록 함
+  const tagKeys = Object.keys(DEFAULT_TAGS).filter((key) => key !== "");
 
   const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -66,28 +68,24 @@ export default function SearchContent({ data, searchInfo }: SearchContentProps) 
             : "앨범 제목, 아티스트 또는 키워드 등을 검색해보세요."}
         </div>
         <div className={styles.searchTagContainer}>
-          {Object.keys(DEFAULT_TAGS).map((key, index) => {
-            // "모두 보기" 태그(버튼)은 모바일 메인 화면에서만 표시
-            const isAllItemKey = key === "";
+          {tagKeys.map((key, index) => {
             return (
-              !isAllItemKey && (
-                <div
-                  key={index}
-                  className={styles.searchTagDisplayItem}
-                  onClick={() => {
-                    isAdminPage(pathName)
-                      ? router.push(`/admin/search/tag/${key}/1`)
-                      : router.push(`/search/tag/${key}/1`);
-                  }}
-                  style={
-                    currentTagName === key
-                      ? { boxShadow: "inset 0 0 0 1px var(--text-color)" }
-                      : undefined
-                  }
-                >
-                  {DEFAULT_TAGS[key]}
-                </div>
-              )
+              <div
+                key={index}
+                className={styles.searchTagDisplayItem}
+                onClick={() => {
+                  isAdminPage(pathName)
+                    ? router.push(`/admin/search/tag/${key}/1`)
+                    : router.push(`/search/tag/${key}/1`);
+                }}
+                style={
+                  currentTagName === key
+                    ? { boxShadow: "inset 0 0 0 1px var(--text-color)" }
+                    : undefined
+                }
+              >
+                {DEFAULT_TAGS[key]}
+              </div>
             );
           })}
         </div>
