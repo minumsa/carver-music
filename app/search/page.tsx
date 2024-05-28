@@ -1,5 +1,3 @@
-"use client";
-
 import SearchContent from "@/app/components/search/SearchContent";
 import { MusicLayout } from "@/app/components/@common/MusicLayout";
 import { PageProps } from "../modules/types";
