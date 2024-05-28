@@ -8,8 +8,6 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import React from "react";
 import { useInView } from "react-intersection-observer";
 import "aos/dist/aos.css";
-import Aos from "aos";
-import { isMobile } from "react-device-detect";
 import { ContentLayout } from "../@common/ContentLayout";
 import Link from "next/link";
 import { BlurImg } from "../@common/BlurImg";
@@ -130,20 +128,16 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
   return (
     <>
       {/* 모바일 - 태그 컴포넌트 */}
-
       <MobileTagDisplay />
-
       <ContentLayout currentPage={scrollCount} dataCount={0}>
         <LoadingView isLoading={isLoading} />
         <ScrollingIcon isScrolling={isScrolling} />
         <div className={styles.container}>
           {data.map((item, index) => {
-            const totalItemCount = data.length;
-            const isLastDataOdd = index === totalItemCount - 1 && totalItemCount % 2 === 1;
             const isLastItem = index + 2 === data.length;
             const imgUrl = item.imgUrl;
             const blurHash = item.blurHash ?? "";
-            return isLastDataOdd ? null : (
+            return (
               <div
                 // data-aos="fade-up"
                 // data-aos-duration={400}
