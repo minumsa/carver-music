@@ -1,6 +1,6 @@
 ## 🎧 Carver Music
 
-[카버뮤직](https://music.divdivdiv.com)은 음반 정보 및 리뷰를 제공하는 음악 블로그 사이트입니다.
+[카버뮤직](https://music.divdivdiv.com)은 음반 정보 및 리뷰를 제공하는 음악 블로그 사이트입니다. 미리보기 이미지를 포함한 자세한 내용은 [포트폴리오 페이지](https://rust-ocicat-1b0.notion.site/f61c9cea780144819507bf0616d3bd70?pvs=74)에서 확인하실 수 있습니다.
 
 ## 🧚‍♂️ Overview
 
@@ -22,7 +22,7 @@ npm install
 npm run dev
 ```
 
-## ⚒️ Tech stack
+## ⚒️ Tech stacks
 
 - TypeScript
 - React
@@ -31,7 +31,7 @@ npm run dev
 - [Jotai](https://jotai.org/)
 - Vercel
 
-## 🧞‍♂️ Package
+## 🧞‍♂️ Packages
 
 - [react-intersection-observer](https://www.npmjs.com/search?q=react-intersection-observer)
 - [react-hook-form](https://www.npmjs.com/package/react-hook-form)
