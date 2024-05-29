@@ -34,11 +34,20 @@ npm run dev
 ## 🧞‍♂️ Packages
 
 - [react-intersection-observer](https://www.npmjs.com/search?q=react-intersection-observer)
+  - 대상의 교차점을 감지
+  - 무한 스크롤 기능 구현을 위해 도입
 - [react-hook-form](https://www.npmjs.com/package/react-hook-form)
-- [react-blurhash](https://www.npmjs.com/package/react-blurhash)
-- [react-datepicker](https://www.npmjs.com/package/react-datepicker)
+  - 폼 데이터를 용이하게 다루기 위해 도입
 - [react-toastify](https://www.npmjs.com/package/react-toastify)
+  - 사이트의 각종 알림을 애니메이션으로 표시
+  - 관리자 페이지의 사용자 경험 향상을 위해 도입
+- [react-blurhash](https://www.npmjs.com/package/react-blurhash)
+  - 이미지가 완전히 로딩되기 전까지 블러 버전을 표시
+  - 이미지 최적화를 위해 도입
+- [react-datepicker](https://www.npmjs.com/package/react-datepicker)
+  - 달력 UI로 날짜를 선택
 - [rc-rate](https://www.npmjs.com/package/rc-rate)
+  - 별점 UI로 스코어를 선택
 
 ## 🗄️ Docs
 
