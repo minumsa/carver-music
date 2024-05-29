@@ -41,7 +41,7 @@ export const TagsEditor = ({ currentTagKeys, setCurrentTagKeys }: TagsEditorProp
 
   return (
     <div ref={modalRef} className={styles.blockContainer}>
-      <div className={styles.blockTitle}>태그</div>
+      <label className={styles.blockTitle}>태그</label>
       <div className={styles.tagListContainer}>
         {currentTagKeys.map((tagKey: string) => {
           return <TagItem key={tagKey} tagKey={tagKey} onDelete={deleteTagItem} />;

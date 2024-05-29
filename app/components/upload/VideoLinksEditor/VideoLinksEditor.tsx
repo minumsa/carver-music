@@ -18,7 +18,7 @@ export default function VideoLinksEditor({
   const videoTemplateArray = new Array(videoCount).fill(null);
   return (
     <div className={styles.blockContainer}>
-      <div className={styles.blockTitle}>
+      <label className={styles.blockTitle}>
         영상
         <div className={styles.videoButtonContainer}>
           <div
@@ -31,7 +31,7 @@ export default function VideoLinksEditor({
             +
           </div>
         </div>
-      </div>
+      </label>
       {videoTemplateArray.map((_, index) => {
         const copiedVideos = [...videos];
         const videoNumber = index + 1;

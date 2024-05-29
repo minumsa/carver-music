@@ -201,7 +201,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
 
       {/* 장르 */}
       <div className={styles.blockContainer}>
-        <div className={styles.blockTitle}>장르</div>
+        <label className={styles.blockTitle}>장르</label>
         <div className={styles.selectContainer}>
           <select
             {...register("genre")}
@@ -224,7 +224,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
 
       {/* 애플뮤직 링크 */}
       <div className={styles.blockContainer}>
-        <div className={styles.blockTitle}>링크(Apple Music)</div>
+        <label className={styles.blockTitle}>링크(Apple Music)</label>
         <input
           {...register("link")}
           className={styles.input}
@@ -236,7 +236,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
 
       {/* 앨범 제목 */}
       <div className={styles.blockContainer}>
-        <div className={styles.blockTitle}>앨범 제목</div>
+        <label className={styles.blockTitle}>앨범 제목</label>
         <div style={{ position: "relative" }}>
           <input
             {...register("searchKeyword")}
@@ -255,19 +255,19 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
 
       {/* 앨범 ID */}
       <div className={styles.blockContainer} style={updatePageExclusive}>
-        <div className={styles.blockTitle}>앨범 ID(Spotify)</div>
+        <label className={styles.blockTitle}>앨범 ID(Spotify)</label>
         <div className={styles.input}>{getValues("newAlbumId")}</div>
       </div>
 
       {/* 발매일 */}
       <div className={styles.blockContainer} style={updatePageExclusive}>
-        <div className={styles.blockTitle}>발매일</div>
+        <label className={styles.blockTitle}>발매일</label>
         <div className={styles.input}>{getValues("albumReleaseDate")}</div>
       </div>
 
       {/* 아티스트 ID */}
       <div className={styles.blockContainer} style={updatePageExclusive}>
-        <div className={styles.blockTitle}>아티스트 ID(Spotify)</div>
+        <label className={styles.blockTitle}>아티스트 ID(Spotify)</label>
         <input
           {...register("artistId")}
           className={styles.input}
@@ -279,7 +279,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
 
       {/* BlurHash String */}
       <div className={styles.blockContainer}>
-        <div className={styles.blockTitle}>BlurHash String</div>
+        <label className={styles.blockTitle}>BlurHash String</label>
         <input
           {...register("blurHash")}
           className={styles.input}
@@ -291,7 +291,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
 
       {/* 별점 */}
       <div className={styles.blockContainer}>
-        <div className={styles.blockTitle}>별점</div>
+        <label className={styles.blockTitle}>별점</label>
         <Rate
           defaultValue={3}
           value={watch("score")}
@@ -306,7 +306,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
 
       {/* 제목 */}
       <div className={styles.blockContainer}>
-        <div className={styles.blockTitle}>제목</div>
+        <label className={styles.blockTitle}>제목</label>
         <input
           {...register("title")}
           className={styles.input}
@@ -318,7 +318,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
 
       {/* 글 */}
       <div className={styles.blockContainer}>
-        <div className={styles.blockTitle}>글</div>
+        <label className={styles.blockTitle}>글</label>
         <textarea
           {...register("text")}
           className={`${styles.input} ${styles.inputText}`}
@@ -355,7 +355,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
 
       {/* 작성일 */}
       <div className={styles.blockContainer}>
-        <div className={styles.blockTitle}>작성일</div>
+        <label className={styles.blockTitle}>작성일</label>
         <DatePicker
           selected={watch("uploadDate")}
           onChange={(date) => date && setValue("uploadDate", date)}
@@ -366,7 +366,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
 
       {/* 관리자 비밀번호 */}
       <div className={styles.blockContainer}>
-        <div className={styles.blockTitle}>관리자 비밀번호</div>
+        <label className={styles.blockTitle}>관리자 비밀번호</label>
         <input
           {...register("password")}
           className={styles.smallInput}
