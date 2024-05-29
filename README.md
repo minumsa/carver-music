@@ -29,9 +29,13 @@ npm run dev
 - TypeScript
 - React
 - Next.js
+  - 페이지 로딩 속도 향상을 위한 SSR을 위해 도입
 - MongoDB
+  - 데이터 저장 및 조회를 위해 도입
 - [Jotai](https://jotai.org/)
+  - props drilling을 방지하기 위해 도입
 - Vercel
+  - Next.js 프로젝트의 자동 최적화를 위해 도입
 
 ## 🧞‍♂️ Packages
 
