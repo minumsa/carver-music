@@ -58,7 +58,7 @@ export const AlbumPanel = ({ albumData }: AlbumProps) => {
                   <div className={styles.starContainer}>
                     <img
                       className={styles.coloredStar}
-                      src="/icons/star-color.webp"
+                      src="/images/star-color.webp"
                       alt="colored-star"
                       style={
                         score
@@ -71,7 +71,7 @@ export const AlbumPanel = ({ albumData }: AlbumProps) => {
                     />
                     <img
                       className={styles.monoStar}
-                      src="/icons/star-mono.webp"
+                      src="/images/star-mono.webp"
                       alt="mono-star"
                       loading="lazy"
                     />

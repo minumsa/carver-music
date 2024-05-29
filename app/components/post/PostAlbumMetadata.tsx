@@ -90,10 +90,10 @@ export const PostAlbumMetadata = ({ postData }: PostAlbumMetadataProps) => {
         <div className={styles.metadataTitle}>스트리밍</div>
         <div className={styles.streamingIconContainer}>
           <a href={link} target="_blank">
-            <img src="/icons/apple.svg" alt="link-icon" className={styles.appleIcon}></img>
+            <img src="/svgs/apple.svg" alt="link-icon" className={styles.appleIcon}></img>
           </a>
           <a href={`https://open.spotify.com/album/${id}`} target="_blank">
-            <img src="/icons/spotify.svg" alt="link-icon" className={styles.spotifyIcon}></img>
+            <img src="/svgs/spotify.svg" alt="link-icon" className={styles.spotifyIcon}></img>
           </a>
         </div>
 

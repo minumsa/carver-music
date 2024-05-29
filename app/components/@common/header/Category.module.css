@@ -37,7 +37,7 @@
   top: calc(50%);
   right: 15px;
   transform: translate(0, -50%);
-  background-image: url(/icons/magnifying-glass.svg);
+  background-image: url(/svgs/magnifying-glass.svg);
   background-position: center;
   background-repeat: no-repeat;
   cursor: pointer;

@@ -56,7 +56,7 @@ export default function SearchContent({ data, searchInfo }: SearchContentProps) 
           />
           <img
             className={styles.searchPageInputIcon}
-            src={"/icons/magnifying-glass.svg"}
+            src={"/svgs/magnifying-glass.svg"}
             alt="search-page-input-icon"
           ></img>
         </div>

@@ -58,7 +58,7 @@ export const MobileTagDisplay = () => {
       >
         <img
           className={styles.arrow}
-          src={showAllTagItems ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"}
+          src={showAllTagItems ? "/svgs/arrow-up.svg" : "/svgs/arrow-down.svg"}
           alt="arrow"
         />
       </div>
