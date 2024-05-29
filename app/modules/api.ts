@@ -250,7 +250,7 @@ export interface NewData {
   text: string;
   uploadDate: Date;
   score: number;
-  videos: Video[];
+  videos?: Video[];
   tagKeys: string[];
   blurHash: string;
 }

@@ -151,7 +151,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       const releaseYearTagKey = getDecadeTagKey(releaseDate);
       ``;
       const hasReleaseYearTag = tagKeys.includes(releaseYearTagKey);
-      const hasVideo = videos.length > 0;
+      const hasVideo = videos[0].title;
 
       if (hasReleaseYearTag) {
         setValue("currentTagKeys", [tagKeys]);
