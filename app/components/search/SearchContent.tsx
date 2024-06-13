@@ -7,7 +7,7 @@ import styles from "./SearchContent.module.css";
 import { usePathname, useRouter } from "next/navigation";
 import { AlbumInfo } from "../../modules/types";
 import { isAdminPage } from "../../modules/utils";
-import { DEFAULT_TAGS } from "../../modules/constants";
+import { SEARCH_TAGS } from "../../modules/constants";
 
 interface SearchInfo {
   currentKeyword: string;
@@ -28,7 +28,7 @@ export default function SearchContent({ data, searchInfo }: SearchContentProps) 
   const decodedKeyword = decodeURIComponent(currentKeyword);
   const [keyword, setKeyword] = useState("");
   // "모두 보기" 태그(버튼)은 모바일 메인 화면에서만 표시되도록 함
-  const tagKeys = Object.keys(DEFAULT_TAGS).filter((key) => key !== "");
+  const tagKeys = Object.keys(SEARCH_TAGS);
 
   const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -84,7 +84,7 @@ export default function SearchContent({ data, searchInfo }: SearchContentProps) 
                     : undefined
                 }
               >
-                {DEFAULT_TAGS[key]}
+                {SEARCH_TAGS[key]}
               </div>
             );
           })}
