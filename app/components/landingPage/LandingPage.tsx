@@ -82,8 +82,7 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
     }
 
     const isInitialScroll = !currentTag && scrollCount === 1;
-    const hasDataAndScrollDetected =
-      data.length >= 1 && scrollCount > 1 && scrollCount <= totalScrollCount;
+    const scrollDetected = inView && scrollCount > 1 && scrollCount <= totalScrollCount;
     const tagButtonClicked = currentTag && scrollCount === 1;
     const hasReachedScrollLimit = scrollCount === totalScrollCount;
     const hasNoData = totalScrollCount === 0;
@@ -91,15 +90,15 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
     // 모바일: 클라이언트 사이드에서 처음 fetch할 때만 로딩 화면 보여주기
     if (isFirstFetch && hasNoData) setIsLoading(true);
 
-    // 메인화면으로 진입한 경우
+    // 처음 메인화면으로 진입한 경우
     if (isInitialScroll) {
       setData(initialData);
       setTotalScrollCount(initialTotalScrollCount);
       setIsLoading(false);
     }
 
-    // 데이터가 있는 상태에서 뒤로 가기 시 또는 태그 버튼을 클릭한 경우
-    if (hasDataAndScrollDetected || tagButtonClicked) {
+    // 무한 스크롤 된 경우 또는 태그 버튼을 클릭한 경우
+    if (scrollDetected || tagButtonClicked) {
       loadData(scrollCount);
       if (tagButtonClicked) setTotalScrollCount(0);
     }
