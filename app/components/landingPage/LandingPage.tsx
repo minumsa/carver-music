@@ -66,7 +66,13 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
           currentTag,
         };
         const { albumData, albumDataCount } = await fetchAlbumData(albumFilters);
-        setData((prevData) => [...prevData, ...albumData]);
+
+        if (scrollCount > 1) {
+          setData((prevData) => [...prevData, ...albumData]);
+        } else {
+          setData(albumData);
+        }
+
         setIsScrolling(false);
 
         if (currentTag) {
@@ -99,8 +105,9 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
 
     // 무한 스크롤 된 경우 또는 태그 버튼을 클릭한 경우
     if (scrollDetected || tagButtonClicked) {
+      if (scrollDetected) console.log("scrollDetected");
+
       loadData(scrollCount);
-      if (tagButtonClicked) setTotalScrollCount(0);
     }
 
     // scrollCount가 한계치에 도달하는 경우 더 이상 스크롤 이벤트가 발생하지 않도록 처리

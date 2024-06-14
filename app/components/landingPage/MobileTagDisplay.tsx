@@ -11,7 +11,7 @@ import {
 } from "../../modules/atoms";
 
 export const MobileTagDisplay = () => {
-  const setAlbumData = useSetAtom(albumDataAtom);
+  const setData = useSetAtom(albumDataAtom);
   const setScrollCount = useSetAtom(scrollCountAtom);
   const setTotalScrollCount = useSetAtom(totalScrollCountAtom);
   const [currentTag, setCurrentTag] = useAtom(tagAtom);
@@ -20,7 +20,7 @@ export const MobileTagDisplay = () => {
 
   function handleClickTag(tag: string) {
     setCurrentTag(tag);
-    setAlbumData([]);
+    setData([]);
     setScrollCount(1);
     setTotalScrollCount(0);
     setScrollPosition(0);
