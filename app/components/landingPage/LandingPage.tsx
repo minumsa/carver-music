@@ -8,7 +8,6 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import React from "react";
 import { useInView } from "react-intersection-observer";
 import "aos/dist/aos.css";
-import { ContentLayout } from "../@common/ContentLayout";
 import Link from "next/link";
 import { BlurImg } from "../@common/BlurImg";
 import { LoadingView } from "../@common/LoadingView";
@@ -118,49 +117,49 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
   return (
     <>
       {/* 모바일 - 태그 컴포넌트 */}
-      <MobileTagDisplay />
-      <ContentLayout currentPage={scrollCount} dataCount={0}>
-        <LoadingView isLoading={isLoading} />
-        <ScrollingIcon isScrolling={isScrolling} />
-        <div className={styles.container}>
-          {data.map((item, index) => {
-            const isLastItem = index + 1 === data.length;
-            const { imgUrl, blurHash, album, id, artist, artistId } = item;
-            return (
-              <div
-                // data-aos="fade-up"
-                // data-aos-duration={400}
-                // data-aos-offset={isMobile ? 40 : 90}
-                // data-aos-once="true"
-                key={index}
-                className={`${styles.itemContainer}`}
-                ref={isLastItem ? ref : undefined}
-              >
-                <Link href={toPostPage(pathName, id)} onClick={updateScrollPosition}>
-                  <div className={styles.albumImageContainer}>
-                    <BlurImg className={styles.albumImage} blurHash={blurHash} src={imgUrl} />
-                  </div>
-                </Link>
-                <div className={styles.albumMetadata}>
-                  <Link href={toPostPage(pathName, id)} onClick={updateScrollPosition}>
-                    <button
-                      className={styles.albumItem}
-                      aria-label={`Album: ${album}`}
-                    >{`${album}`}</button>
-                  </Link>
-                  <br />
-                  <Link href={toArtistPage(pathName, artistId)} onClick={updateScrollPosition}>
-                    <button
-                      className={styles.albumItem}
-                      aria-label={`Artist: ${artist}`}
-                    >{`${artist}`}</button>
-                  </Link>
+      <React.Fragment>
+        <MobileTagDisplay />
+      </React.Fragment>
+      <LoadingView isLoading={isLoading} />
+      <ScrollingIcon isScrolling={isScrolling} />
+      <div className={styles.container}>
+        {data.map((item, index) => {
+          const isLastItem = index + 1 === data.length;
+          const { imgUrl, blurHash, album, id, artist, artistId } = item;
+          return (
+            <div
+              // data-aos="fade-up"
+              // data-aos-duration={400}
+              // data-aos-offset={isMobile ? 40 : 90}
+              // data-aos-once="true"
+              key={index}
+              className={`${styles.itemContainer}`}
+              ref={isLastItem ? ref : undefined}
+            >
+              <Link href={toPostPage(pathName, id)} onClick={updateScrollPosition}>
+                <div className={styles.albumImageContainer}>
+                  <BlurImg className={styles.albumImage} blurHash={blurHash} src={imgUrl} />
                 </div>
+              </Link>
+              <div className={styles.albumMetadata}>
+                <Link href={toPostPage(pathName, id)} onClick={updateScrollPosition}>
+                  <button
+                    className={styles.albumItem}
+                    aria-label={`Album: ${album}`}
+                  >{`${album}`}</button>
+                </Link>
+                <br />
+                <Link href={toArtistPage(pathName, artistId)} onClick={updateScrollPosition}>
+                  <button
+                    className={styles.albumItem}
+                    aria-label={`Artist: ${artist}`}
+                  >{`${artist}`}</button>
+                </Link>
               </div>
-            );
-          })}
-        </div>
-      </ContentLayout>
+            </div>
+          );
+        })}
+      </div>
     </>
   );
 };

@@ -58,15 +58,15 @@ export default function SearchContent({ data, searchInfo }: SearchContentProps) 
             className={styles.searchPageInputIcon}
             src={"/svgs/magnifying-glass.svg"}
             alt="search-page-input-icon"
-          ></img>
+          />
         </div>
-        <div className={styles.searchResultContainer}>
+        <p className={styles.searchResultContainer}>
           {decodedKeyword
             ? totalDataLength
               ? `"${decodedKeyword}"에 관련된 총 ${totalDataLength}건의 검색 결과`
               : `"${decodedKeyword}"에 관련된 검색 결과가 없습니다.`
             : "앨범 제목, 아티스트 또는 키워드 등을 검색해보세요."}
-        </div>
+        </p>
         <div className={styles.searchTagContainer}>
           {tagKeys.map((key, index) => {
             const isClickedTag = currentTagName === key;

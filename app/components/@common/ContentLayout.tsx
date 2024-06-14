@@ -7,10 +7,11 @@ interface ContentLayoutProps {
 }
 
 export const ContentLayout = ({ children, currentPage, dataCount }: ContentLayoutProps) => {
+  const hasData = dataCount > 0;
   return (
     <>
       {children}
-      {dataCount > 0 && <PageNumbers currentPage={currentPage} dataCount={dataCount} />}
+      {hasData && <PageNumbers currentPage={currentPage} dataCount={dataCount} />}
     </>
   );
 };

@@ -34,7 +34,7 @@
 .searchResultContainer {
   display: flex;
   justify-content: center;
-  padding: 30px 0 40px 0;
+  padding: 10px 0 20px 0;
   text-align: center;
   font-style: italic;
 }

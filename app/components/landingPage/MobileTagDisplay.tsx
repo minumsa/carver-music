@@ -13,18 +13,18 @@ import {
 export const MobileTagDisplay = () => {
   const setAlbumData = useSetAtom(albumDataAtom);
   const setScrollCount = useSetAtom(scrollCountAtom);
-  const setNewTotalScrollCount = useSetAtom(totalScrollCountAtom);
+  const setTotalScrollCount = useSetAtom(totalScrollCountAtom);
   const [currentTag, setCurrentTag] = useAtom(tagAtom);
   const [scrollPosition, setScrollPosition] = useAtom(scrollPositionAtom);
   const [showAllTagItems, setShowAllTagItems] = useAtom(showAllTagItemsAtom);
 
-  function handleClickTag(key: string) {
-    setCurrentTag(key);
+  function handleClickTag(tag: string) {
+    setCurrentTag(tag);
     setAlbumData([]);
     setScrollCount(1);
-    setNewTotalScrollCount(0);
-    window.scrollTo(0, scrollPosition);
+    setTotalScrollCount(0);
     setScrollPosition(0);
+    window.scrollTo(0, scrollPosition);
   }
 
   return (
@@ -35,6 +35,7 @@ export const MobileTagDisplay = () => {
       {Object.keys(DEFAULT_TAGS).map((tag) => {
         const isClickedTag = currentTag === tag;
         const isDefaultTagSelected = currentTag === "" && tag === "all";
+        const tagName = DEFAULT_TAGS[tag];
         return (
           <div
             key={tag}
@@ -48,7 +49,7 @@ export const MobileTagDisplay = () => {
                 : undefined
             }
           >
-            {DEFAULT_TAGS[tag]}
+            {tagName}
           </div>
         );
       })}
