@@ -20,7 +20,6 @@ import {
   scrollCountAtom,
   scrollPositionAtom,
   isFirstFetchAtom,
-  showAllTagItemsAtom,
   isScrollingAtom,
 } from "../../modules/atoms";
 
@@ -52,7 +51,6 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
   const [isScrolling, setIsScrolling] = useAtom(isScrollingAtom);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFirstFetch, setIsFirstFetch] = useAtom(isFirstFetchAtom);
-  const showAllTagItems = useAtomValue(showAllTagItemsAtom);
 
   useEffect(() => {
     // Aos.init();
@@ -64,59 +62,52 @@ export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
 
   useEffect(() => {
     async function loadData(scrollCount: number) {
-      const albumFilters: AlbumFilters = {
-        scrollCount,
-        currentTagKey,
-      };
+      try {
+        const albumFilters: AlbumFilters = {
+          scrollCount,
+          currentTagKey,
+        };
+        const { albumData, albumDataCount } = await fetchAlbumData(albumFilters);
+        setData((prevData) => [...prevData, ...albumData]);
+        setIsScrolling(false);
 
-      const { albumData, albumDataCount } = await fetchAlbumData(albumFilters);
-      setData((prevData) => [...prevData, ...albumData]);
-      setIsScrolling(false);
-      setIsLoading(false);
-
-      if (currentTagKey) {
-        const tmp = Math.max(1, Math.ceil(albumDataCount / PER_PAGE_COUNT));
-        setNewTotalScrollCount(tmp);
-      }
-
-      if (isFirstFetch) {
-        setIsFirstFetch(false);
+        if (currentTagKey) {
+          const totalScrollCount = Math.max(1, Math.ceil(albumDataCount / PER_PAGE_COUNT));
+          setNewTotalScrollCount(totalScrollCount);
+        }
+        if (isFirstFetch) setIsFirstFetch(false);
+      } catch (error) {
+        console.error("Failed to fetch album data : ", error);
+      } finally {
+        setIsLoading(false);
       }
     }
 
     const isInitialScroll = currentTagKey === "" && scrollCount === 1;
-    const scrollDetected =
+    const hasDataAndScrollDetected =
       data.length >= 1 && scrollCount > 1 && scrollCount <= newTotalScrollCount;
     const tagButtonClicked = currentTagKey.length > 0 && scrollCount === 1;
     const hasReachedScrollLimit = scrollCount === newTotalScrollCount;
     const hasNoData = newTotalScrollCount === 0;
 
     // 모바일: 클라이언트 사이드에서 처음 fetch할 때만 로딩 화면 보여주기
-    if (isFirstFetch && hasNoData) {
-      setIsLoading(true);
-    }
+    if (isFirstFetch && hasNoData) setIsLoading(true);
 
     // 메인화면으로 진입한 경우
     if (isInitialScroll) {
       setData(initialData);
       setNewTotalScrollCount(totalScrollCount);
       setIsLoading(false);
-      // 데이터가 있는 상태에서 뒤로 가기 시 또는 태그 버튼을 클릭한 경우
     }
 
-    if (scrollDetected) {
+    // 데이터가 있는 상태에서 뒤로 가기 시 또는 태그 버튼을 클릭한 경우
+    if (hasDataAndScrollDetected || tagButtonClicked) {
       loadData(scrollCount);
-    }
-
-    if (tagButtonClicked) {
-      loadData(scrollCount);
-      setNewTotalScrollCount(0);
+      if (tagButtonClicked) setNewTotalScrollCount(0);
     }
 
     // scrollCount가 한계치에 도달하는 경우 더 이상 스크롤 이벤트가 발생하지 않도록 처리
-    if (hasReachedScrollLimit) {
-      setScrollCount(UNREACHABLE_SCROLL_LIMIT);
-    }
+    if (hasReachedScrollLimit) setScrollCount(UNREACHABLE_SCROLL_LIMIT);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialData, scrollCount, currentTagKey, newTotalScrollCount]);
