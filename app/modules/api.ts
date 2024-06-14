@@ -33,7 +33,7 @@ export async function fetchInitialAlbumData(): Promise<InitialAlbumDataResult> {
 
 export interface AlbumFilters {
   scrollCount: number;
-  currentTagKey: string;
+  currentTag: string;
 }
 
 interface AlbumDataResult {
@@ -42,10 +42,10 @@ interface AlbumDataResult {
 }
 
 export async function fetchAlbumData(albumFilters: AlbumFilters): Promise<AlbumDataResult> {
-  const { scrollCount, currentTagKey } = albumFilters;
+  const { scrollCount, currentTag } = albumFilters;
 
   try {
-    const queryString = `?scrollCount=${scrollCount}&currentTagKey=${currentTagKey}`;
+    const queryString = `?scrollCount=${scrollCount}&tag=${currentTag}`;
     const url = `/api${queryString}`;
 
     const response = await fetch(url, {

@@ -1,12 +1,12 @@
-.tagDisplayContainer,
-.tagDisplayItem,
-.arrowContainer,
+.container,
+.tagItem,
+.arrowWrapper,
 .arrow {
   display: none;
 }
 
 @media (max-width: 525px) {
-  .tagDisplayContainer {
+  .container {
     box-sizing: border-box;
     display: flex;
     position: fixed;
@@ -20,7 +20,7 @@
     z-index: 10000;
   }
 
-  .tagDisplayItem {
+  .tagItem {
     display: flex;
     align-items: center;
     margin: 3px;
@@ -34,7 +34,7 @@
     font-size: 0.92rem;
   }
 
-  .arrowContainer {
+  .arrowWrapper {
     display: flex;
     position: absolute;
     top: 6px;

@@ -2,7 +2,7 @@ import { useAtom, useSetAtom } from "jotai";
 import { DEFAULT_TAGS } from "../../modules/constants";
 import styles from "./MobileTagDisplay.module.css";
 import {
-  tagKeyAtom,
+  tagAtom,
   albumDataAtom,
   scrollCountAtom,
   scrollPositionAtom,
@@ -11,16 +11,16 @@ import {
 } from "../../modules/atoms";
 
 export const MobileTagDisplay = () => {
-  const setData = useSetAtom(albumDataAtom);
+  const setAlbumData = useSetAtom(albumDataAtom);
   const setScrollCount = useSetAtom(scrollCountAtom);
   const setNewTotalScrollCount = useSetAtom(totalScrollCountAtom);
-  const [currentTagKey, setCurrentTagKey] = useAtom(tagKeyAtom);
+  const [currentTag, setCurrentTag] = useAtom(tagAtom);
   const [scrollPosition, setScrollPosition] = useAtom(scrollPositionAtom);
   const [showAllTagItems, setShowAllTagItems] = useAtom(showAllTagItemsAtom);
 
-  function resetDataAndScroll(key: string) {
-    setCurrentTagKey(key);
-    setData([]);
+  function handleClickTag(key: string) {
+    setCurrentTag(key);
+    setAlbumData([]);
     setScrollCount(1);
     setNewTotalScrollCount(0);
     window.scrollTo(0, scrollPosition);
@@ -29,29 +29,31 @@ export const MobileTagDisplay = () => {
 
   return (
     <div
-      className={styles.tagDisplayContainer}
-      style={showAllTagItems ? { flexWrap: "wrap", paddingRight: "31px" } : { flexWrap: "nowrap" }}
+      className={styles.container}
+      style={showAllTagItems ? { flexWrap: "wrap" } : { flexWrap: "nowrap" }}
     >
-      {Object.keys(DEFAULT_TAGS).map((key, index) => {
+      {Object.keys(DEFAULT_TAGS).map((tag) => {
+        const isClickedTag = currentTag === tag;
+        const isDefaultTagSelected = currentTag === "" && tag === "all";
         return (
           <div
-            key={index}
-            className={styles.tagDisplayItem}
+            key={tag}
+            className={styles.tagItem}
             onClick={() => {
-              resetDataAndScroll(key);
+              handleClickTag(tag);
             }}
             style={
-              currentTagKey === key || (currentTagKey === "" && key === "all")
+              isClickedTag || isDefaultTagSelected
                 ? { boxShadow: "inset 0 0 0 1px var(--text-color)", order: -1 }
                 : undefined
             }
           >
-            {DEFAULT_TAGS[key]}
+            {DEFAULT_TAGS[tag]}
           </div>
         );
       })}
       <div
-        className={styles.arrowContainer}
+        className={styles.arrowWrapper}
         onClick={() => {
           setShowAllTagItems(!showAllTagItems);
         }}

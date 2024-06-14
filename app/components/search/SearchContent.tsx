@@ -69,6 +69,7 @@ export default function SearchContent({ data, searchInfo }: SearchContentProps) 
         </div>
         <div className={styles.searchTagContainer}>
           {tagKeys.map((key, index) => {
+            const isClickedTag = currentTagName === key;
             return (
               <div
                 key={index}
@@ -79,9 +80,7 @@ export default function SearchContent({ data, searchInfo }: SearchContentProps) 
                     : router.push(`/search/tag/${key}/1`);
                 }}
                 style={
-                  currentTagName === key
-                    ? { boxShadow: "inset 0 0 0 1px var(--text-color)" }
-                    : undefined
+                  isClickedTag ? { boxShadow: "inset 0 0 0 1px var(--text-color)" } : undefined
                 }
               >
                 {SEARCH_TAGS[key]}

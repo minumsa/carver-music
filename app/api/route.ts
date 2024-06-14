@@ -14,14 +14,14 @@ export async function GET(request: Request) {
 
     const url = new URL(request.url);
     const scrollCount = Number(url.searchParams.get("scrollCount")) ?? 1;
-    const currentTagKey = url.searchParams.get("currentTagKey") ?? "";
+    const tag = url.searchParams.get("tag") ?? "";
 
     const sortKey: SortKey = { score: -1, artist: 1 };
 
     const query: Query = {};
 
-    if (currentTagKey) {
-      query.tagKeys = currentTagKey;
+    if (tag) {
+      query.tagKeys = tag;
     }
 
     const skipCount = PER_PAGE_COUNT * scrollCount - PER_PAGE_COUNT;
@@ -33,7 +33,6 @@ export async function GET(request: Request) {
             .skip(skipCount + 1)
             .limit(PER_PAGE_COUNT);
     const albumDataCount = await Music.find(query).count();
-
     return NextResponse.json({ albumData, albumDataCount });
   } catch (error) {
     console.error(error);

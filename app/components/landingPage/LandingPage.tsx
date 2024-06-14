@@ -14,7 +14,7 @@ import { BlurImg } from "../@common/BlurImg";
 import { LoadingView } from "../@common/LoadingView";
 import { AlbumInfo } from "../../modules/types";
 import {
-  tagKeyAtom,
+  tagAtom,
   albumDataAtom,
   totalScrollCountAtom,
   scrollCountAtom,
@@ -46,7 +46,7 @@ export const LandingPage = ({ initialData, totalScrollCount }: LandingPageProps)
     threshold: 0,
     triggerOnce: true,
   });
-  const currentTagKey = useAtomValue(tagKeyAtom);
+  const currentTag = useAtomValue(tagAtom);
   const [isScrolling, setIsScrolling] = useAtom(isScrollingAtom);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFirstFetch, setIsFirstFetch] = useAtom(isFirstFetchAtom);
@@ -64,13 +64,13 @@ export const LandingPage = ({ initialData, totalScrollCount }: LandingPageProps)
       try {
         const albumFilters: AlbumFilters = {
           scrollCount,
-          currentTagKey,
+          currentTag,
         };
         const { albumData, albumDataCount } = await fetchAlbumData(albumFilters);
         setData((prevData) => [...prevData, ...albumData]);
         setIsScrolling(false);
 
-        if (currentTagKey) {
+        if (currentTag) {
           const totalScrollCount = Math.max(1, Math.ceil(albumDataCount / PER_PAGE_COUNT));
           setNewTotalScrollCount(totalScrollCount);
         }
@@ -82,10 +82,10 @@ export const LandingPage = ({ initialData, totalScrollCount }: LandingPageProps)
       }
     }
 
-    const isInitialScroll = currentTagKey === "" && scrollCount === 1;
+    const isInitialScroll = currentTag === "" && scrollCount === 1;
     const hasDataAndScrollDetected =
       data.length >= 1 && scrollCount > 1 && scrollCount <= newTotalScrollCount;
-    const tagButtonClicked = currentTagKey.length > 0 && scrollCount === 1;
+    const tagButtonClicked = currentTag.length > 0 && scrollCount === 1;
     const hasReachedScrollLimit = scrollCount === newTotalScrollCount;
     const hasNoData = newTotalScrollCount === 0;
 
@@ -109,7 +109,7 @@ export const LandingPage = ({ initialData, totalScrollCount }: LandingPageProps)
     if (hasReachedScrollLimit) setScrollCount(UNREACHABLE_SCROLL_LIMIT);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialData, scrollCount, currentTagKey, newTotalScrollCount]);
+  }, [initialData, scrollCount, currentTag, newTotalScrollCount]);
 
   function updateScrollPosition() {
     setScrollPosition(window.scrollY);
