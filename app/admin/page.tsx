@@ -1,4 +1,4 @@
-import { Grid } from "../components/main/Grid";
+import { LandingPage } from "../components/landingPage/LandingPage";
 import { MusicLayout } from "../components/@common/MusicLayout";
 import { fetchInitialAlbumData } from "../modules/api";
 
@@ -8,7 +8,7 @@ export default async function Page() {
 
     return (
       <MusicLayout>
-        <Grid initialData={albumData} totalScrollCount={totalScrollCount} />
+        <LandingPage initialData={albumData} totalScrollCount={totalScrollCount} />
       </MusicLayout>
     );
   } catch (error) {

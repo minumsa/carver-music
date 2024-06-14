@@ -1,5 +1,5 @@
 import SpinningCircles from "react-loading-icons/dist/esm/components/spinning-circles";
-import styles from "./Grid.module.css";
+import styles from "./LandingPage.module.css";
 import { useEffect, useState } from "react";
 import { scrollCountAtom } from "@/app/modules/atoms";
 import { useAtomValue } from "jotai";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import styles from "./Grid.module.css";
+import styles from "./LandingPage.module.css";
 import { AlbumFilters, fetchAlbumData } from "../../modules/api";
 import { usePathname } from "next/navigation";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
@@ -22,7 +22,6 @@ import {
   isFirstFetchAtom,
   isScrollingAtom,
 } from "../../modules/atoms";
-
 import { toArtistPage, toPostPage } from "../../modules/paths";
 import { MobileTagDisplay } from "./MobileTagDisplay";
 import { PER_PAGE_COUNT } from "../../modules/constants";
@@ -30,14 +29,14 @@ import { ScrollingIcon } from "./ScrollingIcon";
 import useScrollReset from "@/app/hooks/useScrollReset";
 import useScrollUpdate from "@/app/hooks/useScrollUpdate";
 
-interface GridProps {
+interface LandingPageProps {
   initialData: AlbumInfo[];
   totalScrollCount: number;
 }
 
 const UNREACHABLE_SCROLL_LIMIT = 10000;
 
-export const Grid = ({ initialData, totalScrollCount }: GridProps) => {
+export const LandingPage = ({ initialData, totalScrollCount }: LandingPageProps) => {
   const pathName = usePathname();
   const [data, setData] = useAtom(albumDataAtom);
   const [scrollCount, setScrollCount] = useAtom(scrollCountAtom);
