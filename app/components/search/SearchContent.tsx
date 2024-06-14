@@ -68,7 +68,7 @@ export default function SearchContent({ data, searchInfo }: SearchContentProps) 
         </p>
         <SearchTagDisplay currentTagName={currentTagName} />
       </div>
-      <AlbumContents albumData={data} />
+      {data && <AlbumContents albumData={data} />}
     </ContentLayout>
   );
 }
