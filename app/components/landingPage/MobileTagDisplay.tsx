@@ -25,6 +25,7 @@ export const MobileTagDisplay = () => {
     setTotalScrollCount(0);
     setScrollPosition(0);
     window.scrollTo(0, scrollPosition);
+    setShowAllTagItems(false);
   }
 
   return (
