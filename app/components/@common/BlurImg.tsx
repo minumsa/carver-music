@@ -41,7 +41,7 @@ export function BlurImg({
       {...props}
       loading={loading}
       onLoad={handleOnLoad}
-      style={newStyle}
+      style={imgLoaded ? undefined : newStyle}
     />
   );
 }

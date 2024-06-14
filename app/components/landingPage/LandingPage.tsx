@@ -31,17 +31,17 @@ import useScrollUpdate from "@/app/hooks/useScrollUpdate";
 
 interface LandingPageProps {
   initialData: AlbumInfo[];
-  totalScrollCount: number;
+  initialTotalScrollCount: number;
 }
 
 const UNREACHABLE_SCROLL_LIMIT = 10000;
 
-export const LandingPage = ({ initialData, totalScrollCount }: LandingPageProps) => {
+export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPageProps) => {
   const pathName = usePathname();
   const [data, setData] = useAtom(albumDataAtom);
   const [scrollCount, setScrollCount] = useAtom(scrollCountAtom);
   const setScrollPosition = useSetAtom(scrollPositionAtom);
-  const [newTotalScrollCount, setNewTotalScrollCount] = useAtom(totalScrollCountAtom);
+  const [totalScrollCount, setTotalScrollCount] = useAtom(totalScrollCountAtom);
   const { ref, inView } = useInView({
     threshold: 0,
     triggerOnce: true,
@@ -72,7 +72,7 @@ export const LandingPage = ({ initialData, totalScrollCount }: LandingPageProps)
 
         if (currentTag) {
           const totalScrollCount = Math.max(1, Math.ceil(albumDataCount / PER_PAGE_COUNT));
-          setNewTotalScrollCount(totalScrollCount);
+          setTotalScrollCount(totalScrollCount);
         }
         if (isFirstFetch) setIsFirstFetch(false);
       } catch (error) {
@@ -82,12 +82,12 @@ export const LandingPage = ({ initialData, totalScrollCount }: LandingPageProps)
       }
     }
 
-    const isInitialScroll = currentTag === "" && scrollCount === 1;
+    const isInitialScroll = !currentTag && scrollCount === 1;
     const hasDataAndScrollDetected =
-      data.length >= 1 && scrollCount > 1 && scrollCount <= newTotalScrollCount;
-    const tagButtonClicked = currentTag.length > 0 && scrollCount === 1;
-    const hasReachedScrollLimit = scrollCount === newTotalScrollCount;
-    const hasNoData = newTotalScrollCount === 0;
+      data.length >= 1 && scrollCount > 1 && scrollCount <= totalScrollCount;
+    const tagButtonClicked = currentTag && scrollCount === 1;
+    const hasReachedScrollLimit = scrollCount === totalScrollCount;
+    const hasNoData = totalScrollCount === 0;
 
     // 모바일: 클라이언트 사이드에서 처음 fetch할 때만 로딩 화면 보여주기
     if (isFirstFetch && hasNoData) setIsLoading(true);
@@ -95,21 +95,21 @@ export const LandingPage = ({ initialData, totalScrollCount }: LandingPageProps)
     // 메인화면으로 진입한 경우
     if (isInitialScroll) {
       setData(initialData);
-      setNewTotalScrollCount(totalScrollCount);
+      setTotalScrollCount(initialTotalScrollCount);
       setIsLoading(false);
     }
 
     // 데이터가 있는 상태에서 뒤로 가기 시 또는 태그 버튼을 클릭한 경우
     if (hasDataAndScrollDetected || tagButtonClicked) {
       loadData(scrollCount);
-      if (tagButtonClicked) setNewTotalScrollCount(0);
+      if (tagButtonClicked) setTotalScrollCount(0);
     }
 
     // scrollCount가 한계치에 도달하는 경우 더 이상 스크롤 이벤트가 발생하지 않도록 처리
     if (hasReachedScrollLimit) setScrollCount(UNREACHABLE_SCROLL_LIMIT);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialData, scrollCount, currentTag, newTotalScrollCount]);
+  }, [initialData, scrollCount, currentTag, totalScrollCount]);
 
   function updateScrollPosition() {
     setScrollPosition(window.scrollY);
@@ -124,9 +124,8 @@ export const LandingPage = ({ initialData, totalScrollCount }: LandingPageProps)
         <ScrollingIcon isScrolling={isScrolling} />
         <div className={styles.container}>
           {data.map((item, index) => {
-            const isLastItem = index + 2 === data.length;
-            const imgUrl = item.imgUrl;
-            const blurHash = item.blurHash ?? "";
+            const isLastItem = index + 1 === data.length;
+            const { imgUrl, blurHash } = item;
             return (
               <div
                 // data-aos="fade-up"
@@ -139,12 +138,7 @@ export const LandingPage = ({ initialData, totalScrollCount }: LandingPageProps)
               >
                 <Link href={toPostPage(pathName, item.id)} onClick={updateScrollPosition}>
                   <div className={styles.albumImageContainer}>
-                    <BlurImg
-                      className={styles.albumImage}
-                      blurHash={blurHash}
-                      src={imgUrl}
-                      punch={1}
-                    />
+                    <BlurImg className={styles.albumImage} blurHash={blurHash} src={imgUrl} />
                   </div>
                 </Link>
                 <div className={styles.albumMetadata}>

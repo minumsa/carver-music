@@ -8,7 +8,7 @@ export default async function Page() {
 
     return (
       <MusicLayout>
-        <LandingPage initialData={albumData} totalScrollCount={totalScrollCount} />
+        <LandingPage initialData={albumData} initialTotalScrollCount={totalScrollCount} />
       </MusicLayout>
     );
   } catch (error) {
