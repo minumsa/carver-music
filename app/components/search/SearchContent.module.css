@@ -39,27 +39,6 @@
   font-style: italic;
 }
 
-.searchTagContainer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  min-width: 90%;
-}
-
-.searchTagDisplayItem {
-  display: flex;
-  align-items: center;
-  margin: 3px;
-  background-color: #ffffff1a;
-  cursor: pointer;
-  padding: 7px 10px;
-  width: fit-content;
-  height: 20px;
-  word-break: normal;
-  color: var(--text-color);
-  font-size: 0.92rem;
-}
-
 @media (max-width: 900px) {
   .searchPageInputContainer {
     width: 100%;
@@ -99,10 +78,6 @@
   .searchResultContainer {
     padding: 15px 0 0 0;
     font-size: 1.05rem;
-  }
-
-  .searchTagContainer {
-    display: none;
   }
 
   .searchTagDisplayItem {
