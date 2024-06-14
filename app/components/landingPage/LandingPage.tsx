@@ -125,7 +125,7 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
         <div className={styles.container}>
           {data.map((item, index) => {
             const isLastItem = index + 1 === data.length;
-            const { imgUrl, blurHash } = item;
+            const { imgUrl, blurHash, album, id, artist, artistId } = item;
             return (
               <div
                 // data-aos="fade-up"
@@ -136,24 +136,24 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
                 className={`${styles.itemContainer}`}
                 ref={isLastItem ? ref : undefined}
               >
-                <Link href={toPostPage(pathName, item.id)} onClick={updateScrollPosition}>
+                <Link href={toPostPage(pathName, id)} onClick={updateScrollPosition}>
                   <div className={styles.albumImageContainer}>
                     <BlurImg className={styles.albumImage} blurHash={blurHash} src={imgUrl} />
                   </div>
                 </Link>
                 <div className={styles.albumMetadata}>
-                  <Link href={toPostPage(pathName, item.id)} onClick={updateScrollPosition}>
+                  <Link href={toPostPage(pathName, id)} onClick={updateScrollPosition}>
                     <button
                       className={styles.albumItem}
-                      aria-label={`Album: ${item.album}`}
-                    >{`${item.album}`}</button>
+                      aria-label={`Album: ${album}`}
+                    >{`${album}`}</button>
                   </Link>
                   <br />
-                  <Link href={toArtistPage(pathName, item.artistId)} onClick={updateScrollPosition}>
+                  <Link href={toArtistPage(pathName, artistId)} onClick={updateScrollPosition}>
                     <button
                       className={styles.albumItem}
-                      aria-label={`Artist: ${item.artist}`}
-                    >{`${item.artist}`}</button>
+                      aria-label={`Artist: ${artist}`}
+                    >{`${artist}`}</button>
                   </Link>
                 </div>
               </div>
