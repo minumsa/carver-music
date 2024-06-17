@@ -2,7 +2,7 @@ import { usePathname, useRouter } from "next/navigation";
 import styles from "./Hamburger.module.css";
 import React, { useState } from "react";
 import Link from "next/link";
-import { useAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import { tagAtom } from "../../../modules/atoms";
 import { toGenrePage } from "../../../modules/paths";
 import { isAdminPage } from "../../../modules/utils";
@@ -12,7 +12,7 @@ export const Hamburger = () => {
   const pathName = usePathname();
   const router = useRouter();
   const [showCategory, setShowCategory] = useState<boolean>(false);
-  const [currentTagKey, setCurrentTagKey] = useAtom(tagAtom);
+  const setCurrentTagKey = useSetAtom(tagAtom);
 
   return (
     <nav

@@ -1,4 +1,4 @@
-import SearchContent from "@/app/components/search/SearchContent";
+import SearchContents from "@/app/components/search/SearchContents";
 import { MusicLayout } from "@/app/components/@common/MusicLayout";
 import { PageProps } from "@/app/modules/types";
 import { fetchSearchData } from "@/app/modules/api";
@@ -18,7 +18,7 @@ export default async function Page({ params }: PageProps) {
 
     return (
       <MusicLayout>
-        <SearchContent data={searchData} searchInfo={searchInfo} />
+        <SearchContents data={searchData} searchInfo={searchInfo} />
       </MusicLayout>
     );
   } catch (error) {

@@ -1,9 +1,9 @@
-import { Post } from "@/app/components/post/Post";
 import { MusicLayout } from "@/app/components/@common/MusicLayout";
 import { Metadata } from "next";
 import { PageProps } from "@/app/modules/types";
 import { fetchPostData } from "@/app/modules/api";
 import { SITE_TITLE } from "@/app/modules/constants";
+import { PostContents } from "@/app/components/post/PostContents";
 
 export default async function Page({ params }: PageProps) {
   const currentId = params.id;
@@ -13,7 +13,7 @@ export default async function Page({ params }: PageProps) {
 
     return (
       <MusicLayout>
-        <Post postData={postData} />
+        <PostContents postData={postData} />
       </MusicLayout>
     );
   } catch (error) {

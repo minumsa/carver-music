@@ -209,7 +209,7 @@ export const GROUP_TAGS: GroupTags = {
   },
 };
 
-export const ALBUM = {
+export const ALBUM_ART_SIZES = {
   width: 300,
   height: 300,
   mobile: {

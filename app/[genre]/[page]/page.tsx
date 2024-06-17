@@ -1,8 +1,8 @@
 import Error from "@/app/components/@common/Error";
-import Content from "../../components/@common/Content";
 import { MusicLayout } from "../../components/@common/MusicLayout";
 import { fetchGenreData } from "../../modules/api";
 import { PageProps } from "../../modules/types";
+import GenreContents from "@/app/components/@common/GenreContents";
 
 export default async function Page({ params }: PageProps): Promise<React.ReactElement> {
   const currentGenre = params.genre;
@@ -13,7 +13,7 @@ export default async function Page({ params }: PageProps): Promise<React.ReactEl
 
     return (
       <MusicLayout>
-        <Content data={genreData} dataCount={genreDataCount} currentPage={currentPage} />
+        <GenreContents data={genreData} dataCount={genreDataCount} currentPage={currentPage} />
       </MusicLayout>
     );
   } catch (error) {

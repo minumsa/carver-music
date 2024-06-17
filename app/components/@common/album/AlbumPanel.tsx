@@ -1,7 +1,6 @@
 import { usePathname } from "next/navigation";
-import { formatDuration, isAdminPage } from "../../../modules/utils";
+import { getFormattedDuration, isAdminPage } from "../../../modules/utils";
 import styles from "./AlbumPanel.module.css";
-import { isMobile } from "react-device-detect";
 import { useRef } from "react";
 import { DeleteButton } from "../../post/assets/DeleteButton";
 import { EditButton } from "../../post/assets/EditButton";
@@ -32,19 +31,19 @@ export const AlbumPanel = ({ albumData }: AlbumProps) => {
     score,
   } = albumData;
   const pathName = usePathname();
-  const albumDuration = formatDuration(duration);
+  const albumDuration = getFormattedDuration(duration);
   const divRef = useRef<HTMLDivElement>(null);
+  const paragraphs = text.split("\n");
 
   return (
     <>
-      <Link className={styles.albumImageContainer} href={toPostPage(pathName, id)}>
-        <BlurImg className={styles.albumImage} blurHash={blurHash} src={imgUrl} punch={1} />
+      <Link className={styles.albumArtWrapper} href={toPostPage(pathName, id)}>
+        <BlurImg className={styles.albumArt} blurHash={blurHash} src={imgUrl} punch={1} />
       </Link>
       <div className={styles.albumMetadataContainer}>
-        {text.split("\n").map((text, index) => {
-          const longTextStandard = isMobile ? 100 : 180;
+        {paragraphs.map((text, index) => {
           const isFirstParagraph = index === 0;
-          const isLongText = text.length > longTextStandard;
+          const percentageScore = 100 - score * 20;
           if (isFirstParagraph)
             return (
               <div key={index}>
@@ -63,7 +62,7 @@ export const AlbumPanel = ({ albumData }: AlbumProps) => {
                       style={
                         score
                           ? {
-                              clipPath: `inset(0 ${100 - score * 20}% 0 0)`,
+                              clipPath: `inset(0 ${percentageScore}% 0 0)`,
                             }
                           : undefined
                       }
@@ -99,35 +98,26 @@ export const AlbumPanel = ({ albumData }: AlbumProps) => {
                 </div>
                 {/* 텍스트 미리보기 및 더 보기 링크 */}
                 <div className={styles.textContainer}>
-                  <p
-                    ref={divRef}
-                    className={`${styles.text} ${isLongText ? styles.blurEnd : undefined}`}
-                  >
+                  <p ref={divRef} className={`${styles.text} ${styles.blurEnd}`}>
                     {text}
                   </p>
-                  {isLongText && (
-                    <Link href={toPostPage(pathName, id)}>
-                      <div className={styles.moreButton}>더 보기</div>
-                    </Link>
-                  )}
+                  <Link href={toPostPage(pathName, id)}>
+                    <div className={styles.moreButton}>더 보기</div>
+                  </Link>
                 </div>
                 {/* 앨범 태그 */}
                 <div className={styles.tagContainer}>
-                  {tagKeys.map((tagKey: string, index: number) => {
+                  {tagKeys.map((key: string, index: number) => {
                     return (
-                      <Link
-                        href={toTagPage(pathName, tagKey)}
-                        key={index}
-                        className={styles.tagItem}
-                      >
-                        {DEFAULT_TAGS[tagKey]}
+                      <Link href={toTagPage(pathName, key)} key={index} className={styles.tagItem}>
+                        {DEFAULT_TAGS[key]}
                       </Link>
                     );
                   })}
                 </div>
                 {/* 관리자 페이지 - 수정 및 삭제 버튼 */}
                 {isAdminPage(pathName) && (
-                  <div className={styles.adminButtonContainer}>
+                  <div className={styles.buttonContainer}>
                     <EditButton data={albumData} />
                     <DeleteButton data={albumData} />
                   </div>

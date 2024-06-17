@@ -22,6 +22,7 @@ export interface Video {
   title: string;
   url: string;
 }
+
 export interface SpotifyAlbumData {
   id: string;
   artistId: string;

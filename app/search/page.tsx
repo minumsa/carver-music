@@ -1,4 +1,4 @@
-import SearchContent from "@/app/components/search/SearchContent";
+import SearchContents from "@/app/components/search/SearchContents";
 import { MusicLayout } from "@/app/components/@common/MusicLayout";
 
 export default function Page() {
@@ -11,7 +11,7 @@ export default function Page() {
 
   return (
     <MusicLayout>
-      <SearchContent data={[]} searchInfo={searchInfo} />
+      <SearchContents data={[]} searchInfo={searchInfo} />
     </MusicLayout>
   );
 }

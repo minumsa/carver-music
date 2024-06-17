@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { AlbumContents } from "../@common/album/AlbumContents";
 import { ContentLayout } from "../@common/ContentLayout";
-import styles from "./SearchContent.module.css";
+import styles from "./SearchContents.module.css";
 import { usePathname, useRouter } from "next/navigation";
 import { AlbumInfo } from "../../modules/types";
 import { isAdminPage } from "../../modules/utils";
@@ -21,7 +21,7 @@ interface SearchContentProps {
   searchInfo: SearchInfo;
 }
 
-export default function SearchContent({ data, searchInfo }: SearchContentProps) {
+export default function SearchContents({ data, searchInfo }: SearchContentProps) {
   const { currentKeyword, currentPage, currentTagName, totalDataLength } = searchInfo;
   const router = useRouter();
   const pathName = usePathname();
@@ -43,10 +43,10 @@ export default function SearchContent({ data, searchInfo }: SearchContentProps) 
 
   return (
     <ContentLayout currentPage={currentPage} dataCount={totalDataLength}>
-      <div className={styles.searchInputContainer}>
-        <div className={styles.searchPageInputContainer}>
+      <div className={styles.container}>
+        <div className={styles.inputContainer}>
           <input
-            className={styles.searchPageInput}
+            className={styles.searchInput}
             placeholder="앨범, 아티스트, 키워드 검색"
             onChange={(e) => {
               setKeyword(e.target.value);
@@ -54,12 +54,12 @@ export default function SearchContent({ data, searchInfo }: SearchContentProps) 
             onKeyDown={handleEnter}
           />
           <img
-            className={styles.searchPageInputIcon}
+            className={styles.magnifyingGlass}
             src={"/svgs/magnifying-glass.svg"}
-            alt="search-page-input-icon"
+            alt="magnifyingGlass"
           />
         </div>
-        <p className={styles.searchResultContainer}>
+        <p className={styles.searchResultText}>
           {decodedKeyword
             ? totalDataLength
               ? `"${decodedKeyword}"에 관련된 총 ${totalDataLength}건의 검색 결과`

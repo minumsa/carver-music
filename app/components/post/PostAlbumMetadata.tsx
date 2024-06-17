@@ -1,6 +1,6 @@
 import { usePathname } from "next/navigation";
 import styles from "./PostAlbumMetadata.module.css";
-import { formatDate, formatDuration, isAdminPage } from "../../modules/utils";
+import { formatDate, getFormattedDuration, isAdminPage } from "../../modules/utils";
 import { DeleteButton } from "./assets/DeleteButton";
 import { EditButton } from "./assets/EditButton";
 import Link from "next/link";
@@ -27,7 +27,7 @@ export const PostAlbumMetadata = ({ postData }: PostAlbumMetadataProps) => {
     label,
     tracks,
   } = postData;
-  const albumDuration = formatDuration(duration);
+  const albumDuration = getFormattedDuration(duration);
   const pathName = usePathname();
   const hasVideo = videos[0]?.title.length > 0;
 

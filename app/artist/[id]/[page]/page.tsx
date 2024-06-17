@@ -1,5 +1,5 @@
 import Error from "@/app/components/@common/Error";
-import ArtistContent from "../../../components/artist/ArtistContent";
+import ArtistContents from "../../../components/artist/ArtistContents";
 import { MusicLayout } from "@/app/components/@common/MusicLayout";
 import { fetchArtistData } from "@/app/modules/api";
 import { SITE_TITLE } from "@/app/modules/constants";
@@ -16,7 +16,7 @@ export default async function Page({ params }: PageProps): Promise<React.ReactEl
 
     return (
       <MusicLayout>
-        <ArtistContent
+        <ArtistContents
           artistData={artistData}
           artistDataCount={artistDataCount}
           currentPage={currentPage}

@@ -26,7 +26,7 @@
   --grid-item-width: calc(100% / 8);
 }
 
-.albumImageContainer {
+.albumImageWrapper {
   width: 100%;
   height: 100%;
   position: relative;
@@ -52,7 +52,7 @@
   transform: scale(1);
 }
 
-.albumMetadata {
+.albumMetadataContainer {
   z-index: 100;
   text-decoration: none;
   font-size: 0.95rem;
@@ -96,7 +96,7 @@
     --grid-item-width: calc(100vw / 2 - 30px);
   }
 
-  .albumMetadata {
+  .albumMetadataContainer {
     font-size: 0.95rem;
   }
 }

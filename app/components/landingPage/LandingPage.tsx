@@ -50,6 +50,7 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
   const isFirstFetch = scrollCount === 1;
 
   useEffect(() => {
+    // TODO: Aos 애니메이션 임시 미사용 상태, 아예 삭제할지 말지 결정하기
     // Aos.init();
   }, []);
 
@@ -86,7 +87,7 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
 
     const isInitialScroll = !currentTag && scrollCount === 1;
     const scrollDetected = inView && scrollCount > 1 && scrollCount <= totalScrollCount;
-    const tagButtonClicked = currentTag && scrollCount === 1;
+    const mobileTagButtonClicked = currentTag && scrollCount === 1;
     const hasReachedScrollLimit = scrollCount === totalScrollCount;
     const hasNoData = totalScrollCount === 0;
 
@@ -101,7 +102,7 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
     }
 
     // 무한 스크롤 된 경우 또는 태그 버튼을 클릭한 경우
-    if (scrollDetected || tagButtonClicked) loadData(scrollCount);
+    if (scrollDetected || mobileTagButtonClicked) loadData(scrollCount);
 
     // scrollCount가 한계치에 도달하는 경우 더 이상 스크롤 이벤트가 발생하지 않도록 처리
     if (hasReachedScrollLimit) setScrollCount(UNREACHABLE_SCROLL_LIMIT);
@@ -130,27 +131,25 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
               // data-aos-offset={isMobile ? 40 : 90}
               // data-aos-once="true"
               key={album}
-              className={`${styles.itemContainer}`}
+              className={styles.itemContainer}
               ref={isLastItem ? ref : undefined}
             >
               <Link href={toPostPage(pathName, id)} onClick={updateScrollPosition}>
-                <div className={styles.albumImageContainer}>
+                <div className={styles.albumImageWrapper}>
                   <BlurImg className={styles.albumImage} blurHash={blurHash} src={imgUrl} />
                 </div>
               </Link>
-              <div className={styles.albumMetadata}>
+              <div className={styles.albumMetadataContainer}>
                 <Link href={toPostPage(pathName, id)} onClick={updateScrollPosition}>
-                  <button
-                    className={styles.albumItem}
-                    aria-label={`Album: ${album}`}
-                  >{`${album}`}</button>
+                  <button className={styles.albumItem} aria-label={`Album: ${album}`}>
+                    {album}
+                  </button>
                 </Link>
                 <br />
                 <Link href={toArtistPage(pathName, artistId)} onClick={updateScrollPosition}>
-                  <button
-                    className={styles.albumItem}
-                    aria-label={`Artist: ${artist}`}
-                  >{`${artist}`}</button>
+                  <button className={styles.albumItem} aria-label={`Artist: ${artist}`}>
+                    {artist}
+                  </button>
                 </Link>
               </div>
             </div>

@@ -15,51 +15,42 @@ export const MobileTagDisplay = () => {
   const setScrollCount = useSetAtom(scrollCountAtom);
   const setTotalScrollCount = useSetAtom(totalScrollCountAtom);
   const [currentTag, setCurrentTag] = useAtom(tagAtom);
-  const [scrollPosition, setScrollPosition] = useAtom(scrollPositionAtom);
+  const setScrollPosition = useSetAtom(scrollPositionAtom);
   const [showAllTagItems, setShowAllTagItems] = useAtom(showAllTagItemsAtom);
 
-  function handleClickTag(tag: string) {
+  const handleTagSelection = (tag: string) => {
     setCurrentTag(tag);
+    resetDataAndScroll();
+  };
+
+  const resetDataAndScroll = () => {
     setData([]);
     setScrollCount(1);
     setTotalScrollCount(0);
     setScrollPosition(0);
-    window.scrollTo(0, scrollPosition);
     setShowAllTagItems(false);
-  }
+  };
+
+  const tagStyles = (isActive: boolean) =>
+    isActive ? { boxShadow: "inset 0 0 0 1px var(--text-color)", order: -1 } : undefined;
 
   return (
-    <div
-      className={styles.container}
-      style={showAllTagItems ? { flexWrap: "wrap" } : { flexWrap: "nowrap" }}
-    >
+    <div className={styles.container} style={{ flexWrap: showAllTagItems ? "wrap" : "nowrap" }}>
       {TAG_KEYS.map((tag) => {
-        const isClickedTag = currentTag === tag;
-        const isDefaultTagSelected = currentTag === "" && tag === "all";
+        const isActive = currentTag === tag || (currentTag === "" && tag === "all");
         const tagName = DEFAULT_TAGS[tag];
         return (
           <div
             key={tag}
             className={styles.tagItem}
-            onClick={() => {
-              handleClickTag(tag);
-            }}
-            style={
-              isClickedTag || isDefaultTagSelected
-                ? { boxShadow: "inset 0 0 0 1px var(--text-color)", order: -1 }
-                : undefined
-            }
+            onClick={() => handleTagSelection(tag)}
+            style={tagStyles(isActive)}
           >
             {tagName}
           </div>
         );
       })}
-      <div
-        className={styles.arrowWrapper}
-        onClick={() => {
-          setShowAllTagItems(!showAllTagItems);
-        }}
-      >
+      <div className={styles.arrowWrapper} onClick={() => setShowAllTagItems(!showAllTagItems)}>
         <img
           className={styles.arrow}
           src={showAllTagItems ? "/svgs/arrow-up.svg" : "/svgs/arrow-down.svg"}

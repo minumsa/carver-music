@@ -1,5 +1,5 @@
-import Content from "../components/@common/Content";
 import Error from "../components/@common/Error";
+import GenreContents from "../components/@common/GenreContents";
 import { MusicLayout } from "../components/@common/MusicLayout";
 import { fetchGenreData } from "../modules/api";
 import { FIRST_PAGE } from "../modules/constants";
@@ -13,7 +13,7 @@ export default async function Page({ params }: PageProps): Promise<React.ReactEl
 
     return (
       <MusicLayout>
-        <Content data={genreData} dataCount={genreDataCount} currentPage={FIRST_PAGE} />
+        <GenreContents data={genreData} dataCount={genreDataCount} currentPage={FIRST_PAGE} />
       </MusicLayout>
     );
   } catch (error) {

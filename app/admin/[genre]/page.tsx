@@ -1,4 +1,4 @@
-import Content from "../../components/@common/Content";
+import GenreContents from "@/app/components/@common/GenreContents";
 import { MusicLayout } from "../../components/@common/MusicLayout";
 import { fetchGenreData } from "../../modules/api";
 import { FIRST_PAGE } from "../../modules/constants";
@@ -12,7 +12,7 @@ export default async function Page({ params }: PageProps) {
 
     return (
       <MusicLayout>
-        <Content data={genreData} dataCount={genreDataCount} currentPage={FIRST_PAGE} />
+        <GenreContents data={genreData} dataCount={genreDataCount} currentPage={FIRST_PAGE} />
       </MusicLayout>
     );
   } catch (error) {

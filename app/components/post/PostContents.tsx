@@ -1,7 +1,7 @@
 "use client";
 
 import { AlbumInfo } from "../../modules/types";
-import styles from "./Post.module.css";
+import styles from "./PostContents.module.css";
 import { PostAlbumMetadata } from "./PostAlbumMetadata";
 import { PostText } from "./PostAlbumText";
 
@@ -9,7 +9,7 @@ interface PostProps {
   postData: AlbumInfo;
 }
 
-export const Post = ({ postData }: PostProps) => {
+export const PostContents = ({ postData }: PostProps) => {
   return (
     <>
       {postData && (

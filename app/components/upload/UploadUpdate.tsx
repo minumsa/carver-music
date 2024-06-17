@@ -20,7 +20,7 @@ import { useForm } from "react-hook-form";
 import { AlbumSearchModal } from "./AlbumSearchModal";
 import VideoLinksEditor from "./VideoLinksEditor/VideoLinksEditor";
 import { TagsEditor } from "./TagsEditor/TagsEditor";
-import { getDecadeTagKey } from "@/app/modules/utils";
+import { getDecade } from "@/app/modules/utils";
 
 const TYPING_DELAY_MS = 1000;
 
@@ -118,8 +118,8 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
   });
 
   useEffect(() => {
-    async function getData() {
-      const fetchData = await fetchAlbumById(currentId);
+    async function getAlbum() {
+      const response = await fetchAlbumById(currentId);
       const {
         id,
         artist,
@@ -134,7 +134,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
         album,
         releaseDate,
         blurHash,
-      } = fetchData;
+      } = response;
       setValue("albumId", id);
       setValue("newAlbumId", id);
       setValue("artist", artist);
@@ -148,29 +148,29 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       setValue("uploadDate", new Date(uploadDate));
       setValue("albumReleaseDate", new Date(releaseDate).toString());
 
-      const releaseYearTagKey = getDecadeTagKey(releaseDate);
-      ``;
-      const hasReleaseYearTag = tagKeys.includes(releaseYearTagKey);
-      const hasVideo = videos[0].title;
+      const decade = getDecade(releaseDate);
+      const hasDecadeTag = tagKeys.includes(decade);
+      const trueVideos = videos.filter((video: Video) => video.title.length > 0);
+      const hasVideo = trueVideos.length > 0;
 
-      if (hasReleaseYearTag) {
+      if (hasDecadeTag) {
         setValue("currentTagKeys", [tagKeys]);
       } else {
-        setValue("currentTagKeys", [...tagKeys, releaseYearTagKey]);
+        setValue("currentTagKeys", [...tagKeys, decade]);
       }
 
       if (hasVideo) {
-        setValue("videos", videos);
-        setValue("videoCount", videos.length);
+        setValue("videos", trueVideos);
+        setValue("videoCount", trueVideos.length);
       }
     }
 
-    if (isUpdatePage) getData();
+    if (isUpdatePage) getAlbum();
   }, [currentId]);
 
   const handleSearch = async () => {
-    const result = await searchSpotify(watch("searchKeyword"));
-    setSearchData(result);
+    const response = await searchSpotify(watch("searchKeyword"));
+    setSearchData(response);
     setIsTyping(false);
   };
 
@@ -180,21 +180,21 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       const typingTimer = setTimeout(() => {
         handleSearch();
       }, TYPING_DELAY_MS);
-
       return () => clearTimeout(typingTimer);
     }
   }, [watch("searchKeyword"), isTyping]);
 
-  const handleClickSearchResult = (data: SearchData) => {
+  function selectSearchResult(data: SearchData) {
     const { name, id, artists, release_date } = data;
-    const releaseYearTagKey = getDecadeTagKey(release_date);
-    setValue("currentTagKeys", [releaseYearTagKey]);
-    setValue("artist", artists[0].name);
+    const artist = artists[0].name;
+    const decade = getDecade(release_date);
+    setValue("currentTagKeys", [decade]);
+    setValue("artist", artist);
     setValue("newAlbumId", id);
     setValue("searchKeyword", name);
     setSearchData(undefined);
     setIsTyping(false);
-  };
+  }
 
   return (
     <form onSubmit={onSubmit} className={styles.container}>
@@ -252,7 +252,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
             <AlbumSearchModal
               searchKeyword={getValues("searchKeyword")}
               searchData={searchData}
-              onSelect={handleClickSearchResult}
+              onSelect={selectSearchResult}
             />
           )}
         </div>
@@ -388,7 +388,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       </div>
 
       {/* 제출 버튼 */}
-      <div className={styles.submitContainer}>
+      <div className={styles.buttonWrapper}>
         <button type="submit" className={`${styles.button} ${styles.submit}`}>
           제출하기
         </button>

@@ -9,15 +9,15 @@ interface AlbumContentsProps {
 
 export const AlbumContents = ({ albumData }: AlbumContentsProps) => {
   return albumData.map((item, index) => {
-    const isLastData = index === albumData.length - 1;
-    const isLastDataPerPage = (index + 1) % SUB_PER_PAGE_COUNT === 0;
+    const isLastItem = index === albumData.length - 1;
+    const isLastItemInPage = (index + 1) % SUB_PER_PAGE_COUNT === 0;
 
     return (
       <article
         key={index}
         className={styles.container}
         style={
-          isLastDataPerPage || isLastData
+          isLastItemInPage || isLastItem
             ? undefined
             : { borderBottom: "1px solid var(--border-color)" }
         }

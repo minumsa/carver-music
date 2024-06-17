@@ -1,10 +1,10 @@
-import { Post } from "../../components/post/Post";
 import { MusicLayout } from "../../components/@common/MusicLayout";
 import { Metadata } from "next/dist/lib/metadata/types/metadata-interface";
 import { PageProps } from "../../modules/types";
 import { fetchPostData } from "../../modules/api";
 import { SITE_TITLE } from "@/app/modules/constants";
 import Error from "@/app/components/@common/Error";
+import { PostContents } from "@/app/components/post/PostContents";
 
 export default async function Page({ params }: PageProps): Promise<React.ReactElement> {
   const currentId = params.id;
@@ -14,7 +14,7 @@ export default async function Page({ params }: PageProps): Promise<React.ReactEl
 
     return (
       <MusicLayout>
-        <Post postData={postData} />
+        <PostContents postData={postData} />
       </MusicLayout>
     );
   } catch (error) {

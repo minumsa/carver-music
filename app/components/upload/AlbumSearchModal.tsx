@@ -8,11 +8,11 @@ interface SearchResultProps {
 }
 
 export const AlbumSearchModal = ({ searchKeyword, searchData, onSelect }: SearchResultProps) => {
-  const hasSearchData = searchData.length > 0;
+  const hasSearchResult = searchData.length > 0;
 
   return (
     <div className={styles.container}>
-      {hasSearchData ? (
+      {hasSearchResult ? (
         searchData.map((data, index: number) => {
           const { artists, name, release_date, images } = data;
           const artist = artists[0].name;

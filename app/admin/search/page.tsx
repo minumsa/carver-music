@@ -1,6 +1,6 @@
 "use client";
 
-import SearchContent from "@/app/components/search/SearchContent";
+import SearchContents from "@/app/components/search/SearchContents";
 import { MusicLayout } from "@/app/components/@common/MusicLayout";
 import { PageProps } from "../../modules/types";
 
@@ -14,7 +14,7 @@ export default function Page({ params }: PageProps) {
 
   return (
     <MusicLayout>
-      <SearchContent data={[]} searchInfo={searchInfo} />
+      <SearchContents data={[]} searchInfo={searchInfo} />
     </MusicLayout>
   );
 }

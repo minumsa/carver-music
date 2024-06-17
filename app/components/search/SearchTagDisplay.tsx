@@ -8,24 +8,24 @@ interface SearchTagDisplayProps {
 }
 
 export const SearchTagDisplay = ({ currentTagName }: SearchTagDisplayProps) => {
-  const tagKeys = Object.keys(SEARCH_TAGS);
+  const tags = Object.keys(SEARCH_TAGS);
   const router = useRouter();
   const pathName = usePathname();
 
+  const handleTagClick = (tag: string) => {
+    const basePath = isAdminPage(pathName) ? `/admin/search/tag` : `/search/tag`;
+    router.push(`${basePath}/${tag}/1`);
+  };
+
   return (
     <div className={styles.container}>
-      {tagKeys.map((tag) => {
+      {tags.map((tag) => {
         const isClickedTag = currentTagName === tag;
         return (
           <div
             key={tag}
-            className={styles.tag}
-            onClick={() => {
-              isAdminPage(pathName)
-                ? router.push(`/admin/search/tag/${tag}/1`)
-                : router.push(`/search/tag/${tag}/1`);
-            }}
-            style={isClickedTag ? { boxShadow: "inset 0 0 0 1px var(--text-color)" } : undefined}
+            className={`${styles.tag} ${isClickedTag ? styles.clickedTag : undefined}`}
+            onClick={() => handleTagClick(tag)}
           >
             {SEARCH_TAGS[tag]}
           </div>

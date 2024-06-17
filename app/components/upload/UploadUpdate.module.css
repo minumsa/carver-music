@@ -87,7 +87,7 @@
   background-color: var(--text-color);
 }
 
-.submitContainer {
+.buttonWrapper {
   display: flex;
   justify-content: center;
   padding: 35px 0;

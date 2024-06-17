@@ -2,7 +2,7 @@ import styles from "./Category.module.css";
 import Link from "next/link";
 import { Hamburger } from "./Hamburger";
 import { usePathname } from "next/navigation";
-import { useAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import { tagAtom } from "../../../modules/atoms";
 import { isAdminPage } from "../../../modules/utils";
 import { toSearchPage } from "../../../modules/paths";
@@ -10,7 +10,7 @@ import { SITE_TITLE } from "@/app/modules/constants";
 
 export const Category = () => {
   const pathName = usePathname();
-  const [currentTagKey, setCurrentTagKey] = useAtom(tagAtom);
+  const setCurrentTagKey = useSetAtom(tagAtom);
   const isMainPage = pathName === "/" || pathName === "/admin";
 
   const scrollToTop = () => {
@@ -51,7 +51,7 @@ export const Category = () => {
           setCurrentTagKey("");
         }}
       >
-        <nav className={styles.searchIcon}></nav>
+        <nav className={styles.magnifyingGlass}></nav>
       </Link>
     </div>
   );

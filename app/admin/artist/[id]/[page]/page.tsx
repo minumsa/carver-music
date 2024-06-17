@@ -1,4 +1,4 @@
-import ArtistContent from "@/app/components/artist/ArtistContent";
+import ArtistContents from "@/app/components/artist/ArtistContents";
 import { MusicLayout } from "@/app/components/@common/MusicLayout";
 import { PageProps } from "@/app/modules/types";
 import { fetchArtistData } from "@/app/modules/api";
@@ -12,7 +12,7 @@ export default async function Page({ params }: PageProps) {
 
     return (
       <MusicLayout>
-        <ArtistContent
+        <ArtistContents
           artistData={artistData}
           artistDataCount={artistDataCount}
           currentPage={currentPage}

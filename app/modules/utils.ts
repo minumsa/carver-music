@@ -14,7 +14,7 @@ export const isSearchPage = (pathName: string) => {
   return pathName === "search";
 };
 
-export const formatDuration = (seconds: number) => {
+export const getFormattedDuration = (seconds: number) => {
   const hours = Math.floor(Math.floor(seconds / 60) / 60);
   const minutes = Math.floor(seconds / 60) % 60;
 
@@ -33,7 +33,7 @@ export const formatDate = (date: Date | string) => {
   return `${newDate.getFullYear()}년 ${newDate.getMonth() + 1}월 ${newDate.getDate()}일`;
 };
 
-export const getDecadeTagKey = (releaseDate: string) => {
+export const getDecade = (releaseDate: string) => {
   const formattedDate = new Date(releaseDate);
   const formattedReleaseYear = Math.floor(formattedDate.getFullYear() / 10) * 10;
   return `decade${formattedReleaseYear}s`;

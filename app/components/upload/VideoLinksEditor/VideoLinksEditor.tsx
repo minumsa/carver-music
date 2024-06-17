@@ -15,7 +15,7 @@ export default function VideoLinksEditor({
   setVideoCount,
   setVideos,
 }: VideoLinksEditorProps) {
-  const videoTemplateArray = new Array(videoCount).fill(null);
+  const emptyArrayByVideoCount = new Array(videoCount).fill(null);
   return (
     <div className={styles.blockContainer}>
       <label className={styles.blockTitle}>
@@ -32,7 +32,7 @@ export default function VideoLinksEditor({
           </div>
         </div>
       </label>
-      {videoTemplateArray.map((_, index) => {
+      {emptyArrayByVideoCount.map((_, index) => {
         const copiedVideos = [...videos];
         const videoNumber = index + 1;
         return (
@@ -44,7 +44,7 @@ export default function VideoLinksEditor({
                   <div
                     className={styles.videoButton}
                     onClick={() => {
-                      setVideoCount((prev) => prev - 1);
+                      setVideoCount((prevVideoCount) => prevVideoCount - 1);
                       const copiedVideos = [...videos];
                       copiedVideos.splice(index, 1);
                       setVideos(copiedVideos);

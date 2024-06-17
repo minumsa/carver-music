@@ -1,7 +1,7 @@
 import { MusicLayout } from "@/app/components/@common/MusicLayout";
-import Content from "@/app/components/@common/Content";
 import { PageProps } from "@/app/modules/types";
 import { fetchGenreData } from "@/app/modules/api";
+import GenreContents from "@/app/components/@common/GenreContents";
 
 export default async function Page({ params }: PageProps) {
   const currentGenre = params.genre;
@@ -12,7 +12,7 @@ export default async function Page({ params }: PageProps) {
 
     return (
       <MusicLayout>
-        <Content data={genreData} dataCount={genreDataCount} currentPage={currentPage} />
+        <GenreContents data={genreData} dataCount={genreDataCount} currentPage={currentPage} />
       </MusicLayout>
     );
   } catch (error) {

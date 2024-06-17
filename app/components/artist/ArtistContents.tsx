@@ -2,7 +2,7 @@
 
 import { AlbumContents } from "../@common/album/AlbumContents";
 import { ContentLayout } from "../@common/ContentLayout";
-import { ArtistPageImage } from "./ArtistPageImage";
+import { ArtistHeader } from "./ArtistHeader";
 import { AlbumInfo } from "../../modules/types";
 
 interface ArtistContentProps {
@@ -11,14 +11,14 @@ interface ArtistContentProps {
   currentPage: number;
 }
 
-export default function ArtistContent({
+export default function ArtistContents({
   artistData,
   artistDataCount,
   currentPage,
 }: ArtistContentProps) {
   return (
     <ContentLayout currentPage={currentPage} dataCount={artistDataCount}>
-      <ArtistPageImage artistData={artistData} />
+      <ArtistHeader artistData={artistData} />
       <AlbumContents albumData={artistData} />
     </ContentLayout>
   );

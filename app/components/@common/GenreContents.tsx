@@ -10,7 +10,7 @@ interface ContentProps {
   currentPage: number;
 }
 
-export default function Content({ data, dataCount, currentPage }: ContentProps) {
+export default function GenreContents({ data, dataCount, currentPage }: ContentProps) {
   return (
     <ContentLayout currentPage={currentPage} dataCount={dataCount}>
       <AlbumContents albumData={data} />

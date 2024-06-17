@@ -1,17 +1,17 @@
-.searchInputContainer {
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 85px 0 30px 0;
 }
 
-.searchPageInputContainer {
+.inputContainer {
   position: relative;
   width: 480px;
   height: 60px;
 }
 
-.searchPageInput {
+.searchInput {
   box-sizing: border-box;
   margin: 1px 0 0 0;
   border: 1px solid var(--text-color);
@@ -24,14 +24,14 @@
   font-size: 1.3rem;
 }
 
-.searchPageInputIcon {
+.magnifyingGlass {
   position: absolute;
   top: calc(50% + 1px);
   left: 30px;
   transform: translate(-50%, -50%);
 }
 
-.searchResultContainer {
+.searchResultText {
   display: flex;
   justify-content: center;
   padding: 10px 0 20px 0;
@@ -40,7 +40,7 @@
 }
 
 @media (max-width: 900px) {
-  .searchPageInputContainer {
+  .inputContainer {
     width: 100%;
     max-width: 480px;
     height: 60px;
@@ -48,19 +48,19 @@
 }
 
 @media (max-width: 525px) {
-  .searchInputContainer {
+  .container {
     padding: 20px 0 0 0;
     width: 100%;
   }
 
-  .searchPageInputContainer {
+  .inputContainer {
     display: flex;
     position: relative;
     justify-content: center;
     width: 100%;
   }
 
-  .searchPageInput {
+  .searchInput {
     box-sizing: border-box;
     margin: 0 15px;
     padding: 0 30px 0 40px;
@@ -69,13 +69,13 @@
     font-weight: 400;
   }
 
-  .searchPageInputIcon {
+  .magnifyingGlass {
     top: calc(50% - 4px);
     left: 37px;
     transform: translate(-50%, -50%);
   }
 
-  .searchResultContainer {
+  .searchResultText {
     padding: 15px 0 0 0;
     font-size: 1.05rem;
   }
