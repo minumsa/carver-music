@@ -18,7 +18,6 @@ import {
   totalScrollCountAtom,
   scrollCountAtom,
   scrollPositionAtom,
-  isFirstFetchAtom,
   isScrollingAtom,
 } from "../../modules/atoms";
 import { toArtistPage, toPostPage } from "../../modules/paths";
@@ -48,11 +47,10 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
   const currentTag = useAtomValue(tagAtom);
   const [isScrolling, setIsScrolling] = useAtom(isScrollingAtom);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isFirstFetch, setIsFirstFetch] = useAtom(isFirstFetchAtom);
+  const isFirstFetch = scrollCount === 1;
 
   useEffect(() => {
     // Aos.init();
-    setIsFirstFetch(true);
   }, []);
 
   useScrollReset();
@@ -67,19 +65,18 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
         };
         const { albumData, albumDataCount } = await fetchAlbumData(albumFilters);
 
-        if (scrollCount > 1) {
-          setData((prevData) => [...prevData, ...albumData]);
-        } else {
+        if (isFirstFetch) {
           setData(albumData);
+        } else {
+          setData((prevData) => [...prevData, ...albumData]);
         }
 
         setIsScrolling(false);
 
         if (currentTag) {
-          const totalScrollCount = Math.max(1, Math.ceil(albumDataCount / PER_PAGE_COUNT));
+          const totalScrollCount = Math.ceil(albumDataCount / PER_PAGE_COUNT);
           setTotalScrollCount(totalScrollCount);
         }
-        if (isFirstFetch) setIsFirstFetch(false);
       } catch (error) {
         console.error("Failed to fetch album data : ", error);
       } finally {
@@ -104,11 +101,7 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
     }
 
     // 무한 스크롤 된 경우 또는 태그 버튼을 클릭한 경우
-    if (scrollDetected || tagButtonClicked) {
-      if (scrollDetected) console.log("scrollDetected");
-
-      loadData(scrollCount);
-    }
+    if (scrollDetected || tagButtonClicked) loadData(scrollCount);
 
     // scrollCount가 한계치에 도달하는 경우 더 이상 스크롤 이벤트가 발생하지 않도록 처리
     if (hasReachedScrollLimit) setScrollCount(UNREACHABLE_SCROLL_LIMIT);
@@ -123,9 +116,7 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
   return (
     <>
       {/* 모바일 - 태그 컴포넌트 */}
-      <React.Fragment>
-        <MobileTagDisplay />
-      </React.Fragment>
+      <MobileTagDisplay />
       <LoadingView isLoading={isLoading} />
       <ScrollingIcon isScrolling={isScrolling} />
       <div className={styles.container}>
@@ -138,7 +129,7 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
               // data-aos-duration={400}
               // data-aos-offset={isMobile ? 40 : 90}
               // data-aos-once="true"
-              key={index}
+              key={album}
               className={`${styles.itemContainer}`}
               ref={isLastItem ? ref : undefined}
             >

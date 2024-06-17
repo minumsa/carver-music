@@ -1,5 +1,5 @@
 import { useAtom, useSetAtom } from "jotai";
-import { DEFAULT_TAGS } from "../../modules/constants";
+import { DEFAULT_TAGS, TAG_KEYS } from "../../modules/constants";
 import styles from "./MobileTagDisplay.module.css";
 import {
   tagAtom,
@@ -33,7 +33,7 @@ export const MobileTagDisplay = () => {
       className={styles.container}
       style={showAllTagItems ? { flexWrap: "wrap" } : { flexWrap: "nowrap" }}
     >
-      {Object.keys(DEFAULT_TAGS).map((tag) => {
+      {TAG_KEYS.map((tag) => {
         const isClickedTag = currentTag === tag;
         const isDefaultTagSelected = currentTag === "" && tag === "all";
         const tagName = DEFAULT_TAGS[tag];

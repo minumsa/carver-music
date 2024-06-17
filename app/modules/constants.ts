@@ -217,3 +217,60 @@ export const ALBUM = {
     height: 250,
   },
 };
+
+export const TAG_KEYS = [
+  // 연도별
+  "decade2020s",
+  "decade2010s",
+  "decade2000s",
+  "decade1990s",
+  "decade1980s",
+  "decade1970s",
+  "decade1960s",
+  "decade1950s",
+  "decade1940s",
+
+  // 계절
+  "spring",
+  "summer",
+  "fall",
+  "winter",
+
+  // 상황
+  "workout",
+  "dancing",
+  "cleaning",
+  "walking",
+  "writing",
+  "reading",
+  "coding",
+  "shower",
+  "drink",
+  "sleeping",
+
+  // 감정
+  "love",
+  "happy",
+  "energy",
+  "sad",
+  "relaxing",
+
+  // 앨범 스타일
+  "diva",
+  "idol",
+  "instrumental",
+  "goodLyrics",
+  "citypop",
+  "christmas",
+
+  // 수상 기록
+  "grammyAwards",
+  "koreanMusicAwards",
+  "koreanTop100Albums",
+  "rollingStonesTop500Albums",
+  "rollingStonesTop100AlbumsJapan",
+  "appleMusic100Albums",
+
+  // 모두 보기
+  "",
+];

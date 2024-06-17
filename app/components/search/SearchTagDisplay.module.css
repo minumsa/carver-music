@@ -1,11 +1,11 @@
-.searchTagContainer {
+.container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   min-width: 90%;
 }
 
-.searchTagDisplayItem {
+.tag {
   display: flex;
   align-items: center;
   margin: 3px;
@@ -20,11 +20,11 @@
 }
 
 @media (max-width: 525px) {
-  .searchTagContainer {
+  .container {
     display: none;
   }
 
-  .searchTagDisplayItem {
+  .tag {
     display: none;
   }
 }

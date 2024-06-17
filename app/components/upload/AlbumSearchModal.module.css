@@ -44,3 +44,13 @@
 .releaseYear {
   padding-left: 5px;
 }
+
+.errorText {
+  font-style: italic;
+}
+
+@media (max-width: 550px) {
+  .container {
+    width: calc(100% - 60px);
+  }
+}

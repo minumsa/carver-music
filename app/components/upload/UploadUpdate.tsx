@@ -112,7 +112,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
         const apiMethod = isUpdatePage ? updateData : uploadData;
         await apiMethod({ newData, password });
       } catch (error) {
-        console.error(`${isUpdatePage ? "updateData" : "uploadData"} 호출에 실패했습니다:`, error);
+        console.error(`${isUpdatePage ? "updateData" : "uploadData"} 작업에 실패했습니다:`, error);
       }
     }
   });
@@ -171,6 +171,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
   const handleSearch = async () => {
     const result = await searchSpotify(watch("searchKeyword"));
     setSearchData(result);
+    setIsTyping(false);
   };
 
   useEffect(() => {
@@ -247,8 +248,12 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
             }}
             placeholder="검색어를 입력해주세요"
           />
-          {searchData && (
-            <AlbumSearchModal searchData={searchData} onSelect={handleClickSearchResult} />
+          {!isTyping && searchData && (
+            <AlbumSearchModal
+              searchKeyword={getValues("searchKeyword")}
+              searchData={searchData}
+              onSelect={handleClickSearchResult}
+            />
           )}
         </div>
       </div>

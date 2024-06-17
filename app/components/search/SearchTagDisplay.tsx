@@ -13,21 +13,21 @@ export const SearchTagDisplay = ({ currentTagName }: SearchTagDisplayProps) => {
   const pathName = usePathname();
 
   return (
-    <div className={styles.searchTagContainer}>
-      {tagKeys.map((key, index) => {
-        const isClickedTag = currentTagName === key;
+    <div className={styles.container}>
+      {tagKeys.map((tag) => {
+        const isClickedTag = currentTagName === tag;
         return (
           <div
-            key={index}
-            className={styles.searchTagDisplayItem}
+            key={tag}
+            className={styles.tag}
             onClick={() => {
               isAdminPage(pathName)
-                ? router.push(`/admin/search/tag/${key}/1`)
-                : router.push(`/search/tag/${key}/1`);
+                ? router.push(`/admin/search/tag/${tag}/1`)
+                : router.push(`/search/tag/${tag}/1`);
             }}
             style={isClickedTag ? { boxShadow: "inset 0 0 0 1px var(--text-color)" } : undefined}
           >
-            {SEARCH_TAGS[key]}
+            {SEARCH_TAGS[tag]}
           </div>
         );
       })}
