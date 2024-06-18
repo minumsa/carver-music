@@ -22,7 +22,7 @@ import {
 } from "../../modules/atoms";
 import { toArtistPage, toPostPage } from "../../modules/paths";
 import { MobileTagDisplay } from "./MobileTagDisplay";
-import { PER_PAGE_COUNT } from "../../modules/constants";
+import { MIN_SCROLL_COUNT, PER_PAGE_COUNT } from "../../modules/constants";
 import { ScrollingIcon } from "./ScrollingIcon";
 import useScrollReset from "@/app/hooks/useScrollReset";
 import useScrollUpdate from "@/app/hooks/useScrollUpdate";
@@ -72,8 +72,6 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
           setData((prevData) => [...prevData, ...albumData]);
         }
 
-        setIsScrolling(false);
-
         if (currentTag) {
           const totalScrollCount = Math.ceil(albumDataCount / PER_PAGE_COUNT);
           setTotalScrollCount(totalScrollCount);
@@ -82,30 +80,31 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
         console.error("Failed to fetch album data : ", error);
       } finally {
         setIsLoading(false);
+        setIsScrolling(false);
       }
     },
     [isFirstFetch, currentTag],
   );
 
   useEffect(() => {
-    const isInitialScroll = !currentTag && scrollCount === 1;
-    const scrollDetected = inView && scrollCount > 1 && scrollCount <= totalScrollCount;
-    const mobileTagButtonClicked = currentTag && scrollCount === 1;
-    const hasReachedScrollLimit = scrollCount === totalScrollCount;
+    const isInitialScroll = !currentTag && scrollCount === MIN_SCROLL_COUNT;
+    const scrollDetected =
+      inView && scrollCount > MIN_SCROLL_COUNT && scrollCount <= totalScrollCount;
+    const mobileTagButtonClicked = currentTag && scrollCount === MIN_SCROLL_COUNT;
     const hasNoData = totalScrollCount === 0;
-
-    // 모바일: 클라이언트 사이드에서 처음 fetch할 때만 로딩 화면 보여주기
-    if (isFirstFetch && hasNoData) setIsLoading(true);
+    const hasReachedScrollLimit = scrollCount === totalScrollCount;
 
     // 처음 메인화면으로 진입한 경우
     if (isInitialScroll) {
       setData(initialData);
       setTotalScrollCount(initialTotalScrollCount);
-      setIsLoading(false);
     }
 
-    // 무한 스크롤 된 경우 또는 태그 버튼을 클릭한 경우
+    // 무한 스크롤이 감지된 경우 또는 태그 버튼을 클릭한 경우
     if (scrollDetected || mobileTagButtonClicked) loadData(scrollCount);
+
+    // 모바일: 모바일 화면에서 태그 버튼을 클릭 시
+    if (mobileTagButtonClicked && hasNoData) setIsLoading(true);
 
     // scrollCount가 한계치에 도달하는 경우 더 이상 스크롤 이벤트가 발생하지 않도록 처리
     if (hasReachedScrollLimit) setScrollCount(UNREACHABLE_SCROLL_LIMIT);
@@ -125,7 +124,7 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
       <ScrollingIcon isScrolling={isScrolling} />
       <div className={styles.container}>
         {data.map((item, index) => {
-          const isLastItem = index + 1 === data.length;
+          const isCurrentLastItem = index + 1 === data.length;
           const { imgUrl, blurHash, album, id, artist, artistId } = item;
           return (
             <div
@@ -135,7 +134,7 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
               // data-aos-once="true"
               key={album}
               className={styles.itemContainer}
-              ref={isLastItem ? ref : undefined}
+              ref={isCurrentLastItem ? ref : undefined}
             >
               <Link href={toPostPage(pathName, id)} onClick={updateScrollPosition}>
                 <div className={styles.albumImageWrapper}>

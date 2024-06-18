@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { FIRST_SCROLL, PER_PAGE_COUNT } from "./constants";
+import { MIN_SCROLL_COUNT, PER_PAGE_COUNT } from "./constants";
 import { AlbumInfo, SpotifyAlbumData } from "./types";
 
 interface InitialAlbumDataResult {
@@ -9,7 +9,7 @@ interface InitialAlbumDataResult {
 
 export async function fetchInitialAlbumData(): Promise<InitialAlbumDataResult> {
   try {
-    const queryString = `?scrollCount=${FIRST_SCROLL}&currentTagKey=${""}`;
+    const queryString = `?scrollCount=${MIN_SCROLL_COUNT}&currentTagKey=${""}`;
     const url = `https://music.divdivdiv.com/api${queryString}`;
 
     const response = await fetch(url, {
