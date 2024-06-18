@@ -1,5 +1,5 @@
 import Error from "@/app/components/@common/Error";
-import ArtistContents from "../../../components/artist/ArtistContents";
+import ArtistContents from "../../../../components/artist/ArtistContents";
 import { MusicLayout } from "@/app/components/@common/MusicLayout";
 import { fetchArtistData } from "@/app/modules/api";
 import { SITE_TITLE } from "@/app/modules/constants";

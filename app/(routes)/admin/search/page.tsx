@@ -2,7 +2,7 @@
 
 import SearchContents from "@/app/components/search/SearchContents";
 import { MusicLayout } from "@/app/components/@common/MusicLayout";
-import { PageProps } from "../../modules/types";
+import { PageProps } from "../../../modules/types";
 
 export default function Page({ params }: PageProps) {
   const searchInfo = {

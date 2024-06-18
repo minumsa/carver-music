@@ -1,5 +1,5 @@
 import { useAtom, useSetAtom } from "jotai";
-import { LANDING_PAGE_TAGS, TAG_KEYS } from "../../modules/constants";
+import { LANDING_PAGE_TAGS } from "../../modules/constants";
 import styles from "./MobileTagDisplay.module.css";
 import {
   tagAtom,

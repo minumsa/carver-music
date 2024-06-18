@@ -1,6 +1,6 @@
-import { LandingPage } from "../components/landingPage/LandingPage";
-import { MusicLayout } from "../components/@common/MusicLayout";
-import { fetchInitialAlbumData } from "../modules/api";
+import { LandingPage } from "../../components/landingPage/LandingPage";
+import { MusicLayout } from "../../components/@common/MusicLayout";
+import { fetchInitialAlbumData } from "../../modules/api";
 
 export default async function Page() {
   try {
