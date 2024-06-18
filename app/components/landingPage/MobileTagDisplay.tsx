@@ -1,5 +1,5 @@
 import { useAtom, useSetAtom } from "jotai";
-import { DEFAULT_TAGS, TAG_KEYS } from "../../modules/constants";
+import { LANDING_PAGE_TAGS, TAG_KEYS } from "../../modules/constants";
 import styles from "./MobileTagDisplay.module.css";
 import {
   tagAtom,
@@ -36,9 +36,9 @@ export const MobileTagDisplay = () => {
 
   return (
     <div className={styles.container} style={{ flexWrap: showAllTagItems ? "wrap" : "nowrap" }}>
-      {TAG_KEYS.map((tag) => {
+      {Object.keys(LANDING_PAGE_TAGS).map((tag) => {
         const isActive = currentTag === tag || (currentTag === "" && tag === "all");
-        const tagName = DEFAULT_TAGS[tag];
+        const tagName = LANDING_PAGE_TAGS[tag];
         return (
           <div
             key={tag}

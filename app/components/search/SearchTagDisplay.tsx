@@ -1,4 +1,4 @@
-import { SEARCH_TAGS } from "@/app/modules/constants";
+import { DEFAULT_TAGS } from "@/app/modules/constants";
 import styles from "./SearchTagDisplay.module.css";
 import { usePathname, useRouter } from "next/navigation";
 import { isAdminPage } from "@/app/modules/utils";
@@ -8,7 +8,7 @@ interface SearchTagDisplayProps {
 }
 
 export const SearchTagDisplay = ({ currentTagName }: SearchTagDisplayProps) => {
-  const tags = Object.keys(SEARCH_TAGS);
+  const tags = Object.keys(DEFAULT_TAGS);
   const router = useRouter();
   const pathName = usePathname();
 
@@ -27,7 +27,7 @@ export const SearchTagDisplay = ({ currentTagName }: SearchTagDisplayProps) => {
             className={`${styles.tag} ${isClickedTag ? styles.clickedTag : undefined}`}
             onClick={() => handleTagClick(tag)}
           >
-            {SEARCH_TAGS[tag]}
+            {DEFAULT_TAGS[tag]}
           </div>
         );
       })}

@@ -3,7 +3,7 @@ import styles from "./PostAlbumText.module.css";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { AlbumInfo } from "../../modules/types";
-import { DEFAULT_TAGS } from "../../modules/constants";
+import { DEFAULT_TAGS } from "@/app/modules/constants";
 
 interface PostTextProps {
   postData: AlbumInfo;

@@ -1,5 +1,5 @@
 import React from "react";
-import { GROUP_TAGS } from "@/app/modules/constants";
+import { UPLOAD_PAGE_GROUP_TAGS } from "@/app/modules/constants";
 import styles from "./TagModal.module.css";
 
 interface TagModalProps {
@@ -12,16 +12,16 @@ export const TagModal = ({ currentTagKeys, addTagItem, onClose }: TagModalProps)
   return (
     <div className={styles.container} onClick={onClose}>
       <div className={styles.tagModal} onClick={(e) => e.stopPropagation()}>
-        {Object.keys(GROUP_TAGS).map((tagTheme, index) => {
+        {Object.keys(UPLOAD_PAGE_GROUP_TAGS).map((tagTheme, index) => {
           const isNormalTag = tagTheme !== "모두보기";
           return (
             isNormalTag && (
               <React.Fragment key={index}>
                 <div className={styles.tagTheme}>{tagTheme}</div>
                 <div className={styles.tagWrapper}>
-                  {Object.keys(GROUP_TAGS[tagTheme]).map((tag) => {
+                  {Object.keys(UPLOAD_PAGE_GROUP_TAGS[tagTheme]).map((tag) => {
                     const isExistingTag = currentTagKeys.includes(tag);
-                    const tagName = GROUP_TAGS[tagTheme][tag];
+                    const tagName = UPLOAD_PAGE_GROUP_TAGS[tagTheme][tag];
                     return (
                       !isExistingTag && (
                         <div
