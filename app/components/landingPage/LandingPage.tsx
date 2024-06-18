@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styles from "./LandingPage.module.css";
 import { AlbumFilters, fetchAlbumData } from "../../modules/api";
 import { usePathname } from "next/navigation";
@@ -38,14 +38,14 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
   const pathName = usePathname();
   const [data, setData] = useAtom(albumDataAtom);
   const [scrollCount, setScrollCount] = useAtom(scrollCountAtom);
-  const setScrollPosition = useSetAtom(scrollPositionAtom);
   const [totalScrollCount, setTotalScrollCount] = useAtom(totalScrollCountAtom);
+  const [isScrolling, setIsScrolling] = useAtom(isScrollingAtom);
+  const setScrollPosition = useSetAtom(scrollPositionAtom);
   const { ref, inView } = useInView({
     threshold: 0,
     triggerOnce: true,
   });
   const currentTag = useAtomValue(tagAtom);
-  const [isScrolling, setIsScrolling] = useAtom(isScrollingAtom);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const isFirstFetch = scrollCount === 1;
 
@@ -57,8 +57,8 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
   useScrollReset();
   useScrollUpdate(inView);
 
-  useEffect(() => {
-    async function loadData(scrollCount: number) {
+  const loadData = useCallback(
+    async (scrollCount: number) => {
       try {
         const albumFilters: AlbumFilters = {
           scrollCount,
@@ -83,8 +83,11 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
       } finally {
         setIsLoading(false);
       }
-    }
+    },
+    [isFirstFetch, currentTag],
+  );
 
+  useEffect(() => {
     const isInitialScroll = !currentTag && scrollCount === 1;
     const scrollDetected = inView && scrollCount > 1 && scrollCount <= totalScrollCount;
     const mobileTagButtonClicked = currentTag && scrollCount === 1;

@@ -42,7 +42,7 @@
   width: 100%;
 }
 
-.albumTitle {
+.albumTitleContainerContainer {
   display: flex;
   align-items: center;
   margin: 0 0 10px 0;
@@ -184,7 +184,7 @@
     line-height: 200%;
   }
 
-  .albumTitle {
+  .albumTitleContainerContainer {
     justify-content: center;
   }
 
@@ -204,7 +204,7 @@
     height: 280px;
   }
 
-  .albumTitle {
+  .albumTitleContainerContainer {
     padding: 0;
   }
 
@@ -238,5 +238,11 @@
 
   .buttonContainer {
     justify-content: center;
+  }
+}
+
+@media (max-width: 525px) {
+  .albumTitle {
+    text-align: center;
   }
 }

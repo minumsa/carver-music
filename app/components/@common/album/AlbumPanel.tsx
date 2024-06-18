@@ -48,9 +48,9 @@ export const AlbumPanel = ({ albumData }: AlbumProps) => {
             return (
               <div key={index}>
                 {/* 앨범 타이틀 */}
-                <div className={styles.albumTitle}>
+                <div className={styles.albumTitleContainer}>
                   <Link href={toPostPage(pathName, id)}>
-                    <h2>{album}</h2>
+                    <h2 className={styles.albumTitle}>{album}</h2>
                   </Link>
                   {/* 별점 */}
                   {/* FIXME: star-color.webp => svg 파일로 변경하기 */}
