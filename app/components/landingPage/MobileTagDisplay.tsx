@@ -2,19 +2,23 @@ import { useAtom, useSetAtom } from "jotai";
 import { LANDING_PAGE_TAGS } from "../../modules/constants";
 import styles from "./MobileTagDisplay.module.css";
 import {
-  tagAtom,
   albumDataAtom,
   scrollCountAtom,
   scrollPositionAtom,
   totalScrollCountAtom,
   showAllTagItemsAtom,
 } from "../../modules/atoms";
+import { memo } from "react";
 
-export const MobileTagDisplay = () => {
+interface MobileTagDisplayProps {
+  currentTag: string;
+  setCurrentTag: any;
+}
+
+const MobileTagDisplay = ({ currentTag, setCurrentTag }: MobileTagDisplayProps) => {
   const setData = useSetAtom(albumDataAtom);
   const setScrollCount = useSetAtom(scrollCountAtom);
   const setTotalScrollCount = useSetAtom(totalScrollCountAtom);
-  const [currentTag, setCurrentTag] = useAtom(tagAtom);
   const setScrollPosition = useSetAtom(scrollPositionAtom);
   const [showAllTagItems, setShowAllTagItems] = useAtom(showAllTagItemsAtom);
 
@@ -60,3 +64,5 @@ export const MobileTagDisplay = () => {
     </div>
   );
 };
+
+export default memo(MobileTagDisplay);

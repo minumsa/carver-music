@@ -1,10 +1,11 @@
-import styles from "./LoadingView.module.css";
+import { memo } from "react";
+import styles from "./MobileLoadingView.module.css";
 
 interface LoadingProps {
   isLoading: boolean;
 }
 
-export const LoadingView = ({ isLoading }: LoadingProps) => {
+const MobileLoadingView = ({ isLoading }: LoadingProps) => {
   const loadingText = "데이터 로딩 중입니다...";
 
   return (
@@ -14,3 +15,5 @@ export const LoadingView = ({ isLoading }: LoadingProps) => {
     </div>
   );
 };
+
+export default memo(MobileLoadingView);

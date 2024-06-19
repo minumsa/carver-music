@@ -4,13 +4,12 @@ import { useCallback, useEffect, useState } from "react";
 import styles from "./LandingPage.module.css";
 import { AlbumFilters, fetchAlbumData } from "../../modules/api";
 import { usePathname } from "next/navigation";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import React from "react";
 import { useInView } from "react-intersection-observer";
 import "aos/dist/aos.css";
 import Link from "next/link";
 import { BlurImg } from "../@common/BlurImg";
-import { LoadingView } from "../@common/LoadingView";
 import { AlbumInfo } from "../../modules/types";
 import {
   tagAtom,
@@ -21,11 +20,12 @@ import {
   isScrollingAtom,
 } from "../../modules/atoms";
 import { toArtistPage, toPostPage } from "../../modules/paths";
-import { MobileTagDisplay } from "./MobileTagDisplay";
 import { MIN_SCROLL_COUNT, PER_PAGE_COUNT } from "../../modules/constants";
 import { ScrollingIcon } from "./ScrollingIcon";
 import useScrollReset from "@/app/hooks/useScrollReset";
 import useScrollUpdate from "@/app/hooks/useScrollUpdate";
+import MobileLoadingView from "../@common/MobileLoadingView";
+import MobileTagDisplay from "./MobileTagDisplay";
 
 interface LandingPageProps {
   initialData: AlbumInfo[];
@@ -45,7 +45,7 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
     threshold: 0,
     triggerOnce: true,
   });
-  const currentTag = useAtomValue(tagAtom);
+  const [currentTag, setCurrentTag] = useAtom(tagAtom);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const isFirstFetch = scrollCount === 1;
 
@@ -119,8 +119,8 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
   return (
     <>
       {/* 모바일 - 태그 컴포넌트 */}
-      <MobileTagDisplay />
-      <LoadingView isLoading={isLoading} />
+      <MobileTagDisplay currentTag={currentTag} setCurrentTag={setCurrentTag} />
+      <MobileLoadingView isLoading={isLoading} />
       <ScrollingIcon isScrolling={isScrolling} />
       <div className={styles.container}>
         {data.map((item, index) => {
