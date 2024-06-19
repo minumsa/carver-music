@@ -132,7 +132,7 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
               // data-aos-duration={400}
               // data-aos-offset={isMobile ? 40 : 90}
               // data-aos-once="true"
-              key={album}
+              key={id}
               className={styles.itemContainer}
               ref={isCurrentLastItem ? ref : undefined}
             >
