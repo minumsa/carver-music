@@ -12,6 +12,6 @@ export const toTagPage = (pathName: string, tagKey: string) =>
   isAdmin(pathName) ? `/admin/search/tag/${tagKey}/1` : `/search/tag/${tagKey}/1`;
 
 export const toGenrePage = (pathName: string, category: string) =>
-  isAdmin(pathName) ? `admin/${category}/1` : `${category}/1`;
+  isAdmin(pathName) ? `/admin/${category}/1` : `/${category}/1`;
 
-export const toSearchPage = (pathName: string) => (isAdmin(pathName) ? `admin/search` : `search`);
+export const toSearchPage = (pathName: string) => (isAdmin(pathName) ? `/admin/search` : `/search`);

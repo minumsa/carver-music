@@ -1,12 +1,12 @@
 import styles from "./Category.module.css";
 import Link from "next/link";
 import { Hamburger } from "./Hamburger";
-import { usePathname } from "next/navigation";
 import { useSetAtom } from "jotai";
 import { tagAtom } from "../../../modules/atoms";
 import { isAdminPage } from "../../../modules/utils";
 import { toSearchPage } from "../../../modules/paths";
 import { SITE_TITLE } from "@/app/modules/constants";
+import { usePathname } from "next/navigation";
 
 export const Category = () => {
   const pathName = usePathname();
@@ -34,7 +34,7 @@ export const Category = () => {
           ) : (
             <Link
               className={styles.title}
-              href={isAdminPage(pathName) ? "/admin" : ""}
+              href={isAdminPage(pathName) ? "/admin" : "/"}
               onClick={() => {
                 setCurrentTagKey("");
               }}

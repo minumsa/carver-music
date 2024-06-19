@@ -2,7 +2,6 @@
 module.exports = {
   reactStrictMode: false,
   experimental: {
-    appDir: true,
     serverComponentsExternalPackages: ["mongoose"],
     scrollRestoration: false,
   },
