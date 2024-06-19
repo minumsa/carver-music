@@ -42,7 +42,6 @@ export const Hamburger = () => {
                   href={toGenrePage(pathName, category)}
                   onClick={() => {
                     setCurrentTagKey("");
-                    console.log("category", category);
                   }}
                 >
                   <li className={styles.categoryItem}>{GENRES[category]}</li>

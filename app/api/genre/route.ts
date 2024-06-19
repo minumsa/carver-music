@@ -20,12 +20,11 @@ export async function GET(request: Request) {
     const query: Query = { genre: currentGenre };
 
     const skipCount = SUB_PER_PAGE_COUNT * currentPage - SUB_PER_PAGE_COUNT;
-    const genreData =
-      currentPage === 1
-        ? await Music.find(query).sort(sortKey).limit(SUB_PER_PAGE_COUNT)
-        : await Music.find(query).sort(sortKey).skip(skipCount).limit(SUB_PER_PAGE_COUNT);
+    const genreData = await Music.find(query)
+      .sort(sortKey)
+      .skip(skipCount)
+      .limit(SUB_PER_PAGE_COUNT);
     const genreDataCount = await Music.find(query).count();
-
     return NextResponse.json({ genreData, genreDataCount });
   } catch (error) {
     console.error(error);
