@@ -4,6 +4,8 @@ import { NextResponse } from "next/server";
 let cachedAccessToken: CashedAccessToken = null;
 let tokenExpirationTime: number = 0;
 
+export const dynamic = "force-dynamic";
+
 async function getToken() {
   try {
     const isTokenValid = Date.now() < tokenExpirationTime;

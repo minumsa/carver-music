@@ -8,6 +8,8 @@ interface Query {
   tagKeys?: string; // tag는 모바일 환경에서 태그 클릭 시에만 존재해서 ? 처리
 }
 
+export const dynamic = "force-dynamic";
+
 export async function GET(request: Request) {
   try {
     await connectMongoDB();

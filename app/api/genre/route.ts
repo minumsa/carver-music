@@ -8,6 +8,8 @@ interface Query {
   genre: Genres[keyof Genres]; // Genres 인터페이스의 키 값들 중 하나
 }
 
+export const dynamic = "force-dynamic";
+
 export async function GET(request: Request) {
   try {
     await connectMongoDB();
