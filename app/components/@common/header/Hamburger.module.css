@@ -52,6 +52,13 @@
   font-size: 1.1rem;
 }
 
+.categoryTitle {
+  z-index: 3;
+  padding: 7px 0;
+  font-weight: 600;
+  font-style: italic;
+}
+
 .categoryItem {
   z-index: 3;
   cursor: pointer;
@@ -60,16 +67,6 @@
 
 .categoryItem:hover {
   text-decoration: underline;
-}
-
-.categoryItem-title {
-  z-index: 3;
-  padding: 7px 0;
-  font-weight: 600;
-}
-
-.categoryItem-title:hover {
-  text-decoration: none;
 }
 
 .adminCategory {

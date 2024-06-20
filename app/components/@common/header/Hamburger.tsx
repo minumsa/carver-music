@@ -35,6 +35,7 @@ export const Hamburger = () => {
       </button>
       {showCategory ? (
         <ul className={styles.category}>
+          <div className={styles.categoryTitle}>장르</div>
           {Object.keys(GENRES).map((category) => {
             return (
               <React.Fragment key={category}>
@@ -52,17 +53,17 @@ export const Hamburger = () => {
         </ul>
       ) : null}
       {showCategory && isAdminPage(pathName) && (
-        <div className={styles.adminCategory}>
-          <div className={styles.categoryItemTitle}>관리자 메뉴</div>
-          <div
+        <ul className={styles.adminCategory}>
+          <li className={styles.categoryTitle}>관리자 메뉴</li>
+          <li
             className={styles.categoryItem}
             onClick={() => {
               router.push("/admin/upload");
             }}
           >
             글쓰기
-          </div>
-        </div>
+          </li>
+        </ul>
       )}
     </nav>
   );
