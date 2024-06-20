@@ -5,7 +5,7 @@ import Music from "@/models/music";
 import { SortKey } from "../modules/types";
 
 interface Query {
-  tagKeys?: string;
+  tagKeys?: string; // tag는 모바일 환경에서 태그 클릭 시에만 존재해서 ? 처리
 }
 
 export async function GET(request: Request) {
@@ -13,11 +13,10 @@ export async function GET(request: Request) {
     await connectMongoDB();
 
     const url = new URL(request.url);
-    const scrollCount = Number(url.searchParams.get("scrollCount")) ?? 1;
-    const tag = url.searchParams.get("tag") ?? "";
+    const scrollCount = Number(url.searchParams.get("scrollCount"));
+    const tag = url.searchParams.get("tag");
 
     const sortKey: SortKey = { score: -1, artist: 1 };
-
     const query: Query = {};
 
     if (tag) {

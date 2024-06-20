@@ -15,6 +15,13 @@ export interface Genres {
   classic: string;
   soundtrack: string;
   // 이 인터페이스로 정의된 객체에는 어떤 문자열 키라도 사용할 수 있음
+}
+
+export interface GenreTranslations {
+  [key: Genres[keyof Genres]]: string;
+}
+
+export interface Tags {
   [key: string]: string;
 }
 

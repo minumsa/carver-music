@@ -1,4 +1,4 @@
-import { Genres } from "./types";
+import { GenreTranslations, Genres, Tags } from "./types";
 
 export const SITE_TITLE: string = "카버뮤직";
 
@@ -7,7 +7,7 @@ export const MIN_SCROLL_COUNT: number = 1;
 export const PER_PAGE_COUNT: number = 50;
 export const SUB_PER_PAGE_COUNT: number = 5;
 
-export const GENRES: Genres = {
+export const GENRES: GenreTranslations = {
   pop: "팝",
   kpop: "케이팝",
   jpop: "제이팝",
@@ -23,10 +23,6 @@ export const GENRES: Genres = {
   classic: "클래식",
   soundtrack: "사운드트랙",
 };
-
-export interface Tags {
-  [key: string]: string;
-}
 
 export const DEFAULT_TAGS: Tags = {
   // 연도별
