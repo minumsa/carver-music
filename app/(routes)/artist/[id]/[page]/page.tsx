@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const currentPage = params.page;
 
   const { artistData } = await fetchArtistData(artistId, currentPage);
-  const firstArtistData = artistData[0];
+  const [firstArtistData] = artistData;
 
   if (!firstArtistData) {
     console.error("No artist data found");

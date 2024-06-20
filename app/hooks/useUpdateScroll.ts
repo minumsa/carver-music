@@ -2,7 +2,7 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { isScrollingAtom, scrollCountAtom, totalScrollCountAtom } from "../modules/atoms";
 import { useEffect } from "react";
 
-export default function useScrollUpdate(inView: boolean) {
+export function useUpdateScroll(inView: boolean) {
   const [scrollCount, setScrollCount] = useAtom(scrollCountAtom);
   const newTotalScrollCount = useAtomValue(totalScrollCountAtom);
   const setIsScrolling = useSetAtom(isScrollingAtom);

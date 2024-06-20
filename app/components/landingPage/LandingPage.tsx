@@ -22,10 +22,10 @@ import {
 import { toArtistPage, toPostPage } from "../../modules/paths";
 import { MIN_SCROLL_COUNT, PER_PAGE_COUNT } from "../../modules/constants";
 import { ScrollingIcon } from "./ScrollingIcon";
-import useScrollReset from "@/app/hooks/useScrollReset";
-import useScrollUpdate from "@/app/hooks/useScrollUpdate";
 import MobileLoadingView from "../@common/MobileLoadingView";
 import MobileTagDisplay from "./MobileTagDisplay";
+import { useUpdateScroll } from "@/app/hooks/useUpdateScroll";
+import { useResetScroll } from "@/app/hooks/useResetScroll";
 
 interface LandingPageProps {
   initialData: AlbumInfo[];
@@ -54,8 +54,8 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
     // Aos.init();
   }, []);
 
-  useScrollReset();
-  useScrollUpdate(inView);
+  useResetScroll();
+  useUpdateScroll(inView);
 
   const loadData = useCallback(
     async (scrollCount: number) => {

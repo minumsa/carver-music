@@ -184,8 +184,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
     }
   }, [watch("searchKeyword"), isTyping]);
 
-  function selectSearchResult(data: SearchData) {
-    const { name, id, artists, release_date } = data;
+  function selectSearchResult({ name, id, artists, release_date }: SearchData) {
     const artist = artists[0].name;
     const decade = getDecade(release_date);
     setValue("currentTagKeys", [decade]);
@@ -252,7 +251,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
             <AlbumSearchModal
               searchKeyword={getValues("searchKeyword")}
               searchData={searchData}
-              onSelect={selectSearchResult}
+              selectSearchResult={selectSearchResult}
             />
           )}
         </div>

@@ -1,6 +1,6 @@
 import styles from "./TagsEditor.module.css";
 import React, { useRef, useState } from "react";
-import useOutsideClick from "@/app/hooks/useOutsideClick";
+import useClickOutside from "@/app/hooks/useClickOutside";
 import { TagItem } from "./TagItem";
 import { TagModal } from "./TagModal";
 
@@ -37,7 +37,7 @@ export const TagsEditor = ({ currentTagKeys, setCurrentTagKeys }: TagsEditorProp
     setNewTagKey("");
   };
 
-  useOutsideClick(modalRef, handleOutsideClick);
+  useClickOutside(modalRef, handleOutsideClick);
 
   return (
     <div ref={modalRef} className={styles.blockContainer}>

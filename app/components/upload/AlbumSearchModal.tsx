@@ -4,10 +4,14 @@ import styles from "./AlbumSearchModal.module.css";
 interface SearchResultProps {
   searchKeyword: string;
   searchData: SearchData[];
-  onSelect: (data: SearchData) => void;
+  selectSearchResult: (data: SearchData) => void;
 }
 
-export const AlbumSearchModal = ({ searchKeyword, searchData, onSelect }: SearchResultProps) => {
+export const AlbumSearchModal = ({
+  searchKeyword,
+  searchData,
+  selectSearchResult,
+}: SearchResultProps) => {
   const hasSearchResult = searchData.length > 0;
 
   return (
@@ -24,7 +28,7 @@ export const AlbumSearchModal = ({ searchKeyword, searchData, onSelect }: Search
               className={styles.modalWrapper}
               key={index}
               onClick={() => {
-                onSelect(data);
+                selectSearchResult(data);
               }}
             >
               <div className={styles.albumImageWrapper}>

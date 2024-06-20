@@ -6,7 +6,7 @@ interface ArtistPageImageProps {
 }
 
 export const ArtistHeader = ({ artistData }: ArtistPageImageProps) => {
-  const firstArtistData = artistData[0];
+  const [firstArtistData] = artistData;
   const { artist, artistImgUrl } = firstArtistData;
 
   return (

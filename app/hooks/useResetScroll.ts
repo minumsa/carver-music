@@ -2,7 +2,7 @@ import { useAtom } from "jotai";
 import { scrollPositionAtom } from "../modules/atoms";
 import { useEffect } from "react";
 
-export default function useScrollReset() {
+export function useResetScroll() {
   const [scrollPosition, setScrollPosition] = useAtom(scrollPositionAtom);
 
   useEffect(() => {
