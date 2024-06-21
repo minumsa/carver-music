@@ -15,5 +15,6 @@ export function useUpdateScroll(inView: boolean) {
         setIsScrolling(true);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
 }

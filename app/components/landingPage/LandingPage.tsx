@@ -1,16 +1,18 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import styles from "./LandingPage.module.css";
-import { AlbumFilters, fetchAlbumData } from "../../modules/api";
-import { usePathname } from "next/navigation";
 import { useAtom, useSetAtom } from "jotai";
-import React from "react";
-import { useInView } from "react-intersection-observer";
-import "aos/dist/aos.css";
 import Link from "next/link";
-import { BlurImg } from "../@common/BlurImg";
-import { AlbumInfo } from "../../modules/types";
+import { usePathname } from "next/navigation";
+import React, { useCallback, useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
+import { useResetScroll } from "@/app/hooks/useResetScroll";
+import { useUpdateScroll } from "@/app/hooks/useUpdateScroll";
+import styles from "./LandingPage.module.css";
+import MobileTagDisplay from "./MobileTagDisplay";
+import { ScrollingIcon } from "./ScrollingIcon";
+import { AlbumFilters, fetchAlbumData } from "../../modules/api";
+import "aos/dist/aos.css";
+
 import {
   tagAtom,
   albumDataAtom,
@@ -19,13 +21,11 @@ import {
   scrollPositionAtom,
   isScrollingAtom,
 } from "../../modules/atoms";
-import { toArtistPage, toPostPage } from "../../modules/paths";
 import { MIN_SCROLL_COUNT, PER_PAGE_COUNT } from "../../modules/constants";
-import { ScrollingIcon } from "./ScrollingIcon";
+import { toArtistPage, toPostPage } from "../../modules/paths";
+import { AlbumInfo } from "../../modules/types";
+import { BlurImg } from "../@common/BlurImg";
 import MobileLoadingView from "../@common/MobileLoadingView";
-import MobileTagDisplay from "./MobileTagDisplay";
-import { useUpdateScroll } from "@/app/hooks/useUpdateScroll";
-import { useResetScroll } from "@/app/hooks/useResetScroll";
 
 interface LandingPageProps {
   initialData: AlbumInfo[];
@@ -83,6 +83,7 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
         setIsScrolling(false);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isFirstFetch, currentTag],
   );
 

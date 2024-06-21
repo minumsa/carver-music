@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { decode } from "blurhash";
+import { decode, encode } from "blurhash";
 
 export default function useBlurhash(
   blurhash: string,
@@ -13,8 +13,6 @@ export default function useBlurhash(
 
   useEffect(() => {
     let isCancelled = false;
-    width = 100;
-    height = 100;
     if (!blurhash || !width || !height) return;
 
     // decode hash

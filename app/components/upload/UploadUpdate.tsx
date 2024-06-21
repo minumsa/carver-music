@@ -166,6 +166,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
     }
 
     if (isUpdatePage) getAlbum();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentId]);
 
   const handleSearch = async () => {
@@ -182,6 +183,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       }, TYPING_DELAY_MS);
       return () => clearTimeout(typingTimer);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watch("searchKeyword"), isTyping]);
 
   function selectSearchResult({ name, id, artists, release_date }: SearchData) {
