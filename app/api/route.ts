@@ -57,6 +57,7 @@ export async function POST(request: Request) {
       videos,
       tagKeys,
       blurHash,
+      markdown,
       password,
     } = await request.json();
     const {
@@ -101,6 +102,7 @@ export async function POST(request: Request) {
       videos,
       tagKeys,
       blurHash,
+      markdown,
     });
     await newData.save();
     return NextResponse.json(newData.toJSON());
@@ -128,6 +130,7 @@ export async function PUT(request: Request) {
       videos,
       tagKeys,
       blurHash,
+      markdown,
       password,
     } = await request.json();
     const {
@@ -173,6 +176,7 @@ export async function PUT(request: Request) {
       videos,
       tagKeys,
       blurHash,
+      markdown,
     });
 
     await originalData.save();

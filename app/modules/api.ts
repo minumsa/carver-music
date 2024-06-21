@@ -253,6 +253,7 @@ export interface NewData {
   videos?: Video[];
   tagKeys: string[];
   blurHash: string;
+  markdown?: string;
 }
 
 export interface NewDataForUpdate extends NewData {
@@ -281,6 +282,7 @@ export async function uploadData({ newData, password }: UploadDataParams) {
     videos,
     tagKeys,
     blurHash,
+    markdown,
   } = newData;
 
   if (newData) {
@@ -301,6 +303,7 @@ export async function uploadData({ newData, password }: UploadDataParams) {
           videos,
           tagKeys,
           blurHash,
+          markdown,
           password: password,
         }),
       });
@@ -334,6 +337,7 @@ export const updateData = async ({ newData, password }: UpdateDataParams) => {
     videos,
     tagKeys,
     blurHash,
+    markdown,
   } = newData;
 
   if (newData !== null) {
@@ -355,6 +359,7 @@ export const updateData = async ({ newData, password }: UpdateDataParams) => {
           videos,
           tagKeys,
           blurHash,
+          markdown,
           password,
         }),
       });
