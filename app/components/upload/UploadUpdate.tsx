@@ -20,7 +20,7 @@ import { useForm } from "react-hook-form";
 import { AlbumSearchModal } from "./AlbumSearchModal";
 import VideoLinksEditor from "./VideoLinksEditor/VideoLinksEditor";
 import { TagsEditor } from "./TagsEditor/TagsEditor";
-import { getDecade } from "@/app/modules/utils";
+import { getBlurhash, getDecade } from "@/app/modules/utils";
 
 const TYPING_DELAY_MS = 1000;
 
@@ -77,9 +77,9 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
 
   const onSubmit = handleSubmit(async (data) => {
     const {
-      title,
       albumId,
       newAlbumId,
+      title,
       genre,
       link,
       text,
@@ -186,16 +186,19 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watch("searchKeyword"), isTyping]);
 
-  function selectSearchResult({ name, id, artists, release_date }: SearchData) {
+  const selectSearchResult = async (data: SearchData) => {
+    const { name, id, artists, release_date, images } = data;
     const artist = artists[0].name;
     const decade = getDecade(release_date);
+    const imgUrl = images[0].url;
+    setValue("blurHash", await getBlurhash(imgUrl));
     setValue("currentTagKeys", [decade]);
     setValue("artist", artist);
     setValue("newAlbumId", id);
     setValue("searchKeyword", name);
     setSearchData(undefined);
     setIsTyping(false);
-  }
+  };
 
   return (
     <form onSubmit={onSubmit} className={styles.container}>
@@ -279,18 +282,6 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
           className={styles.input}
           onChange={(e) => {
             setValue("artistId", e.target.value);
-          }}
-        />
-      </div>
-
-      {/* BlurHash String */}
-      <div className={styles.blockContainer}>
-        <label className={styles.blockTitle}>BlurHash String</label>
-        <input
-          {...register("blurHash")}
-          className={styles.input}
-          onChange={(e) => {
-            setValue("blurHash", e.target.value);
           }}
         />
       </div>

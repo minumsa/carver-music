@@ -1,3 +1,5 @@
+import { encode } from "blurhash";
+
 export const isAdminPage = (pathName: string) => {
   return pathName.includes("admin");
 };
@@ -37,4 +39,33 @@ export const getDecade = (releaseDate: string) => {
   const formattedDate = new Date(releaseDate);
   const formattedReleaseYear = Math.floor(formattedDate.getFullYear() / 10) * 10;
   return `decade${formattedReleaseYear}s`;
+};
+
+export const getBlurhash = (imgUrl: string): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    let blurhash = "";
+    const imageElement = new Image();
+    imageElement.crossOrigin = "anonymous"; // cross-origin 자격 증명 없이 요청
+    imageElement.src = imgUrl;
+
+    imageElement.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = imageElement.width;
+      canvas.height = imageElement.height;
+      const context = canvas.getContext("2d");
+
+      if (context) {
+        context.drawImage(imageElement, 0, 0);
+        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+        blurhash = encode(imageData.data, imageData.width, imageData.height, 4, 4);
+        resolve(blurhash); // 성공 시 Blurhash 값을 반환
+      } else {
+        reject(new Error("Failed to get canvas context"));
+      }
+    };
+
+    imageElement.onerror = (err) => {
+      reject(err); // 이미지 로드 실패 시 에러 반환
+    };
+  });
 };
