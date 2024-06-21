@@ -16,5 +16,6 @@ export function useResetScroll() {
     if (scrolledBefore) {
       scrollReset();
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scrollPosition]);
 }

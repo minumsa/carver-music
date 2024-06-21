@@ -1,12 +1,10 @@
 /** @type {import('next').NextConfig} */
-module.exports = {
+const nextConfig = {
   reactStrictMode: false,
   experimental: {
     serverComponentsExternalPackages: ["mongoose"],
     scrollRestoration: false,
   },
-  webpack(config) {
-    config.experiments = { ...config.experiments, topLevelAwait: true };
-    return config;
-  },
 };
+
+export default nextConfig;
