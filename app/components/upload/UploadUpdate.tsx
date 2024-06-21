@@ -147,6 +147,8 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       setValue("score", score);
       setValue("uploadDate", new Date(uploadDate));
       setValue("albumReleaseDate", new Date(releaseDate).toString());
+      const hasTitle = response?.title;
+      if (hasTitle) setValue("title", response.title);
 
       const decade = getDecade(releaseDate);
       const hasDecadeTag = tagKeys.includes(decade);
