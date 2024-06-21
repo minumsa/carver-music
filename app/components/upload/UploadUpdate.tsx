@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./UploadUpdate.module.css";
 import React from "react";
 import {
@@ -21,6 +21,8 @@ import { AlbumSearchModal } from "./AlbumSearchModal";
 import VideoLinksEditor from "./VideoLinksEditor/VideoLinksEditor";
 import { TagsEditor } from "./TagsEditor/TagsEditor";
 import { getBlurhash, getDecade } from "@/app/modules/utils";
+import dynamic from "next/dynamic";
+import ToastEditor from "./ToastEditor/ToastEditor";
 
 const TYPING_DELAY_MS = 1000;
 
@@ -202,6 +204,18 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
     setIsTyping(false);
   };
 
+  const ToastEditorNoSSR = dynamic(() => import("./ToastEditor/ToastEditor"), {
+    ssr: false,
+  });
+
+  const ref = useRef<any>(null);
+
+  useEffect(() => {
+    const editorIns = ref?.current?.getInstance();
+    // 에디터 작성 내용 markdown으로 저장
+    const contentMark = editorIns?.getMarkdown();
+  }, [ref]);
+
   return (
     <form onSubmit={onSubmit} className={styles.container}>
       <div className={styles.pageTitle}>{`${isUpdatePage ? "수정" : "업로드"}`} 페이지</div>
@@ -316,15 +330,16 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       </div>
 
       {/* 글 */}
-      <div className={styles.blockContainer}>
+      <div className={`${styles.blockContainer} ${styles.editor}`}>
         <label className={styles.blockTitle}>글</label>
-        <textarea
+        <ToastEditorNoSSR content="" editorRef={ref} />
+        {/* <textarea
           {...register("text")}
           className={`${styles.input} ${styles.inputText}`}
           onChange={(e) => {
             setValue("text", e.target.value);
           }}
-        />
+        /> */}
       </div>
 
       {/* FIXME: setValues props 타입 최대한 적절하게 변경 */}

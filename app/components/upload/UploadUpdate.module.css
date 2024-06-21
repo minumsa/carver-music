@@ -108,6 +108,10 @@
   font-size: 45px;
 }
 
+.editor {
+  height: 500px;
+}
+
 /* Media Queries */
 @media (max-width: 920px) {
   .container {
