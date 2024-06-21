@@ -22,7 +22,6 @@ import VideoLinksEditor from "./VideoLinksEditor/VideoLinksEditor";
 import { TagsEditor } from "./TagsEditor/TagsEditor";
 import { getBlurhash, getDecade } from "@/app/modules/utils";
 import dynamic from "next/dynamic";
-import ToastEditor from "./ToastEditor/ToastEditor";
 
 const TYPING_DELAY_MS = 1000;
 
@@ -32,6 +31,7 @@ interface UpdateProps {
 
 export interface Form {
   title?: string;
+  markdown?: string;
   albumId: string;
   newAlbumId: string;
   artist: string;
@@ -55,6 +55,10 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
   const [searchData, setSearchData] = useState<SearchData[]>();
   const [isTyping, setIsTyping] = useState(false);
   const updatePageExclusive = { display: isUpdatePage ? undefined : "none" };
+  const ToastEditorNoSSR = dynamic(() => import("./ToastEditor/ToastEditor"), {
+    ssr: false,
+  });
+  const ref = useRef<any>(null);
   const { register, handleSubmit, setValue, getValues, watch } = useForm<Form>({
     defaultValues: {
       title: "",
@@ -73,6 +77,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       videos: [{ title: "", url: "" }],
       videoCount: 1,
       currentTagKeys: [],
+      markdown: "",
       password: "",
     },
   });
@@ -94,6 +99,9 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
     } = data;
     const filteredText = text.replace(/\[\d+\]/g, "");
     const newSpotifyAlbumData: SpotifyAlbumData | undefined = await fetchSpotify(newAlbumId);
+    // 에디터 작성 내용 markdown으로 저장
+    const editorIns = ref?.current?.getInstance();
+    const markdown = editorIns?.getMarkdown();
 
     if (newSpotifyAlbumData) {
       const newData: NewDataForUpdate = {
@@ -108,6 +116,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
         videos,
         tagKeys: currentTagKeys.flat(),
         blurHash,
+        markdown,
       };
 
       try {
@@ -136,6 +145,8 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
         album,
         releaseDate,
         blurHash,
+        title,
+        markdown,
       } = response;
       setValue("albumId", id);
       setValue("newAlbumId", id);
@@ -149,9 +160,8 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       setValue("score", score);
       setValue("uploadDate", new Date(uploadDate));
       setValue("albumReleaseDate", new Date(releaseDate).toString());
-      const hasTitle = response?.title;
-      if (hasTitle) setValue("title", response.title);
-
+      setValue("title", title);
+      setValue("markdown", markdown);
       const decade = getDecade(releaseDate);
       const hasDecadeTag = tagKeys.includes(decade);
       const trueVideos = videos.filter((video: Video) => video.title.length > 0);
@@ -203,18 +213,6 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
     setSearchData(undefined);
     setIsTyping(false);
   };
-
-  const ToastEditorNoSSR = dynamic(() => import("./ToastEditor/ToastEditor"), {
-    ssr: false,
-  });
-
-  const ref = useRef<any>(null);
-
-  useEffect(() => {
-    const editorIns = ref?.current?.getInstance();
-    // 에디터 작성 내용 markdown으로 저장
-    const contentMark = editorIns?.getMarkdown();
-  }, [ref]);
 
   return (
     <form onSubmit={onSubmit} className={styles.container}>
@@ -332,7 +330,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       {/* 글 */}
       <div className={`${styles.blockContainer} ${styles.editor}`}>
         <label className={styles.blockTitle}>글</label>
-        <ToastEditorNoSSR content="" editorRef={ref} />
+        <ToastEditorNoSSR content={getValues("markdown")} editorRef={ref} />
         {/* <textarea
           {...register("text")}
           className={`${styles.input} ${styles.inputText}`}
@@ -398,7 +396,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
 
       {/* 제출 버튼 */}
       <div className={styles.buttonWrapper}>
-        <button type="submit" className={`${styles.button} ${styles.submit}`}>
+        <button type="submit" className={`${styles.button} ${styles.submit}`} onClick={onSubmit}>
           제출하기
         </button>
       </div>

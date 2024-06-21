@@ -63,6 +63,7 @@ export interface AlbumInfo {
   videos: Video[];
   tagKeys: string[];
   blurHash: string;
+  markdown?: string;
 }
 
 export interface PageProps {

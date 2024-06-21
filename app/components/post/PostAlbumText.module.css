@@ -7,6 +7,7 @@
   line-height: 210%;
   word-break: normal;
 }
+
 .title {
   font-weight: 700;
   margin: 0 0 30px 0;
@@ -53,6 +54,23 @@
 
 .postDate {
   font-weight: 600;
+}
+
+.viewerWrapper {
+  width: 100%;
+  position: relative;
+  color: var(--text-color);
+}
+
+.viewerWrapper img {
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  height: auto;
+}
+
+.viewerWrapper div {
+  font-size: 1.2rem;
 }
 
 @media (max-width: 800px) {
