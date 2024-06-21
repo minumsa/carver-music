@@ -330,7 +330,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       {/* 글 */}
       <div className={`${styles.blockContainer} ${styles.editor}`}>
         <label className={styles.blockTitle}>글</label>
-        <ToastEditorNoSSR content={getValues("markdown")} editorRef={ref} />
+        <ToastEditorNoSSR content={getValues("markdown") ?? ""} editorRef={ref} />
         {/* <textarea
           {...register("text")}
           className={`${styles.input} ${styles.inputText}`}
