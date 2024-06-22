@@ -4,12 +4,12 @@ import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-sy
 import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 import { Editor } from "@toast-ui/react-editor";
 
-interface Props {
+interface ToastEditorProps {
   content: string;
   editorRef: React.MutableRefObject<any>;
 }
 
-const ToastEditor = ({ content = "", editorRef }: Props) => {
+const ToastEditor = ({ content = "", editorRef }: ToastEditorProps) => {
   const toolbarItems = [
     ["heading", "bold", "italic", "strike"],
     ["hr"],

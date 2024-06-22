@@ -1,5 +1,5 @@
 import { formatDate, isAdminPage } from "../../modules/utils";
-import styles from "./PostAlbumText.module.css";
+import styles from "./PostText.module.css";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { AlbumInfo } from "../../modules/types";
@@ -13,15 +13,15 @@ interface PostTextProps {
 // FIXME: 포스트 페이지에서 GET /admin/post/4Oz7K9DRwwGMN49i4NbVDT 500 in 273ms 에러 해결
 export const PostText = ({ postData }: PostTextProps) => {
   const pathName = usePathname();
-  const { title, text, tagKeys, uploadDate } = postData;
+  const { title, text, tagKeys, uploadDate, markdown } = postData;
   const paragraphs = text.split("\n");
 
   return (
     <article className={styles.container}>
       {title && <h1 className={styles.title}>{title}</h1>}
-      {postData.markdown ? (
+      {markdown ? (
         <div className={styles.viewerWrapper}>
-          <Viewer initialValue={postData.markdown || ""} />
+          <Viewer initialValue={markdown || ""} />
         </div>
       ) : (
         paragraphs.map((paragraph, index) => {
