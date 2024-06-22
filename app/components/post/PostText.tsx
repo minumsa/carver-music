@@ -10,7 +10,6 @@ interface PostTextProps {
   postData: AlbumInfo;
 }
 
-// FIXME: 포스트 페이지에서 GET /admin/post/4Oz7K9DRwwGMN49i4NbVDT 500 in 273ms 에러 해결
 export const PostText = ({ postData }: PostTextProps) => {
   const pathName = usePathname();
   const { title, text, tagKeys, uploadDate, markdown } = postData;

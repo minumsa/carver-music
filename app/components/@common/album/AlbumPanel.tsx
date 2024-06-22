@@ -29,11 +29,13 @@ export const AlbumPanel = ({ albumData }: AlbumProps) => {
     imgUrl,
     tagKeys,
     score,
+    markdown,
   } = albumData;
   const pathName = usePathname();
   const albumDuration = getFormattedDuration(duration);
   const divRef = useRef<HTMLDivElement>(null);
   const paragraphs = text.split("\n");
+  const markdownFirstParagraph = markdown?.split("\n")[0];
 
   return (
     <>
@@ -99,7 +101,7 @@ export const AlbumPanel = ({ albumData }: AlbumProps) => {
                 {/* 텍스트 미리보기 및 더 보기 링크 */}
                 <div className={styles.textContainer}>
                   <p ref={divRef} className={`${styles.text} ${styles.blurEnd}`}>
-                    {text}
+                    {text ? text : markdownFirstParagraph}
                   </p>
                   <Link href={toPostPage(pathName, id)}>
                     <div className={styles.moreButton}>더 보기</div>
