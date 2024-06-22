@@ -1,12 +1,15 @@
 import { usePathname } from "next/navigation";
 import styles from "./PostAlbumMetadata.module.css";
 import { formatDate, getFormattedDuration, isAdminPage } from "../../modules/utils";
-import { DeleteButton } from "./assets/DeleteButton";
-import { EditButton } from "./assets/EditButton";
+import { DeleteButton } from "../@common/assets/DeleteButton";
+import { EditButton } from "../@common/assets/EditButton";
 import Link from "next/link";
-import { LinkIcon } from "./assets/LinkIcon";
+import { LinkIcon } from "../@common/assets/LinkIcon";
 import { BlurImg } from "../@common/BlurImg";
 import { AlbumInfo } from "../../modules/types";
+import { AlbumArtCard } from "./AlbumArtCard";
+import { isBrowser } from "react-device-detect";
+import { useEffect, useState } from "react";
 
 interface PostAlbumMetadataProps {
   postData: AlbumInfo;
@@ -30,15 +33,24 @@ export const PostAlbumMetadata = ({ postData }: PostAlbumMetadataProps) => {
   const albumDuration = getFormattedDuration(duration);
   const pathName = usePathname();
   const hasVideo = videos[0]?.title.length > 0;
+  const [browserView, setBrowserView] = useState(false);
+
+  useEffect(() => {
+    isBrowser && setBrowserView(true);
+  }, []);
 
   return (
     <header className={styles.container}>
-      {/* 이미지 관련 코드 */}
-      <div className={styles.albumImageContainer}>
-        <a href={link} target="_blank">
-          <BlurImg className={styles.albumImage} blurHash={blurHash} src={imgUrl} punch={1} />
-        </a>
-      </div>
+      {/* 앨범아트 관련 코드 */}
+      {browserView ? (
+        <AlbumArtCard link={link} imgUrl={imgUrl} />
+      ) : (
+        <div className={styles.albumImageContainer}>
+          <a href={link} target="_blank">
+            <BlurImg className={styles.albumImage} blurHash={blurHash} src={imgUrl} punch={1} />
+          </a>
+        </div>
+      )}
 
       <div className={styles.metadataContainer}>
         {/* 아티스트 정보 */}
