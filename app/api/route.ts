@@ -26,10 +26,7 @@ export async function GET(request: Request) {
     }
 
     const skipCount = PER_PAGE_COUNT * scrollCount - PER_PAGE_COUNT;
-    const albumData = await Music.find(query)
-      .sort(sortKey)
-      .skip(skipCount + 1)
-      .limit(PER_PAGE_COUNT);
+    const albumData = await Music.find(query).sort(sortKey).skip(skipCount).limit(PER_PAGE_COUNT);
     const albumDataCount = await Music.find(query).count();
     return NextResponse.json({ albumData, albumDataCount });
   } catch (error) {

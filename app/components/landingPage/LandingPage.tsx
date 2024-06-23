@@ -49,13 +49,6 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const isFirstFetch = scrollCount === 1;
 
-  console.log(data);
-
-  useEffect(() => {
-    // TODO: Aos 애니메이션 임시 미사용 상태, 아예 삭제할지 말지 결정하기
-    // Aos.init();
-  }, []);
-
   useResetScroll();
   useUpdateScroll(inView);
 
@@ -131,10 +124,6 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
           const { imgUrl, blurHash, album, id, artist, artistId } = item;
           return (
             <div
-              // data-aos="fade-up"
-              // data-aos-duration={400}
-              // data-aos-offset={isMobile ? 40 : 90}
-              // data-aos-once="true"
               key={id}
               className={styles.itemContainer}
               ref={isCurrentLastItem ? ref : undefined}
