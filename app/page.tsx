@@ -5,11 +5,12 @@ import { fetchInitialAlbumData } from "./modules/api";
 
 export default async function Page() {
   try {
-    const { albumData, totalScrollCount } = await fetchInitialAlbumData();
+    // const { albumData, totalScrollCount } = await fetchInitialAlbumData();
 
     return (
       <MusicLayout>
-        <LandingPage initialData={albumData} initialTotalScrollCount={totalScrollCount} />
+        {/* <LandingPage initialData={albumData} initialTotalScrollCount={totalScrollCount} /> */}
+        <LandingPage initialData={{}} initialTotalScrollCount={5} />
       </MusicLayout>
     );
   } catch (error) {

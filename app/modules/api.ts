@@ -7,12 +7,10 @@ interface InitialAlbumDataResult {
   totalScrollCount: number;
 }
 
-export async function fetchInitialAlbumData(): Promise<InitialAlbumDataResult> {
+export async function fetchInitialAlbumData() {
   try {
     const queryString = `?scrollCount=${MIN_SCROLL_COUNT}&currentTagKey=${""}`;
-    const url = `/api${queryString}`;
-    // const url = `http://localhost:3000/api${queryString}`;
-    // const url = `carver-music-git-mongodb-data-projection-minumsas-projects.vercel.app/api${queryString}`;
+    const url = `https://music.divdivdiv.com/api${queryString}`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -22,14 +20,15 @@ export async function fetchInitialAlbumData(): Promise<InitialAlbumDataResult> {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch music data");
+      throw new Error("Failed to fetch initial music data");
     }
 
     const { albumData, albumDataCount } = await response.json();
     const totalScrollCount = Math.ceil(albumDataCount / PER_PAGE_COUNT);
+
     return { albumData, totalScrollCount };
   } catch (error) {
-    throw new Error("Failed to fetch music data");
+    throw new Error("Failed to fetch initial music data");
   }
 }
 

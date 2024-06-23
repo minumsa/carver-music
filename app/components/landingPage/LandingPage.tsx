@@ -28,7 +28,8 @@ import { BlurImg } from "../@common/BlurImg";
 import MobileLoadingView from "../@common/MobileLoadingView";
 
 interface LandingPageProps {
-  initialData: AlbumInfo[];
+  // initialData: AlbumInfo[];
+  initialData: any;
   initialTotalScrollCount: number;
 }
 
@@ -92,8 +93,9 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
 
     // 처음 메인화면으로 진입한 경우
     if (isInitialScroll) {
-      setData(initialData);
-      setTotalScrollCount(initialTotalScrollCount);
+      loadData(scrollCount);
+      // setData(initialData);
+      // setTotalScrollCount(initialTotalScrollCount);
     }
 
     // 무한 스크롤이 감지된 경우 또는 태그 버튼을 클릭한 경우
