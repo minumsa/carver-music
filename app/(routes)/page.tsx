@@ -1,8 +1,8 @@
 import Error from "../components/@common/Error";
 import { MusicLayout } from "../components/@common/MusicLayout";
 import { LandingPage } from "../components/landingPage/LandingPage";
-import { fetchAlbumData, fetchGenreData, fetchInitialAlbumData } from "../modules/api";
-import { FIRST_PAGE, PER_PAGE_COUNT } from "../modules/constants";
+import { fetchAlbumData } from "../modules/api";
+import { PER_PAGE_COUNT } from "../modules/constants";
 import { AlbumFilters } from "../modules/types";
 
 export default async function Page() {
@@ -17,7 +17,6 @@ export default async function Page() {
 
     return (
       <MusicLayout>
-        <div>test</div>
         {/* <LandingPage initialData={albumData} initialTotalScrollCount={totalScrollCount} /> */}
       </MusicLayout>
     );

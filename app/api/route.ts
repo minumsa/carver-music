@@ -37,8 +37,11 @@ export async function GET(request: Request) {
       imgUrl: 1,
     };
 
-    const albumData = await Music.find(query).sort(sortKey).skip(skipCount).limit(PER_PAGE_COUNT);
-    // .select(projection);
+    const albumData = await Music.find(query)
+      .sort(sortKey)
+      .skip(skipCount)
+      .limit(PER_PAGE_COUNT)
+      .select(projection);
     const albumDataCount = albumData.length;
     return NextResponse.json({ albumData, albumDataCount });
   } catch (error) {
