@@ -1,15 +1,22 @@
 import Error from "../components/@common/Error";
 import { MusicLayout } from "../components/@common/MusicLayout";
 import { LandingPage } from "../components/landingPage/LandingPage";
-import { fetchInitialAlbumData } from "../modules/api";
+import { fetchAlbumData, fetchInitialAlbumData } from "../modules/api";
+import { AlbumFilters } from "../modules/types";
 
 export default async function Page() {
   try {
-    const { albumData, totalScrollCount } = await fetchInitialAlbumData();
+    const albumFilters: AlbumFilters = {
+      scrollCount: 1,
+      currentTag: "",
+    };
+
+    // const { albumData, albumDataCount } = await fetchAlbumData(albumFilters);
 
     return (
       <MusicLayout>
-        <LandingPage initialData={albumData} initialTotalScrollCount={totalScrollCount} />
+        <div>hi</div>
+        {/* <LandingPage initialData={albumData} initialTotalScrollCount={albumDataCount} /> */}
       </MusicLayout>
     );
   } catch (error) {
