@@ -1,22 +1,25 @@
 import { toast } from "react-toastify";
 import { MIN_SCROLL_COUNT, PER_PAGE_COUNT } from "./constants";
-import { AlbumInfo, SpotifyAlbumData } from "./types";
+import { AlbumFilters, AlbumInfo, SpotifyAlbumData } from "./types";
 
 interface InitialAlbumDataResult {
   albumData: AlbumInfo[];
   totalScrollCount: number;
 }
 
-export async function fetchInitialAlbumData() {
+export async function fetchInitialAlbumData(): Promise<InitialAlbumDataResult> {
   try {
-    const queryString = `?scrollCount=${MIN_SCROLL_COUNT}&currentTagKey=${""}`;
-    const url = `https://music.divdivdiv.com/api${queryString}`;
+    // const queryString = `?scrollCount=${MIN_SCROLL_COUNT}&tag=${""}`;
+    const queryString = `?scrollCount=${MIN_SCROLL_COUNT}`;
+    const url = `/api${queryString}`;
+    // const url = `http://localhost:3000/api${queryString}`;
 
     const response = await fetch(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
+      cache: "no-store",
     });
 
     if (!response.ok) {
@@ -32,20 +35,14 @@ export async function fetchInitialAlbumData() {
   }
 }
 
-export interface AlbumFilters {
-  scrollCount: number;
-  currentTag: string;
-}
-
 interface AlbumDataResult {
   albumData: AlbumInfo[];
   albumDataCount: number;
 }
 
 export async function fetchAlbumData(albumFilters: AlbumFilters): Promise<AlbumDataResult> {
-  const { scrollCount, currentTag } = albumFilters;
-
   try {
+    const { scrollCount, currentTag } = albumFilters;
     const queryString = `?scrollCount=${scrollCount}&tag=${currentTag}`;
     const url = `/api${queryString}`;
 
