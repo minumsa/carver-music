@@ -26,33 +26,10 @@ export async function GET(request: Request) {
     }
 
     const skipCount = PER_PAGE_COUNT * scrollCount - PER_PAGE_COUNT;
-    const projection = {
-      album: 1,
-      artist: 1,
-      artistId: 1,
-      artistImageUrl: 0,
-      blurHash: 1,
-      duration: 0,
-      genre: 0,
-      id: 1,
-      imgUrl: 1,
-      label: 0,
-      link: 0,
-      releaseDate: 0,
-      score: 0,
-      tagKeys: 0,
-      text: 0,
-      title: 0,
-      tracks: 0,
-      uploadDate: 0,
-      videos: 0,
-    };
-
     const albumData = await Music.find(query)
       .sort(sortKey)
       .skip(skipCount + 1)
-      .limit(PER_PAGE_COUNT)
-      .select(projection);
+      .limit(PER_PAGE_COUNT);
     const albumDataCount = await Music.find(query).count();
     return NextResponse.json({ albumData, albumDataCount });
   } catch (error) {
