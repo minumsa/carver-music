@@ -1,8 +1,9 @@
-import { LandingPage } from "../../components/landingPage/LandingPage";
-import { MusicLayout } from "../../components/@common/MusicLayout";
-import { fetchAlbumData } from "../../modules/api";
-import { AlbumFilters } from "@/app/modules/types";
-import { PER_PAGE_COUNT } from "@/app/modules/constants";
+import Error from "../components/@common/Error";
+import { MusicLayout } from "../components/@common/MusicLayout";
+import { LandingPage } from "../components/landingPage/LandingPage";
+import { fetchAlbumData } from "../modules/api";
+import { PER_PAGE_COUNT } from "../modules/constants";
+import { AlbumFilters } from "../modules/types";
 
 export default async function Page() {
   try {
@@ -20,6 +21,6 @@ export default async function Page() {
       </MusicLayout>
     );
   } catch (error) {
-    console.error(error);
+    return <Error error={error as Error} />;
   }
 }

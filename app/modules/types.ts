@@ -99,3 +99,8 @@ export interface SortKey {
 }
 
 export type CashedAccessToken = string | null;
+
+export interface AlbumFilters {
+  scrollCount: number;
+  currentTag: string;
+}

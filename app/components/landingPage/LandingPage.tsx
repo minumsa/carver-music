@@ -10,7 +10,7 @@ import { useUpdateScroll } from "@/app/hooks/useUpdateScroll";
 import styles from "./LandingPage.module.css";
 import MobileTagDisplay from "./MobileTagDisplay";
 import { ScrollingIcon } from "./ScrollingIcon";
-import { AlbumFilters, fetchAlbumData } from "../../modules/api";
+import { fetchAlbumData } from "../../modules/api";
 import "aos/dist/aos.css";
 
 import {
@@ -23,7 +23,7 @@ import {
 } from "../../modules/atoms";
 import { MIN_SCROLL_COUNT, PER_PAGE_COUNT } from "../../modules/constants";
 import { toArtistPage, toPostPage } from "../../modules/paths";
-import { AlbumInfo } from "../../modules/types";
+import { AlbumFilters, AlbumInfo } from "../../modules/types";
 import { BlurImg } from "../@common/BlurImg";
 import MobileLoadingView from "../@common/MobileLoadingView";
 
@@ -48,13 +48,6 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
   const [currentTag, setCurrentTag] = useAtom(tagAtom);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const isFirstFetch = scrollCount === 1;
-
-  console.log(data);
-
-  useEffect(() => {
-    // TODO: Aos 애니메이션 임시 미사용 상태, 아예 삭제할지 말지 결정하기
-    // Aos.init();
-  }, []);
 
   useResetScroll();
   useUpdateScroll(inView);
@@ -131,10 +124,6 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
           const { imgUrl, blurHash, album, id, artist, artistId } = item;
           return (
             <div
-              // data-aos="fade-up"
-              // data-aos-duration={400}
-              // data-aos-offset={isMobile ? 40 : 90}
-              // data-aos-once="true"
               key={id}
               className={styles.itemContainer}
               ref={isCurrentLastItem ? ref : undefined}
