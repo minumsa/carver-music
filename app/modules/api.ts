@@ -43,7 +43,7 @@ export async function fetchAlbumData(albumFilters: AlbumFilters) {
   try {
     const { scrollCount, currentTag } = albumFilters;
     const queryString = `?scrollCount=${scrollCount}&tag=${currentTag}`;
-    const url = `/api${queryString}`;
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/api${queryString}`;
 
     const response = await fetch(url, {
       method: "GET",
