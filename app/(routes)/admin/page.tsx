@@ -13,8 +13,6 @@ export default async function Page() {
     // const { albumData, albumDataCount } = await fetchAlbumData(albumFilters);
     const { genreData, genreDataCount } = await fetchGenreData("pop", FIRST_PAGE);
 
-    console.log(genreData);
-
     return (
       <MusicLayout>
         <div>hi</div>

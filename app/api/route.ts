@@ -14,9 +14,11 @@ export async function GET(request: Request) {
   try {
     await connectMongoDB();
 
-    const url = new URL(request.url);
-    const scrollCount = Number(url.searchParams.get("scrollCount"));
-    const tag = url.searchParams.get("currentTag");
+    // const url = new URL(request.url);
+    // const scrollCount = Number(url.searchParams.get("scrollCount"));
+    const scrollCount = 1;
+    // const tag = url.searchParams.get("currentTag");
+    const tag = undefined;
 
     const sortKey: SortKey = { score: -1, artist: 1 };
     const query: Query = {};
@@ -35,12 +37,9 @@ export async function GET(request: Request) {
       imgUrl: 1,
     };
 
-    const albumData = await Music.find(query)
-      .sort(sortKey)
-      .skip(skipCount)
-      .limit(PER_PAGE_COUNT)
-      .select(projection);
-    const albumDataCount = await Music.find(query).count();
+    const albumData = await Music.find(query).sort(sortKey).skip(skipCount).limit(PER_PAGE_COUNT);
+    // .select(projection);
+    const albumDataCount = albumData.length;
     return NextResponse.json({ albumData, albumDataCount });
   } catch (error) {
     console.error(error);
