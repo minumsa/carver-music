@@ -43,7 +43,7 @@ export async function fetchAlbumData(albumFilters: AlbumFilters): Promise<AlbumD
   try {
     const { scrollCount, currentTag } = albumFilters;
     const queryString = `?scrollCount=${scrollCount}&tag=${currentTag}`;
-    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/api${queryString}`;
+    const url = `${process.env.BASE_URL}/api${queryString}`;
 
     const response = await fetch(url, {
       method: "GET",
