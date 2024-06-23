@@ -11,7 +11,8 @@ export async function fetchInitialAlbumData(): Promise<InitialAlbumDataResult> {
   try {
     const queryString = `?scrollCount=${MIN_SCROLL_COUNT}&currentTagKey=${""}`;
     // const url = `https://music.divdivdiv.com/api${queryString}`;
-    const url = `http://localhost:3000/api${queryString}`;
+    // const url = `http://localhost:3000/api${queryString}`;
+    const url = `carver-music-git-mongodb-data-projection-minumsas-projects.vercel.app/api${queryString}`;
 
     const response = await fetch(url, {
       method: "GET",
