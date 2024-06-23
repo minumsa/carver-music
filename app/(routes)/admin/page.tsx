@@ -1,10 +1,19 @@
 import { LandingPage } from "../../components/landingPage/LandingPage";
 import { MusicLayout } from "../../components/@common/MusicLayout";
-import { fetchInitialAlbumData } from "../../modules/api";
+import { fetchAlbumData, fetchGenreData, fetchInitialAlbumData } from "../../modules/api";
+import { AlbumFilters } from "@/app/modules/types";
+import { FIRST_PAGE } from "@/app/modules/constants";
 
 export default async function Page() {
   try {
-    // const { albumData, totalScrollCount } = await fetchInitialAlbumData();
+    const albumFilters: AlbumFilters = {
+      scrollCount: 2,
+      currentTag: "",
+    };
+    // const { albumData, albumDataCount } = await fetchAlbumData(albumFilters);
+    const { genreData, genreDataCount } = await fetchGenreData("pop", FIRST_PAGE);
+
+    console.log(genreData);
 
     return (
       <MusicLayout>

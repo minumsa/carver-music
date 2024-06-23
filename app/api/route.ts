@@ -16,7 +16,7 @@ export async function GET(request: Request) {
 
     const url = new URL(request.url);
     const scrollCount = Number(url.searchParams.get("scrollCount"));
-    const tag = url.searchParams.get("tag");
+    const tag = url.searchParams.get("currentTag");
 
     const sortKey: SortKey = { score: -1, artist: 1 };
     const query: Query = {};

@@ -11,7 +11,7 @@ export async function fetchInitialAlbumData(): Promise<InitialAlbumDataResult> {
   try {
     // const queryString = `?scrollCount=${MIN_SCROLL_COUNT}&tag=${""}`;
     const queryString = `?scrollCount=${MIN_SCROLL_COUNT}`;
-    const url = `/api${queryString}`;
+    const url = `https://music.divdivdiv.com/api${queryString}`;
     // const url = `http://localhost:3000/api${queryString}`;
 
     const response = await fetch(url, {
@@ -43,7 +43,7 @@ export async function fetchAlbumData(albumFilters: AlbumFilters): Promise<AlbumD
   try {
     const { scrollCount, currentTag } = albumFilters;
     const queryString = `?scrollCount=${scrollCount}&tag=${currentTag}`;
-    const url = `/api${queryString}`;
+    const url = `https://music.divdivdiv.com/api${queryString}`;
 
     const response = await fetch(url, {
       method: "GET",
