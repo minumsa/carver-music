@@ -7,9 +7,9 @@ import Link from "next/link";
 import { LinkIcon } from "../@common/assets/LinkIcon";
 import { BlurImg } from "../@common/BlurImg";
 import { AlbumInfo } from "../../modules/types";
-import { AlbumArtCard } from "./AlbumArtCard";
-import { isBrowser } from "react-device-detect";
-import { useEffect, useState } from "react";
+// import { AlbumArtCard } from "./AlbumArtCard";
+// import { isBrowser } from "react-device-detect";
+// import { useEffect, useState } from "react";
 
 interface PostAlbumMetadataProps {
   postData: AlbumInfo;
@@ -33,16 +33,21 @@ export const PostAlbumMetadata = ({ postData }: PostAlbumMetadataProps) => {
   const albumDuration = getFormattedDuration(duration);
   const pathName = usePathname();
   const hasVideo = videos[0]?.title.length > 0;
-  const [browserView, setBrowserView] = useState(false);
+  // const [browserView, setBrowserView] = useState(false);
 
-  useEffect(() => {
-    isBrowser && setBrowserView(true);
-  }, []);
+  // useEffect(() => {
+  //   isBrowser && setBrowserView(true);
+  // }, []);
 
   return (
     <header className={styles.container}>
       {/* 앨범아트 관련 코드 */}
-      {browserView ? (
+      <div className={styles.albumImageContainer}>
+        <a href={link} target="_blank">
+          <BlurImg className={styles.albumImage} blurHash={blurHash} src={imgUrl} punch={1} />
+        </a>
+      </div>
+      {/* {browserView ? (
         <AlbumArtCard link={link} imgUrl={imgUrl} />
       ) : (
         <div className={styles.albumImageContainer}>
@@ -50,7 +55,7 @@ export const PostAlbumMetadata = ({ postData }: PostAlbumMetadataProps) => {
             <BlurImg className={styles.albumImage} blurHash={blurHash} src={imgUrl} punch={1} />
           </a>
         </div>
-      )}
+      )} */}
 
       <div className={styles.metadataContainer}>
         {/* 아티스트 정보 */}
