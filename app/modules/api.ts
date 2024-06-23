@@ -10,7 +10,8 @@ interface InitialAlbumDataResult {
 export async function fetchInitialAlbumData(): Promise<InitialAlbumDataResult> {
   try {
     const queryString = `?scrollCount=${MIN_SCROLL_COUNT}&currentTagKey=${""}`;
-    const url = `https://music.divdivdiv.com/api${queryString}`;
+    // const url = `https://music.divdivdiv.com/api${queryString}`;
+    const url = `http://localhost:3000/api${queryString}`;
 
     const response = await fetch(url, {
       method: "GET",
