@@ -39,7 +39,7 @@ interface AlbumDataResult {
   albumDataCount: number;
 }
 
-export async function fetchAlbumData(albumFilters: AlbumFilters) {
+export async function fetchAlbumData(albumFilters: AlbumFilters): Promise<AlbumDataResult> {
   try {
     const { scrollCount, currentTag } = albumFilters;
     const queryString = `?scrollCount=${scrollCount}&tag=${currentTag}`;

@@ -40,7 +40,7 @@ export async function GET(request: Request) {
       .skip(skipCount)
       .limit(PER_PAGE_COUNT)
       .select(projection);
-    const albumDataCount = albumData.length;
+    const albumDataCount = await Music.find(query).count();
     return NextResponse.json({ albumData, albumDataCount });
   } catch (error) {
     console.error(error);
