@@ -12,12 +12,12 @@ export default async function Page() {
       currentTag: "",
     };
 
-    const { albumData, albumDataCount } = await fetchAlbumData(albumFilters);
-    const totalScrollCount = Math.ceil(albumDataCount / PER_PAGE_COUNT);
+    // const { albumData, albumDataCount } = await fetchAlbumData(albumFilters);
+    // const totalScrollCount = Math.ceil(albumDataCount / PER_PAGE_COUNT);
 
     return (
       <MusicLayout>
-        <LandingPage initialData={albumData} initialTotalScrollCount={totalScrollCount} />
+        {/* <LandingPage initialData={albumData} initialTotalScrollCount={totalScrollCount} /> */}
       </MusicLayout>
     );
   } catch (error) {
