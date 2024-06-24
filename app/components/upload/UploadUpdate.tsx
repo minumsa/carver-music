@@ -59,6 +59,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
     ssr: false,
   });
   const ref = useRef<any>(null);
+
   const { register, handleSubmit, setValue, getValues, watch } = useForm<Form>({
     defaultValues: {
       title: "",
