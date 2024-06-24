@@ -11,7 +11,6 @@ import styles from "./LandingPage.module.css";
 import MobileTagDisplay from "./MobileTagDisplay";
 import { ScrollingIcon } from "./ScrollingIcon";
 import "aos/dist/aos.css";
-
 import {
   tagAtom,
   albumDataAtom,
@@ -25,7 +24,7 @@ import { toArtistPage, toPostPage } from "../../modules/paths";
 import { AlbumFilters, AlbumInfoLandingPage } from "../../modules/types";
 import { BlurImg } from "../@common/BlurImg";
 import MobileLoadingView from "../@common/MobileLoadingView";
-import { fetchAlbumDataCSR, fetchAlbumDataSSR } from "@/app/modules/api";
+import { fetchAlbumDataCSR } from "@/app/modules/api";
 
 interface LandingPageProps {
   initialData: AlbumInfoLandingPage[];
@@ -51,6 +50,8 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
 
   useResetScroll();
   useUpdateScroll(inView);
+
+  console.log("scrollCount", scrollCount);
 
   const loadData = useCallback(
     async (scrollCount: number) => {
