@@ -72,8 +72,12 @@ interface Query {
   tagKeys?: string; // tag는 모바일 환경에서 태그 클릭 시에만 존재해서 ? 처리
 }
 
-export async function fetchAlbumDataSSR(albumFilters: AlbumFilters) {
+export async function fetchAlbumDataSSR() {
   try {
+    const albumFilters: AlbumFilters = {
+      scrollCount: 1,
+      currentTag: "",
+    };
     const { scrollCount, currentTag } = albumFilters;
 
     await connectMongoDB();
@@ -103,6 +107,7 @@ export async function fetchAlbumDataSSR(albumFilters: AlbumFilters) {
       .select(projection);
     const albumDataCount = await Music.find(query).count();
 
+    // FIXME: 에러 막으려 도입, 추후에 나은 방법 찾으면 리팩토링
     const simplifiedAlbumData = JSON.parse(JSON.stringify(albumData));
     const simplifiedAlbumDataCount = JSON.parse(JSON.stringify(albumDataCount));
 
