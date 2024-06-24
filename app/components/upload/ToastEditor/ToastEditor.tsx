@@ -6,7 +6,7 @@ import { Editor } from "@toast-ui/react-editor";
 
 interface ToastEditorProps {
   content: string;
-  editorRef: React.MutableRefObject<Editor>;
+  editorRef: React.MutableRefObject<any>;
 }
 
 const ToastEditor = ({ content = "", editorRef }: ToastEditorProps) => {
