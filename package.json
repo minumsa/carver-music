@@ -33,6 +33,7 @@
     "react-hook-form": "^7.51.4",
     "react-intersection-observer": "^9.5.3",
     "react-loading-icons": "^1.1.0",
+    "react-markdown": "^9.0.1",
     "react-router-dom": "^6.14.1",
     "react-snowfall": "^1.2.1",
     "react-toastify": "^10.0.5"

@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { AlbumInfo } from "../../modules/types";
 import { DEFAULT_TAGS } from "@/app/modules/constants";
-import { Viewer } from "@toast-ui/react-editor";
+import Markdown from "react-markdown";
 
 interface PostTextProps {
   postData: AlbumInfo;
@@ -20,7 +20,8 @@ export const PostText = ({ postData }: PostTextProps) => {
       {title && <h1 className={styles.title}>{title}</h1>}
       {markdown ? (
         <div className={styles.viewerWrapper}>
-          <Viewer initialValue={markdown || ""} />
+          <Markdown>{markdown}</Markdown>
+          {/* <Viewer initialValue={markdown || ""} /> */}
         </div>
       ) : (
         paragraphs.map((paragraph, index) => {
