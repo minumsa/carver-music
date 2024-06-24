@@ -15,12 +15,30 @@ export async function GET(request: Request) {
     const artistId = url.searchParams.get("artistId");
     const currentPage = Number(url.searchParams.get("currentPage"));
     const skipCount = SUB_PER_PAGE_COUNT * currentPage - SUB_PER_PAGE_COUNT;
+    const projection = {
+      album: 1,
+      artist: 1,
+      artistId: 1,
+      artistImgUrl: 1,
+      blurHash: 1,
+      duration: 1,
+      _id: 0,
+      id: 1,
+      imgUrl: 1,
+      markdown: 1,
+      releaseDate: 1,
+      score: 1,
+      tagKeys: 1,
+      text: 1,
+      tracks: 1,
+    };
 
     const sortKey: SortKey = { releaseDate: -1 };
     const artistData = await Music.find({ artistId: artistId })
       .sort(sortKey)
       .skip(skipCount)
-      .limit(SUB_PER_PAGE_COUNT);
+      .limit(SUB_PER_PAGE_COUNT)
+      .select(projection);
     const artistDataCount = await Music.find({ artistId: artistId }).count();
 
     return NextResponse.json({ artistData, artistDataCount });

@@ -17,7 +17,25 @@ export async function GET(request: Request) {
 
     const sortKey: SortKey = { artist: 1, releaseDate: 1 };
 
-    let skipCount = SUB_PER_PAGE_COUNT * currentPage - SUB_PER_PAGE_COUNT;
+    const skipCount = SUB_PER_PAGE_COUNT * currentPage - SUB_PER_PAGE_COUNT;
+    const projection = {
+      album: 1,
+      artist: 1,
+      artistId: 1,
+      artistImgUrl: 1,
+      blurHash: 1,
+      duration: 1,
+      _id: 0,
+      id: 1,
+      imgUrl: 1,
+      markdown: 1,
+      releaseDate: 1,
+      score: 1,
+      tagKeys: 1,
+      text: 1,
+      tracks: 1,
+    };
+
     const searchData = await Music.find({
       $or: [
         { text: { $regex: new RegExp(currentKeyword, "i") } },
@@ -27,7 +45,8 @@ export async function GET(request: Request) {
     })
       .sort(sortKey)
       .skip(skipCount)
-      .limit(SUB_PER_PAGE_COUNT);
+      .limit(SUB_PER_PAGE_COUNT)
+      .select(projection);
 
     const searchDataCount = searchData.length;
 
