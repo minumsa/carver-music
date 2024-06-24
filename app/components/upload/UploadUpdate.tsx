@@ -147,6 +147,12 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
         title,
         markdown,
       } = response;
+
+      const decade = getDecade(releaseDate);
+      const hasDecadeTag = tagKeys.includes(decade);
+      const trueVideos = videos.filter((video: Video) => video.title.length > 0);
+      const hasVideo = trueVideos.length > 0;
+
       setValue("albumId", id);
       setValue("newAlbumId", id);
       setValue("artist", artist);
@@ -160,17 +166,8 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       setValue("uploadDate", new Date(uploadDate));
       setValue("albumReleaseDate", new Date(releaseDate).toString());
       setValue("title", title);
-      setValue("markdown", markdown);
-      const decade = getDecade(releaseDate);
-      const hasDecadeTag = tagKeys.includes(decade);
-      const trueVideos = videos.filter((video: Video) => video.title.length > 0);
-      const hasVideo = trueVideos.length > 0;
-
-      if (hasDecadeTag) {
-        setValue("currentTagKeys", [tagKeys]);
-      } else {
-        setValue("currentTagKeys", [...tagKeys, decade]);
-      }
+      setValue("markdown", markdown ? markdown : text);
+      setValue("currentTagKeys", hasDecadeTag ? [tagKeys] : [...tagKeys, decade]);
 
       if (hasVideo) {
         setValue("videos", trueVideos);
