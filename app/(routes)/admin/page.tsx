@@ -1,6 +1,6 @@
 import { LandingPage } from "../../components/landingPage/LandingPage";
 import { MusicLayout } from "../../components/@common/MusicLayout";
-import { fetchAlbumData } from "../../modules/api";
+import { fetchAlbumDataSSR } from "../../modules/api";
 import { AlbumFilters } from "@/app/modules/types";
 import { PER_PAGE_COUNT } from "@/app/modules/constants";
 
@@ -11,8 +11,8 @@ export default async function Page() {
       currentTag: "",
     };
 
-    // const { albumData, albumDataCount } = await fetchAlbumData(albumFilters);
-    // const totalScrollCount = Math.ceil(albumDataCount / PER_PAGE_COUNT);
+    const { albumData, albumDataCount } = await fetchAlbumDataSSR(albumFilters);
+    const totalScrollCount = Math.ceil(albumDataCount / PER_PAGE_COUNT);
 
     return (
       <MusicLayout>

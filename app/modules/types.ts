@@ -43,6 +43,15 @@ export interface SpotifyAlbumData {
   tracks: number;
 }
 
+export interface AlbumInfoLandingPage {
+  album: string;
+  artist: string;
+  artistId: string;
+  blurHash: string;
+  id: string;
+  imgUrl: string;
+}
+
 export interface AlbumInfo {
   title: string;
   id: string;

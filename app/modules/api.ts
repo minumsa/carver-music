@@ -1,6 +1,10 @@
 import { toast } from "react-toastify";
 import { MIN_SCROLL_COUNT, PER_PAGE_COUNT } from "./constants";
-import { AlbumFilters, AlbumInfo, SpotifyAlbumData } from "./types";
+import { AlbumFilters, AlbumInfo, AlbumInfoLandingPage, SortKey, SpotifyAlbumData } from "./types";
+import connectMongoDB from "./mongodb";
+import Music from "@/models/music";
+
+require("dotenv").config();
 
 interface InitialAlbumDataResult {
   albumData: AlbumInfo[];
@@ -35,17 +39,16 @@ export async function fetchInitialAlbumData(): Promise<InitialAlbumDataResult> {
 }
 
 interface AlbumDataResult {
-  albumData: AlbumInfo[];
+  albumData: AlbumInfoLandingPage[];
   albumDataCount: number;
 }
 
-export async function fetchAlbumData(albumFilters: AlbumFilters): Promise<AlbumDataResult> {
+export async function fetchAlbumDataCSR(albumFilters: AlbumFilters): Promise<AlbumDataResult> {
   try {
-    require("dotenv").config();
     const { scrollCount, currentTag } = albumFilters;
     const queryString = `?scrollCount=${scrollCount}&tag=${currentTag}`;
     const url = `https://music.divdivdiv.com/api${queryString}`;
-    // const url = `${process.env.BASE_URL}/api${queryString}`;
+    // const url = `http://localhost:3000/api${queryString}`; // localhost url
 
     const response = await fetch(url, {
       method: "GET",
@@ -60,6 +63,50 @@ export async function fetchAlbumData(albumFilters: AlbumFilters): Promise<AlbumD
 
     const { albumData, albumDataCount } = await response.json();
     return { albumData, albumDataCount };
+  } catch (error) {
+    throw new Error("Failed to fetch music data");
+  }
+}
+
+interface Query {
+  tagKeys?: string; // tag는 모바일 환경에서 태그 클릭 시에만 존재해서 ? 처리
+}
+
+export async function fetchAlbumDataSSR(albumFilters: AlbumFilters) {
+  try {
+    const { scrollCount, currentTag } = albumFilters;
+
+    await connectMongoDB();
+
+    const sortKey: SortKey = { score: -1, artist: 1 };
+    const query: Query = {};
+
+    if (currentTag) {
+      query.tagKeys = currentTag;
+    }
+
+    const skipCount = PER_PAGE_COUNT * scrollCount - PER_PAGE_COUNT;
+    const projection = {
+      album: 1,
+      artist: 1,
+      artistId: 1,
+      blurHash: 1,
+      _id: 0,
+      id: 1,
+      imgUrl: 1,
+    };
+
+    const albumData = await Music.find(query)
+      .sort(sortKey)
+      .skip(skipCount)
+      .limit(PER_PAGE_COUNT)
+      .select(projection);
+    const albumDataCount = await Music.find(query).count();
+
+    const simplifiedAlbumData = JSON.parse(JSON.stringify(albumData));
+    const simplifiedAlbumDataCount = JSON.parse(JSON.stringify(albumDataCount));
+
+    return { albumData: simplifiedAlbumData, albumDataCount: simplifiedAlbumDataCount };
   } catch (error) {
     throw new Error("Failed to fetch music data");
   }

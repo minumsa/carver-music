@@ -10,7 +10,6 @@ import { useUpdateScroll } from "@/app/hooks/useUpdateScroll";
 import styles from "./LandingPage.module.css";
 import MobileTagDisplay from "./MobileTagDisplay";
 import { ScrollingIcon } from "./ScrollingIcon";
-import { fetchAlbumData } from "../../modules/api";
 import "aos/dist/aos.css";
 
 import {
@@ -23,12 +22,13 @@ import {
 } from "../../modules/atoms";
 import { MIN_SCROLL_COUNT, PER_PAGE_COUNT } from "../../modules/constants";
 import { toArtistPage, toPostPage } from "../../modules/paths";
-import { AlbumFilters, AlbumInfo } from "../../modules/types";
+import { AlbumFilters, AlbumInfoLandingPage } from "../../modules/types";
 import { BlurImg } from "../@common/BlurImg";
 import MobileLoadingView from "../@common/MobileLoadingView";
+import { fetchAlbumDataCSR, fetchAlbumDataSSR } from "@/app/modules/api";
 
 interface LandingPageProps {
-  initialData: AlbumInfo[];
+  initialData: AlbumInfoLandingPage[];
   initialTotalScrollCount: number;
 }
 
@@ -59,7 +59,8 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
           scrollCount,
           currentTag,
         };
-        const { albumData, albumDataCount } = await fetchAlbumData(albumFilters);
+
+        const { albumData, albumDataCount } = await fetchAlbumDataCSR(albumFilters);
 
         if (isFirstFetch) {
           setData(albumData);
@@ -97,7 +98,9 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
     }
 
     // 무한 스크롤이 감지된 경우 또는 태그 버튼을 클릭한 경우
-    if (scrollDetected || mobileTagButtonClicked) loadData(scrollCount);
+    if (scrollDetected || mobileTagButtonClicked) {
+      loadData(scrollCount);
+    }
 
     // 모바일: 모바일 화면에서 태그 버튼을 클릭 시
     if (mobileTagButtonClicked && hasNoData) setIsLoading(true);
