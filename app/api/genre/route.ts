@@ -22,10 +22,28 @@ export async function GET(request: Request) {
     const query: Query = { genre: currentGenre as Genres[keyof Genres] };
 
     const skipCount = SUB_PER_PAGE_COUNT * currentPage - SUB_PER_PAGE_COUNT;
+    const projection = {
+      album: 1,
+      artist: 1,
+      artistId: 1,
+      artistImgUrl: 1,
+      blurHash: 1,
+      duration: 1,
+      _id: 0,
+      id: 1,
+      imgUrl: 1,
+      markdown: 1,
+      releaseDate: 1,
+      score: 1,
+      tagKeys: 1,
+      text: 1,
+      tracks: 1,
+    };
     const genreData = await Music.find(query)
       .sort(sortKey)
       .skip(skipCount)
-      .limit(SUB_PER_PAGE_COUNT);
+      .limit(SUB_PER_PAGE_COUNT)
+      .select(projection);
     const genreDataCount = await Music.find(query).count();
     return NextResponse.json({ genreData, genreDataCount });
   } catch (error) {
