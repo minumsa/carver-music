@@ -12,12 +12,13 @@ export async function GET(request: Request) {
     const url = new URL(request.url);
     const albumId = url.searchParams.get("albumId");
     const projection = {
+      _id: 0,
       album: 1,
       artist: 1,
       artistId: 1,
       blurHash: 1,
       duration: 1,
-      _id: 0,
+      genre: 1,
       id: 1,
       imgUrl: 1,
       label: 1,
