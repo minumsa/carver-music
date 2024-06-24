@@ -44,7 +44,7 @@ export async function fetchAlbumData(albumFilters: AlbumFilters): Promise<AlbumD
     require("dotenv").config();
     const { scrollCount, currentTag } = albumFilters;
     const queryString = `?scrollCount=${scrollCount}&tag=${currentTag}`;
-    const url = `https://music.divdivdiv.com/api${queryString}`;
+    const url = `/api${queryString}`;
 
     const response = await fetch(url, {
       method: "GET",
