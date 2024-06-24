@@ -12,7 +12,7 @@ import { memo } from "react";
 
 interface MobileTagDisplayProps {
   currentTag: string;
-  setCurrentTag: any;
+  setCurrentTag: (value: string) => void;
 }
 
 const MobileTagDisplay = ({ currentTag, setCurrentTag }: MobileTagDisplayProps) => {

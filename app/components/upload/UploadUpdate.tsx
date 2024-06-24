@@ -21,7 +21,8 @@ import { AlbumSearchModal } from "./AlbumSearchModal";
 import VideoLinksEditor from "./VideoLinksEditor/VideoLinksEditor";
 import { TagsEditor } from "./TagsEditor/TagsEditor";
 import { getBlurhash, getDecade } from "@/app/modules/utils";
-import dynamic from "next/dynamic";
+import { ToastEditorNoSSR } from "./ToastEditor/ToastEditorNoSSR";
+import { Editor as ToastEditor } from "@toast-ui/react-editor";
 
 const TYPING_DELAY_MS = 1000;
 
@@ -55,10 +56,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
   const [searchData, setSearchData] = useState<SearchData[]>();
   const [isTyping, setIsTyping] = useState(false);
   const updatePageExclusive = { display: isUpdatePage ? undefined : "none" };
-  const ToastEditorNoSSR = dynamic(() => import("./ToastEditor/ToastEditor"), {
-    ssr: false,
-  });
-  const ref = useRef<any>(null);
+  const editorRef = useRef<ToastEditor>(null);
 
   const { register, handleSubmit, setValue, getValues, watch } = useForm<Form>({
     defaultValues: {
@@ -101,7 +99,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
     const filteredText = text.replace(/\[\d+\]/g, "");
     const newSpotifyAlbumData: SpotifyAlbumData | undefined = await fetchSpotify(newAlbumId);
     // 에디터 작성 내용 markdown으로 저장
-    const editorIns = ref?.current?.getInstance();
+    const editorIns = editorRef?.current?.getInstance();
     const markdown = editorIns?.getMarkdown();
 
     if (newSpotifyAlbumData) {
@@ -331,7 +329,7 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       {/* 글 */}
       <div className={`${styles.blockContainer} ${styles.editor}`}>
         <label className={styles.blockTitle}>글</label>
-        <ToastEditorNoSSR content={getValues("markdown") ?? ""} editorRef={ref} />
+        <ToastEditorNoSSR content={getValues("markdown") ?? ""} editorRef={editorRef} />
         {/* <textarea
           {...register("text")}
           className={`${styles.input} ${styles.inputText}`}

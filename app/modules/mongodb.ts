@@ -9,7 +9,7 @@ function getMongoDBUri(): string {
 
   if (!MONGODB_URI) {
     throw new Error(
-      "Please define the MONGODB_URI environment variable inside .env.local or .env.test"
+      "Please define the MONGODB_URI environment variable inside .env.local or .env.test",
     );
   }
   return MONGODB_URI;
@@ -30,7 +30,7 @@ async function connectMongoDB() {
     const opts = {
       bufferCommands: false,
     };
-    cached.promise = mongoose.connect(getMongoDBUri(), opts).then(mongoose => {
+    cached.promise = mongoose.connect(getMongoDBUri(), opts).then((mongoose) => {
       return mongoose;
     });
   }

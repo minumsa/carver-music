@@ -13,7 +13,7 @@ export async function GET(request: Request) {
 
     const url = new URL(request.url);
     const currentPage = Number(url.searchParams.get("currentPage"));
-    const currentKeyword: any = url.searchParams.get("currentKeyword");
+    const currentKeyword = url.searchParams.get("currentKeyword") ?? "";
 
     const sortKey: SortKey = { artist: 1, releaseDate: 1 };
 
