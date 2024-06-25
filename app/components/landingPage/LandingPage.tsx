@@ -48,6 +48,8 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const isFirstFetch = scrollCount === 1;
 
+  console.log(data);
+
   useResetScroll();
   useUpdateScroll(inView);
 
