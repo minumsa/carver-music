@@ -1,4 +1,5 @@
 import { GenreTranslations, Genres, Tags } from "./types";
+import { isLandingPage } from "./utils";
 
 export const SITE_TITLE: string = "카버뮤직";
 
@@ -161,3 +162,8 @@ export const ALBUM_ART_SIZES = {
     height: 250,
   },
 };
+
+export const ACTIVE_TAG_STYLES = (isActiveTag: boolean, pathName: string) =>
+  isActiveTag
+    ? { boxShadow: "inset 0 0 0 1px var(--text-color)", order: isLandingPage(pathName) ? -1 : 0 }
+    : undefined;

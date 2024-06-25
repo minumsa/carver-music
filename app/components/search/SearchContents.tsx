@@ -66,7 +66,7 @@ export default function SearchContents({ data, searchInfo }: SearchContentProps)
               : `"${decodedKeyword}"에 관련된 검색 결과가 없습니다.`
             : "앨범 제목, 아티스트 또는 키워드 등을 검색해보세요."}
         </p>
-        <SearchTagDisplay currentTagName={currentTagName} />
+        <SearchTagDisplay currentTag={currentTagName} />
       </div>
       {data && <AlbumContents albumData={data} />}
     </ContentLayout>

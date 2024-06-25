@@ -1,5 +1,5 @@
 import { useAtom, useSetAtom } from "jotai";
-import { LANDING_PAGE_TAGS } from "../../modules/constants";
+import { ACTIVE_TAG_STYLES, LANDING_PAGE_TAGS } from "../../modules/constants";
 import styles from "./MobileTagDisplay.module.css";
 import {
   albumDataAtom,
@@ -35,22 +35,19 @@ const MobileTagDisplay = () => {
     setShowAllTagItems(false);
   };
 
-  const tagStyles = (isActive: boolean) =>
-    isActive ? { boxShadow: "inset 0 0 0 1px var(--text-color)", order: -1 } : undefined;
-
   return (
     <>
       {isLandingPage(pathName) && (
         <div className={styles.container} style={{ flexWrap: showAllTagItems ? "wrap" : "nowrap" }}>
           {Object.keys(LANDING_PAGE_TAGS).map((tag) => {
-            const isActive = currentTag === tag || (currentTag === "" && tag === "all");
+            const isActiveTag = currentTag === tag || (currentTag === "" && tag === "all");
             const tagName = LANDING_PAGE_TAGS[tag];
             return (
               <div
                 key={tag}
                 className={styles.tagItem}
                 onClick={() => handleTagSelection(tag)}
-                style={tagStyles(isActive)}
+                style={ACTIVE_TAG_STYLES(isActiveTag, pathName)}
               >
                 {tagName}
               </div>
