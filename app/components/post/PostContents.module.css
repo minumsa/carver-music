@@ -2,13 +2,13 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
-  padding: 50px 15px;
+  padding: 30px 15px;
   width: 100%;
 }
 
 @media (max-width: 1300px) {
   .container {
-    padding: 50px 30px;
+    padding: 30px 30px;
   }
 }
 
@@ -26,7 +26,7 @@
 
 @media (max-width: 525px) {
   .container {
-    padding: 40px 20px;
+    padding: 30px 20px;
   }
 
   .container:first-child {
