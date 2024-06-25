@@ -50,18 +50,22 @@
 }
 
 @media (max-width: 1300px) {
+  .container {
+    width: 100%;
+  }
+
   .magnifyingGlass {
     right: 30px;
   }
 }
 
 @media (max-width: 525px) {
-  .magnifyingGlass {
-    right: 15px;
-  }
-
   .container {
     background-color: unset;
+  }
+
+  .magnifyingGlass {
+    right: 15px;
   }
 
   .navWrapper {

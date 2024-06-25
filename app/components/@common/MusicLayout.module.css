@@ -84,7 +84,7 @@
   .categoryContainer::after {
     height: 30px;
     bottom: -18px;
-    filter: blur(7px);
+    filter: blur(6px);
   }
 
   .contentContainer {
