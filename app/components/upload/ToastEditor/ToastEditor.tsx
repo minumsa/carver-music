@@ -12,7 +12,7 @@ interface ToastEditorProps {
 const ToastEditor = ({ content = "", editorRef }: ToastEditorProps) => {
   const toolbarItems = [
     ["heading", "bold", "italic", "strike"],
-    ["hr"],
+    ["hr", "quote"],
     ["ul", "ol", "task"],
     ["table", "link"],
     ["image"],
