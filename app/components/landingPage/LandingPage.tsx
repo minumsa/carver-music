@@ -51,8 +51,6 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
   useResetScroll();
   useUpdateScroll(inView);
 
-  console.log("scrollCount", scrollCount);
-
   const loadData = useCallback(
     async (scrollCount: number) => {
       try {

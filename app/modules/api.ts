@@ -47,7 +47,9 @@ export async function fetchAlbumDataCSR(albumFilters: AlbumFilters): Promise<Alb
   try {
     const { scrollCount, currentTag } = albumFilters;
     const queryString = `?scrollCount=${scrollCount}&tag=${currentTag}`;
-    const url = `https://music.divdivdiv.com/api${queryString}`;
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/api${queryString}`;
+
+    // const url = `https://music.divdivdiv.com/api${queryString}`;
     // const url = `http://localhost:3000/api${queryString}`; // localhost url
 
     const response = await fetch(url, {
