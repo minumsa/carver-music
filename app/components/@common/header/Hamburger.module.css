@@ -52,6 +52,11 @@
   font-size: 1.1rem;
 }
 
+.categoryTitle,
+.categoryItem {
+  list-style-type: none;
+}
+
 .categoryTitle {
   z-index: 3;
   padding: 7px 0;
