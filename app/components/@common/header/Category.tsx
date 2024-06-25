@@ -2,7 +2,13 @@ import styles from "./Category.module.css";
 import Link from "next/link";
 import { Hamburger } from "./Hamburger";
 import { useSetAtom } from "jotai";
-import { tagAtom } from "../../../modules/atoms";
+import {
+  albumDataAtom,
+  scrollCountAtom,
+  scrollPositionAtom,
+  tagAtom,
+  totalScrollCountAtom,
+} from "../../../modules/atoms";
 import { isAdminPage, isLandingPage } from "../../../modules/utils";
 import { toSearchPage } from "../../../modules/paths";
 import { SITE_TITLE } from "@/app/modules/constants";
@@ -11,6 +17,18 @@ import { usePathname } from "next/navigation";
 export const Category = () => {
   const pathName = usePathname();
   const setCurrentTagKey = useSetAtom(tagAtom);
+  const setAlbumData = useSetAtom(albumDataAtom);
+  const setScrollCount = useSetAtom(scrollCountAtom);
+  const setTotalScrollCount = useSetAtom(totalScrollCountAtom);
+  const setScrollPosition = useSetAtom(scrollPositionAtom);
+
+  const resetDataAndScroll = () => {
+    setAlbumData([]);
+    setScrollCount(1);
+    setTotalScrollCount(0);
+    setScrollPosition(0);
+    setCurrentTagKey("");
+  };
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -34,9 +52,7 @@ export const Category = () => {
             <Link
               className={styles.title}
               href={isAdminPage(pathName) ? "/admin" : "/"}
-              onClick={() => {
-                setCurrentTagKey("");
-              }}
+              onClick={resetDataAndScroll}
             >
               <nav>{SITE_TITLE}</nav>
             </Link>
@@ -44,12 +60,7 @@ export const Category = () => {
         </div>
       </div>
       {/* 검색 아이콘 */}
-      <Link
-        href={toSearchPage(pathName)}
-        onClick={() => {
-          setCurrentTagKey("");
-        }}
-      >
+      <Link href={toSearchPage(pathName)}>
         <nav className={styles.magnifyingGlass}></nav>
       </Link>
     </div>

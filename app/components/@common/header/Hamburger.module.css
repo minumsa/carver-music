@@ -37,11 +37,10 @@
 
 .category {
   display: flex;
-  position: absolute;
+  position: fixed;
   top: 43px;
   left: -26px;
   flex-direction: column;
-  z-index: 10000;
   border-bottom: 1px solid var(--border-color);
   border-left: 1px solid var(--border-color);
   background-color: var(--background-color);
@@ -50,6 +49,7 @@
   width: 120px;
   height: fit-content;
   font-size: 1.1rem;
+  z-index: 1000000;
 }
 
 .categoryTitle,

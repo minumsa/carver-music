@@ -14,7 +14,7 @@ import { usePathname } from "next/navigation";
 import { isLandingPage } from "@/app/modules/utils";
 
 const MobileTagDisplay = () => {
-  const setData = useSetAtom(albumDataAtom);
+  const setAlbumData = useSetAtom(albumDataAtom);
   const setScrollCount = useSetAtom(scrollCountAtom);
   const setTotalScrollCount = useSetAtom(totalScrollCountAtom);
   const setScrollPosition = useSetAtom(scrollPositionAtom);
@@ -24,11 +24,7 @@ const MobileTagDisplay = () => {
 
   const handleTagSelection = (tag: string) => {
     setCurrentTag(tag);
-    resetDataAndScroll();
-  };
-
-  const resetDataAndScroll = () => {
-    setData([]);
+    setAlbumData([]);
     setScrollCount(1);
     setTotalScrollCount(0);
     setScrollPosition(0);

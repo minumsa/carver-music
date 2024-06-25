@@ -16,7 +16,7 @@
     width: 100%;
     overflow: hidden;
     white-space: nowrap;
-    z-index: 10000;
+    z-index: 1;
   }
 
   .tagItem {

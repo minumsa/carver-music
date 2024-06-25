@@ -2,8 +2,6 @@ import { usePathname, useRouter } from "next/navigation";
 import styles from "./Hamburger.module.css";
 import React, { useState } from "react";
 import Link from "next/link";
-import { useSetAtom } from "jotai";
-import { tagAtom } from "../../../modules/atoms";
 import { toGenrePage } from "../../../modules/paths";
 import { isAdminPage } from "../../../modules/utils";
 import { GENRES } from "../../../modules/constants";
@@ -12,7 +10,6 @@ export const Hamburger = () => {
   const pathName = usePathname();
   const router = useRouter();
   const [showCategory, setShowCategory] = useState<boolean>(false);
-  const setCurrentTagKey = useSetAtom(tagAtom);
 
   return (
     <nav
@@ -39,12 +36,7 @@ export const Hamburger = () => {
           {Object.keys(GENRES).map((category) => {
             return (
               <React.Fragment key={category}>
-                <Link
-                  href={toGenrePage(pathName, category)}
-                  onClick={() => {
-                    setCurrentTagKey("");
-                  }}
-                >
+                <Link href={toGenrePage(pathName, category)}>
                   <li className={styles.categoryItem}>{GENRES[category]}</li>
                 </Link>
               </React.Fragment>
