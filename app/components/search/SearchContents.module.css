@@ -50,7 +50,7 @@
 
 @media (max-width: 525px) {
   .container {
-    padding: 20px 0 0 0;
+    padding: 35px 0 0 0;
     width: 100%;
   }
 
@@ -77,8 +77,8 @@
   }
 
   .searchResultText {
-    padding: 15px 0 0 0;
     font-size: 1.05rem;
+    padding: 0;
   }
 
   .searchTagDisplayItem {
