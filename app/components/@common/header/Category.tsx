@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Hamburger } from "./Hamburger";
 import { useSetAtom } from "jotai";
 import { tagAtom } from "../../../modules/atoms";
-import { isAdminPage } from "../../../modules/utils";
+import { isAdminPage, isLandingPage } from "../../../modules/utils";
 import { toSearchPage } from "../../../modules/paths";
 import { SITE_TITLE } from "@/app/modules/constants";
 import { usePathname } from "next/navigation";
@@ -11,7 +11,6 @@ import { usePathname } from "next/navigation";
 export const Category = () => {
   const pathName = usePathname();
   const setCurrentTagKey = useSetAtom(tagAtom);
-  const isMainPage = pathName === "/" || pathName === "/admin";
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -27,7 +26,7 @@ export const Category = () => {
       <div className={styles.navContainer}>
         <div className={styles.navWrapper}>
           {/* 사이트 제목 */}
-          {isMainPage ? (
+          {isLandingPage(pathName) ? (
             <nav className={styles.title} onClick={scrollToTop}>
               {SITE_TITLE}
             </nav>

@@ -75,13 +75,15 @@
   }
 
   .categoryContainer {
+    flex-direction: column;
     top: -1px;
     border-bottom: none;
-    height: 45px;
+    height: auto;
   }
 
   .categoryContainer::after {
-    display: none;
+    height: 30px;
+    bottom: -18px;
   }
 
   .contentContainer {

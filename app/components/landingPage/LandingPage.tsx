@@ -1,6 +1,6 @@
 "use client";
 
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
@@ -8,7 +8,6 @@ import { useInView } from "react-intersection-observer";
 import { useResetScroll } from "@/app/hooks/useResetScroll";
 import { useUpdateScroll } from "@/app/hooks/useUpdateScroll";
 import styles from "./LandingPage.module.css";
-import MobileTagDisplay from "./MobileTagDisplay";
 import { ScrollingIcon } from "./ScrollingIcon";
 import "aos/dist/aos.css";
 import {
@@ -44,11 +43,9 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
     threshold: 0,
     triggerOnce: true,
   });
-  const [currentTag, setCurrentTag] = useAtom(tagAtom);
+  const currentTag = useAtomValue(tagAtom);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const isFirstFetch = scrollCount === 1;
-
-  console.log(data);
 
   useResetScroll();
   useUpdateScroll(inView);
@@ -119,7 +116,6 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
   return (
     <>
       {/* 모바일 - 태그 컴포넌트 */}
-      <MobileTagDisplay currentTag={currentTag} setCurrentTag={setCurrentTag} />
       <MobileLoadingView isLoading={isLoading} />
       <ScrollingIcon isScrolling={isScrolling} />
       <div className={styles.container}>

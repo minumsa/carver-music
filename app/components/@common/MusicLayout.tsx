@@ -6,6 +6,7 @@ import styles from "./MusicLayout.module.css";
 import { Snow } from "./Snow";
 import { isUploadPage } from "../../modules/utils";
 import { ToastContainer } from "react-toastify";
+import MobileTagDisplay from "../landingPage/MobileTagDisplay";
 
 export const MusicLayout = ({ children }: { children: React.ReactNode }) => {
   const pathName = usePathname();
@@ -29,6 +30,7 @@ export const MusicLayout = ({ children }: { children: React.ReactNode }) => {
       <div className={styles.container}>
         <header className={styles.categoryContainer}>
           <Category />
+          <MobileTagDisplay />
         </header>
         <main
           className={styles.contentContainer}

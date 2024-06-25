@@ -9,11 +9,10 @@
   .container {
     box-sizing: border-box;
     display: flex;
-    position: fixed;
+    /* position: fixed; */
     top: 42.5px;
-    border-bottom: 1px solid var(--border-color);
     background-color: var(--background-color);
-    padding: 5px 15px 15px 15px;
+    padding: 0px 15px 10px 15px;
     width: 100%;
     overflow: hidden;
     white-space: nowrap;
@@ -37,7 +36,7 @@
   .arrowWrapper {
     display: flex;
     position: absolute;
-    top: 6px;
+    top: 44px;
     right: 0;
     align-items: center;
     justify-content: center;

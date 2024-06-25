@@ -8,8 +8,8 @@ export const isUploadPage = (pathName: string) => {
   return pathName.includes("upload");
 };
 
-export const isMainPage = (pathName: string) => {
-  return pathName === "";
+export const isLandingPage = (pathName: string) => {
+  return pathName === "/" || pathName === "/admin";
 };
 
 export const isSearchPage = (pathName: string) => {
