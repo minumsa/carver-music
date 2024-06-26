@@ -17,8 +17,6 @@ export const PostText = ({ postData }: PostTextProps) => {
   const paragraphs = text.split("\n");
   const disqusTitle = `${artist} - ${album}`;
 
-  console.log(pathName);
-
   return (
     <article className={styles.container}>
       {title && <h1 className={styles.title}>{title}</h1>}
