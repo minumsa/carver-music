@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AlbumInfo } from "../../modules/types";
 import { DEFAULT_TAGS } from "@/app/modules/constants";
 import Markdown from "react-markdown";
+import { DiscussionEmbed } from "disqus-react";
 
 interface PostTextProps {
   postData: AlbumInfo;
@@ -12,8 +13,9 @@ interface PostTextProps {
 
 export const PostText = ({ postData }: PostTextProps) => {
   const pathName = usePathname();
-  const { title, text, tagKeys, uploadDate, markdown } = postData;
+  const { id, album, artist, title, text, tagKeys, uploadDate, markdown } = postData;
   const paragraphs = text.split("\n");
+  const disqusTitle = `${artist} - ${album}`;
 
   return (
     <article className={styles.container}>
@@ -21,7 +23,6 @@ export const PostText = ({ postData }: PostTextProps) => {
       {markdown ? (
         <div className={styles.viewerWrapper}>
           <Markdown>{markdown}</Markdown>
-          {/* <Viewer initialValue={markdown || ""} /> */}
         </div>
       ) : (
         paragraphs.map((paragraph, index) => {
@@ -42,6 +43,10 @@ export const PostText = ({ postData }: PostTextProps) => {
           );
         })
       )}
+      <div className={styles.postDateContainer}>
+        <div className={styles.postDate}>작성일</div>
+        <div>{formatDate(uploadDate)}</div>
+      </div>
       <div className={styles.tagContainer}>
         {tagKeys.map((tagKey: string, index: number) => {
           return (
@@ -58,10 +63,15 @@ export const PostText = ({ postData }: PostTextProps) => {
         })}
       </div>
       <div className={styles.postDivider}></div>
-      <div className={styles.postDateContainer}>
-        <div className={styles.postDate}>작성일</div>
-        <div>{formatDate(uploadDate)}</div>
-      </div>
+      <DiscussionEmbed
+        shortname="carver-music"
+        config={{
+          url: "https://music.divdivdiv.com/",
+          identifier: id,
+          title: disqusTitle,
+          language: "ko",
+        }}
+      />
     </article>
   );
 };
