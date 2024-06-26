@@ -151,6 +151,10 @@ scrollbar-width: none;
 } */
 
 @media (max-width: 525px) {
+  .container {
+    text-align: left;
+  }
+
   .postDateContainer {
     font-size: 1.05rem;
   }
