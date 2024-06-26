@@ -17,6 +17,8 @@ export const PostText = ({ postData }: PostTextProps) => {
   const paragraphs = text.split("\n");
   const disqusTitle = `${artist} - ${album}`;
 
+  console.log(pathName);
+
   return (
     <article className={styles.container}>
       {title && <h1 className={styles.title}>{title}</h1>}
@@ -66,7 +68,7 @@ export const PostText = ({ postData }: PostTextProps) => {
       <DiscussionEmbed
         shortname="carver-music"
         config={{
-          url: "https://music.divdivdiv.com/",
+          url: `https://music.divdivdiv.com${pathName}`,
           identifier: id,
           title: disqusTitle,
           language: "ko",
