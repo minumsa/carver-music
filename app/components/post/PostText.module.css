@@ -3,21 +3,25 @@
   flex-direction: column;
   position: fixed;
   width: 100%;
-  max-width: 850px;
+  max-width: 875px;
   height: calc(100% - 150px);
   text-align: justify;
   line-height: 210%;
   word-break: normal;
-  padding: 10px 0;
-  margin: 0 0 0 400px;
-  overflow-y: scroll;
-  -ms-overflow-style: none; /* 인터넷 익스플로러 */
-  scrollbar-width: none; /* 파이어폭스 */
+  padding: 10px 20px 10px 0;
+  margin: 0 0 0 375px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
+/* 
+-ms-overflow-style: none; 
+scrollbar-width: none; 
 .container::-webkit-scrollbar {
-  display: none; /* 크롬, 사파리, 오페라, 엣지 */
-}
+  display: none; 
+} 
+*/
 
 .title {
   font-weight: 700;
