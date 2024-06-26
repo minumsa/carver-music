@@ -2,13 +2,13 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
-  padding: 30px 15px;
+  padding: 0 15px;
   width: 100%;
 }
 
 @media (max-width: 1300px) {
   .container {
-    padding: 30px 30px;
+    padding: 0 5px;
   }
 }
 
@@ -19,8 +19,9 @@
     flex-direction: column;
     align-items: center;
     margin: 0;
-    padding: 70px 30px;
+    padding: 30px;
     width: 100%;
+    row-gap: 30px;
   }
 }
 
