@@ -67,11 +67,34 @@
 .categoryItem {
   z-index: 3;
   cursor: pointer;
-  padding: 7px 0;
+  padding: 7px 30px 7px 0;
+  transition: transform 0.3s ease;
 }
 
-.categoryItem:hover {
+/* .categoryItem:hover {
   text-decoration: underline;
+} */
+
+.categoryItem::before {
+  content: "";
+  position: absolute;
+  left: -23px;
+  top: 6px;
+  opacity: 0;
+  transform: translateX(-5px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.categoryItem.hovered::before {
+  content: "→";
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.categoryItem.hovered {
+  transform: translateX(10px); /* 텍스트 이동 */
 }
 
 .adminCategory {

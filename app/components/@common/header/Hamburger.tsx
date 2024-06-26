@@ -10,6 +10,7 @@ export const Hamburger = () => {
   const pathName = usePathname();
   const router = useRouter();
   const [showCategory, setShowCategory] = useState<boolean>(false);
+  const [hoveredItem, setHoveredItem] = useState<string | null>();
 
   return (
     <nav
@@ -33,22 +34,28 @@ export const Hamburger = () => {
       {showCategory ? (
         <ul className={styles.category}>
           <div className={styles.categoryTitle}>장르</div>
-          {Object.keys(GENRES).map((category) => {
-            return (
-              <React.Fragment key={category}>
-                <Link href={toGenrePage(pathName, category)}>
-                  <li className={styles.categoryItem}>{GENRES[category]}</li>
-                </Link>
-              </React.Fragment>
-            );
-          })}
+          {Object.keys(GENRES).map((category: string) => (
+            <Link key={category} href={toGenrePage(pathName, category)}>
+              <li
+                className={`${styles.categoryItem} ${
+                  hoveredItem === category ? styles.hovered : ""
+                }`}
+                onMouseEnter={() => setHoveredItem(category)}
+                onMouseLeave={() => setHoveredItem(null)}
+              >
+                {GENRES[category]}
+              </li>
+            </Link>
+          ))}
         </ul>
       ) : null}
       {showCategory && isAdminPage(pathName) && (
         <ul className={styles.adminCategory}>
           <li className={styles.categoryTitle}>관리자 메뉴</li>
           <li
-            className={styles.categoryItem}
+            className={`${styles.categoryItem} ${hoveredItem === "title" ? styles.hovered : ""}`}
+            onMouseEnter={() => setHoveredItem("title")}
+            onMouseLeave={() => setHoveredItem(null)}
             onClick={() => {
               router.push("/admin/upload");
             }}
