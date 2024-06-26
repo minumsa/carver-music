@@ -8,6 +8,7 @@
   text-align: justify;
   line-height: 210%;
   word-break: normal;
+  padding: 10px 0;
   margin: 0 0 0 400px;
   overflow-y: scroll;
   -ms-overflow-style: none; /* 인터넷 익스플로러 */
@@ -90,6 +91,10 @@
 
 .viewerWrapper p {
   margin: 20px 0;
+}
+
+.viewerWrapper blockquote {
+  margin: 35px 0 35px 35px;
 }
 
 @media (max-width: 800px) {

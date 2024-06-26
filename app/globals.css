@@ -139,5 +139,4 @@ button {
 blockquote {
   font-style: italic;
   border-left: 7px solid var(--border-color);
-  padding: 0 10px;
 }
