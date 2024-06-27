@@ -167,3 +167,7 @@ export const ACTIVE_TAG_STYLES = (isActiveTag: boolean, pathName: string) =>
   isActiveTag
     ? { boxShadow: "inset 0 0 0 1px var(--text-color)", order: isLandingPage(pathName) ? -1 : 0 }
     : undefined;
+
+require("dotenv").config();
+
+export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;

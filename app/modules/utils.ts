@@ -13,7 +13,7 @@ export const isLandingPage = (pathName: string) => {
 };
 
 export const isSearchPage = (pathName: string) => {
-  return pathName === "search";
+  return pathName.includes("search");
 };
 
 export const getFormattedDuration = (seconds: number) => {
