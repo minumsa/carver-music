@@ -1,9 +1,10 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 import styles from "./UploadUpdate.module.css";
 import React from "react";
 import {
   NewDataForUpdate,
-  fetchAlbumById,
   fetchSpotify,
   searchSpotify,
   updateData,
@@ -13,7 +14,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Rate from "rc-rate";
 import "rc-rate/assets/index.css";
-import { SearchData, SpotifyAlbumData, Video } from "../../modules/types";
+import { AlbumInfo, SearchData, SpotifyAlbumData, Video } from "../../modules/types";
 import { GENRES } from "../../modules/constants";
 import "react-toastify/dist/ReactToastify.css";
 import { useForm } from "react-hook-form";
@@ -27,7 +28,7 @@ import { Editor as ToastEditor } from "@toast-ui/react-editor";
 const TYPING_DELAY_MS = 1000;
 
 interface UpdateProps {
-  currentId: string;
+  initialAlbumData?: AlbumInfo;
 }
 
 export interface Form {
@@ -51,8 +52,8 @@ export interface Form {
   password: string;
 }
 
-export default function UploadUpdate({ currentId }: UpdateProps) {
-  const isUpdatePage = currentId.length > 0;
+export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
+  const isUpdatePage = initialAlbumData !== undefined;
   const [searchData, setSearchData] = useState<SearchData[]>();
   const [isTyping, setIsTyping] = useState(false);
   const updatePageExclusive = { display: isUpdatePage ? undefined : "none" };
@@ -129,55 +130,56 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
 
   useEffect(() => {
     async function getAlbum() {
-      const response = await fetchAlbumById(currentId);
-      const {
-        id,
-        artist,
-        artistId,
-        genre,
-        link,
-        text,
-        uploadDate,
-        score,
-        videos,
-        tagKeys,
-        album,
-        releaseDate,
-        blurHash,
-        title,
-        markdown,
-      } = response;
+      if (initialAlbumData) {
+        const {
+          id,
+          artist,
+          artistId,
+          genre,
+          link,
+          text,
+          uploadDate,
+          score,
+          videos,
+          tagKeys,
+          album,
+          releaseDate,
+          blurHash,
+          title,
+          markdown,
+        } = initialAlbumData;
 
-      const decade = getDecade(releaseDate);
-      const hasDecadeTag = tagKeys.includes(decade);
-      const trueVideos = videos.filter((video: Video) => video.title.length > 0);
-      const hasVideo = trueVideos.length > 0;
+        const decade = getDecade(releaseDate);
+        const hasDecadeTag = tagKeys.includes(decade);
+        const trueVideos = videos.filter((video: Video) => video.title.length > 0);
+        const hasVideo = trueVideos.length > 0;
 
-      setValue("albumId", id);
-      setValue("newAlbumId", id);
-      setValue("artist", artist);
-      setValue("artistId", artistId);
-      setValue("genre", genre);
-      setValue("link", link);
-      setValue("text", text);
-      setValue("blurHash", blurHash);
-      setValue("searchKeyword", album);
-      setValue("score", score);
-      setValue("uploadDate", new Date(uploadDate));
-      setValue("albumReleaseDate", new Date(releaseDate).toString());
-      setValue("title", title);
-      setValue("markdown", markdown ? markdown : text);
-      setValue("currentTagKeys", hasDecadeTag ? [tagKeys] : [...tagKeys, decade]);
+        setValue("albumId", id);
+        setValue("newAlbumId", id);
+        setValue("artist", artist);
+        setValue("artistId", artistId);
+        setValue("genre", genre);
+        setValue("link", link);
+        setValue("text", text);
+        setValue("blurHash", blurHash);
+        setValue("searchKeyword", album);
+        setValue("score", score);
+        setValue("uploadDate", new Date(uploadDate));
+        setValue("albumReleaseDate", new Date(releaseDate).toString());
+        setValue("title", title);
+        setValue("markdown", markdown ? markdown : text);
+        setValue("currentTagKeys", hasDecadeTag ? tagKeys : [...tagKeys, decade]);
 
-      if (hasVideo) {
-        setValue("videos", trueVideos);
-        setValue("videoCount", trueVideos.length);
+        if (hasVideo) {
+          setValue("videos", trueVideos);
+          setValue("videoCount", trueVideos.length);
+        }
       }
     }
 
     if (isUpdatePage) getAlbum();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentId]);
+  }, [initialAlbumData]);
 
   const handleSearch = async () => {
     const response = await searchSpotify(watch("searchKeyword"));
@@ -327,13 +329,6 @@ export default function UploadUpdate({ currentId }: UpdateProps) {
       <div className={`${styles.blockContainer} ${styles.editor}`}>
         <label className={styles.blockTitle}>글</label>
         <ToastEditorNoSSR content={getValues("markdown") ?? ""} editorRef={editorRef} />
-        {/* <textarea
-          {...register("text")}
-          className={`${styles.input} ${styles.inputText}`}
-          onChange={(e) => {
-            setValue("text", e.target.value);
-          }}
-        /> */}
       </div>
 
       {/* FIXME: setValues props 타입 최대한 적절하게 변경 */}

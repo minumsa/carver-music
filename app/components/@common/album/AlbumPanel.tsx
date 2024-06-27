@@ -1,5 +1,5 @@
 import { usePathname } from "next/navigation";
-import { getFormattedDuration, isAdminPage } from "../../../modules/utils";
+import { getFormattedDuration, isAdminPage, isSearchPage } from "../../../modules/utils";
 import styles from "./AlbumPanel.module.css";
 import { useRef } from "react";
 import { DeleteButton } from "../assets/DeleteButton";
@@ -7,8 +7,8 @@ import { EditButton } from "../assets/EditButton";
 import Link from "next/link";
 import { BlurImg } from "../BlurImg";
 import { AlbumInfo } from "../../../modules/types";
-import { toArtistPage, toTagPage, toPostPage } from "../../../modules/paths";
-import { DEFAULT_TAGS } from "../../../modules/constants";
+import { toArtistPage, toTagPage, toPostPage, toGenrePage } from "../../../modules/paths";
+import { DEFAULT_TAGS, GENRES } from "../../../modules/constants";
 
 interface AlbumProps {
   albumData: AlbumInfo;
@@ -16,20 +16,21 @@ interface AlbumProps {
 
 export const AlbumPanel = ({ albumData }: AlbumProps) => {
   const {
-    id,
     album,
     artist,
     artistId,
     artistImgUrl,
-    tracks,
-    releaseDate,
-    text,
     blurHash,
     duration,
+    genre,
+    id,
     imgUrl,
-    tagKeys,
-    score,
     markdown,
+    releaseDate,
+    score,
+    tagKeys,
+    text,
+    tracks,
   } = albumData;
   const pathName = usePathname();
   const albumDuration = getFormattedDuration(duration);
@@ -109,6 +110,11 @@ export const AlbumPanel = ({ albumData }: AlbumProps) => {
                 </div>
                 {/* 앨범 태그 */}
                 <div className={styles.tagContainer}>
+                  {isSearchPage(pathName) && (
+                    <Link href={toGenrePage(pathName, genre)} className={styles.tagItem}>
+                      {`#${GENRES[genre]}`}
+                    </Link>
+                  )}
                   {tagKeys.map((key: string, index: number) => {
                     return (
                       <Link href={toTagPage(pathName, key)} key={index} className={styles.tagItem}>

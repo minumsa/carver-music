@@ -1,10 +1,8 @@
 import { toast } from "react-toastify";
-import { MIN_SCROLL_COUNT, PER_PAGE_COUNT } from "./constants";
+import { BASE_URL, MIN_SCROLL_COUNT, PER_PAGE_COUNT } from "./constants";
 import { AlbumFilters, AlbumInfo, AlbumInfoLandingPage, SortKey, SpotifyAlbumData } from "./types";
 import connectMongoDB from "./mongodb";
 import Music from "@/models/music";
-
-require("dotenv").config();
 
 interface InitialAlbumDataResult {
   albumData: AlbumInfo[];
@@ -13,10 +11,8 @@ interface InitialAlbumDataResult {
 
 export async function fetchInitialAlbumData(): Promise<InitialAlbumDataResult> {
   try {
-    // const queryString = `?scrollCount=${MIN_SCROLL_COUNT}&tag=${""}`;
     const queryString = `?scrollCount=${MIN_SCROLL_COUNT}`;
-    const url = `/api${queryString}`;
-    // const url = `http://localhost:3000/api${queryString}`;
+    const url = `${BASE_URL}/api${queryString}`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -47,7 +43,7 @@ export async function fetchAlbumDataCSR(albumFilters: AlbumFilters): Promise<Alb
   try {
     const { scrollCount, currentTag } = albumFilters;
     const queryString = `?scrollCount=${scrollCount}&tag=${currentTag}`;
-    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/api${queryString}`;
+    const url = `${BASE_URL}/api${queryString}`;
 
     // const url = `https://music.divdivdiv.com/api${queryString}`;
     // const url = `http://localhost:3000/api${queryString}`; // localhost url
@@ -122,7 +118,7 @@ export async function fetchAlbumDataSSR() {
 export async function fetchPostData(currentId: string): Promise<AlbumInfo> {
   try {
     const queryString = `?albumId=${currentId}`;
-    const url = `https://music.divdivdiv.com/api/post${queryString}`;
+    const url = `${BASE_URL}/api/post${queryString}`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -154,7 +150,7 @@ export async function fetchGenreData(
 ): Promise<GenreDataResult> {
   try {
     const queryString = `?currentGenre=${currentGenre}&currentPage=${currentPage}`;
-    const url = `https://music.divdivdiv.com/api/genre${queryString}`;
+    const url = `${BASE_URL}/api/genre${queryString}`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -185,7 +181,7 @@ export async function fetchArtistData(
 ): Promise<ArtistDataResult> {
   try {
     const queryString = `?artistId=${artistId}&currentPage=${currentPage}`;
-    const url = `https://music.divdivdiv.com/api/artist${queryString}`;
+    const url = `${BASE_URL}/api/artist${queryString}`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -216,7 +212,7 @@ export async function fetchTagData(
 ): Promise<TagDataResult> {
   try {
     const queryString = `?currentTag=${currentTag}&currentPage=${currentPage}`;
-    const url = `https://music.divdivdiv.com/api/tag${queryString}`;
+    const url = `${BASE_URL}/api/tag${queryString}`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -247,7 +243,7 @@ export async function fetchSearchData(
 ): Promise<SearchDataResult> {
   try {
     const queryString = `?currentKeyword=${currentKeyword}&currentPage=${currentPage}`;
-    const url = `https://music.divdivdiv.com/api/search${queryString}`;
+    const url = `${BASE_URL}/api/search${queryString}`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -264,29 +260,6 @@ export async function fetchSearchData(
     return { searchData, searchDataCount };
   } catch (error) {
     throw new Error("Failed to search data");
-  }
-}
-
-export async function fetchAlbumById(albumId: string) {
-  try {
-    const queryString = `?albumId=${albumId}`;
-    const url = `/api/post${queryString}`;
-
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to update music data");
-    }
-
-    let data = await response.json();
-    return data;
-  } catch (error) {
-    console.error(error);
   }
 }
 
@@ -340,7 +313,7 @@ export async function uploadData({ newData, password }: UploadDataParams) {
 
   if (newData) {
     try {
-      const response = await fetch("/api", {
+      const response = await fetch(`${BASE_URL}/api`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -395,7 +368,7 @@ export const updateData = async ({ newData, password }: UpdateDataParams) => {
 
   if (newData !== null) {
     try {
-      const response = await fetch("/api", {
+      const response = await fetch(`${BASE_URL}/api`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -437,7 +410,7 @@ export const deleteData = async (id: string) => {
   const userPassword = prompt("관리자 비밀번호를 입력해주세요.");
 
   try {
-    const response = await fetch("/api", {
+    const response = await fetch(`${BASE_URL}/api`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -477,7 +450,6 @@ export const fetchSpotify = async (albumId: string) => {
     });
 
     const fetchedData = await response.json();
-
     return fetchedData;
   } catch (error) {
     console.error(error);

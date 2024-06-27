@@ -3,9 +3,10 @@ import styles from "./PostText.module.css";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { AlbumInfo } from "../../modules/types";
-import { DEFAULT_TAGS } from "@/app/modules/constants";
+import { DEFAULT_TAGS, GENRES } from "@/app/modules/constants";
 import Markdown from "react-markdown";
 import { DiscussionEmbed } from "disqus-react";
+import { toGenrePage } from "@/app/modules/paths";
 
 interface PostTextProps {
   postData: AlbumInfo;
@@ -13,7 +14,7 @@ interface PostTextProps {
 
 export const PostText = ({ postData }: PostTextProps) => {
   const pathName = usePathname();
-  const { id, album, artist, title, text, tagKeys, uploadDate, markdown } = postData;
+  const { id, album, artist, title, text, tagKeys, uploadDate, markdown, genre } = postData;
   const paragraphs = text.split("\n");
   const disqusTitle = `${artist} - ${album}`;
 
@@ -48,6 +49,11 @@ export const PostText = ({ postData }: PostTextProps) => {
         <div>{formatDate(uploadDate)}</div>
       </div>
       <div className={styles.tagContainer}>
+        {
+          <Link href={toGenrePage(pathName, genre)} className={styles.tagItem}>
+            {`#${GENRES[genre]}`}
+          </Link>
+        }
         {tagKeys.map((tagKey: string, index: number) => {
           return (
             <Link

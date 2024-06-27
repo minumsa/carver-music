@@ -23,13 +23,13 @@ export async function GET(request: Request) {
 
     const skipCount = SUB_PER_PAGE_COUNT * currentPage - SUB_PER_PAGE_COUNT;
     const projection = {
+      _id: 0,
       album: 1,
       artist: 1,
       artistId: 1,
       artistImgUrl: 1,
       blurHash: 1,
       duration: 1,
-      _id: 0,
       id: 1,
       imgUrl: 1,
       markdown: 1,
