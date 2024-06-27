@@ -105,7 +105,7 @@ scrollbar-width: none;
 
 @media (max-width: 1300px) {
   .container {
-    max-width: calc(100% - 380px);
+    max-width: calc(100% - 390px);
   }
 }
 
