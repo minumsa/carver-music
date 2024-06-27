@@ -162,7 +162,3 @@ blockquote {
 ::-webkit-scrollbar-track {
   background-color: var(--scrollbar-track-color); /* 스크롤바 뒷 배경 색상 */
 }
-
-div#disqus_thread iframe[sandbox] {
-  max-height: 0px !important;
-}
