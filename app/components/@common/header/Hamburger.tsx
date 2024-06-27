@@ -2,15 +2,21 @@ import { usePathname, useRouter } from "next/navigation";
 import styles from "./Hamburger.module.css";
 import React, { useState } from "react";
 import Link from "next/link";
-import { toGenrePage } from "../../../modules/paths";
+import { toGenrePage, toPostPage } from "../../../modules/paths";
 import { isAdminPage } from "../../../modules/utils";
 import { GENRES } from "../../../modules/constants";
+import { fetchRandomAlbumId } from "@/app/modules/api";
 
 export const Hamburger = () => {
   const pathName = usePathname();
   const router = useRouter();
   const [showCategory, setShowCategory] = useState<boolean>(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>();
+
+  async function toRandomPostPage() {
+    const randomId = await fetchRandomAlbumId();
+    router.push(`${toPostPage(pathName, randomId)}`);
+  }
 
   return (
     <nav
@@ -61,6 +67,14 @@ export const Hamburger = () => {
             }}
           >
             글쓰기
+          </li>
+          <li
+            className={`${styles.categoryItem} ${hoveredItem === "shuffle" ? styles.hovered : ""}`}
+            onMouseEnter={() => setHoveredItem("shuffle")}
+            onMouseLeave={() => setHoveredItem(null)}
+            onClick={toRandomPostPage}
+          >
+            랜덤
           </li>
         </ul>
       )}

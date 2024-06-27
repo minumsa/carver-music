@@ -74,14 +74,9 @@
   height: 30px;
 }
 
-@media (max-width: 1300px) {
-  .container {
-    width: 100%;
-  }
-}
-
 @media (max-width: 800px) {
   .container {
+    width: 100%;
     flex-direction: column;
     align-items: center;
     margin: 0;
@@ -91,7 +86,7 @@
   }
 
   .metadataContainer {
-    max-width: 100%;
+    width: 100%;
   }
 
   .linkIcon {

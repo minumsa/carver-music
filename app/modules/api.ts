@@ -139,6 +139,29 @@ export async function fetchPostData(currentId: string): Promise<AlbumInfo> {
   }
 }
 
+export async function fetchRandomAlbumId(): Promise<string> {
+  try {
+    const url = `${BASE_URL}/api/randomPost`;
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch random album id");
+    }
+
+    const albumId = await response.json();
+
+    return albumId;
+  } catch (error) {
+    throw new Error("Failed to fetch post data");
+  }
+}
+
 interface GenreDataResult {
   genreData: AlbumInfo[];
   genreDataCount: number;
