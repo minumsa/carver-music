@@ -5,7 +5,6 @@ import Link from "next/link";
 import { AlbumInfo } from "../../modules/types";
 import { DEFAULT_TAGS, GENRES } from "@/app/modules/constants";
 import Markdown from "react-markdown";
-import { DiscussionEmbed } from "disqus-react";
 import { toGenrePage } from "@/app/modules/paths";
 
 interface PostTextProps {
@@ -16,7 +15,7 @@ export const PostText = ({ postData }: PostTextProps) => {
   const pathName = usePathname();
   const { id, album, artist, title, text, tagKeys, uploadDate, markdown, genre } = postData;
   const paragraphs = text.split("\n");
-  const disqusTitle = `${artist} - ${album}`;
+  const replyTitle = `${artist} - ${album}`;
 
   return (
     <article className={styles.container}>
@@ -69,15 +68,7 @@ export const PostText = ({ postData }: PostTextProps) => {
         })}
       </div>
       <div className={styles.postDivider}></div>
-      <DiscussionEmbed
-        shortname="carver-music"
-        config={{
-          url: `https://music.divdivdiv.com${pathName}`,
-          identifier: id,
-          title: disqusTitle,
-          language: "ko",
-        }}
-      />
+      {/* 댓글 창 위치 */}
     </article>
   );
 };
