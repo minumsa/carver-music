@@ -122,7 +122,8 @@ export async function fetchAlbumDataSSR() {
 export async function fetchPostData(currentId: string): Promise<AlbumInfo> {
   try {
     const queryString = `?albumId=${currentId}`;
-    const url = `https://music.divdivdiv.com/api/post${queryString}`;
+    // const url = `https://music.divdivdiv.com/api/post${queryString}`;
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/api/post${queryString}`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -264,29 +265,6 @@ export async function fetchSearchData(
     return { searchData, searchDataCount };
   } catch (error) {
     throw new Error("Failed to search data");
-  }
-}
-
-export async function fetchAlbumById(albumId: string) {
-  try {
-    const queryString = `?albumId=${albumId}`;
-    const url = `/api/post${queryString}`;
-
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to update music data");
-    }
-
-    let data = await response.json();
-    return data;
-  } catch (error) {
-    console.error(error);
   }
 }
 
