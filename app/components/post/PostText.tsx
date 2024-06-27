@@ -6,6 +6,7 @@ import { AlbumInfo } from "../../modules/types";
 import { DEFAULT_TAGS, GENRES } from "@/app/modules/constants";
 import Markdown from "react-markdown";
 import { toGenrePage } from "@/app/modules/paths";
+import Comment from "./Utterances";
 
 interface PostTextProps {
   postData: AlbumInfo;
@@ -69,6 +70,7 @@ export const PostText = ({ postData }: PostTextProps) => {
       </div>
       <div className={styles.postDivider}></div>
       {/* 댓글 창 위치 */}
+      <Comment />
     </article>
   );
 };
