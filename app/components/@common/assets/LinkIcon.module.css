@@ -1,13 +1,10 @@
 .linkIcon {
-  position: absolute;
-  margin: 6.5px 0 0 5px;
+  margin: 0 0 -2.5px 3px;
   height: 18px;
 }
 
 @media (max-width: 525px) {
   .linkIcon {
-    position: absolute;
-    margin: 6px 0 0 4px;
     height: 16px;
   }
 }

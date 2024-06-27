@@ -59,7 +59,7 @@ export const PostAlbumMetadata = ({ postData }: PostAlbumMetadataProps) => {
 
       <div className={styles.metadataContainer}>
         {/* 아티스트 정보 */}
-        <div className={styles.metadataTitle}>아티스트</div>
+        <label className={styles.metadataTitle}>아티스트</label>
         <Link
           href={isAdminPage(pathName) ? `/admin/artist/${artistId}/1` : `/artist/${artistId}/1`}
         >
@@ -68,19 +68,19 @@ export const PostAlbumMetadata = ({ postData }: PostAlbumMetadataProps) => {
         <LinkIcon />
 
         {/* 앨범 정보 */}
-        <div className={styles.metadataTitle}>앨범</div>
+        <label className={styles.metadataTitle}>앨범</label>
         <div>{album}</div>
 
         {/* 레이블 정보 */}
-        <div className={styles.metadataTitle}>레이블</div>
+        <label className={styles.metadataTitle}>레이블</label>
         <div>{label}</div>
 
         {/* 발매일 정보 */}
-        <div className={styles.metadataTitle}>발매일</div>
+        <label className={styles.metadataTitle}>발매일</label>
         <div>{formatDate(releaseDate)}</div>
 
         {/* 러닝타임 정보 */}
-        <div className={styles.metadataTitle}>러닝타임</div>
+        <label className={styles.metadataTitle}>러닝타임</label>
         <div>
           {albumDuration}, {tracks}곡
         </div>
@@ -88,7 +88,7 @@ export const PostAlbumMetadata = ({ postData }: PostAlbumMetadataProps) => {
         {/* 비디오 정보 */}
         {hasVideo && (
           <>
-            <div className={styles.metadataTitle}>비디오</div>
+            <label className={styles.metadataTitle}>비디오</label>
             {postData.videos.map((video) => {
               const { title, url } = video;
               return (
@@ -104,7 +104,7 @@ export const PostAlbumMetadata = ({ postData }: PostAlbumMetadataProps) => {
         )}
 
         {/* 스트리밍 정보 */}
-        <div className={styles.metadataTitle}>스트리밍</div>
+        <label className={styles.metadataTitle}>스트리밍</label>
         <div className={styles.streamingIconContainer}>
           <a href={link} target="_blank">
             <img src="/svgs/apple.svg" alt="link-icon" className={styles.appleIcon}></img>
