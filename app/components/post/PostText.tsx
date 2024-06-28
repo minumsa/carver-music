@@ -14,9 +14,8 @@ interface PostTextProps {
 
 export const PostText = ({ postData }: PostTextProps) => {
   const pathName = usePathname();
-  const { id, album, artist, title, text, tagKeys, uploadDate, markdown, genre } = postData;
+  const { title, text, tagKeys, uploadDate, markdown, genre } = postData;
   const paragraphs = text.split("\n");
-  const replyTitle = `${artist} - ${album}`;
 
   return (
     <article className={styles.container}>

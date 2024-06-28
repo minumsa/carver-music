@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import Calendar from "react-calendar";
-// import "react-calendar/dist/Calendar.css";
 import styles from "./Calendar.module.css";
 import dynamic from "next/dynamic";
+// import "react-calendar/dist/Calendar.css";
 
 export const CalendarNoSSR = dynamic(() => import("@/app/components/calendar/Calendar"), {
   ssr: false,
