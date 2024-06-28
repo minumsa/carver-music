@@ -53,6 +53,7 @@
   --input-background-color: #111;
   --scrollbar-thumb-color: #191919;
   --scrollbar-track-color: #111111;
+  --calendar-text-color: #999;
 }
 
 /* Global Resets */
@@ -176,12 +177,18 @@ blockquote {
 .react-calendar__tile {
   display: flex;
   justify-content: center;
-  padding: 60px;
   box-sizing: border-box;
+  cursor: auto;
 }
 
 .react-calendar__navigation {
-  padding: 30px 50px;
+  padding: 15px 50px;
+  box-sizing: border-box;
+}
+
+.react-calendar__navigation__label,
+.react-calendar__navigation__arrow {
+  color: var(--calendar-text-color);
 }
 
 .react-calendar__navigation__label {
