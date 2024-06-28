@@ -12,7 +12,7 @@
   line-height: 1.125em;
   margin: 20px 0 0 0;
   box-sizing: border-box;
-  color:;
+  position: relative;
 }
 
 .tile {
@@ -50,4 +50,12 @@
 
 .today {
   color: var(--primary-color);
+}
+
+.todayButton {
+  border: 1px solid var(--text-color);
+  padding: 5px 15px;
+  position: absolute;
+  top: 40px;
+  right: 30px;
 }

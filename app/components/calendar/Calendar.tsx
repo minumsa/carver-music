@@ -77,37 +77,23 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
     setCurrentCalendarData(response);
   };
 
-  const renderCustomNavigation = ({ date, view, label, onClickPrevious, onClickNext }: any) => {
-    const handleTodayClick = () => {
-      setCurrentDate(new Date());
-    };
+  const goToToday = async () => {
+    setCurrentDate(today);
+    getCaldendarData(today);
+  };
 
-    return (
-      <div className={styles.navigation}>
-        <button
-          type="button"
-          className="react-calendar__navigation__prev-button"
-          onClick={onClickPrevious}
-        >
-          &lt;
-        </button>
-        <span className="react-calendar__navigation__label">{label}</span>
-        <button
-          type="button"
-          className="react-calendar__navigation__next-button"
-          onClick={onClickNext}
-        >
-          &gt;
-        </button>
-        <button type="button" className={styles.todayButton} onClick={handleTodayClick}>
-          오늘
-        </button>
-      </div>
-    );
+  const tileDisabled = ({ date, view }: { date: Date; view: string }) => {
+    if (view === "month") {
+      return date.getMonth() !== currentDate.getMonth();
+    }
+    return false;
   };
 
   return (
     <div className={styles.container}>
+      <button className={styles.todayButton} onClick={goToToday}>
+        오늘
+      </button>
       <Calendar
         calendarType="gregory"
         onChange={handleDateChange}
@@ -115,7 +101,7 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
         tileContent={tileContent}
         tileClassName={tileClassName}
         onActiveStartDateChange={({ activeStartDate }) => getCaldendarData(activeStartDate)}
-        // navigationLabel={renderCustomNavigation}
+        tileDisabled={tileDisabled}
       />
     </div>
   );
