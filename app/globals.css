@@ -162,3 +162,40 @@ blockquote {
 ::-webkit-scrollbar-track {
   background-color: var(--scrollbar-track-color); /* 스크롤바 뒷 배경 색상 */
 }
+
+.react-calendar__month-view__weekdays__weekday {
+  display: flex;
+  justify-content: center;
+}
+
+.react-calendar__navigation {
+  display: flex;
+  justify-content: center;
+}
+
+.react-calendar__tile {
+  display: flex;
+  justify-content: center;
+  padding: 60px;
+  box-sizing: border-box;
+}
+
+.react-calendar__navigation {
+  padding: 30px 50px;
+}
+
+.react-calendar__navigation__label {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.react-calendar__navigation__arrow {
+  font-size: 1.8rem;
+  font-weight: 300;
+  padding: 20px;
+}
+
+abbr[title] {
+  text-decoration: none;
+}

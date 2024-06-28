@@ -41,7 +41,7 @@ const CalendarComponent: React.FC = () => {
   };
 
   return (
-    <div className={styles.calendar}>
+    <div className={styles.container}>
       <Calendar
         onChange={handleDateChange}
         value={date}
