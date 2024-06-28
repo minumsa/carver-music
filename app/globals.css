@@ -223,6 +223,7 @@ abbr[title] {
   text-decoration: none;
 }
 
+/* 이전/다음 달 날짜 표시 안 함 */
 .react-calendar__month-view__days__day--neighboringMonth {
   color: var(--tag-background-color) !important;
 }

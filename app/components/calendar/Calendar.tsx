@@ -89,14 +89,6 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
     return false;
   };
 
-  const renderCustomNavigation = ({ date, view, label, onClickPrevious, onClickNext }: any) => {
-    return (
-      <div className={styles.navigation}>
-        <span className="react-calendar__navigation__label">{label}</span>
-      </div>
-    );
-  };
-
   return (
     <div className={styles.container}>
       {/* <button className={styles.todayButton} onClick={goToToday}>
@@ -110,8 +102,9 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
         tileClassName={tileClassName}
         onActiveStartDateChange={({ activeStartDate }) => getCaldendarData(activeStartDate)}
         // navigationLabel={renderCustomNavigation}
-        tileDisabled={tileDisabled}
+        // tileDisabled={tileDisabled}
         minDetail={"month"}
+        // activeStartDate={activeStartDate}
       />
     </div>
   );
