@@ -2,8 +2,8 @@ import { usePathname, useRouter } from "next/navigation";
 import styles from "./Hamburger.module.css";
 import React, { useState } from "react";
 import Link from "next/link";
-import { toGenrePage, toPostPage } from "../../../modules/paths";
-import { isAdminPage } from "../../../modules/utils";
+import { toCalendarPage, toGenrePage, toPostPage } from "../../../modules/paths";
+import { isAdminPage, getYearMonth } from "../../../modules/utils";
 import { GENRES } from "../../../modules/constants";
 import { fetchRandomAlbumId } from "@/app/modules/api";
 
@@ -13,9 +13,13 @@ export const Hamburger = () => {
   const [showCategory, setShowCategory] = useState<boolean>(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>();
 
-  async function toRandomPostPage() {
+  async function handleRandomButton() {
     const randomId = await fetchRandomAlbumId();
     router.push(`${toPostPage(pathName, randomId)}`);
+  }
+
+  function handleCalendarButton() {
+    router.push(toCalendarPage(pathName));
   }
 
   return (
@@ -72,9 +76,17 @@ export const Hamburger = () => {
             className={`${styles.categoryItem} ${hoveredItem === "shuffle" ? styles.hovered : ""}`}
             onMouseEnter={() => setHoveredItem("shuffle")}
             onMouseLeave={() => setHoveredItem(null)}
-            onClick={toRandomPostPage}
+            onClick={handleRandomButton}
           >
             랜덤
+          </li>
+          <li
+            className={`${styles.categoryItem} ${hoveredItem === "calendar" ? styles.hovered : ""}`}
+            onMouseEnter={() => setHoveredItem("calendar")}
+            onMouseLeave={() => setHoveredItem(null)}
+            onClick={handleCalendarButton}
+          >
+            달력
           </li>
         </ul>
       )}

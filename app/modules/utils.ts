@@ -69,3 +69,16 @@ export const getBlurhash = (imgUrl: string): Promise<string> => {
     };
   });
 };
+
+export const getYearMonth = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  return { year, month };
+};
+
+export const getYearMonthFromDate = (date: Date) => {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  return { year, month };
+};

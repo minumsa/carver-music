@@ -1,0 +1,61 @@
+.container,
+.tile {
+  color: var(--calendar-text-color);
+}
+
+.container {
+  width: calc(100% - 30px);
+  height: 100%;
+  max-width: 100%;
+  /* background: white; */
+  background-color: var(--tag-background-color);
+  line-height: 1.125em;
+  margin: 20px 0 0 0;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.tile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: auto;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.date-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.event {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.event img {
+  max-width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.today {
+  color: var(--primary-color);
+}
+
+.todayButton {
+  border: 1px solid var(--text-color);
+  padding: 5px 15px;
+  position: absolute;
+  top: 40px;
+  right: 30px;
+}
