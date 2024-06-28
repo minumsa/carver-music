@@ -41,12 +41,16 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
 
   const tileContent = ({ date, view }: { date: Date; view: string }) => {
     if (view === "month") {
-      const event = currentCalendarData?.find(
+      const events = currentCalendarData?.filter(
         (event: any) => new Date(event.uploadDate).toDateString() === date.toDateString(),
       );
 
-      return event ? (
-        <div className={styles.event}>
+      const totalContents = events?.length;
+      const hasVariousContents = totalContents >= 2;
+
+      return events?.map((event: any, index: number) => (
+        <div key={index} className={styles.event}>
+          {hasVariousContents && <div className={styles.totalContents}>{totalContents}</div>}
           <img
             src={event.imgUrl}
             alt={event.album}
@@ -55,7 +59,7 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
             }}
           />
         </div>
-      ) : null;
+      ));
     }
     return null;
   };
