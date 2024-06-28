@@ -53,6 +53,7 @@
   --scrollbar-thumb-color: #191919;
   --scrollbar-track-color: #111111;
   --calendar-text-color: #999;
+  --tag-background-color: #1a1a1a;
 }
 
 /* Global Resets */
@@ -163,9 +164,13 @@ blockquote {
   background-color: var(--scrollbar-track-color); /* 스크롤바 뒷 배경 색상 */
 }
 
+/* react-calendar 관련 스타일 */
+
 .react-calendar__month-view__weekdays__weekday {
   display: flex;
   justify-content: center;
+  align-items: center;
+  height: 35px;
 }
 
 .react-calendar__navigation {
@@ -181,7 +186,7 @@ blockquote {
 }
 
 .react-calendar__navigation {
-  padding: 15px 50px;
+  padding: 0 50px;
   box-sizing: border-box;
 }
 
@@ -194,14 +199,25 @@ blockquote {
   text-align: center;
   font-size: 1.8rem;
   font-weight: 600;
+  flex-grow: 0 !important;
+  margin: 0 30px;
 }
 
 .react-calendar__navigation__arrow {
-  font-size: 1.8rem;
+  font-size: 2.5rem;
   font-weight: 300;
-  padding: 20px;
+  padding: 15px 20px 20px 20px;
+}
+
+.react-calendar__navigation__prev2-button,
+.react-calendar__navigation__next2-button {
+  display: none !important;
 }
 
 abbr[title] {
   text-decoration: none;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth {
+  color: var(--tag-background-color) !important;
 }

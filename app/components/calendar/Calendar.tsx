@@ -77,14 +77,45 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
     setCurrentCalendarData(response);
   };
 
+  const renderCustomNavigation = ({ date, view, label, onClickPrevious, onClickNext }: any) => {
+    const handleTodayClick = () => {
+      setCurrentDate(new Date());
+    };
+
+    return (
+      <div className={styles.navigation}>
+        <button
+          type="button"
+          className="react-calendar__navigation__prev-button"
+          onClick={onClickPrevious}
+        >
+          &lt;
+        </button>
+        <span className="react-calendar__navigation__label">{label}</span>
+        <button
+          type="button"
+          className="react-calendar__navigation__next-button"
+          onClick={onClickNext}
+        >
+          &gt;
+        </button>
+        <button type="button" className={styles.todayButton} onClick={handleTodayClick}>
+          오늘
+        </button>
+      </div>
+    );
+  };
+
   return (
     <div className={styles.container}>
       <Calendar
+        calendarType="gregory"
         onChange={handleDateChange}
         value={currentDate}
         tileContent={tileContent}
         tileClassName={tileClassName}
         onActiveStartDateChange={({ activeStartDate }) => getCaldendarData(activeStartDate)}
+        // navigationLabel={renderCustomNavigation}
       />
     </div>
   );
