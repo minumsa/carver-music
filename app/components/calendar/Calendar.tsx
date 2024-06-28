@@ -89,11 +89,19 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
     return false;
   };
 
+  const renderCustomNavigation = ({ date, view, label, onClickPrevious, onClickNext }: any) => {
+    return (
+      <div className={styles.navigation}>
+        <span className="react-calendar__navigation__label">{label}</span>
+      </div>
+    );
+  };
+
   return (
     <div className={styles.container}>
-      <button className={styles.todayButton} onClick={goToToday}>
+      {/* <button className={styles.todayButton} onClick={goToToday}>
         오늘
-      </button>
+      </button> */}
       <Calendar
         calendarType="gregory"
         onChange={handleDateChange}
@@ -101,7 +109,9 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
         tileContent={tileContent}
         tileClassName={tileClassName}
         onActiveStartDateChange={({ activeStartDate }) => getCaldendarData(activeStartDate)}
+        // navigationLabel={renderCustomNavigation}
         tileDisabled={tileDisabled}
+        minDetail={"month"}
       />
     </div>
   );
