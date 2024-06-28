@@ -3,6 +3,7 @@ import { BASE_URL, MIN_SCROLL_COUNT, PER_PAGE_COUNT } from "./constants";
 import { AlbumFilters, AlbumInfo, AlbumInfoLandingPage, SortKey, SpotifyAlbumData } from "./types";
 import connectMongoDB from "./mongodb";
 import Music from "@/models/music";
+import { getYearMonthFromDate } from "./utils";
 
 interface InitialAlbumDataResult {
   albumData: AlbumInfo[];
@@ -539,8 +540,9 @@ export async function fetchCalendarDataSSR(year: number, month: number) {
   }
 }
 
-export async function fetchCalendarDataCSR(year: number, month: number) {
+export async function fetchCalendarDataCSR(currentDate: any) {
   try {
+    const { year, month } = getYearMonthFromDate(currentDate);
     const queryString = `?year=${year}&month=${month}`;
     const url = `${BASE_URL}/api/calendar${queryString}`;
 

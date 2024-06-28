@@ -1,14 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import styles from "./Calendar.module.css";
-import dynamic from "next/dynamic";
+import { fetchCalendarDataCSR } from "@/app/modules/api";
+import { getYearMonth } from "@/app/modules/utils";
+import { useRouter } from "next/navigation";
 // import "react-calendar/dist/Calendar.css";
-
-export const CalendarNoSSR = dynamic(() => import("@/app/components/calendar/Calendar"), {
-  ssr: false,
-});
 
 interface CalendarData {
   album: string;
@@ -24,51 +22,69 @@ interface CalendarComponentProps {
 
 // TODO: 기능 구현 끝나면 any 타입 정상적으로 다 바꾸기
 const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
-  const [date, setDate] = useState<any>(new Date());
-  const sampleImgUrl = "https://i.scdn.co/image/ab67616d0000b2731cf5a7074796f4cc5b1fa6fa";
-  const events = [
-    { date: new Date(2024, 5, 1), imgUrl: sampleImgUrl },
-    { date: new Date(2024, 5, 5), imgUrl: sampleImgUrl },
-  ];
+  const [currentDate, setCurrentDate] = useState<any>(new Date());
+  const [currentCalendarData, setCurrentCalendarData] = useState<any>();
+  const today = new Date();
+  const router = useRouter();
 
-  const test = calendarData.map((data: any) => {
-    return {
-      date: new Date(data.uploadDate),
-      imgUrl: data.imgUrl,
-    };
-  });
-
-  console.log(test);
+  useEffect(() => {
+    setCurrentCalendarData(calendarData);
+  }, []);
 
   const handleDateChange = (date: any) => {
-    setDate(date);
+    setCurrentDate(date);
+  };
+
+  const toPostPage = (id: string) => {
+    router.push(`/post/${id}`);
   };
 
   const tileContent = ({ date, view }: { date: Date; view: string }) => {
     if (view === "month") {
-      const event = test.find((event: any) => event.date.toDateString() === date.toDateString());
+      const event = currentCalendarData?.find(
+        (event: any) => new Date(event.uploadDate).toDateString() === date.toDateString(),
+      );
+
       return event ? (
         <div className={styles.event}>
-          <img src={event.imgUrl} alt="Event" />
+          <img
+            src={event.imgUrl}
+            alt={event.album}
+            onClick={() => {
+              toPostPage(event.id);
+            }}
+          />
         </div>
       ) : null;
     }
     return null;
   };
+
   const tileClassName = ({ date, view }: { date: Date; view: string }) => {
     if (view === "month") {
-      return styles.tile;
+      const classes = [styles.tile];
+      const isToday = date.toDateString() === today.toDateString();
+      if (isToday) {
+        classes.push(styles.today);
+      }
+      return classes.join(" ");
     }
     return "";
+  };
+
+  const getCaldendarData = async (activeStartDate: any) => {
+    const response = await fetchCalendarDataCSR(activeStartDate);
+    setCurrentCalendarData(response);
   };
 
   return (
     <div className={styles.container}>
       <Calendar
         onChange={handleDateChange}
-        value={date}
+        value={currentDate}
         tileContent={tileContent}
         tileClassName={tileClassName}
+        onActiveStartDateChange={({ activeStartDate }) => getCaldendarData(activeStartDate)}
       />
     </div>
   );

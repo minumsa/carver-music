@@ -1,6 +1,6 @@
 import Error from "@/app/components/@common/Error";
 import { MusicLayout } from "@/app/components/@common/MusicLayout";
-import { CalendarNoSSR } from "@/app/components/calendar/Calendar";
+import { CalendarNoSSR } from "@/app/components/calendar/CaldendarNoSSR";
 import { fetchCalendarDataSSR } from "@/app/modules/api";
 import { getYearMonth } from "@/app/modules/utils";
 
