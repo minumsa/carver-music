@@ -5,9 +5,10 @@ import { CalendarNoSSR } from "@/app/components/calendar/Calendar";
 export default async function Page() {
   try {
     return (
-      <MusicLayout>
-        <CalendarNoSSR />
-      </MusicLayout>
+      <div></div>
+      // <MusicLayout>
+      //   <CalendarNoSSR />
+      // </MusicLayout>
     );
   } catch (error) {
     return <Error error={error as Error} />;
