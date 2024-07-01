@@ -244,6 +244,10 @@ abbr[title] {
 }
 
 @media (max-width: 525px) {
+  .react-calendar__navigation {
+    padding: 0;
+  }
+
   .react-calendar__navigation__label {
     font-size: 1.2rem;
   }

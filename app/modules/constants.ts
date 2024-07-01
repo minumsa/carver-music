@@ -171,3 +171,5 @@ export const ACTIVE_TAG_STYLES = (isActiveTag: boolean, pathName: string) =>
 require("dotenv").config();
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+export const PRIMARY_COLOR = "#007bff";

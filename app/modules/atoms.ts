@@ -1,5 +1,5 @@
 import { atom } from "jotai";
-import { AlbumInfo, AlbumInfoLandingPage } from "./types";
+import { AlbumInfoLandingPage, CalendarData } from "./types";
 
 export const scrollCountAtom = atom<number>(1);
 export const isScrollingAtom = atom<boolean>(false);
@@ -9,3 +9,5 @@ export const albumDataAtom = atom<AlbumInfoLandingPage[]>([]);
 export const tagAtom = atom<string>("");
 export const isFirstFetchAtom = atom<boolean>(true);
 export const showAllTagItemsAtom = atom<boolean>(false);
+export const currentDateAtom = atom<Date>(new Date());
+export const currentCalendarDataAtom = atom<CalendarData[]>([]);

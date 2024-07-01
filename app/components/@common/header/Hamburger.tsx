@@ -3,7 +3,7 @@ import styles from "./Hamburger.module.css";
 import React, { useState } from "react";
 import Link from "next/link";
 import { toCalendarPage, toGenrePage, toPostPage } from "../../../modules/paths";
-import { isAdminPage, getYearMonth } from "../../../modules/utils";
+import { isAdminPage, getTodaysYearMonth } from "../../../modules/utils";
 import { GENRES } from "../../../modules/constants";
 import { fetchRandomAlbumId } from "@/app/modules/api";
 
