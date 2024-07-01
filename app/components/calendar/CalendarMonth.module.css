@@ -16,3 +16,57 @@
   border-bottom: 1px solid var(--border-color);
   padding: 0 0 10px 0;
 }
+
+.dateGroupContainer {
+  display: flex;
+  padding: 30px 0;
+}
+
+.dateGroup {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 10px;
+  column-gap: 20px;
+}
+
+.dateGroupTitle {
+  display: flex;
+  flex-direction: column;
+  min-width: 150px;
+  margin: 0 50px 0 0;
+  row-gap: 7px;
+}
+
+.dateToNumber {
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.albumArtWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 170px;
+  height: 170px;
+  aspect-ratio: 1 / 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.albumInfoContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+  margin: 0 0 30px 0;
+}
+
+.ellipsis {
+  width: 170px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 1.05rem;
+}
+
+.dataCountByDate {
+  font-size: 0.95rem;
+}

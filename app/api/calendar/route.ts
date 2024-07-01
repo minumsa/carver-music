@@ -35,6 +35,7 @@ export async function GET(request: Request) {
           artist: 1,
           id: 1,
           imgUrl: 1,
+          score: 1,
           uploadDate: 1,
         },
       },

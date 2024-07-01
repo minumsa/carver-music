@@ -13,6 +13,7 @@ interface GroupedCalendarData {
     artist: string;
     id: string;
     imgUrl: string;
+    score: string;
   }[];
 }
 
@@ -20,10 +21,10 @@ export const CalendarMonth = ({ calendarData }: CalendarMonthProps) => {
   const month = new Date(calendarData[0].uploadDate).getMonth() + 1;
   const groupedCalendarDataByDate = calendarData.reduce<GroupedCalendarData>(
     (acc, calendarData) => {
-      const { album, artist, id, imgUrl, uploadDate } = calendarData;
+      const { album, artist, id, imgUrl, uploadDate, score } = calendarData;
       const date = uploadDate.split("T")[0];
       if (!acc[date]) acc[date] = [];
-      acc[date].push({ album, artist, id, imgUrl });
+      acc[date].push({ album, artist, id, imgUrl, score });
       return acc;
     },
     {},
@@ -44,6 +45,53 @@ export const CalendarMonth = ({ calendarData }: CalendarMonthProps) => {
         />
       </div>
       <h3 className={styles.month}>{month}월</h3>
+      {Object.keys(groupedCalendarDataByDate).map((date) => {
+        const dataCountByDate = groupedCalendarDataByDate[date].length;
+        const dateToNumber = new Date(date).getDate();
+        return (
+          <div key={date} className={styles.dateGroupContainer}>
+            <div className={styles.dateGroupTitle}>
+              <div className={styles.dateToNumber}>{dateToNumber}</div>
+              <div className={styles.dataCountByDate}>{`${dataCountByDate}개`}</div>
+            </div>
+            <div className={styles.dateGroup}>
+              {groupedCalendarDataByDate[date].map((calendarData) => {
+                const { artist, album, imgUrl } = calendarData;
+                return (
+                  <div key={album} className={styles.albumInfoContainer}>
+                    <div className={styles.albumArtWrapper}>
+                      <img src={imgUrl} alt={album} />
+                    </div>
+                    <div className={styles.ellipsis}>{artist}</div>
+                    <div className={styles.ellipsis}>{album}</div>
+                    {/* <div className={styles.starContainer}>
+                    <img
+                      className={styles.coloredStar}
+                      src="/images/star-color.webp"
+                      alt="colored-star"
+                      style={
+                        score
+                          ? {
+                              clipPath: `inset(0 ${percentageScore}% 0 0)`,
+                            }
+                          : undefined
+                      }
+                      loading="lazy"
+                    />
+                    <img
+                      className={styles.monoStar}
+                      src="/images/star-mono.webp"
+                      alt="mono-star"
+                      loading="lazy"
+                    />
+                  </div> */}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };

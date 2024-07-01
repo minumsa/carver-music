@@ -121,4 +121,5 @@ export interface CalendarData {
   id: string;
   imgUrl: string;
   uploadDate: string;
+  score: string;
 }

@@ -101,9 +101,9 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
         tileContent={tileContent}
         tileClassName={tileClassName}
         onActiveStartDateChange={({ activeStartDate }) => getCaldendarData(activeStartDate)}
+        minDetail={"month"}
         // navigationLabel={renderCustomNavigation}
         // tileDisabled={tileDisabled}
-        minDetail={"month"}
         // activeStartDate={activeStartDate}
       />
     </div>

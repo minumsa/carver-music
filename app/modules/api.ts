@@ -527,6 +527,7 @@ export async function fetchCalendarDataSSR(year: number, month: number) {
           artist: 1,
           id: 1,
           imgUrl: 1,
+          score: 1,
           uploadDate: 1,
         },
       },
