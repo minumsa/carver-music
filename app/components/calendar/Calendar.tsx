@@ -4,26 +4,18 @@ import React, { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import styles from "./Calendar.module.css";
 import { fetchCalendarDataCSR } from "@/app/modules/api";
-import { getYearMonth } from "@/app/modules/utils";
 import { useRouter } from "next/navigation";
+import { CalendarData } from "@/app/modules/types";
 // import "react-calendar/dist/Calendar.css";
 
-interface CalendarData {
-  album: string;
-  artist: string;
-  id: string;
-  imgUrl: string;
-  uploadDate: string;
-}
-
 interface CalendarComponentProps {
-  calendarData: any;
+  calendarData: CalendarData[];
 }
 
 // TODO: 기능 구현 끝나면 any 타입 정상적으로 다 바꾸기
 const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
-  const [currentDate, setCurrentDate] = useState<any>(new Date());
-  const [currentCalendarData, setCurrentCalendarData] = useState<any>();
+  const [currentDate, setCurrentDate] = useState<Date>(new Date());
+  const [currentCalendarData, setCurrentCalendarData] = useState<CalendarData[]>();
   const today = new Date();
   const router = useRouter();
 
@@ -31,12 +23,12 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
     setCurrentCalendarData(calendarData);
   }, []);
 
-  const handleDateChange = (date: any) => {
-    setCurrentDate(date);
+  const handleDateChange = (value: any) => {
+    setCurrentDate(value);
   };
 
-  const toPostPage = (id: string) => {
-    router.push(`/post/${id}`);
+  const toYearMonthPostPage = (yearMonth: string) => {
+    router.push(`/calendar/${yearMonth}`);
   };
 
   const tileContent = ({ date, view }: { date: Date; view: string }) => {
@@ -44,22 +36,24 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
       const events = currentCalendarData?.filter(
         (event: any) => new Date(event.uploadDate).toDateString() === date.toDateString(),
       );
-
-      const totalContents = events?.length;
+      const totalContents = events?.length ?? 0;
       const hasVariousContents = totalContents >= 2;
 
-      return events?.map((event: any, index: number) => (
-        <div key={index} className={styles.event}>
-          {hasVariousContents && <div className={styles.totalContents}>{totalContents}</div>}
-          <img
-            src={event.imgUrl}
-            alt={event.album}
-            onClick={() => {
-              toPostPage(event.id);
-            }}
-          />
-        </div>
-      ));
+      return events?.map((event: any, index: number) => {
+        const yearMonth = event.uploadDate.slice(0, 4) + event.uploadDate.slice(5, 7);
+        return (
+          <div key={index} className={styles.event}>
+            {hasVariousContents && <div className={styles.totalContents}>{totalContents}</div>}
+            <img
+              src={event.imgUrl}
+              alt={event.album}
+              onClick={() => {
+                toYearMonthPostPage(yearMonth);
+              }}
+            />
+          </div>
+        );
+      });
     }
     return null;
   };

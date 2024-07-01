@@ -1,17 +1,18 @@
 import Error from "@/app/components/@common/Error";
 import { MusicLayout } from "@/app/components/@common/MusicLayout";
-import { CalendarNoSSR } from "@/app/components/calendar/CaldendarNoSSR";
+import { CalendarMonth } from "@/app/components/calendar/CalendarMonth";
 import { fetchCalendarDataSSR } from "@/app/modules/api";
-import { getTodaysYearMonth } from "@/app/modules/utils";
+import { PageProps } from "@/app/modules/types";
+import { getYearMonthFromStr } from "@/app/modules/utils";
 
-export default async function Page() {
+export default async function Page({ params }: PageProps) {
   try {
-    const { year, month } = getTodaysYearMonth();
+    const { year, month } = getYearMonthFromStr(params.yearMonth);
     const calendarData = await fetchCalendarDataSSR(year, month);
 
     return (
       <MusicLayout>
-        <CalendarNoSSR calendarData={calendarData} />
+        <CalendarMonth calendarData={calendarData} />
       </MusicLayout>
     );
   } catch (error) {

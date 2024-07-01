@@ -82,6 +82,7 @@ export interface PageProps {
     page: number;
     genre: string;
     tagName: string;
+    yearMonth: string;
   };
 }
 
@@ -112,4 +113,12 @@ export type CashedAccessToken = string | null;
 export interface AlbumFilters {
   scrollCount: number;
   currentTag: string;
+}
+
+export interface CalendarData {
+  album: string;
+  artist: string;
+  id: string;
+  imgUrl: string;
+  uploadDate: string;
 }
