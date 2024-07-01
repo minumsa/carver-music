@@ -13,7 +13,7 @@ interface GroupedCalendarData {
     artist: string;
     id: string;
     imgUrl: string;
-    score: string;
+    score: number;
   }[];
 }
 
@@ -56,7 +56,8 @@ export const CalendarMonth = ({ calendarData }: CalendarMonthProps) => {
             </div>
             <div className={styles.dateGroup}>
               {groupedCalendarDataByDate[date].map((calendarData) => {
-                const { artist, album, imgUrl } = calendarData;
+                const { artist, album, imgUrl, score } = calendarData;
+                const percentageScore = 100 - score * 20;
                 return (
                   <div key={album} className={styles.albumInfoContainer}>
                     <div className={styles.albumArtWrapper}>
@@ -64,27 +65,28 @@ export const CalendarMonth = ({ calendarData }: CalendarMonthProps) => {
                     </div>
                     <div className={styles.ellipsis}>{artist}</div>
                     <div className={styles.ellipsis}>{album}</div>
-                    {/* <div className={styles.starContainer}>
-                    <img
-                      className={styles.coloredStar}
-                      src="/images/star-color.webp"
-                      alt="colored-star"
-                      style={
-                        score
-                          ? {
-                              clipPath: `inset(0 ${percentageScore}% 0 0)`,
-                            }
-                          : undefined
-                      }
-                      loading="lazy"
-                    />
-                    <img
-                      className={styles.monoStar}
-                      src="/images/star-mono.webp"
-                      alt="mono-star"
-                      loading="lazy"
-                    />
-                  </div> */}
+                    {/* FIXME: 별 이미지 svg로 교체 */}
+                    <div className={styles.starContainer}>
+                      <img
+                        className={styles.coloredStar}
+                        src="/images/star-color.webp"
+                        alt="colored-star"
+                        style={
+                          score
+                            ? {
+                                clipPath: `inset(0 ${percentageScore}% 0 0)`,
+                              }
+                            : undefined
+                        }
+                        loading="lazy"
+                      />
+                      <img
+                        className={styles.monoStar}
+                        src="/images/star-mono.webp"
+                        alt="mono-star"
+                        loading="lazy"
+                      />
+                    </div>
                   </div>
                 );
               })}
