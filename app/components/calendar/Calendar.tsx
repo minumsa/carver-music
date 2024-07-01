@@ -6,6 +6,8 @@ import styles from "./Calendar.module.css";
 import { fetchCalendarDataCSR } from "@/app/modules/api";
 import { useRouter } from "next/navigation";
 import { CalendarData } from "@/app/modules/types";
+import { useAtom } from "jotai";
+import { currentCalendarDataAtom, currentDateAtom } from "@/app/modules/atoms";
 // import "react-calendar/dist/Calendar.css";
 
 interface CalendarComponentProps {
@@ -14,13 +16,13 @@ interface CalendarComponentProps {
 
 // TODO: 기능 구현 끝나면 any 타입 정상적으로 다 바꾸기
 const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
-  const [currentDate, setCurrentDate] = useState<Date>(new Date());
-  const [currentCalendarData, setCurrentCalendarData] = useState<CalendarData[]>();
+  const [currentDate, setCurrentDate] = useAtom(currentDateAtom);
+  const [currentCalendarData, setCurrentCalendarData] = useAtom(currentCalendarDataAtom);
   const today = new Date();
   const router = useRouter();
 
   useEffect(() => {
-    setCurrentCalendarData(calendarData);
+    if (!currentCalendarData) setCurrentCalendarData(calendarData);
   }, []);
 
   const handleDateChange = (value: any) => {

@@ -17,6 +17,7 @@ interface GroupedCalendarData {
 }
 
 export const CalendarMonth = ({ calendarData }: CalendarMonthProps) => {
+  const month = new Date(calendarData[0].uploadDate).getMonth() + 1;
   const groupedCalendarDataByDate = calendarData.reduce<GroupedCalendarData>(
     (acc, calendarData) => {
       const { album, artist, id, imgUrl, uploadDate } = calendarData;
@@ -28,9 +29,21 @@ export const CalendarMonth = ({ calendarData }: CalendarMonthProps) => {
     {},
   );
 
+  function goBack() {
+    window.history.back();
+  }
+
   return (
     <div className={styles.container}>
-      <h3 className={styles.month}></h3>
+      <div className={styles.arrowLeft}>
+        <img
+          src="/svgs/arrow-left.svg"
+          alt="arrow-left"
+          onClick={goBack}
+          style={{ cursor: "pointer" }}
+        />
+      </div>
+      <h3 className={styles.month}>{month}월</h3>
     </div>
   );
 };
