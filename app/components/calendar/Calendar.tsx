@@ -42,7 +42,7 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
       const hasVariousContents = totalContents >= 2;
 
       return events?.map((event: any, index: number) => {
-        const yearMonth = event.uploadDate.slice(0, 4) + event.uploadDate.slice(5, 7);
+        const dateFromString = event.uploadDate.slice(0, 10);
         return (
           <div key={index} className={styles.event}>
             {hasVariousContents && <div className={styles.totalContents}>{totalContents}</div>}
@@ -50,7 +50,7 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
               src={event.imgUrl}
               alt={event.album}
               onClick={() => {
-                toYearMonthPostPage(yearMonth);
+                toYearMonthPostPage(dateFromString);
               }}
             />
           </div>

@@ -82,7 +82,7 @@ export interface PageProps {
     page: number;
     genre: string;
     tagName: string;
-    yearMonth: string;
+    date: string;
   };
 }
 
@@ -121,5 +121,5 @@ export interface CalendarData {
   id: string;
   imgUrl: string;
   uploadDate: string;
-  score: string;
+  score: number;
 }

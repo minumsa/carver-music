@@ -20,6 +20,7 @@
 .dateGroupContainer {
   display: flex;
   padding: 30px 0;
+  scroll-margin: 50px;
 }
 
 .dateGroup {

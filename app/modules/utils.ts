@@ -70,10 +70,12 @@ export const getBlurhash = (imgUrl: string): Promise<string> => {
   });
 };
 
-export const getYearMonthFromStr = (yearMonth: string) => {
-  const year = Number(yearMonth.slice(0, 4));
-  const month = Number(yearMonth.slice(4));
-  return { year, month };
+export const getYearMonthFromStr = (date: string) => {
+  const newDate = new Date(date);
+  const year = newDate.getFullYear();
+  const month = newDate.getMonth() + 1;
+  const day = newDate.getDate();
+  return { year, month, day };
 };
 
 export const getTodaysYearMonth = () => {

@@ -7,12 +7,12 @@ import { getYearMonthFromStr } from "@/app/modules/utils";
 
 export default async function Page({ params }: PageProps) {
   try {
-    const { year, month } = getYearMonthFromStr(params.yearMonth);
+    const { year, month, day } = getYearMonthFromStr(params.date);
     const calendarData = await fetchCalendarDataSSR(year, month);
 
     return (
       <MusicLayout>
-        <CalendarMonth calendarData={calendarData} />
+        <CalendarMonth calendarData={calendarData} day={day} />
       </MusicLayout>
     );
   } catch (error) {

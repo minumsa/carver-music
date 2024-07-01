@@ -2,9 +2,12 @@
 
 import { CalendarData } from "@/app/modules/types";
 import styles from "./CalendarMonth.module.css";
+import { PRIMARY_COLOR } from "@/app/modules/constants";
+import { useEffect, useRef } from "react";
 
 interface CalendarMonthProps {
   calendarData: CalendarData[];
+  day: number;
 }
 
 interface GroupedCalendarData {
@@ -17,7 +20,7 @@ interface GroupedCalendarData {
   }[];
 }
 
-export const CalendarMonth = ({ calendarData }: CalendarMonthProps) => {
+export const CalendarMonth = ({ calendarData, day }: CalendarMonthProps) => {
   const month = new Date(calendarData[0].uploadDate).getMonth() + 1;
   const groupedCalendarDataByDate = calendarData.reduce<GroupedCalendarData>(
     (acc, calendarData) => {
@@ -34,6 +37,18 @@ export const CalendarMonth = ({ calendarData }: CalendarMonthProps) => {
     window.history.back();
   }
 
+  const clickedDayRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (clickedDayRef.current) {
+      clickedDayRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest",
+      });
+    }
+  }, [day]);
+
   return (
     <div className={styles.container}>
       <div className={styles.arrowLeft}>
@@ -47,11 +62,22 @@ export const CalendarMonth = ({ calendarData }: CalendarMonthProps) => {
       <h3 className={styles.month}>{month}월</h3>
       {Object.keys(groupedCalendarDataByDate).map((date) => {
         const dataCountByDate = groupedCalendarDataByDate[date].length;
-        const dateToNumber = new Date(date).getDate();
+        const dayFromDate = new Date(date).getDate();
+        const isClickedDay = day === dayFromDate;
+
         return (
-          <div key={date} className={styles.dateGroupContainer}>
+          <div
+            key={date}
+            className={styles.dateGroupContainer}
+            ref={isClickedDay ? clickedDayRef : null}
+          >
             <div className={styles.dateGroupTitle}>
-              <div className={styles.dateToNumber}>{dateToNumber}</div>
+              <div
+                className={styles.dateToNumber}
+                style={{ color: isClickedDay ? PRIMARY_COLOR : undefined }}
+              >
+                {dayFromDate}
+              </div>
               <div className={styles.dataCountByDate}>{`${dataCountByDate}개`}</div>
             </div>
             <div className={styles.dateGroup}>
