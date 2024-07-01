@@ -33,6 +33,7 @@ export async function GET(request: Request) {
           _id: 0,
           album: 1,
           artist: 1,
+          artistId: 1,
           id: 1,
           imgUrl: 1,
           score: 1,

@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: column;
   margin: 20px 0 0 0;
+  padding: 0 0 50px 0;
 }
 
 .arrowLeft {
@@ -19,22 +20,21 @@
 
 .dateGroupContainer {
   display: flex;
-  padding: 30px 0;
   scroll-margin: 50px;
+  margin: 20px 0;
 }
 
 .dateGroup {
   display: flex;
   flex-wrap: wrap;
-  row-gap: 10px;
-  column-gap: 20px;
+  row-gap: 30px;
+  column-gap: 30px;
 }
 
 .dateGroupTitle {
   display: flex;
   flex-direction: column;
   min-width: 150px;
-  margin: 0 50px 0 0;
   row-gap: 7px;
 }
 
@@ -46,22 +46,22 @@
 .albumArtWrapper {
   display: flex;
   flex-direction: column;
-  width: 170px;
-  height: 170px;
+  width: 160px;
+  height: 160px;
   aspect-ratio: 1 / 1;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .albumInfoContainer {
   display: flex;
   flex-direction: column;
   row-gap: 5px;
-  margin: 0 0 30px 0;
 }
 
 .ellipsis {
-  width: 170px;
+  width: 160px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -94,7 +94,42 @@
 }
 
 @media (max-width: 525px) {
+  .container {
+    padding: 0 0 30px 0;
+  }
+
+  .dateGroupContainer {
+    display: flex;
+    scroll-margin: 40px;
+  }
+
+  .dateGroup {
+    row-gap: 20px;
+    column-gap: 20px;
+  }
+
+  .dateGroupTitle {
+    display: flex;
+    flex-direction: column;
+    min-width: 55px;
+    row-gap: 7px;
+  }
+
+  .albumArtWrapper {
+    width: 130px;
+    height: 130px;
+  }
+
+  .ellipsis {
+    width: 130px;
+    font-size: 1rem;
+  }
+
   .starContainer {
     display: none;
+  }
+
+  .dataCountByDate {
+    font-size: 0.9rem;
   }
 }

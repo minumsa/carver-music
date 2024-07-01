@@ -4,6 +4,8 @@ import { CalendarData } from "@/app/modules/types";
 import styles from "./CalendarMonth.module.css";
 import { PRIMARY_COLOR } from "@/app/modules/constants";
 import { useEffect, useRef } from "react";
+import { toArtistPage, toPostPage } from "@/app/modules/paths";
+import { usePathname, useRouter } from "next/navigation";
 
 interface CalendarMonthProps {
   calendarData: CalendarData[];
@@ -14,6 +16,7 @@ interface GroupedCalendarData {
   [date: string]: {
     album: string;
     artist: string;
+    artistId: string;
     id: string;
     imgUrl: string;
     score: number;
@@ -21,16 +24,22 @@ interface GroupedCalendarData {
 }
 
 export const CalendarMonth = ({ calendarData, day }: CalendarMonthProps) => {
+  const pathName = usePathname();
+  const router = useRouter();
   const month = new Date(calendarData[0].uploadDate).getMonth() + 1;
   const groupedCalendarDataByDate = calendarData.reduce<GroupedCalendarData>(
     (acc, calendarData) => {
-      const { album, artist, id, imgUrl, uploadDate, score } = calendarData;
+      const { album, artist, artistId, id, imgUrl, uploadDate, score } = calendarData;
       const date = uploadDate.split("T")[0];
       if (!acc[date]) acc[date] = [];
-      acc[date].push({ album, artist, id, imgUrl, score });
+      acc[date].push({ album, artist, artistId, id, imgUrl, score });
       return acc;
     },
     {},
+  );
+
+  const sortedDates = Object.keys(groupedCalendarDataByDate).sort(
+    (a, b) => new Date(a).getTime() - new Date(b).getTime(),
   );
 
   function goBack() {
@@ -60,7 +69,7 @@ export const CalendarMonth = ({ calendarData, day }: CalendarMonthProps) => {
         />
       </div>
       <h3 className={styles.month}>{month}월</h3>
-      {Object.keys(groupedCalendarDataByDate).map((date) => {
+      {sortedDates.map((date) => {
         const dataCountByDate = groupedCalendarDataByDate[date].length;
         const dayFromDate = new Date(date).getDate();
         const isClickedDay = day === dayFromDate;
@@ -82,15 +91,34 @@ export const CalendarMonth = ({ calendarData, day }: CalendarMonthProps) => {
             </div>
             <div className={styles.dateGroup}>
               {groupedCalendarDataByDate[date].map((calendarData) => {
-                const { artist, album, imgUrl, score } = calendarData;
+                const { artist, artistId, album, id, imgUrl, score } = calendarData;
                 const percentageScore = 100 - score * 20;
                 return (
                   <div key={album} className={styles.albumInfoContainer}>
-                    <div className={styles.albumArtWrapper}>
+                    <div
+                      className={styles.albumArtWrapper}
+                      onClick={() => {
+                        router.push(toPostPage(pathName, id));
+                      }}
+                    >
                       <img src={imgUrl} alt={album} />
                     </div>
-                    <div className={styles.ellipsis}>{artist}</div>
-                    <div className={styles.ellipsis}>{album}</div>
+                    <button
+                      className={styles.ellipsis}
+                      onClick={() => {
+                        router.push(toArtistPage(pathName, artistId));
+                      }}
+                    >
+                      {artist}
+                    </button>
+                    <button
+                      className={styles.ellipsis}
+                      onClick={() => {
+                        router.push(toPostPage(pathName, id));
+                      }}
+                    >
+                      {album}
+                    </button>
                     {/* FIXME: 별 이미지 svg로 교체 */}
                     <div className={styles.starContainer}>
                       <img

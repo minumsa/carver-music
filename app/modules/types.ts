@@ -118,6 +118,7 @@ export interface AlbumFilters {
 export interface CalendarData {
   album: string;
   artist: string;
+  artistId: string;
   id: string;
   imgUrl: string;
   uploadDate: string;
