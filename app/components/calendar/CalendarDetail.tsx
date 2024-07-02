@@ -1,13 +1,13 @@
 "use client";
 
 import { CalendarData } from "@/app/modules/types";
-import styles from "./CalendarMonth.module.css";
+import styles from "./CalendarDetail.module.css";
 import { PRIMARY_COLOR } from "@/app/modules/constants";
 import { useEffect, useRef } from "react";
 import { toArtistPage, toPostPage } from "@/app/modules/paths";
 import { usePathname, useRouter } from "next/navigation";
 
-interface CalendarMonthProps {
+interface CalendarDetailProps {
   calendarData: CalendarData[];
   day: number;
 }
@@ -23,7 +23,7 @@ interface GroupedCalendarData {
   }[];
 }
 
-export const CalendarMonth = ({ calendarData, day }: CalendarMonthProps) => {
+export const CalendarDetail = ({ calendarData, day }: CalendarDetailProps) => {
   const pathName = usePathname();
   const router = useRouter();
   const month = new Date(calendarData[0].uploadDate).getMonth() + 1;

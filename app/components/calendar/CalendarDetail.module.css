@@ -104,8 +104,10 @@
   }
 
   .dateGroup {
-    row-gap: 20px;
-    column-gap: 20px;
+    flex-grow: 1;
+    justify-content: space-evenly;
+    row-gap: 30px;
+    column-gap: 0;
   }
 
   .dateGroupTitle {

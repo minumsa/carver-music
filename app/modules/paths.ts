@@ -19,3 +19,6 @@ export const toSearchPage = (pathName: string) =>
 
 export const toCalendarPage = (pathName: string) =>
   isAdminPage(pathName) ? `/admin/calendar` : `/calendar`;
+
+export const toCalendarDetailPage = (pathName: string, date: string) =>
+  isAdminPage(pathName) ? `/admin/calendar/${date}` : `/calendar/${date}`;

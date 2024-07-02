@@ -4,10 +4,11 @@ import React, { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import styles from "./Calendar.module.css";
 import { fetchCalendarDataCSR } from "@/app/modules/api";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { CalendarData } from "@/app/modules/types";
 import { useAtom } from "jotai";
 import { currentCalendarDataAtom, currentDateAtom } from "@/app/modules/atoms";
+import { toCalendarDetailPage } from "@/app/modules/paths";
 // import "react-calendar/dist/Calendar.css";
 
 interface CalendarComponentProps {
@@ -19,6 +20,7 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
   const [currentDate, setCurrentDate] = useAtom(currentDateAtom);
   const [currentCalendarData, setCurrentCalendarData] = useAtom(currentCalendarDataAtom);
   const today = new Date();
+  const pathName = usePathname();
   const router = useRouter();
 
   useEffect(() => {
@@ -27,10 +29,6 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
 
   const handleDateChange = (value: any) => {
     setCurrentDate(value);
-  };
-
-  const toYearMonthPostPage = (yearMonth: string) => {
-    router.push(`/calendar/${yearMonth}`);
   };
 
   const tileContent = ({ date, view }: { date: Date; view: string }) => {
@@ -42,7 +40,7 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
       const hasVariousContents = totalContents >= 2;
 
       return events?.map((event: any, index: number) => {
-        const dateFromString = event.uploadDate.slice(0, 10);
+        const clickedDate = event.uploadDate.slice(0, 10);
         return (
           <div key={index} className={styles.event}>
             {hasVariousContents && <div className={styles.totalContents}>{totalContents}</div>}
@@ -50,7 +48,7 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
               src={event.imgUrl}
               alt={event.album}
               onClick={() => {
-                toYearMonthPostPage(dateFromString);
+                router.push(toCalendarDetailPage(pathName, clickedDate));
               }}
             />
           </div>

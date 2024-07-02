@@ -54,6 +54,7 @@ export const DEFAULT_TAGS: Tags = {
   shower: "#샤워 🛀",
   drink: "#술 🥃",
   sleeping: "#잠들기 전 😴",
+  raining: "#비 오는 날 🌧️",
 
   // 감정
   love: "#사랑 ❤️",
@@ -121,6 +122,7 @@ export const UPLOAD_PAGE_GROUP_TAGS: GroupTags = {
     shower: "#샤워 🛀",
     drink: "#술 🥃",
     sleeping: "#잠들기 전 😴",
+    raining: "#비 오는 날 🌧️",
   },
 
   감정: {
