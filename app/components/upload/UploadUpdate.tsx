@@ -11,6 +11,7 @@ import {
   uploadData,
 } from "../../modules/api";
 import DatePicker from "react-datepicker";
+import { ko } from "date-fns/esm/locale";
 import "react-datepicker/dist/react-datepicker.css";
 import Rate from "rc-rate";
 import "rc-rate/assets/index.css";
@@ -360,9 +361,10 @@ export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
       <div className={styles.blockContainer}>
         <label className={styles.blockTitle}>작성일</label>
         <DatePicker
+          locale={ko}
           selected={watch("uploadDate")}
           onChange={(date) => date && setValue("uploadDate", date)}
-          dateFormat={"yyyy/MM/dd"}
+          dateFormat={"yyyy년 MM월 dd일"}
           className={`${styles.dateInput} ${styles.input}`}
         />
       </div>
