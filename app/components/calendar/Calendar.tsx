@@ -9,6 +9,8 @@ import { CalendarData } from "@/app/modules/types";
 import { useAtom } from "jotai";
 import { currentCalendarDataAtom, currentDateAtom } from "@/app/modules/atoms";
 import { toCalendarDetailPage } from "@/app/modules/paths";
+import { LoadingIcon } from "../landingPage/LoadingIcon";
+import SpinningCircles from "react-loading-icons/dist/esm/components/spinning-circles";
 // import "react-calendar/dist/Calendar.css";
 
 interface CalendarComponentProps {
@@ -22,6 +24,7 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
   const today = new Date();
   const pathName = usePathname();
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!currentCalendarData) setCurrentCalendarData(calendarData);
@@ -71,8 +74,15 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
   };
 
   const getCaldendarData = async (activeStartDate: any) => {
-    const response = await fetchCalendarDataCSR(activeStartDate);
-    setCurrentCalendarData(response);
+    try {
+      setIsLoading(true);
+      const response = await fetchCalendarDataCSR(activeStartDate);
+      setCurrentCalendarData(response);
+    } catch (error) {
+      console.error("Failed to fetch calendar data");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const goToToday = async () => {
@@ -89,9 +99,7 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
 
   return (
     <div className={styles.container}>
-      {/* <button className={styles.todayButton} onClick={goToToday}>
-        오늘
-      </button> */}
+      {isLoading && <SpinningCircles className={styles.spinningCircles} />}
       <Calendar
         calendarType="gregory"
         onChange={handleDateChange}

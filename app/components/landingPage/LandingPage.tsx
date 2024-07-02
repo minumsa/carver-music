@@ -8,7 +8,7 @@ import { useInView } from "react-intersection-observer";
 import { useResetScroll } from "@/app/hooks/useResetScroll";
 import { useUpdateScroll } from "@/app/hooks/useUpdateScroll";
 import styles from "./LandingPage.module.css";
-import { ScrollingIcon } from "./ScrollingIcon";
+import { LoadingIcon } from "./LoadingIcon";
 import "aos/dist/aos.css";
 import {
   tagAtom,
@@ -117,7 +117,7 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
     <>
       {/* 모바일 - 태그 컴포넌트 */}
       <MobileLoadingView isLoading={isLoading} />
-      <ScrollingIcon isScrolling={isScrolling} />
+      <LoadingIcon isLoading={isScrolling} />
       <div className={styles.container}>
         {data.map((item, index) => {
           const isCurrentLastItem = index + 1 === data.length;

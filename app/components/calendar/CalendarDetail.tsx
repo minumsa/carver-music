@@ -73,7 +73,6 @@ export const CalendarDetail = ({ calendarData, day }: CalendarDetailProps) => {
         const dataCountByDate = groupedCalendarDataByDate[date].length;
         const dayFromDate = new Date(date).getDate();
         const isClickedDay = day === dayFromDate;
-
         return (
           <div
             key={date}
