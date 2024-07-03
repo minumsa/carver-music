@@ -5,5 +5,13 @@ interface MobileMenuProps {
 }
 
 export const MobileMenu = ({ showCategory }: MobileMenuProps) => {
-  return <></>;
+  return (
+    <>
+      {showCategory && (
+        <div className={styles.container}>
+          <div className={styles.wrapper}>테스트</div>
+        </div>
+      )}
+    </>
+  );
 };
