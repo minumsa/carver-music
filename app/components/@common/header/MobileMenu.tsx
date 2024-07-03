@@ -5,6 +5,7 @@ import { toCalendarPage, toGenrePage, toPostPage } from "@/app/modules/paths";
 import { usePathname, useRouter } from "next/navigation";
 import { fetchRandomAlbumId } from "@/app/modules/api";
 import { isAdminPage } from "@/app/modules/utils";
+import { useEffect } from "react";
 
 interface MobileMenuProps {
   showCategory: boolean;
@@ -22,6 +23,18 @@ export const MobileMenu = ({ showCategory }: MobileMenuProps) => {
   function handleCalendarButton() {
     router.push(toCalendarPage(pathName));
   }
+
+  useEffect(() => {
+    function handleTouchMove(event: any) {
+      if (showCategory) {
+        event.preventDefault();
+      }
+    }
+    window.addEventListener("touchmove", handleTouchMove, {
+      passive: false,
+    });
+    return () => window.removeEventListener("touchmove", handleTouchMove);
+  }, [showCategory]);
 
   return (
     <div className={`${styles.container} ${showCategory ? styles.show : undefined}`}>
