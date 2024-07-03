@@ -49,4 +49,14 @@
     background-color: #ffffff1a;
     font-size: 1rem;
   }
+
+  .githubIcon {
+    background-image: url(/svgs/github.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    margin: 10px 0 0 0;
+  }
 }
