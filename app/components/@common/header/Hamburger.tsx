@@ -17,7 +17,7 @@ export const Hamburger = () => {
         className={styles.hamburgerIcon}
         style={{ display: showCategory ? "none" : "flex" }}
         aria-label="Open category"
-      ></button>
+      />
       <button
         className={styles.closeIcon}
         style={{ display: showCategory ? "flex" : "none" }}
