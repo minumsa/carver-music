@@ -2,6 +2,9 @@ import { MongoClient } from "mongodb";
 import { hash } from "bcryptjs";
 import { NextResponse } from "next/server";
 
+require("dotenv").config();
+export const dynamic = "force-dynamic";
+
 if (!process.env.MONGODB_USERS_URI) throw new Error("env error");
 const uri: string = process.env.MONGODB_USERS_URI;
 
