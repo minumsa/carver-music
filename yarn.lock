@@ -108,6 +108,13 @@
     wrap-ansi "^8.1.0"
     wrap-ansi-cjs "npm:wrap-ansi@^7.0.0"
 
+"@mongodb-js/saslprep@^1.1.0":
+  version "1.1.7"
+  resolved "https://registry.npmjs.org/@mongodb-js/saslprep/-/saslprep-1.1.7.tgz"
+  integrity sha512-dCHW/oEX0KJ4NjDULBo3JiOaK5+6axtpBbS+ao2ZInoAL9/YRQLhXzSNAFz7hP4nzLkIqsfYAK/PDE3+XHny0Q==
+  dependencies:
+    sparse-bitfield "^3.0.3"
+
 "@next/env@14.2.4":
   version "14.2.4"
   resolved "https://registry.npmjs.org/@next/env/-/env-14.2.4.tgz"
@@ -585,6 +592,11 @@ balanced-match@^1.0.0:
   resolved "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.2.tgz"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
 
+bcryptjs@^2.4.3:
+  version "2.4.3"
+  resolved "https://registry.npmjs.org/bcryptjs/-/bcryptjs-2.4.3.tgz"
+  integrity sha512-V/Hy/X9Vt7f3BbPJEi8BdVFMByHi+jNXrYkW3huaybV/kQ0KJg0Y6PkEMbn+zeT+i+SiKZ/HMqJGIIt4LZDqNQ==
+
 big-integer@^1.6.44:
   version "1.6.51"
   resolved "https://registry.npmjs.org/big-integer/-/big-integer-1.6.51.tgz"
@@ -624,10 +636,10 @@ braces@^3.0.2:
   dependencies:
     fill-range "^7.0.1"
 
-bson@^5.3.0, bson@^5.4.0:
-  version "5.4.0"
-  resolved "https://registry.npmjs.org/bson/-/bson-5.4.0.tgz"
-  integrity sha512-WRZ5SQI5GfUuKnPTNmAYPiKIof3ORXAF4IRU5UcgmivNIon01rWQlw5RUH954dpu8yGL8T59YShVddIPaU/gFA==
+bson@^5.3.0, bson@^5.5.0:
+  version "5.5.1"
+  resolved "https://registry.npmjs.org/bson/-/bson-5.5.1.tgz"
+  integrity sha512-ix0EwukN2EpC0SRWIj/7B5+A6uQMQy6KMREI9qQqvgpkV2frH63T0UDVd1SYedL6dNCmDBYB3QtXi4ISk9YT+g==
 
 bundle-name@^3.0.0:
   version "3.0.0"
@@ -2009,10 +2021,10 @@ jackspeak@^2.3.5:
   optionalDependencies:
     "@pkgjs/parseargs" "^0.11.0"
 
-jose@^4.11.4, jose@^4.14.4:
-  version "4.14.4"
-  resolved "https://registry.npmjs.org/jose/-/jose-4.14.4.tgz"
-  integrity sha512-j8GhLiKmUAh+dsFXlX1aJCbt5KMibuKb+d7j1JaOJG6s2UjX1PQlW+OKB/sD4a/5ZYF4RcmYmLSndOoU3Lt/3g==
+jose@^4.14.4, jose@^4.15.5:
+  version "4.15.9"
+  resolved "https://registry.npmjs.org/jose/-/jose-4.15.9.tgz"
+  integrity sha512-1vUQX+IdDMVPj4k8kOxgUqlcK518yluMuGZwqlr44FS1ppZB/5GWh4rZG89erpOBOJjU/OBsnCVFfapsRz6nEA==
 
 jotai@^2.8.3:
   version "2.8.3"
@@ -2523,16 +2535,16 @@ mongodb-connection-string-url@^2.6.0:
     "@types/whatwg-url" "^8.2.1"
     whatwg-url "^11.0.0"
 
-mongodb@^5.7.0:
-  version "5.7.0"
-  resolved "https://registry.npmjs.org/mongodb/-/mongodb-5.7.0.tgz"
-  integrity sha512-zm82Bq33QbqtxDf58fLWBwTjARK3NSvKYjyz997KSy6hpat0prjeX/kxjbPVyZY60XYPDNETaHkHJI2UCzSLuw==
+mongodb@^5.9.2:
+  version "5.9.2"
+  resolved "https://registry.npmjs.org/mongodb/-/mongodb-5.9.2.tgz"
+  integrity sha512-H60HecKO4Bc+7dhOv4sJlgvenK4fQNqqUIlXxZYQNbfEWSALGAwGoyJd/0Qwk4TttFXUOHJ2ZJQe/52ScaUwtQ==
   dependencies:
-    bson "^5.4.0"
+    bson "^5.5.0"
     mongodb-connection-string-url "^2.6.0"
     socks "^2.7.1"
   optionalDependencies:
-    saslprep "^1.0.3"
+    "@mongodb-js/saslprep" "^1.1.0"
 
 mongodb@5.6.0:
   version "5.6.0"
@@ -2590,15 +2602,15 @@ natural-compare@^1.4.0:
   resolved "https://registry.npmjs.org/natural-compare/-/natural-compare-1.4.0.tgz"
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
 
-next-auth@^4.22.1:
-  version "4.22.1"
-  resolved "https://registry.npmjs.org/next-auth/-/next-auth-4.22.1.tgz"
-  integrity sha512-NTR3f6W7/AWXKw8GSsgSyQcDW6jkslZLH8AiZa5PQ09w1kR8uHtR9rez/E9gAq/o17+p0JYHE8QjF3RoniiObA==
+next-auth@^4.24.7:
+  version "4.24.7"
+  resolved "https://registry.npmjs.org/next-auth/-/next-auth-4.24.7.tgz"
+  integrity sha512-iChjE8ov/1K/z98gdKbn2Jw+2vLgJtVV39X+rCP5SGnVQuco7QOr19FRNGMIrD8d3LYhHWV9j9sKLzq1aDWWQQ==
   dependencies:
     "@babel/runtime" "^7.20.13"
     "@panva/hkdf" "^1.0.2"
     cookie "^0.5.0"
-    jose "^4.11.4"
+    jose "^4.15.5"
     oauth "^0.9.15"
     openid-client "^5.4.0"
     preact "^10.6.3"
