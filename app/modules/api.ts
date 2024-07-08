@@ -565,3 +565,27 @@ export async function fetchCalendarDataCSR(currentDate: any) {
     throw new Error("Failed to fetch initial music data");
   }
 }
+
+export async function handleSignUp(email: string, password: string) {
+  try {
+    const queryString = `?email=${email}&password=${password}`;
+    const url = `${BASE_URL}/api/auth/signup${queryString}`;
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.status === 422) {
+      toast.error("이미 가입된 이메일입니다. 🙀");
+    } else if (!response.ok) {
+      toast.error("회원가입에 실패했습니다. 😿");
+    } else {
+      toast.success("회원가입에 성공했습니다. 😻");
+    }
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+}

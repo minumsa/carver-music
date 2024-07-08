@@ -32,7 +32,7 @@ interface UpdateProps {
   initialAlbumData?: AlbumInfo;
 }
 
-export interface Form {
+export interface UploadUpdateForm {
   title?: string;
   markdown?: string;
   albumId: string;
@@ -60,7 +60,7 @@ export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
   const updatePageExclusive = { display: isUpdatePage ? undefined : "none" };
   const editorRef = useRef<ToastEditor>(null);
 
-  const { register, handleSubmit, setValue, getValues, watch } = useForm<Form>({
+  const { register, handleSubmit, setValue, getValues, watch } = useForm<UploadUpdateForm>({
     defaultValues: {
       title: "",
       albumId: "",
