@@ -17,7 +17,6 @@ import Rate from "rc-rate";
 import "rc-rate/assets/index.css";
 import { AlbumInfo, SearchData, SpotifyAlbumData, Video } from "../../modules/types";
 import { GENRES } from "../../modules/constants";
-import "react-toastify/dist/ReactToastify.css";
 import { useForm } from "react-hook-form";
 import { AlbumSearchModal } from "./AlbumSearchModal";
 import VideoLinksEditor from "./VideoLinksEditor/VideoLinksEditor";

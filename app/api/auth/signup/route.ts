@@ -1,17 +1,19 @@
 import { MongoClient } from "mongodb";
-import { hash } from "bcryptjs";
+import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
 
-require("dotenv").config();
 export const dynamic = "force-dynamic";
 
+require("dotenv").config();
 if (!process.env.MONGODB_USERS_URI) throw new Error("env error");
 const uri: string = process.env.MONGODB_USERS_URI;
 
 export async function POST(request: Request) {
   try {
     const url = new URL(request.url);
-    const email = url.searchParams.get("email") ?? "";
+    const id = url.searchParams.get("id");
+    const name = url.searchParams.get("name");
+    const email = url.searchParams.get("email");
     const password = url.searchParams.get("password") ?? "";
 
     // MongoDB 연결하기
@@ -26,10 +28,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "이미 가입된 계정입니다." }, { status: 422 });
     }
 
+    // 비밀번호 암호화
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
+
     const status = await db.collection("users").insertOne({
+      id,
+      name,
       email,
-      // 비밀번호 암호화
-      password: hash(password, 12),
+      password: hashedPassword,
     });
 
     // 성공시 response

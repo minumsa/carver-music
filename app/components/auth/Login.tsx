@@ -1,30 +1,29 @@
 "use client";
 
-import { handleSignUp } from "@/app/modules/api";
-import styles from "./SignUp.module.css";
+import { getUserInfo, handleLogin } from "@/app/modules/api";
+import styles from "./Login.module.css";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
-interface SignUpForm {
-  id: string;
-  name: string;
+interface LoginForm {
   email: string;
   password: string;
 }
 
-export const SignUp = () => {
-  const { register, handleSubmit } = useForm<SignUpForm>({
+export const Login = () => {
+  const router = useRouter();
+  const { register, handleSubmit } = useForm<LoginForm>({
     defaultValues: {
-      id: "",
-      name: "",
       email: "",
       password: "",
     },
   });
 
   const onSubmit = handleSubmit(async (data) => {
-    const { id, name, email, password } = data;
+    const { email, password } = data;
     try {
-      await handleSignUp(id, name, email, password);
+      await handleLogin(email, password);
+      router.push("/admin");
     } catch (error) {
       console.error(error, "Failed to sign up process");
     }
@@ -33,17 +32,8 @@ export const SignUp = () => {
   return (
     <div className={styles.container}>
       <div className={styles.formContainer}>
-        <h3>회원가입</h3>
-        <div>카버뮤직 계정을 생성합니다. 모든 필드를 필수적으로 입력해야 합니다.</div>
+        <h3>관리자 로그인</h3>
         <form onSubmit={onSubmit} className={styles.form}>
-          <div className={styles.item}>
-            <div className={styles.label}>아이디</div>
-            <input className={styles.input} {...register("id")} type="id" required />
-          </div>
-          <div className={styles.item}>
-            <div className={styles.label}>닉네임</div>
-            <input className={styles.input} {...register("name")} type="name" required />
-          </div>
           <div className={styles.item}>
             <label className={styles.label}>이메일</label>
             <input className={styles.input} {...register("email")} type="email" required />

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { PER_PAGE_COUNT } from "../modules/constants";
 import Music from "@/models/music";
 import { SortKey } from "../modules/types";
+import { isAdmin } from "../modules/api";
 
 interface Query {
   tagKeys?: string; // tag는 모바일 환경에서 태그 클릭 시에만 존재해서 ? 처리
@@ -155,14 +156,17 @@ export async function PUT(request: Request) {
       tracks,
     } = newSpotifyAlbumData;
 
-    if (password !== process.env.UPLOAD_PASSWORD)
-      return NextResponse.json({ message: "password is not correct" }, { status: 401 });
+    if (!isAdmin())
+      return NextResponse.json({ message: "관리자 로그인 상태가 아닙니다." }, { status: 401 });
+
+    // if (password !== process.env.UPLOAD_PASSWORD)
+    //   return NextResponse.json({ message: "비밀번호가 일치하지 않습니다." }, { status: 401 });
 
     // 수정할 데이터를 id로 찾아 originalData에 할당
     const originalData = await Music.findOne({ id: originalAlbumId });
 
     if (!originalData) {
-      return NextResponse.json({ message: "Data not found. Cannot update." }, { status: 404 });
+      return NextResponse.json({ message: "데이터를 찾을 수 없습니다." }, { status: 404 });
     }
 
     Object.assign(originalData, {

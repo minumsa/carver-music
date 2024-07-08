@@ -566,9 +566,9 @@ export async function fetchCalendarDataCSR(currentDate: any) {
   }
 }
 
-export async function handleSignUp(email: string, password: string) {
+export async function handleSignUp(id: string, name: string, email: string, password: string) {
   try {
-    const queryString = `?email=${email}&password=${password}`;
+    const queryString = `?id=${id}&name=${name}&email=${email}&password=${password}`;
     const url = `${BASE_URL}/api/auth/signup${queryString}`;
 
     const response = await fetch(url, {
@@ -589,3 +589,57 @@ export async function handleSignUp(email: string, password: string) {
     console.error("Error: ", error);
   }
 }
+
+export async function handleLogin(email: string, password: string) {
+  try {
+    const queryString = `?email=${email}&password=${password}`;
+    const url = `${BASE_URL}/api/auth/login${queryString}`;
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      toast.error("로그인에 실패했습니다. 😿");
+    } else {
+      toast.success("로그인에 성공했습니다. 😻");
+    }
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+}
+
+export async function getUserInfo() {
+  try {
+    const url = `${BASE_URL}/api/auth/login`;
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      toast.error("로그인에 실패했습니다. 😿");
+    } else {
+      toast.success("로그인에 성공했습니다. 😻");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+}
+
+// export function isAdmin() {
+//   if (!cachedLoginToken) {
+//     return false;
+//   }
+
+//   const decoded = JSON.parse(atob(cachedLoginToken.split(".")[1]));
+//   return decoded.role === "admin";
+// }

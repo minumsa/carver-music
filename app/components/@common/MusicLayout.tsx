@@ -7,6 +7,7 @@ import { Snow } from "./Snow";
 import { isUploadPage } from "../../modules/utils";
 import { ToastContainer } from "react-toastify";
 import MobileTagDisplay from "../landingPage/MobileTagDisplay";
+import "react-toastify/dist/ReactToastify.css";
 
 export const MusicLayout = ({ children }: { children: React.ReactNode }) => {
   const pathName = usePathname();
