@@ -24,6 +24,7 @@ import { TagsEditor } from "./TagsEditor/TagsEditor";
 import { getBlurhash, getDecade } from "@/app/modules/utils";
 import { ToastEditorNoSSR } from "./ToastEditor/ToastEditorNoSSR";
 import { Editor as ToastEditor } from "@toast-ui/react-editor";
+import { useRouter } from "next/navigation";
 
 const TYPING_DELAY_MS = 1000;
 
@@ -52,6 +53,7 @@ export interface UploadUpdateForm {
 }
 
 export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
+  const router = useRouter();
   const isUpdatePage = initialAlbumData !== undefined;
   const [searchData, setSearchData] = useState<SearchData[]>();
   const [isTyping, setIsTyping] = useState(false);
@@ -118,7 +120,10 @@ export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
 
       try {
         const apiMethod = isUpdatePage ? updateData : uploadData;
-        await apiMethod({ newData });
+        const response = await apiMethod({ newData });
+        if (response?.status === 401) {
+          router.push("/login");
+        }
       } catch (error) {
         console.error(`${isUpdatePage ? "updateData" : "uploadData"} 작업에 실패했습니다:`, error);
       }

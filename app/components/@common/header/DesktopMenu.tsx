@@ -49,6 +49,16 @@ export const DesktopMenu = ({ showCategory }: DesktopMenuProps) => {
         <ul className={styles.adminCategory}>
           <li className={styles.categoryTitle}>관리자 메뉴</li>
           <li
+            className={`${styles.categoryItem} ${hoveredItem === "login" ? styles.hovered : ""}`}
+            onMouseEnter={() => setHoveredItem("login")}
+            onMouseLeave={() => setHoveredItem(null)}
+            onClick={() => {
+              router.push("/login");
+            }}
+          >
+            로그인
+          </li>
+          <li
             className={`${styles.categoryItem} ${hoveredItem === "title" ? styles.hovered : ""}`}
             onMouseEnter={() => setHoveredItem("title")}
             onMouseLeave={() => setHoveredItem(null)}

@@ -5,7 +5,6 @@ import connectMongoDB from "./mongodb";
 import Music from "@/models/music";
 import { getYearMonthFromDate } from "./utils";
 import { verify } from "jsonwebtoken";
-import { NextRequest } from "next/server";
 
 interface InitialAlbumDataResult {
   albumData: AlbumInfo[];
@@ -358,7 +357,7 @@ export async function uploadData({ newData }: UploadDataParams) {
       });
 
       if (response.status === 401) {
-        toast.warn("관리자 비밀번호가 틀렸습니다! 🙀");
+        toast.warn("관리자 로그인 상태가 아닙니다. 🙀");
       } else if (response.status === 409) {
         toast.warn("이미 존재하는 앨범입니다! 🙀");
       } else if (!response.ok) {
@@ -367,6 +366,8 @@ export async function uploadData({ newData }: UploadDataParams) {
       } else {
         toast.success("데이터 업로드 완료 😻");
       }
+
+      return response;
     } catch (error) {
       console.error("Error: ", error);
     }
@@ -413,7 +414,6 @@ export const updateData = async ({ newData }: UpdateDataParams) => {
       });
 
       if (response.status === 401) {
-        // toast.error("관리자 비밀번호가 틀렸습니다! 🙀");
         toast.warn("관리자 로그인 상태가 아닙니다. 😾");
       } else if (response.status === 404) {
         toast.warn("존재하지 않는 앨범입니다. 🙀");
@@ -422,6 +422,8 @@ export const updateData = async ({ newData }: UpdateDataParams) => {
       } else {
         toast.success("데이터를 성공적으로 수정했습니다. 😻");
       }
+
+      return response;
     } catch (error) {
       console.error(error);
     }
@@ -448,6 +450,8 @@ export const deleteData = async (id: string) => {
     } else {
       toast.warn("데이터가 성공적으로 삭제되었습니다. 😻");
     }
+
+    return response;
   } catch (error) {
     console.error(error);
   }
