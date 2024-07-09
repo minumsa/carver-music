@@ -5,8 +5,8 @@ import styles from "./SignUp.module.css";
 import { useForm } from "react-hook-form";
 
 interface SignUpForm {
-  id: string;
-  name: string;
+  userId: string;
+  userName: string;
   email: string;
   password: string;
 }
@@ -14,17 +14,17 @@ interface SignUpForm {
 export const SignUp = () => {
   const { register, handleSubmit } = useForm<SignUpForm>({
     defaultValues: {
-      id: "",
-      name: "",
+      userId: "",
+      userName: "",
       email: "",
       password: "",
     },
   });
 
   const onSubmit = handleSubmit(async (data) => {
-    const { id, name, email, password } = data;
+    const { userId, userName, email, password } = data;
     try {
-      await handleSignUp(id, name, email, password);
+      await handleSignUp(userId, userName, email, password);
     } catch (error) {
       console.error(error, "Failed to sign up process");
     }
@@ -38,11 +38,11 @@ export const SignUp = () => {
         <form onSubmit={onSubmit} className={styles.form}>
           <div className={styles.item}>
             <div className={styles.label}>아이디</div>
-            <input className={styles.input} {...register("id")} type="id" required />
+            <input className={styles.input} {...register("userId")} type="id" required />
           </div>
           <div className={styles.item}>
             <div className={styles.label}>닉네임</div>
-            <input className={styles.input} {...register("name")} type="name" required />
+            <input className={styles.input} {...register("userName")} type="name" required />
           </div>
           <div className={styles.item}>
             <label className={styles.label}>이메일</label>

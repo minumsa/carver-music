@@ -32,7 +32,7 @@ export const Login = () => {
   return (
     <div className={styles.container}>
       <div className={styles.formContainer}>
-        <h3>관리자 로그인</h3>
+        <h3>로그인</h3>
         <form onSubmit={onSubmit} className={styles.form}>
           <div className={styles.item}>
             <label className={styles.label}>이메일</label>

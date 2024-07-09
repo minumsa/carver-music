@@ -3,7 +3,13 @@ import { BASE_URL, MIN_SCROLL_COUNT, PER_PAGE_COUNT } from "./constants";
 import { AlbumFilters, AlbumInfo, AlbumInfoLandingPage, SortKey, SpotifyAlbumData } from "./types";
 import connectMongoDB from "./mongodb";
 import Music from "@/models/music";
-import { getYearMonthFromDate } from "./utils";
+import {
+  getYearMonthFromDate,
+  validateEmail,
+  validatePassword,
+  validateUserId,
+  validateUserName,
+} from "./utils";
 import { verify } from "jsonwebtoken";
 
 interface InitialAlbumDataResult {
@@ -566,9 +572,37 @@ export async function fetchCalendarDataCSR(currentDate: any) {
   }
 }
 
-export async function handleSignUp(id: string, name: string, email: string, password: string) {
+export async function handleSignUp(
+  userId: string,
+  userName: string,
+  email: string,
+  password: string,
+) {
   try {
-    const queryString = `?id=${id}&name=${name}&email=${email}&password=${password}`;
+    if (!validateUserId(userId)) {
+      toast.error(
+        "사용자 아이디는 영어 소문자와 숫자만 입력 가능하고 최소 3자, 최대 15자여야 합니다. 🙀",
+      );
+      return;
+    }
+
+    if (!validateUserName(userName)) {
+      toast.error("닉네임은 영어, 한글, 숫자만 입력 가능하고 최소 2자, 최대 10자여야 합니다. 🙀");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      toast.error("유효하지 않은 이메일 형식입니다. 🙀");
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      toast.error("비밀번호는 최소 10자 이상이어야 하며, 특수문자를 포함해야 합니다. 🙀");
+      return;
+    }
+
+    // 회원가입 API 호출
+    const queryString = `?id=${userId}&name=${userName}&email=${email}&password=${password}`;
     const url = `${BASE_URL}/api/auth/signup${queryString}`;
 
     const response = await fetch(url, {
@@ -587,6 +621,7 @@ export async function handleSignUp(id: string, name: string, email: string, pass
     }
   } catch (error) {
     console.error("Error: ", error);
+    toast.error("회원가입 과정에서 오류가 발생했습니다. 😿");
   }
 }
 

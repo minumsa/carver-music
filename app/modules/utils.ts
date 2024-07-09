@@ -90,3 +90,27 @@ export const getYearMonthFromDate = (date: Date) => {
   const month = date.getMonth() + 1;
   return { year, month };
 };
+
+// 간단한 이메일 형식 검증 정규식
+export const validateEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+// 비밀번호는 최소 10자 이상이어야 하고, 특수문자를 포함해야 함
+export const validatePassword = (password: string): boolean => {
+  const passwordRegex = /^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*[a-zA-Z])(?=.*\d).{10,}$/;
+  return passwordRegex.test(password);
+};
+
+// userName은 영어 대소문자, 한글, 숫자만 허용하고 최소 2자, 최대 10자
+export const validateUserName = (userName: string): boolean => {
+  const userNameRegex = /^[a-zA-Z0-9가-힣]{2,10}$/;
+  return userNameRegex.test(userName);
+};
+
+// userId는 영어 소문자와 숫자만 허용하고 최소 3자, 최대 15자
+export const validateUserId = (userId: string): boolean => {
+  const userIdRegex = /^[a-z0-9]{3,15}$/;
+  return userIdRegex.test(userId);
+};

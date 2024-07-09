@@ -16,7 +16,7 @@
   align-items: center;
   row-gap: 10px;
   padding: 50px;
-  border: 1px solid var(--text-color);
+  border: 1px solid var(--border-color);
   max-width: 320px;
   line-height: 160%;
 }
