@@ -1,6 +1,6 @@
 "use client";
 
-import { getUserInfo, handleLogin } from "@/app/modules/api";
+import { handleLogin } from "@/app/modules/api";
 import styles from "./Login.module.css";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";

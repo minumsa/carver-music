@@ -3,14 +3,10 @@ import bcrypt from "bcrypt";
 import { sign } from "jsonwebtoken";
 import { NextResponse } from "next/server";
 import { verify } from "jsonwebtoken";
-import { CashedAccessToken } from "@/app/modules/types";
 
 export const dynamic = "force-dynamic";
 
 require("dotenv").config();
-
-// FIXME: 쿠키에 토큰 저장
-let cachedLoginToken: CashedAccessToken = null;
 
 if (!process.env.MONGODB_USERS_URI) throw new Error("env error");
 const uri: string = process.env.MONGODB_USERS_URI;
@@ -48,26 +44,41 @@ export async function POST(request: Request) {
     }
 
     // JWT 생성
-    cachedLoginToken = sign({ email: user.email, id: user._id }, JWT_SECRET, {
+    const loginToken = sign({ email: user.email, id: user._id }, JWT_SECRET, {
       expiresIn: "1h",
     });
 
     client.close();
-    return NextResponse.json({ cachedLoginToken }, { status: 200 });
+
+    // 쿠키에 토큰 저장
+    const response = NextResponse.json({ message: "로그인 성공" }, { status: 200 });
+    response.cookies.set("loginToken", loginToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60, // 1 hour
+      path: "/",
+    });
+    return response;
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Server Error" }, { status: 500 });
   }
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    if (!cachedLoginToken) {
+    const cookies = request.headers.get("cookie");
+    const loginToken = cookies
+      ?.split(";")
+      .find((c) => c.trim().startsWith("loginToken="))
+      ?.split("=")[1];
+
+    if (!loginToken) {
       return NextResponse.json({ message: "토큰이 없습니다." }, { status: 401 });
     }
 
     // 토큰 검증
-    const decoded: any = verify(cachedLoginToken, JWT_SECRET);
+    const decoded: any = verify(loginToken, JWT_SECRET);
     if (!decoded) {
       return NextResponse.json({ message: "유효하지 않은 토큰입니다." }, { status: 401 });
     }
