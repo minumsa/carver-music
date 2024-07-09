@@ -36,7 +36,7 @@ export async function POST(request: Request) {
     }
 
     // 비밀번호 확인
-    const isValid = await bcrypt.compare(`` + password, `` + user.password);
+    const isValid = await bcrypt.compare(password, user.password);
 
     if (!isValid) {
       client.close();
@@ -44,9 +44,13 @@ export async function POST(request: Request) {
     }
 
     // JWT 생성
-    const loginToken = sign({ email: user.email, id: user._id }, JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const loginToken = sign(
+      { id: user._id, email: user.email, name: user.name, role: user.role },
+      JWT_SECRET,
+      {
+        expiresIn: "1h",
+      },
+    );
 
     client.close();
 

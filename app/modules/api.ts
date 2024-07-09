@@ -4,6 +4,8 @@ import { AlbumFilters, AlbumInfo, AlbumInfoLandingPage, SortKey, SpotifyAlbumDat
 import connectMongoDB from "./mongodb";
 import Music from "@/models/music";
 import { getYearMonthFromDate } from "./utils";
+import { verify } from "jsonwebtoken";
+import { NextRequest } from "next/server";
 
 interface InitialAlbumDataResult {
   albumData: AlbumInfo[];
@@ -312,15 +314,13 @@ export interface NewDataForUpdate extends NewData {
 
 export interface UploadDataParams {
   newData: NewData;
-  password: string;
 }
 
 export interface UpdateDataParams {
   newData: NewDataForUpdate;
-  password: string;
 }
 
-export async function uploadData({ newData, password }: UploadDataParams) {
+export async function uploadData({ newData }: UploadDataParams) {
   const {
     newSpotifyAlbumData,
     title,
@@ -354,7 +354,6 @@ export async function uploadData({ newData, password }: UploadDataParams) {
           tagKeys,
           blurHash,
           markdown,
-          password: password,
         }),
       });
 
@@ -374,7 +373,7 @@ export async function uploadData({ newData, password }: UploadDataParams) {
   }
 }
 
-export const updateData = async ({ newData, password }: UpdateDataParams) => {
+export const updateData = async ({ newData }: UpdateDataParams) => {
   const {
     newSpotifyAlbumData,
     originalAlbumId,
@@ -410,19 +409,18 @@ export const updateData = async ({ newData, password }: UpdateDataParams) => {
           tagKeys,
           blurHash,
           markdown,
-          password,
         }),
       });
 
       if (response.status === 401) {
-        toast.error("관리자 비밀번호가 틀렸습니다! 🙀");
+        // toast.error("관리자 비밀번호가 틀렸습니다! 🙀");
+        toast.warn("관리자 로그인 상태가 아닙니다. 😾");
       } else if (response.status === 404) {
-        toast.warn("존재하지 않는 앨범입니다! 🙀");
+        toast.warn("존재하지 않는 앨범입니다. 🙀");
       } else if (!response.ok) {
-        toast.error("데이터 수정 실패 😿");
-        throw new Error("데이터 수정에 실패했습니다.");
+        toast.error("데이터 수정에 실패했습니다. 😿");
       } else {
-        toast.success("데이터 수정 완료 😻");
+        toast.success("데이터를 성공적으로 수정했습니다. 😻");
       }
     } catch (error) {
       console.error(error);
@@ -431,25 +429,24 @@ export const updateData = async ({ newData, password }: UpdateDataParams) => {
 };
 
 export const deleteData = async (id: string) => {
-  const userPassword = prompt("관리자 비밀번호를 입력해주세요.");
-
   try {
     const response = await fetch(`${BASE_URL}/api`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ id: id, password: userPassword }),
+      body: JSON.stringify({ id }),
     });
 
     if (response.status === 401) {
-      alert("관리자 비밀번호가 틀렸습니다.");
+      toast.warn("관리자 로그인 상태가 아닙니다. 😾");
+      // alert("관리자 비밀번호가 틀렸습니다.");
     } else if (response.status === 404) {
-      alert("존재하지 않는 앨범입니다.");
+      toast.warn("존재하지 않는 데이터입니다. 🙀");
     } else if (!response.ok) {
-      throw new Error("Failed to delete music data");
+      toast.warn("데이터를 삭제하는 데 실패했습니다. 😿");
     } else {
-      alert("데이터가 성공적으로 삭제되었습니다.");
+      toast.warn("데이터가 성공적으로 삭제되었습니다. 😻");
     }
   } catch (error) {
     console.error(error);
@@ -493,7 +490,6 @@ export const searchSpotify = async (searchKeyword: string) => {
     });
 
     const searchData = await response.json();
-
     return searchData;
   } catch (error) {
     console.error(error);
@@ -635,11 +631,42 @@ export async function getUserInfo() {
   }
 }
 
-// export function isAdmin() {
-//   if (!cachedLoginToken) {
-//     return false;
-//   }
+export function parseCookies(cookieHeader: string): Record<string, string> {
+  return cookieHeader.split(";").reduce(
+    (cookies, cookie) => {
+      const [name, ...rest] = cookie.split("=");
+      cookies[name.trim()] = rest.join("=").trim();
+      return cookies;
+    },
+    {} as Record<string, string>,
+  );
+}
 
-//   const decoded = JSON.parse(atob(cachedLoginToken.split(".")[1]));
-//   return decoded.role === "admin";
-// }
+export async function isAdminLoggedIn(request: Request): Promise<boolean> {
+  if (!process.env.JWT_SECRET) throw new Error("JWT_SECRET is not defined");
+  const JWT_SECRET = process.env.JWT_SECRET;
+
+  try {
+    const cookieHeader = request.headers.get("cookie");
+    if (!cookieHeader) {
+      return false;
+    }
+
+    const cookies = parseCookies(cookieHeader);
+    const loginToken = cookies["loginToken"];
+    if (!loginToken) {
+      return false;
+    }
+
+    const decoded: any = verify(loginToken, JWT_SECRET);
+
+    if (!decoded || decoded.role !== "admin") {
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}

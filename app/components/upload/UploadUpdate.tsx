@@ -49,7 +49,6 @@ export interface UploadUpdateForm {
   videos: Video[];
   videoCount: number;
   currentTagKeys: string[];
-  password: string;
 }
 
 export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
@@ -78,7 +77,6 @@ export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
       videoCount: 1,
       currentTagKeys: [],
       markdown: "",
-      password: "",
     },
   });
 
@@ -95,7 +93,6 @@ export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
       videos,
       uploadDate,
       currentTagKeys,
-      password,
     } = data;
     const filteredText = text.replace(/\[\d+\]/g, "");
     const newSpotifyAlbumData: SpotifyAlbumData | undefined = await fetchSpotify(newAlbumId);
@@ -121,7 +118,7 @@ export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
 
       try {
         const apiMethod = isUpdatePage ? updateData : uploadData;
-        await apiMethod({ newData, password });
+        await apiMethod({ newData });
       } catch (error) {
         console.error(`${isUpdatePage ? "updateData" : "uploadData"} 작업에 실패했습니다:`, error);
       }
@@ -365,24 +362,6 @@ export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
           onChange={(date) => date && setValue("uploadDate", date)}
           dateFormat={"yyyy년 MM월 dd일"}
           className={`${styles.dateInput} ${styles.input}`}
-        />
-      </div>
-
-      {/* 관리자 비밀번호 */}
-      <div className={styles.blockContainer}>
-        <label className={styles.blockTitle}>관리자 비밀번호</label>
-        <input
-          {...register("password")}
-          className={styles.smallInput}
-          onChange={(e) => {
-            setValue("password", e.target.value);
-          }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              onSubmit();
-            }
-          }}
         />
       </div>
 
