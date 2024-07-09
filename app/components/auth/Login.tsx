@@ -1,6 +1,6 @@
 "use client";
 
-import { attemptLogin } from "@/app/modules/api";
+import { userLogin } from "@/app/modules/api";
 import styles from "./Login.module.css";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
@@ -22,7 +22,7 @@ export const Login = () => {
   const onSubmit = handleSubmit(async (data) => {
     const { userId, password } = data;
     try {
-      const response = await attemptLogin(userId, password);
+      const response = await userLogin(userId, password);
       if (response?.ok) router.push("/");
     } catch (error) {
       console.error(error, "Failed to sign up process");

@@ -1,8 +1,13 @@
-import { fetchRandomAlbumId } from "@/app/modules/api";
+import {
+  checkUserLoginStatus,
+  fetchRandomAlbumId,
+  isAdminLoggedIn,
+  userLogout,
+} from "@/app/modules/api";
 import { GENRES } from "@/app/modules/constants";
 import { toCalendarPage, toGenrePage, toPostPage } from "@/app/modules/paths";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./DesktopMenu.module.css";
 import { isAdminPage } from "@/app/modules/utils";
 import Link from "next/link";
@@ -15,6 +20,7 @@ export const DesktopMenu = ({ showCategory }: DesktopMenuProps) => {
   const pathName = usePathname();
   const router = useRouter();
   const [hoveredItem, setHoveredItem] = useState<string | null>();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   async function handleRandomButton() {
     const randomId = await fetchRandomAlbumId();
@@ -23,6 +29,23 @@ export const DesktopMenu = ({ showCategory }: DesktopMenuProps) => {
 
   function handleCalendarButton() {
     router.push(toCalendarPage(pathName));
+  }
+
+  useEffect(() => {
+    async function loginCheck() {
+      try {
+        const response = await checkUserLoginStatus();
+        if (response?.status) setIsLoggedIn(true);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    loginCheck();
+  }, []);
+
+  async function handleLogout() {
+    await userLogout();
   }
 
   return (
@@ -45,29 +68,31 @@ export const DesktopMenu = ({ showCategory }: DesktopMenuProps) => {
           ))}
         </ul>
       ) : null}
-      {showCategory && isAdminPage(pathName) && (
+      {showCategory && (
         <ul className={styles.adminCategory}>
-          <li className={styles.categoryTitle}>관리자 메뉴</li>
+          <li className={styles.categoryTitle}>메뉴</li>
           <li
             className={`${styles.categoryItem} ${hoveredItem === "login" ? styles.hovered : ""}`}
             onMouseEnter={() => setHoveredItem("login")}
             onMouseLeave={() => setHoveredItem(null)}
             onClick={() => {
-              router.push("/login");
+              isLoggedIn ? handleLogout() : router.push("/login");
             }}
           >
-            로그인
+            {isLoggedIn ? "로그아웃" : "로그인"}
           </li>
-          <li
-            className={`${styles.categoryItem} ${hoveredItem === "title" ? styles.hovered : ""}`}
-            onMouseEnter={() => setHoveredItem("title")}
-            onMouseLeave={() => setHoveredItem(null)}
-            onClick={() => {
-              router.push("/admin/upload");
-            }}
-          >
-            글쓰기
-          </li>
+          {isAdminPage(pathName) && (
+            <li
+              className={`${styles.categoryItem} ${hoveredItem === "title" ? styles.hovered : ""}`}
+              onMouseEnter={() => setHoveredItem("title")}
+              onMouseLeave={() => setHoveredItem(null)}
+              onClick={() => {
+                router.push("/admin/upload");
+              }}
+            >
+              글쓰기
+            </li>
+          )}
           <li
             className={`${styles.categoryItem} ${hoveredItem === "shuffle" ? styles.hovered : ""}`}
             onMouseEnter={() => setHoveredItem("shuffle")}

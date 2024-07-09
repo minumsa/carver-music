@@ -572,7 +572,7 @@ export async function fetchCalendarDataCSR(currentDate: any) {
   }
 }
 
-export async function attemptSignUp(
+export async function userSignUp(
   userId: string,
   userName: string,
   email: string,
@@ -632,7 +632,7 @@ export async function attemptSignUp(
   }
 }
 
-export async function attemptLogin(userId: string, password: string) {
+export async function userLogin(userId: string, password: string) {
   try {
     const url = `${BASE_URL}/api/auth/login`;
 
@@ -718,6 +718,46 @@ export async function isAdminLoggedIn(request: Request): Promise<boolean> {
     return true;
   } catch (error) {
     console.error(error);
+    return false;
+  }
+}
+
+export async function checkUserLoginStatus() {
+  try {
+    const url = `${BASE_URL}/api/auth/checkLogin`;
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response.json();
+  } catch (error) {
+    console.error("Error checking login status:", error);
+    return false;
+  }
+}
+
+export async function userLogout() {
+  try {
+    const url = `${BASE_URL}/api/auth/logout`;
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to logout");
+    }
+
+    window.location.reload();
+  } catch (error) {
+    console.error("Error checking login status:", error);
     return false;
   }
 }
