@@ -572,7 +572,7 @@ export async function fetchCalendarDataCSR(currentDate: any) {
   }
 }
 
-export async function handleSignUp(
+export async function attemptSignUp(
   userId: string,
   userName: string,
   email: string,
@@ -602,14 +602,19 @@ export async function handleSignUp(
     }
 
     // 회원가입 API 호출
-    const queryString = `?id=${userId}&name=${userName}&email=${email}&password=${password}`;
-    const url = `${BASE_URL}/api/auth/signup${queryString}`;
+    const url = `${BASE_URL}/api/auth/signup`;
 
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        userId,
+        userName,
+        email,
+        password,
+      }),
     });
 
     if (response.status === 422) {
@@ -619,22 +624,27 @@ export async function handleSignUp(
     } else {
       toast.success("회원가입에 성공했습니다. 😻");
     }
+
+    return response;
   } catch (error) {
     console.error("Error: ", error);
     toast.error("회원가입 과정에서 오류가 발생했습니다. 😿");
   }
 }
 
-export async function handleLogin(email: string, password: string) {
+export async function attemptLogin(userId: string, password: string) {
   try {
-    const queryString = `?email=${email}&password=${password}`;
-    const url = `${BASE_URL}/api/auth/login${queryString}`;
+    const url = `${BASE_URL}/api/auth/login`;
 
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        userId,
+        password,
+      }),
     });
 
     if (!response.ok) {
@@ -642,6 +652,8 @@ export async function handleLogin(email: string, password: string) {
     } else {
       toast.success("로그인에 성공했습니다. 😻");
     }
+
+    return response;
   } catch (error) {
     console.error("Error: ", error);
   }

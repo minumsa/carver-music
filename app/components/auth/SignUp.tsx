@@ -1,8 +1,9 @@
 "use client";
 
-import { handleSignUp } from "@/app/modules/api";
+import { attemptSignUp } from "@/app/modules/api";
 import styles from "./SignUp.module.css";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 interface SignUpForm {
   userId: string;
@@ -12,6 +13,7 @@ interface SignUpForm {
 }
 
 export const SignUp = () => {
+  const router = useRouter();
   const { register, handleSubmit } = useForm<SignUpForm>({
     defaultValues: {
       userId: "",
@@ -24,7 +26,8 @@ export const SignUp = () => {
   const onSubmit = handleSubmit(async (data) => {
     const { userId, userName, email, password } = data;
     try {
-      await handleSignUp(userId, userName, email, password);
+      const response = await attemptSignUp(userId, userName, email, password);
+      if (response?.ok) router.push("/");
     } catch (error) {
       console.error(error, "Failed to sign up process");
     }

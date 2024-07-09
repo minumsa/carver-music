@@ -16,16 +16,14 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 export async function POST(request: Request) {
   try {
-    const url = new URL(request.url);
-    const email = url.searchParams.get("email");
-    const password = url.searchParams.get("password") ?? "";
+    const { userId, password } = await request.json();
 
     // MongoDB 연결하기
     const client = await MongoClient.connect(uri);
     const db = client.db();
 
     // 사용자가 존재하는지 확인하기
-    const user = await db.collection("users").findOne({ email });
+    const user = await db.collection("users").findOne({ userId });
 
     if (!user) {
       client.close();
@@ -45,7 +43,7 @@ export async function POST(request: Request) {
 
     // JWT 생성
     const loginToken = sign(
-      { id: user._id, email: user.email, name: user.name, role: user.role },
+      { userId: user._id, email: user.email, name: user.name, role: user.role },
       JWT_SECRET,
       {
         expiresIn: "1h",

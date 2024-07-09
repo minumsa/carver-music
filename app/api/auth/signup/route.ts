@@ -10,11 +10,7 @@ const uri: string = process.env.MONGODB_USERS_URI;
 
 export async function POST(request: Request) {
   try {
-    const url = new URL(request.url);
-    const id = url.searchParams.get("id");
-    const name = url.searchParams.get("name");
-    const email = url.searchParams.get("email");
-    const password = url.searchParams.get("password") ?? "";
+    const { userId, name, email, password } = await request.json();
 
     // MongoDB 연결하기
     const client = await MongoClient.connect(uri);
@@ -33,7 +29,7 @@ export async function POST(request: Request) {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const status = await db.collection("users").insertOne({
-      id,
+      userId,
       name,
       email,
       password: hashedPassword,
