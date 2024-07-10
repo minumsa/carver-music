@@ -111,7 +111,7 @@ export const AlbumPanel = ({ albumData }: AlbumProps) => {
                 </div>
                 {/* 앨범 태그 */}
                 <div className={styles.tagContainer}>
-                  {isSearchPage(pathName) && (
+                  {genre && (
                     <Link href={toGenrePage(pathName, genre)} className={styles.tagItem}>
                       {genreTag}
                     </Link>
