@@ -42,7 +42,7 @@ export const DesktopMenu = ({ showCategory }: DesktopMenuProps) => {
     }
 
     loginCheck();
-  }, []);
+  }, [showCategory]);
 
   async function handleLogout() {
     await userLogout();
