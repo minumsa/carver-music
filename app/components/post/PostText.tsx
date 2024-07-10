@@ -7,6 +7,7 @@ import { DEFAULT_TAGS, GENRES } from "@/app/modules/constants";
 import Markdown from "react-markdown";
 import { toGenrePage } from "@/app/modules/paths";
 import Comment from "./Utterances";
+import { useEffect, useState } from "react";
 
 interface PostTextProps {
   postData: AlbumInfo;
@@ -16,9 +17,22 @@ export const PostText = ({ postData }: PostTextProps) => {
   const pathName = usePathname();
   const { title, text, tagKeys, uploadDate, markdown, genre } = postData;
   const paragraphs = text.split("\n");
+  const genreTag = `#${GENRES[genre]}`;
+  const [isShortTag, setIsShortTag] = useState(false);
+  const shortTextStyle = isShortTag ? { padding: "10px 0 30px 30px" } : undefined;
+
+  useEffect(() => {
+    if (window.innerWidth > 800) {
+      if (markdown) {
+        if (markdown.length < 400) setIsShortTag(true);
+      } else {
+        if (text.length < 400) setIsShortTag(true);
+      }
+    }
+  }, [markdown, text]);
 
   return (
-    <article className={styles.container}>
+    <article className={styles.container} style={shortTextStyle}>
       {title && <h1 className={styles.title}>{title}</h1>}
       {markdown ? (
         <div className={styles.viewerWrapper}>
@@ -48,11 +62,11 @@ export const PostText = ({ postData }: PostTextProps) => {
         <div>{formatDate(uploadDate)}</div>
       </div>
       <div className={styles.tagContainer}>
-        {
+        {genre && (
           <Link href={toGenrePage(pathName, genre)} className={styles.tagItem}>
-            {`#${GENRES[genre]}`}
+            {genreTag}
           </Link>
-        }
+        )}
         {tagKeys.map((tagKey: string, index: number) => {
           return (
             <Link

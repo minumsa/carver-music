@@ -37,6 +37,7 @@ export const AlbumPanel = ({ albumData }: AlbumProps) => {
   const divRef = useRef<HTMLDivElement>(null);
   const paragraphs = text.split("\n");
   const markdownFirstParagraph = markdown?.split("\n")[0];
+  const genreTag = `#${GENRES[genre]}`;
 
   return (
     <>
@@ -110,9 +111,9 @@ export const AlbumPanel = ({ albumData }: AlbumProps) => {
                 </div>
                 {/* 앨범 태그 */}
                 <div className={styles.tagContainer}>
-                  {isSearchPage(pathName) && (
+                  {genre && (
                     <Link href={toGenrePage(pathName, genre)} className={styles.tagItem}>
-                      {`#${GENRES[genre]}`}
+                      {genreTag}
                     </Link>
                   )}
                   {tagKeys.map((key: string, index: number) => {

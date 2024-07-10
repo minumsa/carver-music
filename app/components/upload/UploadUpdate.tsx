@@ -17,7 +17,6 @@ import Rate from "rc-rate";
 import "rc-rate/assets/index.css";
 import { AlbumInfo, SearchData, SpotifyAlbumData, Video } from "../../modules/types";
 import { GENRES } from "../../modules/constants";
-import "react-toastify/dist/ReactToastify.css";
 import { useForm } from "react-hook-form";
 import { AlbumSearchModal } from "./AlbumSearchModal";
 import VideoLinksEditor from "./VideoLinksEditor/VideoLinksEditor";
@@ -25,6 +24,7 @@ import { TagsEditor } from "./TagsEditor/TagsEditor";
 import { getBlurhash, getDecade } from "@/app/modules/utils";
 import { ToastEditorNoSSR } from "./ToastEditor/ToastEditorNoSSR";
 import { Editor as ToastEditor } from "@toast-ui/react-editor";
+import { useRouter } from "next/navigation";
 
 const TYPING_DELAY_MS = 1000;
 
@@ -32,7 +32,7 @@ interface UpdateProps {
   initialAlbumData?: AlbumInfo;
 }
 
-export interface Form {
+export interface UploadUpdateForm {
   title?: string;
   markdown?: string;
   albumId: string;
@@ -50,17 +50,17 @@ export interface Form {
   videos: Video[];
   videoCount: number;
   currentTagKeys: string[];
-  password: string;
 }
 
 export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
+  const router = useRouter();
   const isUpdatePage = initialAlbumData !== undefined;
   const [searchData, setSearchData] = useState<SearchData[]>();
   const [isTyping, setIsTyping] = useState(false);
   const updatePageExclusive = { display: isUpdatePage ? undefined : "none" };
   const editorRef = useRef<ToastEditor>(null);
 
-  const { register, handleSubmit, setValue, getValues, watch } = useForm<Form>({
+  const { register, handleSubmit, setValue, getValues, watch } = useForm<UploadUpdateForm>({
     defaultValues: {
       title: "",
       albumId: "",
@@ -79,7 +79,6 @@ export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
       videoCount: 1,
       currentTagKeys: [],
       markdown: "",
-      password: "",
     },
   });
 
@@ -96,7 +95,6 @@ export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
       videos,
       uploadDate,
       currentTagKeys,
-      password,
     } = data;
     const filteredText = text.replace(/\[\d+\]/g, "");
     const newSpotifyAlbumData: SpotifyAlbumData | undefined = await fetchSpotify(newAlbumId);
@@ -122,7 +120,10 @@ export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
 
       try {
         const apiMethod = isUpdatePage ? updateData : uploadData;
-        await apiMethod({ newData, password });
+        const response = await apiMethod({ newData });
+        if (response?.status === 401) {
+          router.push("/login");
+        }
       } catch (error) {
         console.error(`${isUpdatePage ? "updateData" : "uploadData"} 작업에 실패했습니다:`, error);
       }
@@ -366,24 +367,6 @@ export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
           onChange={(date) => date && setValue("uploadDate", date)}
           dateFormat={"yyyy년 MM월 dd일"}
           className={`${styles.dateInput} ${styles.input}`}
-        />
-      </div>
-
-      {/* 관리자 비밀번호 */}
-      <div className={styles.blockContainer}>
-        <label className={styles.blockTitle}>관리자 비밀번호</label>
-        <input
-          {...register("password")}
-          className={styles.smallInput}
-          onChange={(e) => {
-            setValue("password", e.target.value);
-          }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              onSubmit();
-            }
-          }}
         />
       </div>
 

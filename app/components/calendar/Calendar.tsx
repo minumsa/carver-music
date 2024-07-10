@@ -28,6 +28,7 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
 
   useEffect(() => {
     if (!currentCalendarData) setCurrentCalendarData(calendarData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleDateChange = (value: any) => {
