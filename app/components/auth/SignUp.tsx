@@ -4,27 +4,36 @@ import { userSignUp } from "@/app/modules/api";
 import styles from "./SignUp.module.css";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 interface SignUpForm {
   userId: string;
   userName: string;
   email: string;
   password: string;
+  passwordCheck: string;
 }
 
 export const SignUp = () => {
   const router = useRouter();
-  const { register, handleSubmit } = useForm<SignUpForm>({
+  const { register, handleSubmit, watch } = useForm<SignUpForm>({
     defaultValues: {
       userId: "",
       userName: "",
       email: "",
       password: "",
+      passwordCheck: "",
     },
   });
 
   const onSubmit = handleSubmit(async (data) => {
-    const { userId, userName, email, password } = data;
+    const { userId, userName, email, password, passwordCheck } = data;
+
+    if (password !== passwordCheck) {
+      toast.warning("입력한 비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
     try {
       const response = await userSignUp(userId, userName, email, password);
       if (response?.ok) router.push("/");
@@ -48,12 +57,21 @@ export const SignUp = () => {
             <input className={styles.input} {...register("userName")} type="name" required />
           </div>
           <div className={styles.item}>
-            <label className={styles.label}>이메일</label>
+            <div className={styles.label}>이메일</div>
             <input className={styles.input} {...register("email")} type="email" required />
           </div>
           <div className={styles.item}>
-            <label className={styles.label}>비밀번호</label>
+            <div className={styles.label}>비밀번호</div>
             <input className={styles.input} {...register("password")} type="password" required />
+          </div>
+          <div className={styles.item}>
+            <div className={styles.label}>비밀번호 확인</div>
+            <input
+              className={styles.input}
+              {...register("passwordCheck")}
+              type="password"
+              required
+            />
           </div>
           <button onClick={onSubmit} className={styles.button}>
             제출하기
