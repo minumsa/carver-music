@@ -42,20 +42,20 @@ export const Login = () => {
             <label className={styles.label}>비밀번호</label>
             <input className={styles.input} {...register("password")} type="password" required />
           </div>
-          <div className={styles.buttonContainer}>
-            <button
-              onClick={() => {
-                router.push("/signup");
-              }}
-              className={styles.button}
-            >
-              회원가입
-            </button>
-            <button onClick={onSubmit} className={styles.button}>
-              제출하기
-            </button>
-          </div>
         </form>
+        <div className={styles.buttonContainer}>
+          <button
+            onClick={() => {
+              router.push("/signup");
+            }}
+            className={styles.button}
+          >
+            회원가입
+          </button>
+          <button onClick={onSubmit} className={styles.button}>
+            제출하기
+          </button>
+        </div>
       </div>
     </div>
   );

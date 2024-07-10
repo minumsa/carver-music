@@ -76,7 +76,7 @@ export async function GET(request: Request) {
       ?.split("=")[1];
 
     if (!loginToken) {
-      return NextResponse.json({ message: "토큰이 없습니다." }, { status: 401 });
+      return NextResponse.json({ message: "토큰이 없습니다." });
     }
 
     // 토큰 검증
