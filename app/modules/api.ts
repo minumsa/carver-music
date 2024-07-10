@@ -670,12 +670,6 @@ export async function getUserInfo() {
       },
     });
 
-    if (!response.ok) {
-      toast.error("로그인에 실패했습니다. 😿");
-    } else {
-      toast.success("로그인에 성공했습니다. 😻");
-    }
-
     return response.json();
   } catch (error) {
     console.error("Error: ", error);
@@ -722,6 +716,7 @@ export async function isAdminLoggedIn(request: Request): Promise<boolean> {
   }
 }
 
+// TODO: 추후 삭제 예정
 export async function checkUserLoginStatus() {
   try {
     const url = `${BASE_URL}/api/auth/checkLogin`;

@@ -1,7 +1,7 @@
 import {
   checkUserLoginStatus,
   fetchRandomAlbumId,
-  isAdminLoggedIn,
+  getUserInfo,
   userLogout,
 } from "@/app/modules/api";
 import { GENRES } from "@/app/modules/constants";
@@ -20,7 +20,8 @@ export const DesktopMenu = ({ showCategory }: DesktopMenuProps) => {
   const pathName = usePathname();
   const router = useRouter();
   const [hoveredItem, setHoveredItem] = useState<string | null>();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [userImageSrc, setUserImageSrc] = useState<string>("");
 
   async function handleRandomButton() {
     const randomId = await fetchRandomAlbumId();
@@ -34,8 +35,12 @@ export const DesktopMenu = ({ showCategory }: DesktopMenuProps) => {
   useEffect(() => {
     async function loginCheck() {
       try {
-        const response = await checkUserLoginStatus();
-        if (response?.status) setIsLoggedIn(true);
+        const response = await getUserInfo();
+
+        if (response?.userName) {
+          setIsLoggedIn(true);
+          setUserImageSrc(response.userImage);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -79,7 +84,16 @@ export const DesktopMenu = ({ showCategory }: DesktopMenuProps) => {
               isLoggedIn ? handleLogout() : router.push("/login");
             }}
           >
-            {isLoggedIn ? "로그아웃" : "로그인"}
+            {isLoggedIn ? (
+              <div className={styles.profileItem}>
+                <div>로그아웃</div>
+                <div className={styles.userImageWrapper}>
+                  <img src={userImageSrc} className={styles.userImage} alt="user-image" />
+                </div>
+              </div>
+            ) : (
+              "로그인"
+            )}
           </li>
           {isAdminPage(pathName) && (
             <li

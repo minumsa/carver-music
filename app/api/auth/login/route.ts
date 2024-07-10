@@ -98,7 +98,10 @@ export async function GET(request: Request) {
       return NextResponse.json({ message: "사용자를 찾을 수 없습니다." }, { status: 404 });
     }
 
-    return NextResponse.json({ name: user.name }, { status: 200 });
+    return NextResponse.json(
+      { userName: user.userName, userImage: user.userImage },
+      { status: 200 },
+    );
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Server Error" }, { status: 500 });
