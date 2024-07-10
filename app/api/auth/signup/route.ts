@@ -3,14 +3,16 @@ import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
-
 require("dotenv").config();
+
 if (!process.env.MONGODB_USERS_URI) throw new Error("env error");
 const uri: string = process.env.MONGODB_USERS_URI;
 
 export async function POST(request: Request) {
   try {
-    const { userId, name, email, password } = await request.json();
+    const { userId, userName, email, password } = await request.json();
+    const userImage = `https://carver-bucket.s3.ap-northeast-2.amazonaws.com/${userId}`;
+    const role = "user";
 
     // MongoDB 연결하기
     const client = await MongoClient.connect(uri);
@@ -30,15 +32,16 @@ export async function POST(request: Request) {
 
     const status = await db.collection("users").insertOne({
       userId,
-      name,
+      userName,
       email,
       password: hashedPassword,
+      userImage,
+      role,
     });
 
     // 성공시 response
     return NextResponse.json({ message: "계정을 성공적으로 생성했습니다." }, { status: 201 });
   } catch (error) {
-    console.error(error);
     return NextResponse.json({ message: "Server Error" }, { status: 500 });
   }
 }

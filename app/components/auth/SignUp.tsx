@@ -39,6 +39,7 @@ export const SignUp = () => {
     }
 
     try {
+      await imgSaveHandler();
       const response = await userSignUp(userId, userName, email, password);
       if (response?.ok) router.push("/");
     } catch (error) {
@@ -47,21 +48,22 @@ export const SignUp = () => {
   });
 
   // 이미지 저장
-  const saveHandler = async () => {
+  const imgSaveHandler = async () => {
     if (!watch("userImage")) {
       return;
     }
 
     const formData = new FormData();
     formData.append("img", watch("userImage")[0]);
+    formData.append("userId", watch("userId"));
 
-    const result = await fetch("/api", {
+    const response = await fetch("/api/aws", {
       method: "POST",
       body: formData,
-    }).then((res) => res.json());
+    });
 
-    if (result.message === "OK") {
-      alert("이미지가 저장되었습니다.");
+    if (!response.ok) {
+      toast.error("시스템 오류로 이미지 저장에 실패했습니다.");
     }
   };
 
