@@ -257,3 +257,7 @@ abbr[title] {
     padding: 3px 20px 7px 20px;
   }
 }
+
+.input {
+  pointer-events: none;
+}
