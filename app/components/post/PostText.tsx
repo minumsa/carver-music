@@ -16,6 +16,7 @@ export const PostText = ({ postData }: PostTextProps) => {
   const pathName = usePathname();
   const { title, text, tagKeys, uploadDate, markdown, genre } = postData;
   const paragraphs = text.split("\n");
+  const genreTag = `#${GENRES[genre]}`;
 
   return (
     <article className={styles.container}>
@@ -50,7 +51,7 @@ export const PostText = ({ postData }: PostTextProps) => {
       <div className={styles.tagContainer}>
         {
           <Link href={toGenrePage(pathName, genre)} className={styles.tagItem}>
-            {`#${GENRES[genre]}`}
+            {genre && genreTag}
           </Link>
         }
         {tagKeys.map((tagKey: string, index: number) => {
