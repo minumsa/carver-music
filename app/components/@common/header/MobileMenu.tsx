@@ -3,9 +3,11 @@ import styles from "./MobileMenu.module.css";
 import Link from "next/link";
 import { toCalendarPage, toGenrePage, toPostPage } from "@/app/modules/paths";
 import { usePathname, useRouter } from "next/navigation";
-import { fetchRandomAlbumId, getUserInfo, userLogout } from "@/app/modules/api";
+import { checkUserLoginStatus, fetchRandomAlbumId, userLogout } from "@/app/modules/api";
 import { isAdminPage } from "@/app/modules/utils";
 import { useEffect, useState } from "react";
+import { userImageAtom, userNameAtom } from "@/app/modules/atoms";
+import { useAtom, useSetAtom } from "jotai";
 
 interface MobileMenuProps {
   showCategory: boolean;
@@ -15,7 +17,8 @@ export const MobileMenu = ({ showCategory }: MobileMenuProps) => {
   const pathName = usePathname();
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [userImageSrc, setUserImageSrc] = useState<string>("");
+  const setCurrentUserName = useSetAtom(userNameAtom);
+  const [currentUserImage, setCurrentUserImage] = useAtom(userImageAtom);
 
   async function handleRandomButton() {
     const randomId = await fetchRandomAlbumId();
@@ -41,12 +44,8 @@ export const MobileMenu = ({ showCategory }: MobileMenuProps) => {
   useEffect(() => {
     async function loginCheck() {
       try {
-        const response = await getUserInfo();
-
-        if (response?.userName) {
-          setIsLoggedIn(true);
-          setUserImageSrc(response.userImage);
-        }
+        const response = await checkUserLoginStatus();
+        if (response.ok) setIsLoggedIn(true);
       } catch (error) {
         console.error(error);
       }
@@ -57,6 +56,8 @@ export const MobileMenu = ({ showCategory }: MobileMenuProps) => {
 
   async function handleLogout() {
     await userLogout();
+    setCurrentUserName("");
+    setCurrentUserImage("");
   }
 
   return (
@@ -69,7 +70,7 @@ export const MobileMenu = ({ showCategory }: MobileMenuProps) => {
                 로그아웃
               </li>
               <div className={styles.userImageWrapper}>
-                <img src={userImageSrc} className={styles.userImage} alt="user-image" />
+                <img src={currentUserImage} className={styles.userImage} alt="user-image" />
               </div>
             </div>
           ) : (

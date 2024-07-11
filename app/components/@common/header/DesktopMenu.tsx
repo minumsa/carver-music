@@ -1,9 +1,4 @@
-import {
-  checkUserLoginStatus,
-  fetchRandomAlbumId,
-  getUserInfo,
-  userLogout,
-} from "@/app/modules/api";
+import { checkUserLoginStatus, fetchRandomAlbumId, userLogout } from "@/app/modules/api";
 import { GENRES } from "@/app/modules/constants";
 import { toCalendarPage, toGenrePage, toPostPage } from "@/app/modules/paths";
 import { usePathname, useRouter } from "next/navigation";
@@ -11,6 +6,8 @@ import { useEffect, useState } from "react";
 import styles from "./DesktopMenu.module.css";
 import { isAdminPage } from "@/app/modules/utils";
 import Link from "next/link";
+import { useAtom, useSetAtom } from "jotai";
+import { userImageAtom, userNameAtom } from "@/app/modules/atoms";
 
 interface DesktopMenuProps {
   showCategory: boolean;
@@ -21,7 +18,8 @@ export const DesktopMenu = ({ showCategory }: DesktopMenuProps) => {
   const router = useRouter();
   const [hoveredItem, setHoveredItem] = useState<string | null>();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [userImageSrc, setUserImageSrc] = useState<string>("");
+  const setCurrentUserName = useSetAtom(userNameAtom);
+  const [currentUserImage, setCurrentUserImage] = useAtom(userImageAtom);
 
   async function handleRandomButton() {
     const randomId = await fetchRandomAlbumId();
@@ -35,12 +33,8 @@ export const DesktopMenu = ({ showCategory }: DesktopMenuProps) => {
   useEffect(() => {
     async function loginCheck() {
       try {
-        const response = await getUserInfo();
-
-        if (response?.userName) {
-          setIsLoggedIn(true);
-          setUserImageSrc(response.userImage);
-        }
+        const response = await checkUserLoginStatus();
+        if (response.ok) setIsLoggedIn(true);
       } catch (error) {
         console.error(error);
       }
@@ -51,6 +45,8 @@ export const DesktopMenu = ({ showCategory }: DesktopMenuProps) => {
 
   async function handleLogout() {
     await userLogout();
+    setCurrentUserName("");
+    setCurrentUserImage("");
   }
 
   return (
@@ -88,7 +84,7 @@ export const DesktopMenu = ({ showCategory }: DesktopMenuProps) => {
               <div className={styles.profileItem}>
                 <div>로그아웃</div>
                 <div className={styles.userImageWrapper}>
-                  <img src={userImageSrc} className={styles.userImage} alt="user-image" />
+                  <img src={currentUserImage} className={styles.userImage} alt="user-image" />
                 </div>
               </div>
             ) : (

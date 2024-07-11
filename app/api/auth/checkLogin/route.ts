@@ -31,7 +31,7 @@ export async function GET(request: Request) {
       // return NextResponse.json({ message: "유효하지 않은 토큰입니다." }, { status: 401 });
     }
 
-    return NextResponse.json({ status: true }, { status: 200 });
+    return NextResponse.json({ ok: true }, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Server Error" }, { status: 500 });

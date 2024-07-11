@@ -6,8 +6,9 @@ import { AlbumInfo } from "../../modules/types";
 import { DEFAULT_TAGS, GENRES } from "@/app/modules/constants";
 import Markdown from "react-markdown";
 import { toGenrePage } from "@/app/modules/paths";
-import Comment from "./Utterances";
+// import Comment from "./Utterances";
 import { useEffect, useState } from "react";
+import { Comment } from "./comment/Comment";
 
 interface PostTextProps {
   postData: AlbumInfo;

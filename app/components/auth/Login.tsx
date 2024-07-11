@@ -5,6 +5,8 @@ import { getUserInfo, userLogin } from "@/app/modules/api";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useSetAtom } from "jotai";
+import { userImageAtom, userNameAtom } from "@/app/modules/atoms";
 
 require("dotenv").config();
 
@@ -22,6 +24,8 @@ export const Login = () => {
     },
   });
   const [prevURL, setPrevURL] = useState<URL>();
+  const setCurrentUserName = useSetAtom(userNameAtom);
+  const setCurrentUserImage = useSetAtom(userImageAtom);
 
   const getRedirectPathForAdmin = (baseURL: string, isAdminURL: boolean, prevURL: URL) => {
     return isAdminURL ? `${baseURL}/${prevURL.pathname}` : `${baseURL}/admin${prevURL.pathname}`;
@@ -62,7 +66,9 @@ export const Login = () => {
     try {
       await userLogin(userId, password);
       const response = await getUserInfo();
-      const { role } = response;
+      const { userName, userImage, role } = response;
+      setCurrentUserName(userName);
+      setCurrentUserImage(userImage);
       const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
       if (baseURL) {
         const redirectURL: any = handleLoginRedirect(role, baseURL, prevURL);
