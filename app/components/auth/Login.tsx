@@ -43,7 +43,7 @@ export const Login = () => {
     if (!prevURL) return getDefaultRedirectPath(role);
 
     const prevURLString = prevURL.toString();
-    const isBaseURLPresent = prevURLString.includes(baseURL);
+    const isBaseURLPresent = prevURLString.includes(baseURL) && !prevURLString.includes("signup");
     const isAdminURL = prevURLString.includes("admin");
 
     if (isBaseURLPresent) {
