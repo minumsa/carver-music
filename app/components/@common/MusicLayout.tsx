@@ -40,7 +40,7 @@ export const MusicLayout = ({ children }: { children: React.ReactNode }) => {
         >
           {children}
         </main>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </div>
   );
