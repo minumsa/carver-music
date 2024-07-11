@@ -206,10 +206,10 @@ export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
     const decade = getDecade(release_date);
     const imgUrl = images[0].url;
     setValue("blurHash", await getBlurhash(imgUrl));
-    setValue("currentTagKeys", [decade]);
     setValue("artist", artist);
     setValue("newAlbumId", id);
     setValue("searchKeyword", name);
+    if (!watch("currentTagKeys")) setValue("currentTagKeys", [decade]);
     setSearchData(undefined);
     setIsTyping(false);
   };

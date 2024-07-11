@@ -51,7 +51,7 @@ export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
     const albumId = url.searchParams.get("albumId");
-    const albumUrl = `https://api.spotify.com/v1/albums/${albumId}`;
+    const albumUrl = `https://api.spotify.com/v1/albums/${albumId}?market=KR&locale=ko-KR`;
 
     const accessToken = await getToken();
 
@@ -69,7 +69,7 @@ export async function GET(request: Request) {
     const { artists, tracks, id, name, label, release_date } = albumData;
 
     const artistId = artists[0].id;
-    const artistUrl = `https://api.spotify.com/v1/artists/${artistId}`;
+    const artistUrl = `https://api.spotify.com/v1/artists/${artistId}?market=KR&locale=ko-KR`;
     const artistDataResponse = await fetch(artistUrl, { headers });
 
     if (!artistDataResponse.ok) {
