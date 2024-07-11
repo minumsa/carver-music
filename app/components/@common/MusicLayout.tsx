@@ -3,11 +3,12 @@
 import { usePathname } from "next/navigation";
 import { Category } from "./header/Category";
 import styles from "./MusicLayout.module.css";
-import { Snow } from "./Snow";
 import { isUploadPage } from "../../modules/utils";
 import { ToastContainer } from "react-toastify";
 import MobileTagDisplay from "../landingPage/MobileTagDisplay";
 import "react-toastify/dist/ReactToastify.css";
+import { Snow } from "./Snow";
+import { Footer } from "./footer/Footer";
 
 export const MusicLayout = ({ children }: { children: React.ReactNode }) => {
   const pathName = usePathname();
@@ -39,6 +40,7 @@ export const MusicLayout = ({ children }: { children: React.ReactNode }) => {
         >
           {children}
         </main>
+        <Footer />
       </div>
     </div>
   );
