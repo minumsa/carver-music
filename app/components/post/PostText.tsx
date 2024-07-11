@@ -86,8 +86,10 @@ export const PostText = ({ postData }: PostTextProps) => {
       <div className={styles.postDivider}></div>
       {/* 댓글 창 위치 */}
       {/* <Comment /> */}
-      <CommentResult albumId={id} />
-      <CommentInput albumId={id} />
+      <div className={styles.commentContainer}>
+        <CommentResult albumId={id} />
+        <CommentInput albumId={id} />
+      </div>
     </article>
   );
 };
