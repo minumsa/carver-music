@@ -3,9 +3,9 @@ import styles from "./MobileMenu.module.css";
 import Link from "next/link";
 import { toCalendarPage, toGenrePage, toPostPage } from "@/app/modules/paths";
 import { usePathname, useRouter } from "next/navigation";
-import { fetchRandomAlbumId } from "@/app/modules/api";
+import { fetchRandomAlbumId, getUserInfo, userLogout } from "@/app/modules/api";
 import { isAdminPage } from "@/app/modules/utils";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface MobileMenuProps {
   showCategory: boolean;
@@ -14,6 +14,8 @@ interface MobileMenuProps {
 export const MobileMenu = ({ showCategory }: MobileMenuProps) => {
   const pathName = usePathname();
   const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [userImageSrc, setUserImageSrc] = useState<string>("");
 
   async function handleRandomButton() {
     const randomId = await fetchRandomAlbumId();
@@ -36,8 +38,52 @@ export const MobileMenu = ({ showCategory }: MobileMenuProps) => {
     return () => window.removeEventListener("touchmove", handleTouchMove);
   }, [showCategory]);
 
+  useEffect(() => {
+    async function loginCheck() {
+      try {
+        const response = await getUserInfo();
+
+        if (response?.userName) {
+          setIsLoggedIn(true);
+          setUserImageSrc(response.userImage);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    loginCheck();
+  }, [showCategory]);
+
+  async function handleLogout() {
+    await userLogout();
+  }
+
   return (
     <div className={`${styles.container} ${showCategory ? styles.show : undefined}`}>
+      <div className={styles.categoryContainer}>
+        <div className={styles.categoryWrapper}>
+          {isLoggedIn ? (
+            <div className={styles.profileItem}>
+              <li className={styles.categoryItem} onClick={handleLogout}>
+                로그아웃
+              </li>
+              <div className={styles.userImageWrapper}>
+                <img src={userImageSrc} className={styles.userImage} alt="user-image" />
+              </div>
+            </div>
+          ) : (
+            <li
+              className={styles.categoryItem}
+              onClick={() => {
+                router.push("/login");
+              }}
+            >
+              로그인
+            </li>
+          )}
+        </div>
+      </div>
       <div className={styles.categoryContainer}>
         <div>게시판</div>
         <div className={styles.categoryWrapper}>
