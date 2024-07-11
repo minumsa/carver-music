@@ -6,12 +6,12 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSetAtom } from "jotai";
-import { userImageAtom, userNameAtom } from "@/app/modules/atoms";
+import { userIdAtom, userImageAtom, userNameAtom } from "@/app/modules/atoms";
 
 require("dotenv").config();
 
 interface LoginForm {
-  userId: string;
+  id: string;
   password: string;
 }
 
@@ -19,13 +19,14 @@ export const Login = () => {
   const router = useRouter();
   const { register, handleSubmit } = useForm<LoginForm>({
     defaultValues: {
-      userId: "",
+      id: "",
       password: "",
     },
   });
   const [prevURL, setPrevURL] = useState<URL>();
   const setCurrentUserName = useSetAtom(userNameAtom);
   const setCurrentUserImage = useSetAtom(userImageAtom);
+  const setCurrentUserId = useSetAtom(userIdAtom);
 
   const getRedirectPathForAdmin = (baseURL: string, isAdminURL: boolean, prevURL: URL) => {
     return isAdminURL ? `${baseURL}/${prevURL.pathname}` : `${baseURL}/admin${prevURL.pathname}`;
@@ -62,13 +63,14 @@ export const Login = () => {
   };
 
   const onSubmit = handleSubmit(async (data) => {
-    const { userId, password } = data;
+    const { id, password } = data;
     try {
-      await userLogin(userId, password);
+      await userLogin(id, password);
       const response = await getUserInfo();
-      const { userName, userImage, role } = response;
+      const { userId, userName, userImage, role } = response;
       setCurrentUserName(userName);
       setCurrentUserImage(userImage);
+      setCurrentUserId(userId);
       const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
       if (baseURL) {
         const redirectURL: any = handleLoginRedirect(role, baseURL, prevURL);
@@ -96,7 +98,7 @@ export const Login = () => {
         <form onSubmit={onSubmit} className={styles.form}>
           <div className={styles.item}>
             <label className={styles.label}>아이디</label>
-            <input className={styles.input} {...register("userId")} required />
+            <input className={styles.input} {...register("id")} required />
           </div>
           <div className={styles.item}>
             <label className={styles.label}>비밀번호</label>

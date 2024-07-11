@@ -1,11 +1,30 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  column-gap: 15px;
+}
+
+.commentContainer {
+  display: flex;
+  width: 100%;
+  margin: 16px 0;
+  column-gap: 15px;
+  padding: 0 50px 0 0;
+  box-sizing: border-box;
+}
+
+.commentCount {
+  font-size: 0.95rem;
+  color: #586069;
+  line-height: 100%;
+  padding: 0 0 0 60px;
+}
+
 .userImageWrapper {
-  position: absolute;
-  top: -5px;
-  right: 20px;
-  width: 30px;
-  height: 30px;
+  width: 44px;
+  height: 44px;
   overflow: hidden;
-  border-radius: 50%;
+  border-radius: 6px;
 }
 
 .userImage {
@@ -13,4 +32,23 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+
+.formContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-grow: 1;
+  background-color: var(--input-background-color);
+  border: 1px solid var(--text-color);
+  padding: 10px 15px;
+  box-sizing: border-box;
+  row-gap: 10px;
+}
+
+.textareaWrapper {
+  display: flex;
+  width: 100%;
+  font-size: 0.95rem;
 }

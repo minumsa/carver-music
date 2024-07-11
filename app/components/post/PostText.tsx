@@ -6,9 +6,10 @@ import { AlbumInfo } from "../../modules/types";
 import { DEFAULT_TAGS, GENRES } from "@/app/modules/constants";
 import Markdown from "react-markdown";
 import { toGenrePage } from "@/app/modules/paths";
-// import Comment from "./Utterances";
 import { useEffect, useState } from "react";
-import { Comment } from "./comment/Comment";
+import Comment from "./Utterances";
+import { CommentInput } from "./comment/CommentInput";
+import { CommentResult } from "./comment/Comment";
 
 interface PostTextProps {
   postData: AlbumInfo;
@@ -16,7 +17,7 @@ interface PostTextProps {
 
 export const PostText = ({ postData }: PostTextProps) => {
   const pathName = usePathname();
-  const { title, text, tagKeys, uploadDate, markdown, genre } = postData;
+  const { id, title, text, tagKeys, uploadDate, markdown, genre } = postData;
   const paragraphs = text.split("\n");
   const genreTag = `#${GENRES[genre]}`;
   const [isShortTag, setIsShortTag] = useState(false);
@@ -84,7 +85,9 @@ export const PostText = ({ postData }: PostTextProps) => {
       </div>
       <div className={styles.postDivider}></div>
       {/* 댓글 창 위치 */}
-      <Comment />
+      {/* <Comment /> */}
+      <CommentResult albumId={id} />
+      <CommentInput albumId={id} />
     </article>
   );
 };

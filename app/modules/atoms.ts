@@ -14,4 +14,5 @@ export const currentCalendarDataAtom = atom<CalendarData[]>([]);
 
 // 로그인 정보 관련
 export const userNameAtom = atom<string>("");
-export const userImageAtom = atom<string>("");
+export const userImageAtom = atom<string>("/svgs/ghost.svg");
+export const userIdAtom = atom<string>("");

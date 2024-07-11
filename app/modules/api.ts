@@ -632,7 +632,7 @@ export async function userSignUp(
   }
 }
 
-export async function userLogin(userId: string, password: string) {
+export async function userLogin(id: string, password: string) {
   try {
     const url = `${BASE_URL}/api/auth/login`;
 
@@ -642,7 +642,7 @@ export async function userLogin(userId: string, password: string) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId,
+        userId: id,
         password,
       }),
     });
@@ -754,5 +754,60 @@ export async function userLogout() {
   } catch (error) {
     console.error("Error checking login status:", error);
     return false;
+  }
+}
+
+interface PostParams {
+  userId: string;
+  userComment: string;
+  albumId: string;
+  date: Date;
+}
+
+export async function postComment(postParams: PostParams) {
+  try {
+    const url = `${BASE_URL}/api/auth/comment`;
+    const { userId, userComment, albumId, date } = postParams;
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId,
+        userComment,
+        albumId,
+        date,
+      }),
+    });
+
+    if (!response.ok) {
+      toast.error("시스템 오류로 댓글 등록에 실패했습니다.");
+    } else {
+      toast.success("댓글을 성공적으로 등록했습니다.");
+    }
+
+    return response;
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+}
+
+export async function getComment(albumId: string) {
+  try {
+    const queryString = `?albumId=${albumId}`;
+    const url = `${BASE_URL}/api/auth/comment${queryString}`;
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response.json();
+  } catch (error) {
+    console.error("Error: ", error);
   }
 }

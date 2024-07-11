@@ -99,7 +99,7 @@ export async function GET(request: Request) {
     }
 
     return NextResponse.json(
-      { userName: user.userName, userImage: user.userImage, role: user.role },
+      { userId: user.userId, userName: user.userName, userImage: user.userImage, role: user.role },
       { status: 200 },
     );
   } catch (error) {
