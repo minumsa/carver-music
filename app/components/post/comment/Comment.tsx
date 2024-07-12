@@ -32,14 +32,19 @@ export const CommentTmp = ({ comment }: any) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.commentCount}>{`${userId} · ${dateDiff}`}</div>
       <div className={styles.commentContainer}>
         <div className={styles.userImageWrapper}>
           <img src={userImage} alt="user-Image" className={styles.userImage} />
         </div>
-        <form className={styles.formContainer}>
-          <div className={styles.textareaWrapper}>{userComment}</div>
-        </form>
+        <div className={styles.rightContainer}>
+          <form className={styles.formContainer}>
+            <div className={styles.textareaWrapper}>{userComment}</div>
+          </form>
+          <div className={styles.commentDetailWrapper}>
+            <div>{`${userId} · ${dateDiff}`}</div>
+            <div>···</div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -50,8 +55,10 @@ interface CommentTmpProps {
 }
 
 export const CommentResult = ({ comments }: CommentTmpProps) => {
+  const commentCount = comments.length;
   return comments ? (
     <div>
+      <div className={styles.commentCount}>{`댓글 ${commentCount}`}</div>
       {comments.map((comment: Comment) => {
         return (
           <React.Fragment key={comment.userComment}>

@@ -47,7 +47,6 @@ export const CommentInput = ({ albumId, fetchComments }: CommentInputProps) => {
     <>
       {showModal && <LoginAlert setShowModal={setShowModal} />}
       <div className={styles.container} onSubmit={onSubmit}>
-        <div className={styles.commentCount}>{`${0}개의 댓글`}</div>
         <div className={styles.commentContainer}>
           <div className={styles.userImageWrapper}>
             <img src={currentUserImage} alt="user-Image" className={styles.userImage} />

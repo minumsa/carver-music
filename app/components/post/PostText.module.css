@@ -103,13 +103,6 @@ scrollbar-width: none;
   align-items: flex-end;
 }
 
-.commentContainer {
-  display: flex;
-  flex-direction: column;
-  padding: 0 30px;
-  box-sizing: border-box;
-}
-
 @media (max-width: 1300px) {
   .container {
     max-width: calc(100% - 390px);
