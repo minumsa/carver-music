@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import Comment from "./Utterances";
 import { CommentInput } from "./comment/CommentInput";
 import { CommentResult } from "./comment/Comment";
+import { Comments } from "./comment/Comments";
 
 interface PostTextProps {
   postData: AlbumInfo;
@@ -86,10 +87,7 @@ export const PostText = ({ postData }: PostTextProps) => {
       <div className={styles.postDivider}></div>
       {/* 댓글 창 위치 */}
       {/* <Comment /> */}
-      <div className={styles.commentContainer}>
-        <CommentResult albumId={id} />
-        <CommentInput albumId={id} />
-      </div>
+      <Comments albumId={id} />
     </article>
   );
 };

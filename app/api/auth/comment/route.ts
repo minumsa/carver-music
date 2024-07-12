@@ -16,6 +16,9 @@ export async function POST(request: Request) {
     const client = await MongoClient.connect(uri);
     const db = client.db();
 
+    // comments 컬렉션에 복합 인덱스 추가 (이미 존재하는 경우 오류 무시)
+    await db.collection("comments").createIndex({ albumId: 1, date: -1 });
+
     const status = await db.collection("comments").insertOne({
       userId,
       userComment,
@@ -40,7 +43,11 @@ export async function GET(request: Request) {
     const client = await MongoClient.connect(uri);
     const db = client.db();
 
-    const comments = await db.collection("comments").find({ albumId: albumIdKey }).toArray();
+    const comments = await db
+      .collection("comments")
+      .find({ albumId: albumIdKey })
+      .sort({ date: -1 })
+      .toArray();
 
     client.close();
 

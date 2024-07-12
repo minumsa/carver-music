@@ -12,17 +12,17 @@ interface CommentForm {
 
 interface CommentInputProps {
   albumId: string;
+  fetchComments: any;
 }
 
-export const CommentInput = ({ albumId }: CommentInputProps) => {
+export const CommentInput = ({ albumId, fetchComments }: CommentInputProps) => {
   const currentUserImage = useAtomValue(userImageAtom);
-  const { handleSubmit, register } = useForm<CommentForm>({
+  const { handleSubmit, register, reset } = useForm<CommentForm>({
     defaultValues: {
       userComment: "",
     },
   });
   const userId = useAtomValue(userIdAtom);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const onSubmit = handleSubmit(async (data) => {
@@ -30,6 +30,8 @@ export const CommentInput = ({ albumId }: CommentInputProps) => {
     const postParams = { userId, userComment, albumId, date: new Date() };
     try {
       await postComment(postParams);
+      reset();
+      await fetchComments();
     } catch (error) {
       console.error(error, "Failed to sign up process");
     }
@@ -37,7 +39,7 @@ export const CommentInput = ({ albumId }: CommentInputProps) => {
 
   const handleTextareaClick = async () => {
     const response = await checkUserLoginStatus();
-    if (response.ok) setIsLoggedIn(true);
+    const isLoggedIn = response.ok;
     if (!isLoggedIn) setShowModal(true);
   };
 

@@ -1,15 +1,8 @@
 import { useAtomValue } from "jotai";
 import styles from "./Comment.module.css";
-import { userImageAtom, userNameAtom } from "@/app/modules/atoms";
-import React, { useEffect, useState } from "react";
-import { getComment } from "@/app/modules/api";
-
-interface Comment {
-  userId: string;
-  userComment: string;
-  albumId: string;
-  date: Date;
-}
+import { userImageAtom } from "@/app/modules/atoms";
+import { Comment } from "@/app/modules/types";
+import React from "react";
 
 // FIXME: any 타입 모두 올바르게 지정
 // FIXME: userId 말고 userName 표시
@@ -21,7 +14,9 @@ const formatTimeDifference = (date: Date): string => {
   const differenceInHours = differenceInMinutes / 60;
   const differenceInDays = differenceInHours / 24;
 
-  if (differenceInMinutes < 60) {
+  if (differenceInMinutes < 1) {
+    return `방금 전`;
+  } else if (differenceInMinutes < 60) {
     return `${Math.floor(differenceInMinutes)}분 전`;
   } else if (differenceInHours < 24) {
     return `${Math.floor(differenceInHours)}시간 전`;
@@ -51,20 +46,10 @@ export const CommentTmp = ({ comment }: any) => {
 };
 
 interface CommentTmpProps {
-  albumId: string;
+  comments: Comment[];
 }
 
-export const CommentResult = ({ albumId }: CommentTmpProps) => {
-  const [comments, setComments] = useState<Comment[]>([]);
-
-  useEffect(() => {
-    async function getData() {
-      const response = await getComment(albumId);
-      setComments(response.comments);
-    }
-    getData();
-  }, []);
-
+export const CommentResult = ({ comments }: CommentTmpProps) => {
   return comments ? (
     <div>
       {comments.map((comment: Comment) => {

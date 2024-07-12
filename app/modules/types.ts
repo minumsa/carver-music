@@ -124,3 +124,10 @@ export interface CalendarData {
   uploadDate: string;
   score: number;
 }
+
+export interface Comment {
+  userId: string;
+  userComment: string;
+  albumId: string;
+  date: Date;
+}
