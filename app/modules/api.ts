@@ -757,14 +757,14 @@ export async function userLogout() {
   }
 }
 
-interface PostParams {
+interface PostCommentParams {
   userId: string;
   userComment: string;
   albumId: string;
   date: Date;
 }
 
-export async function postComment(postParams: PostParams) {
+export async function postComment(postParams: PostCommentParams) {
   try {
     const url = `${BASE_URL}/api/auth/comment`;
     const { userId, userComment, albumId, date } = postParams;
@@ -786,6 +786,77 @@ export async function postComment(postParams: PostParams) {
       toast.error("시스템 오류로 댓글 등록에 실패했습니다.");
     } else {
       toast.success("댓글을 성공적으로 등록했습니다.");
+    }
+
+    return response;
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+}
+
+interface EditCommentParams {
+  commentId: string;
+  userId: string;
+  userComment: string;
+  date: Date;
+}
+
+export async function editComment(postParams: EditCommentParams) {
+  try {
+    const url = `${BASE_URL}/api/auth/comment`;
+    const { commentId, userId, userComment, date } = postParams;
+
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ commentId, userId, userComment, date }),
+    });
+
+    if (response.status === 403) {
+      toast.warn("댓글 수정 권한이 없습니다.");
+      // alert("관리자 비밀번호가 틀렸습니다.");
+    } else if (response.status === 404) {
+      toast.error("해당 댓글을 찾을 수 없습니다.");
+    } else if (!response.ok) {
+      toast.error("시스템 오류로 댓글 수정에 실패했습니다.");
+    } else {
+      toast.success("댓글을 성공적으로 수정했습니다.");
+    }
+
+    return response;
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+}
+
+interface DeleteCommentParams {
+  commentId: string;
+  userId: string;
+}
+
+export async function deleteComment(deleteParams: DeleteCommentParams) {
+  try {
+    const url = `${BASE_URL}/api/auth/comment`;
+    const { userId, commentId } = deleteParams;
+
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ commentId, userId }),
+    });
+
+    if (response.status === 403) {
+      toast.warn("댓글 삭제 권한이 없습니다.");
+    } else if (response.status === 404) {
+      toast.error("해당 댓글을 찾을 수 없습니다.");
+    } else if (!response.ok) {
+      toast.error("시스템 오류로 댓글 삭제에 실패했습니다.");
+    } else {
+      toast.success("댓글을 성공적으로 삭제했습니다.");
     }
 
     return response;

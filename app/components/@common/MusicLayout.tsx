@@ -33,6 +33,7 @@ export const MusicLayout = ({ children }: { children: React.ReactNode }) => {
         console.error(error);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 

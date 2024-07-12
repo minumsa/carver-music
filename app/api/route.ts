@@ -160,13 +160,13 @@ export async function PUT(request: Request) {
     }
 
     // 수정할 데이터를 id로 찾아 originalData에 할당
-    const originalData = await Music.findOne({ id: originalAlbumId });
+    const prevData = await Music.findOne({ id: originalAlbumId });
 
-    if (!originalData) {
+    if (!prevData) {
       return NextResponse.json({ message: "해당 데이터를 찾을 수 없습니다." }, { status: 404 });
     }
 
-    Object.assign(originalData, {
+    Object.assign(prevData, {
       id,
       imgUrl,
       artistId,
@@ -189,8 +189,8 @@ export async function PUT(request: Request) {
       markdown,
     });
 
-    await originalData.save();
-    return NextResponse.json(originalData.toJSON());
+    await prevData.save();
+    return NextResponse.json(prevData.toJSON());
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Server Error" }, { status: 500 });

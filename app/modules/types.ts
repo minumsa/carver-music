@@ -126,6 +126,7 @@ export interface CalendarData {
 }
 
 export interface Comment {
+  _id: string;
   userId: string;
   userComment: string;
   albumId: string;

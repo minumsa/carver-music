@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CommentResult } from "./Comment";
+import { CommentItems } from "./Comment";
 import { CommentInput } from "./CommentInput";
 import styles from "./Comments.module.css";
 import { getComment } from "@/app/modules/api";
@@ -19,11 +19,12 @@ export const Comments = ({ albumId }: CommentsProps) => {
 
   useEffect(() => {
     fetchComments();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [albumId]);
 
   return (
     <div className={styles.container}>
-      <CommentResult comments={comments} />
+      <CommentItems albumId={albumId} fetchComments={fetchComments} comments={comments} />
       <CommentInput albumId={albumId} fetchComments={fetchComments} />
     </div>
   );

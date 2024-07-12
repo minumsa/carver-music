@@ -7,9 +7,8 @@ import { DEFAULT_TAGS, GENRES } from "@/app/modules/constants";
 import Markdown from "react-markdown";
 import { toGenrePage } from "@/app/modules/paths";
 import { useEffect, useState } from "react";
-import Comment from "./Utterances";
 import { CommentInput } from "./comment/CommentInput";
-import { CommentResult } from "./comment/Comment";
+import { CommentItems } from "./comment/Comment";
 import { Comments } from "./comment/Comments";
 
 interface PostTextProps {
@@ -86,7 +85,6 @@ export const PostText = ({ postData }: PostTextProps) => {
       </div>
       <div className={styles.postDivider}></div>
       {/* 댓글 창 위치 */}
-      {/* <Comment /> */}
       <Comments albumId={id} />
     </article>
   );
