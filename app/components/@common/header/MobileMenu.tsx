@@ -16,9 +16,8 @@ interface MobileMenuProps {
 export const MobileMenu = ({ showCategory }: MobileMenuProps) => {
   const pathName = usePathname();
   const router = useRouter();
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const setCurrentUserName = useSetAtom(userNameAtom);
-  const [currentUserImage, setCurrentUserImage] = useAtom(userImageAtom);
+  const setUserName = useSetAtom(userNameAtom);
+  const [userImage, setUserImage] = useAtom(userImageAtom);
 
   async function handleRandomButton() {
     const randomId = await fetchRandomAlbumId();
@@ -41,36 +40,23 @@ export const MobileMenu = ({ showCategory }: MobileMenuProps) => {
     return () => window.removeEventListener("touchmove", handleTouchMove);
   }, [showCategory]);
 
-  useEffect(() => {
-    async function loginCheck() {
-      try {
-        const response = await checkUserLoginStatus();
-        if (response.ok) setIsLoggedIn(true);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    loginCheck();
-  }, [showCategory]);
-
   async function handleLogout() {
     await userLogout();
-    setCurrentUserName("");
-    setCurrentUserImage("");
+    setUserName("방문자");
+    setUserImage("/svgs/ghost.svg");
   }
 
   return (
     <div className={`${styles.container} ${showCategory ? styles.show : undefined}`}>
       <div className={styles.categoryContainer}>
         <div className={styles.categoryWrapper}>
-          {isLoggedIn ? (
+          {userImage ? (
             <div className={styles.profileItem}>
               <li className={styles.categoryItem} onClick={handleLogout}>
                 로그아웃
               </li>
               <div className={styles.userImageWrapper}>
-                <img src={currentUserImage} className={styles.userImage} alt="user-image" />
+                <img src={userImage} className={styles.userImage} alt="user-image" />
               </div>
             </div>
           ) : (

@@ -9,9 +9,36 @@ import MobileTagDisplay from "../landingPage/MobileTagDisplay";
 import "react-toastify/dist/ReactToastify.css";
 import { Snow } from "./Snow";
 import { Footer } from "./footer/Footer";
+import { useEffect, useMemo } from "react";
+import { getUserInfo } from "@/app/modules/api";
+import { useSetAtom } from "jotai";
+import { userIdAtom, userImageAtom, userNameAtom } from "@/app/modules/atoms";
 
 export const MusicLayout = ({ children }: { children: React.ReactNode }) => {
   const pathName = usePathname();
+  const setUserName = useSetAtom(userNameAtom);
+  const setUserId = useSetAtom(userIdAtom);
+  const setUserImage = useSetAtom(userImageAtom);
+
+  const loginCheck = useMemo(
+    () => async () => {
+      try {
+        const response = await getUserInfo();
+        if (response.login) {
+          setUserId(response.userId);
+          setUserName(response.userName);
+          setUserImage(response.userImage);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [],
+  );
+
+  useEffect(() => {
+    loginCheck();
+  }, [loginCheck]);
 
   return (
     <div className={styles.layoutContainer}>

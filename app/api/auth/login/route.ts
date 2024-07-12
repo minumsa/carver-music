@@ -76,7 +76,7 @@ export async function GET(request: Request) {
       ?.split("=")[1];
 
     if (!loginToken) {
-      return NextResponse.json({ message: "토큰이 없습니다." });
+      return NextResponse.json({ login: false });
     }
 
     // 토큰 검증
@@ -99,7 +99,13 @@ export async function GET(request: Request) {
     }
 
     return NextResponse.json(
-      { userId: user.userId, userName: user.userName, userImage: user.userImage, role: user.role },
+      {
+        login: true,
+        userId: user.userId,
+        userName: user.userName,
+        userImage: user.userImage,
+        role: user.role,
+      },
       { status: 200 },
     );
   } catch (error) {
