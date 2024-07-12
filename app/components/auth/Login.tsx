@@ -111,6 +111,7 @@ export const Login = () => {
               router.push("/signup");
             }}
             className={styles.button}
+            style={{ marginRight: "-1px" }}
           >
             회원가입
           </button>
