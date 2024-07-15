@@ -25,7 +25,7 @@ export const Comments = ({ albumId }: CommentsProps) => {
   return (
     <div className={styles.container}>
       <CommentItems albumId={albumId} fetchComments={fetchComments} comments={comments} />
-      <CommentInput albumId={albumId} fetchComments={fetchComments} />
+      <CommentInput albumId={albumId} fetchComments={fetchComments} showReplyModal={false} />
     </div>
   );
 };

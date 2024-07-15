@@ -13,9 +13,10 @@ interface CommentForm {
 interface CommentInputProps {
   albumId: string;
   fetchComments: any;
+  showReplyModal: boolean;
 }
 
-export const CommentInput = ({ albumId, fetchComments }: CommentInputProps) => {
+export const CommentInput = ({ albumId, fetchComments, showReplyModal }: CommentInputProps) => {
   const currentUserImage = useAtomValue(userImageAtom);
   const { handleSubmit, register, reset, watch } = useForm<CommentForm>({
     defaultValues: {

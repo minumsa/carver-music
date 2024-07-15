@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { CommentEditInput } from "./CommentEditInput";
 import { CommentManageModal } from "./CommentManageModal";
 import { Heart } from "./Heart";
+import { CommentInput } from "./CommentInput";
 
 // FIXME: any 타입 모두 올바르게 지정
 // FIXME: userId 말고 userName 표시
@@ -42,6 +43,7 @@ export const CommentItem = ({ comment, albumId, fetchComments }: CommentItemProp
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const currentUserId = useAtomValue(userIdAtom);
   const isUserCommentOwner = userId === currentUserId;
+  const [showReplyModal, setShowReplyModal] = useState<boolean>(false);
 
   const handleComment = () => {
     setShowHandleCommentModal(!showHandleCommentModal);
@@ -74,8 +76,24 @@ export const CommentItem = ({ comment, albumId, fetchComments }: CommentItemProp
             <div className={styles.textareaWrapper}>{userComment}</div>
           </form>
           <div className={styles.commentDetailWrapper}>
-            <div>답글</div>
+            <button
+              onClick={() => {
+                setShowReplyModal(!showReplyModal);
+              }}
+              className={styles.button}
+            >
+              답글
+            </button>
             <Heart comment={comment} fetchComments={fetchComments} />
+          </div>
+          <div>
+            {showReplyModal && (
+              <CommentInput
+                albumId={albumId}
+                fetchComments={fetchComments}
+                showReplyModal={showReplyModal}
+              />
+            )}
           </div>
         </div>
       </div>
