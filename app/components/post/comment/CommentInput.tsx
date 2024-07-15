@@ -17,7 +17,7 @@ interface CommentInputProps {
 
 export const CommentInput = ({ albumId, fetchComments }: CommentInputProps) => {
   const currentUserImage = useAtomValue(userImageAtom);
-  const { handleSubmit, register, reset } = useForm<CommentForm>({
+  const { handleSubmit, register, reset, watch } = useForm<CommentForm>({
     defaultValues: {
       userComment: "",
     },
@@ -25,6 +25,7 @@ export const CommentInput = ({ albumId, fetchComments }: CommentInputProps) => {
   const userId = useAtomValue(userIdAtom);
   const userName = useAtomValue(userNameAtom);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   const onSubmit = handleSubmit(async (data) => {
     const { userComment } = data;
@@ -40,8 +41,8 @@ export const CommentInput = ({ albumId, fetchComments }: CommentInputProps) => {
 
   const handleTextareaClick = async () => {
     const response = await checkUserLoginStatus();
-    const isLoggedIn = response.ok;
-    if (!isLoggedIn) setShowModal(true);
+    setIsLoggedIn(response.ok);
+    if (!response.ok) setShowModal(true);
   };
 
   return (
@@ -59,6 +60,7 @@ export const CommentInput = ({ albumId, fetchComments }: CommentInputProps) => {
                 className={styles.textarea}
                 placeholder="Leave a comment"
                 onClick={handleTextareaClick}
+                value={isLoggedIn ? watch("userComment") : ""}
               />
             </div>
             <button className={styles.button} onClick={onSubmit}>
