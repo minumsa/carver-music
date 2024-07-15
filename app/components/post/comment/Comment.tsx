@@ -5,6 +5,7 @@ import { Comment } from "@/app/modules/types";
 import React, { useState } from "react";
 import { CommentEditInput } from "./CommentEditInput";
 import { CommentManageModal } from "./CommentManageModal";
+import { Heart } from "./Heart";
 
 // FIXME: any 타입 모두 올바르게 지정
 // FIXME: userId 말고 userName 표시
@@ -70,6 +71,10 @@ export const CommentItem = ({ comment, albumId, fetchComments }: CommentItemProp
           <form className={styles.formContainer}>
             <div className={styles.textareaWrapper}>{userComment}</div>
           </form>
+          <div className={styles.commentDetailWrapper}>
+            <div>답글</div>
+            <Heart />
+          </div>
         </div>
       </div>
     </div>

@@ -43,10 +43,10 @@
 
 /* Root Variables */
 :root {
-  --primary-color: #007bff;
-  --secondary-color: #6c757d;
   --background-color: #000;
   --text-color: #ababab;
+  --second-text-color: #6c757d;
+  --third-text-color: #586069;
   --text-hover-color: #949494;
   --border-color: #2c2c2c;
   --input-background-color: #111;
