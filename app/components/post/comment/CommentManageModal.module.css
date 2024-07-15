@@ -1,0 +1,27 @@
+.buttonContainer {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 20px;
+  right: 0;
+  z-index: 100;
+  background-color: #000;
+}
+
+.button {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90px;
+  height: 30px;
+  border: 1px solid var(--secondary-color);
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  color: #000;
+  font-weight: bold;
+  border-radius: 0;
+  background-color: var(--secondary-color);
+}

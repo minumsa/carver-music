@@ -16,7 +16,7 @@
   min-width: 44px;
   height: 44px;
   overflow: hidden;
-  border-radius: 6px;
+  border-radius: 50%;
 }
 
 .userImage {
@@ -34,7 +34,7 @@
   width: 100%;
   /* border-radius: 6px; */
   background-color: var(--input-background-color);
-  border: 1px solid var(--text-color);
+  border: 1px solid var(--secondary-color);
   /* background-color: var(--text-color); */
   padding: 10px;
   box-sizing: border-box;
@@ -58,7 +58,7 @@
 }
 
 .textarea {
-  border: 1px solid var(--text-color);
+  border: 1px solid var(--secondary-color);
   /* border-radius: 6px; */
   min-height: 100px;
   width: 100%;
@@ -71,7 +71,7 @@
 
 .button {
   width: fit-content;
-  border: 1px solid var(--text-color);
+  border: 1px solid var(--secondary-color);
   border-color: #1b1f2326;
   appearance: none;
   border: 1px solid;
@@ -86,7 +86,7 @@
   user-select: none;
   vertical-align: middle;
   white-space: nowrap;
-  color: var(--text-color);
+  color: var(--secondary-color);
   background-color: var(--input-background-color);
 }
 

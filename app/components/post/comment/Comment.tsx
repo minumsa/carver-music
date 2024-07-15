@@ -4,7 +4,7 @@ import { userImageAtom } from "@/app/modules/atoms";
 import { Comment } from "@/app/modules/types";
 import React, { useState } from "react";
 import { CommentEditInput } from "./CommentEditInput";
-import { deleteComment } from "@/app/modules/api";
+import { CommentManageModal } from "./CommentManageModal";
 
 // FIXME: any 타입 모두 올바르게 지정
 // FIXME: userId 말고 userName 표시
@@ -44,13 +44,6 @@ export const CommentItem = ({ comment, albumId, fetchComments }: CommentItemProp
     setShowHandleCommentModal(!showHandleCommentModal);
   };
 
-  const handleDeleteComment = async () => {
-    const deleteParams = { userId, commentId: comment._id };
-    await deleteComment(deleteParams);
-    setShowHandleCommentModal(false);
-    await fetchComments();
-  };
-
   return isEditing ? (
     <CommentEditInput fetchComments={fetchComments} comment={comment} setIsEditing={setIsEditing} />
   ) : (
@@ -60,32 +53,23 @@ export const CommentItem = ({ comment, albumId, fetchComments }: CommentItemProp
           <img src={userImage} alt="user-Image" className={styles.userImage} />
         </div>
         <div className={styles.rightContainer}>
-          <form className={styles.formContainer}>
-            <div className={styles.textareaWrapper}>{userComment}</div>
-          </form>
           <div className={styles.commentDetailWrapper}>
             <div>{`${userId} · ${dateDiff}`}</div>
             <div className={styles.commentRightDetailWrapper}>
               <button onClick={handleComment}>···</button>
-              {showHandleCommentModal && (
-                <div className={styles.buttonContainer}>
-                  <button
-                    className={styles.button}
-                    style={{ marginBottom: "-1px" }}
-                    onClick={() => {
-                      setIsEditing(true);
-                      setShowHandleCommentModal(false);
-                    }}
-                  >
-                    수정
-                  </button>
-                  <button className={styles.button} onClick={handleDeleteComment}>
-                    삭제
-                  </button>
-                </div>
-              )}
+              <CommentManageModal
+                userId={userId}
+                comment={comment}
+                showHandleCommentModal={showHandleCommentModal}
+                setShowHandleCommentModal={setShowHandleCommentModal}
+                setIsEditing={setIsEditing}
+                fetchComments={fetchComments}
+              />
             </div>
           </div>
+          <form className={styles.formContainer}>
+            <div className={styles.textareaWrapper}>{userComment}</div>
+          </form>
         </div>
       </div>
     </div>
