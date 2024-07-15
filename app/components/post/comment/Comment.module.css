@@ -64,10 +64,11 @@
 }
 
 .commentCount {
+  display: flex;
+  justify-content: flex-end;
   font-size: 0.95rem;
   color: var(--third-text-color);
   line-height: 100%;
-  padding: 0 0 0 60px;
 }
 
 .commentRightDetailWrapper {
