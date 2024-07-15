@@ -73,7 +73,7 @@ export const CommentItem = ({ comment, albumId, fetchComments }: CommentItemProp
           </form>
           <div className={styles.commentDetailWrapper}>
             <div>답글</div>
-            <Heart />
+            <Heart comment={comment} fetchComments={fetchComments} />
           </div>
         </div>
       </div>

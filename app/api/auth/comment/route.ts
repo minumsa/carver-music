@@ -24,6 +24,7 @@ export async function POST(request: Request) {
       userComment,
       albumId,
       date,
+      likedUserIds: [],
     });
 
     const response = NextResponse.json({ message: "로그인 성공" }, { status: 200 });

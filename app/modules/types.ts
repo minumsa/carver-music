@@ -131,4 +131,5 @@ export interface Comment {
   userComment: string;
   albumId: string;
   date: Date;
+  likedUserIds: string[];
 }

@@ -448,7 +448,6 @@ export const deleteData = async (id: string) => {
 
     if (response.status === 401) {
       toast.warn("관리자 로그인 상태가 아닙니다. 😾");
-      // alert("관리자 비밀번호가 틀렸습니다.");
     } else if (response.status === 404) {
       toast.warn("존재하지 않는 데이터입니다. 🙀");
     } else if (!response.ok) {
@@ -878,6 +877,39 @@ export async function getComment(albumId: string) {
     });
 
     return response.json();
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+}
+
+interface toggleLikeParams {
+  commentId: string;
+  userId: string;
+  likedUserIds: string[];
+}
+
+export async function toggleLike(toggleLikeParams: toggleLikeParams) {
+  try {
+    const url = `${BASE_URL}/api/auth/comment/like`;
+    const { commentId, userId, likedUserIds } = toggleLikeParams;
+
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ commentId, userId, likedUserIds }),
+    });
+
+    if (response.status === 403) {
+      console.error("댓글 수정 권한이 없습니다.");
+    } else if (response.status === 404) {
+      console.error("해당 댓글을 찾을 수 없습니다.");
+    } else if (!response.ok) {
+      console.error("시스템 오류로 좋아요 반영에 실패했습니다.");
+    }
+
+    return response;
   } catch (error) {
     console.error("Error: ", error);
   }
