@@ -758,6 +758,7 @@ export async function userLogout() {
 
 interface PostCommentParams {
   userId: string;
+  userName: string;
   userComment: string;
   albumId: string;
   date: Date;
@@ -766,7 +767,7 @@ interface PostCommentParams {
 export async function postComment(postParams: PostCommentParams) {
   try {
     const url = `${BASE_URL}/api/auth/comment`;
-    const { userId, userComment, albumId, date } = postParams;
+    const { userId, userName, userComment, albumId, date } = postParams;
 
     const response = await fetch(url, {
       method: "POST",
@@ -775,6 +776,7 @@ export async function postComment(postParams: PostCommentParams) {
       },
       body: JSON.stringify({
         userId,
+        userName,
         userComment,
         albumId,
         date,
@@ -800,10 +802,10 @@ interface EditCommentParams {
   date: Date;
 }
 
-export async function editComment(postParams: EditCommentParams) {
+export async function editComment(editParams: EditCommentParams) {
   try {
     const url = `${BASE_URL}/api/auth/comment`;
-    const { commentId, userId, userComment, date } = postParams;
+    const { commentId, userId, userComment, date } = editParams;
 
     const response = await fetch(url, {
       method: "PUT",

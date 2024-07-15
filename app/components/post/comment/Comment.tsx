@@ -1,6 +1,6 @@
 import { useAtomValue } from "jotai";
 import styles from "./Comment.module.css";
-import { userImageAtom } from "@/app/modules/atoms";
+import { userIdAtom, userImageAtom } from "@/app/modules/atoms";
 import { Comment } from "@/app/modules/types";
 import React, { useState } from "react";
 import { CommentEditInput } from "./CommentEditInput";
@@ -36,10 +36,12 @@ interface CommentItemProps {
 
 export const CommentItem = ({ comment, albumId, fetchComments }: CommentItemProps) => {
   const userImage = useAtomValue(userImageAtom);
-  const { userId, userComment, date } = comment;
+  const { userId, userName, userComment, date } = comment;
   const dateDiff = formatTimeDifference(date);
   const [showHandleCommentModal, setShowHandleCommentModal] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const currentUserId = useAtomValue(userIdAtom);
+  const isUserCommentOwner = userId === currentUserId;
 
   const handleComment = () => {
     setShowHandleCommentModal(!showHandleCommentModal);
@@ -55,9 +57,9 @@ export const CommentItem = ({ comment, albumId, fetchComments }: CommentItemProp
         </div>
         <div className={styles.rightContainer}>
           <div className={styles.commentDetailWrapper}>
-            <div>{`${userId} · ${dateDiff}`}</div>
+            <div>{`${userName} · ${dateDiff}`}</div>
             <div className={styles.commentRightDetailWrapper}>
-              <button onClick={handleComment}>···</button>
+              {isUserCommentOwner && <button onClick={handleComment}>···</button>}
               <CommentManageModal
                 userId={userId}
                 comment={comment}

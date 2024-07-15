@@ -1,6 +1,6 @@
 import { useAtomValue } from "jotai";
 import styles from "./CommentInput.module.css";
-import { userIdAtom, userImageAtom } from "@/app/modules/atoms";
+import { userIdAtom, userImageAtom, userNameAtom } from "@/app/modules/atoms";
 import { useForm } from "react-hook-form";
 import { checkUserLoginStatus, postComment } from "@/app/modules/api";
 import { useState } from "react";
@@ -23,11 +23,12 @@ export const CommentInput = ({ albumId, fetchComments }: CommentInputProps) => {
     },
   });
   const userId = useAtomValue(userIdAtom);
+  const userName = useAtomValue(userNameAtom);
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const onSubmit = handleSubmit(async (data) => {
     const { userComment } = data;
-    const postParams = { userId, userComment, albumId, date: new Date() };
+    const postParams = { userId, userName, userComment, albumId, date: new Date() };
     try {
       await postComment(postParams);
       reset();

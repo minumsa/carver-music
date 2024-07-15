@@ -10,7 +10,7 @@ const uri: string = process.env.MONGODB_COMMENTS_URI;
 
 export async function POST(request: Request) {
   try {
-    const { userId, userComment, albumId, date } = await request.json();
+    const { userId, userName, userComment, albumId, date } = await request.json();
 
     // MongoDB 연결하기
     const client = await MongoClient.connect(uri);
@@ -21,6 +21,7 @@ export async function POST(request: Request) {
 
     const status = await db.collection("comments").insertOne({
       userId,
+      userName,
       userComment,
       albumId,
       date,
