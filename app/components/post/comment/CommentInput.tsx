@@ -2,9 +2,10 @@ import { useAtomValue } from "jotai";
 import styles from "./CommentInput.module.css";
 import { userIdAtom, userImageAtom, userNameAtom } from "@/app/modules/atoms";
 import { useForm } from "react-hook-form";
-import { checkUserLoginStatus, postComment } from "@/app/modules/api";
+import { checkUserLoginStatus, postComment, postReply } from "@/app/modules/api";
 import { useState } from "react";
 import { LoginAlert } from "./LoginAlert";
+import { Comment } from "@/app/modules/types";
 
 interface CommentForm {
   userComment: string;
@@ -13,10 +14,9 @@ interface CommentForm {
 interface CommentInputProps {
   albumId: string;
   fetchComments: any;
-  showReplyModal: boolean;
 }
 
-export const CommentInput = ({ albumId, fetchComments, showReplyModal }: CommentInputProps) => {
+export const CommentInput = ({ albumId, fetchComments }: CommentInputProps) => {
   const currentUserImage = useAtomValue(userImageAtom);
   const { handleSubmit, register, reset, watch } = useForm<CommentForm>({
     defaultValues: {
@@ -30,9 +30,9 @@ export const CommentInput = ({ albumId, fetchComments, showReplyModal }: Comment
 
   const onSubmit = handleSubmit(async (data) => {
     const { userComment } = data;
-    const postParams = { userId, userName, userComment, albumId, date: new Date() };
+    const postCommentParams = { userId, userName, userComment, albumId, date: new Date() };
     try {
-      await postComment(postParams);
+      await postComment(postCommentParams);
       reset();
       await fetchComments();
     } catch (error) {
@@ -48,7 +48,7 @@ export const CommentInput = ({ albumId, fetchComments, showReplyModal }: Comment
 
   return (
     <>
-      {showModal && <LoginAlert setShowModal={setShowModal} />}
+      <LoginAlert showModal={showModal} setShowModal={setShowModal} />
       <div className={styles.container} onSubmit={onSubmit}>
         <div className={styles.commentContainer}>
           <div className={styles.userImageWrapper}>

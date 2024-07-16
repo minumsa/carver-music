@@ -3,7 +3,7 @@ import { CommentItems } from "./Comment";
 import { CommentInput } from "./CommentInput";
 import styles from "./Comments.module.css";
 import { getComment } from "@/app/modules/api";
-import { Comment } from "@/app/modules/types";
+import { Comment, Reply } from "@/app/modules/types";
 
 interface CommentsProps {
   albumId: string;
@@ -11,10 +11,12 @@ interface CommentsProps {
 
 export const Comments = ({ albumId }: CommentsProps) => {
   const [comments, setComments] = useState<Comment[]>([]);
+  const [replies, setReplies] = useState<Reply[]>([]);
 
   const fetchComments = async () => {
     const response = await getComment(albumId);
     setComments(response.comments);
+    setReplies(response.replies);
   };
 
   useEffect(() => {
@@ -22,10 +24,17 @@ export const Comments = ({ albumId }: CommentsProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [albumId]);
 
+  console.log("replies", replies);
+
   return (
     <div className={styles.container}>
-      <CommentItems albumId={albumId} fetchComments={fetchComments} comments={comments} />
-      <CommentInput albumId={albumId} fetchComments={fetchComments} showReplyModal={false} />
+      <CommentItems
+        albumId={albumId}
+        fetchComments={fetchComments}
+        comments={comments}
+        replies={replies}
+      />
+      <CommentInput albumId={albumId} fetchComments={fetchComments} />
     </div>
   );
 };

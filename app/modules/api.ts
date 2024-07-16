@@ -764,10 +764,10 @@ interface PostCommentParams {
   date: Date;
 }
 
-export async function postComment(postParams: PostCommentParams) {
+export async function postComment(postCommentParams: PostCommentParams) {
   try {
     const url = `${BASE_URL}/api/auth/comment`;
-    const { userId, userName, userComment, albumId, date } = postParams;
+    const { userId, userName, userComment, albumId, date } = postCommentParams;
 
     const response = await fetch(url, {
       method: "POST",
@@ -787,6 +787,45 @@ export async function postComment(postParams: PostCommentParams) {
       toast.error("시스템 오류로 댓글 등록에 실패했습니다.");
     } else {
       toast.success("댓글을 성공적으로 등록했습니다.");
+    }
+
+    return response;
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+}
+
+interface PostReplyParams extends PostCommentParams {
+  commentId: string;
+  commentUserId: string;
+}
+
+export async function postReply(postReplyParams: PostReplyParams) {
+  try {
+    const url = `${BASE_URL}/api/auth/comment/reply`;
+    const { commentId, commentUserId, userId, userName, userComment, albumId, date } =
+      postReplyParams;
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        commentId,
+        commentUserId,
+        userId,
+        userName,
+        userComment,
+        albumId,
+        date,
+      }),
+    });
+
+    if (!response.ok) {
+      toast.error("시스템 오류로 답글 등록에 실패했습니다.");
+    } else {
+      toast.success("답글을 성공적으로 등록했습니다.");
     }
 
     return response;

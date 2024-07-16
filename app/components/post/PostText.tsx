@@ -7,8 +7,6 @@ import { DEFAULT_TAGS, GENRES } from "@/app/modules/constants";
 import Markdown from "react-markdown";
 import { toGenrePage } from "@/app/modules/paths";
 import { useEffect, useState } from "react";
-import { CommentInput } from "./comment/CommentInput";
-import { CommentItems } from "./comment/Comment";
 import { Comments } from "./comment/Comments";
 
 interface PostTextProps {

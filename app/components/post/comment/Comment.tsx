@@ -1,12 +1,12 @@
 import { useAtomValue } from "jotai";
 import styles from "./Comment.module.css";
 import { userIdAtom, userImageAtom } from "@/app/modules/atoms";
-import { Comment } from "@/app/modules/types";
+import { Comment, Reply } from "@/app/modules/types";
 import React, { useState } from "react";
 import { CommentEditInput } from "./CommentEditInput";
 import { CommentManageModal } from "./CommentManageModal";
 import { Heart } from "./Heart";
-import { CommentInput } from "./CommentInput";
+import { ReplyInput } from "./ReplyInput";
 
 // FIXME: any 타입 모두 올바르게 지정
 // FIXME: userId 말고 userName 표시
@@ -30,12 +30,13 @@ const formatTimeDifference = (date: Date): string => {
 };
 
 interface CommentItemProps {
-  comment: any;
+  comment: Comment;
+  replies: Reply[];
   albumId: string;
   fetchComments: any;
 }
 
-export const CommentItem = ({ comment, albumId, fetchComments }: CommentItemProps) => {
+export const CommentItem = ({ comment, replies, albumId, fetchComments }: CommentItemProps) => {
   const userImage = useAtomValue(userImageAtom);
   const { userId, userName, userComment, date } = comment;
   const dateDiff = formatTimeDifference(date);
@@ -44,6 +45,8 @@ export const CommentItem = ({ comment, albumId, fetchComments }: CommentItemProp
   const currentUserId = useAtomValue(userIdAtom);
   const isUserCommentOwner = userId === currentUserId;
   const [showReplyModal, setShowReplyModal] = useState<boolean>(false);
+  const commentId = comment._id;
+  const [showHandleReplyModal, setShowHandleReplyModal] = useState<boolean>(false);
 
   const handleComment = () => {
     setShowHandleCommentModal(!showHandleCommentModal);
@@ -59,7 +62,7 @@ export const CommentItem = ({ comment, albumId, fetchComments }: CommentItemProp
         </div>
         <div className={styles.rightContainer}>
           <div className={styles.commentDetailWrapper}>
-            <div>{`${userName} · ${dateDiff}`}</div>
+            <div>{`${userId} · ${dateDiff}`}</div>
             <div className={styles.commentRightDetailWrapper}>
               {isUserCommentOwner && <button onClick={handleComment}>···</button>}
               <CommentManageModal
@@ -88,13 +91,62 @@ export const CommentItem = ({ comment, albumId, fetchComments }: CommentItemProp
           </div>
           <div>
             {showReplyModal && (
-              <CommentInput
+              <ReplyInput
+                comment={comment}
                 albumId={albumId}
                 fetchComments={fetchComments}
-                showReplyModal={showReplyModal}
+                setShowReplyModal={setShowReplyModal}
               />
             )}
           </div>
+
+          {replies.map((reply) => {
+            const isReply = commentId === reply.commentId;
+            return (
+              isReply && (
+                <div className={styles.commentContainer}>
+                  <div className={styles.userImageWrapper}>
+                    <img src={userImage} alt="user-Image" className={styles.userImage} />
+                  </div>
+                  <div className={styles.replyContainer} key={reply._id}>
+                    <div className={styles.commentDetailWrapper}>
+                      <div>{`${reply.userId} · ${formatTimeDifference(reply.date)}`}</div>
+                      <div className={styles.commentRightDetailWrapper}>
+                        {isUserCommentOwner && <button onClick={handleComment}>···</button>}
+                        <CommentManageModal
+                          userId={userId}
+                          comment={reply}
+                          showHandleCommentModal={showHandleReplyModal}
+                          setShowHandleCommentModal={setShowHandleReplyModal}
+                          setIsEditing={setIsEditing}
+                          fetchComments={fetchComments}
+                        />
+                      </div>
+                    </div>
+                    <form className={styles.formContainer}>
+                      <div className={styles.textareaWrapper}>
+                        <span className={styles.commentUserId}>@{reply.commentUserId}</span>
+                        <span>{reply.userComment}</span>
+                      </div>
+                    </form>
+                    <div className={styles.commentDetailWrapper}>
+                      <button
+                        onClick={() => {
+                          setShowReplyModal(!showReplyModal);
+                        }}
+                        className={styles.button}
+                      >
+                        답글
+                      </button>
+                      {/* FIXME: 답글에 맞게 수정 */}
+                      <Heart comment={comment} fetchComments={fetchComments} />
+                    </div>
+                    {/* {대댓글 input 자리} */}
+                  </div>
+                </div>
+              )
+            );
+          })}
         </div>
       </div>
     </div>
@@ -103,12 +155,13 @@ export const CommentItem = ({ comment, albumId, fetchComments }: CommentItemProp
 
 interface CommentResultProps {
   comments: Comment[];
+  replies: Reply[];
   albumId: string;
   fetchComments: any;
 }
 
-export const CommentItems = ({ comments, albumId, fetchComments }: CommentResultProps) => {
-  const commentCount = comments.length;
+export const CommentItems = ({ comments, replies, albumId, fetchComments }: CommentResultProps) => {
+  const commentCount = comments?.length;
 
   return comments ? (
     <div>
@@ -116,7 +169,12 @@ export const CommentItems = ({ comments, albumId, fetchComments }: CommentResult
       {comments.map((comment: Comment) => {
         return (
           <React.Fragment key={comment._id}>
-            <CommentItem comment={comment} albumId={albumId} fetchComments={fetchComments} />
+            <CommentItem
+              comment={comment}
+              albumId={albumId}
+              fetchComments={fetchComments}
+              replies={replies}
+            />
           </React.Fragment>
         );
       })}

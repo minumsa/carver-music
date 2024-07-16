@@ -128,8 +128,14 @@ export interface CalendarData {
 export interface Comment {
   _id: string;
   userId: string;
+  userName: string;
   userComment: string;
   albumId: string;
   date: Date;
   likedUserIds: string[];
+}
+
+export interface Reply extends Comment {
+  commentId: string;
+  commentUserId: string;
 }

@@ -2,7 +2,6 @@ import { MongoClient, ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
-
 require("dotenv").config();
 
 if (!process.env.MONGODB_COMMENTS_URI) throw new Error("env error");
@@ -86,9 +85,17 @@ export async function GET(request: Request) {
       .sort({ date: -1 })
       .toArray();
 
+    console.log("comments", comments);
+
+    const replies = await db
+      .collection("replies")
+      .find({ commentId: comments[0]._id.toString() })
+      .sort({ date: -1 })
+      .toArray();
+
     client.close();
 
-    const response = NextResponse.json({ comments }, { status: 200 });
+    const response = NextResponse.json({ comments, replies }, { status: 200 });
     return response;
   } catch (error) {
     console.error(error);

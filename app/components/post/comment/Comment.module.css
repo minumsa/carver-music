@@ -1,7 +1,5 @@
 .container {
   display: flex;
-
-  /* border-bottom: 1px solid var(--border-color); */
 }
 
 .commentContainer {
@@ -63,6 +61,16 @@
   row-gap: 10px;
 }
 
+.replyContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  background-color: var(--reply-container-color);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
 .commentCount {
   display: flex;
   justify-content: flex-end;
@@ -77,4 +85,9 @@
 
 .button {
   color: var(--third-text-color);
+}
+
+.commentUserId {
+  color: var(--third-text-color);
+  margin: 0 5px 0 0;
 }

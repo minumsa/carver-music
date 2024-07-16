@@ -1,8 +1,8 @@
 import { useAtomValue } from "jotai";
 import styles from "./CommentInput.module.css";
-import { userIdAtom, userImageAtom } from "@/app/modules/atoms";
+import { userIdAtom, userImageAtom, userNameAtom } from "@/app/modules/atoms";
 import { useForm } from "react-hook-form";
-import { checkUserLoginStatus, editComment } from "@/app/modules/api";
+import { checkUserLoginStatus, postComment, postReply } from "@/app/modules/api";
 import { useState } from "react";
 import { LoginAlert } from "./LoginAlert";
 import { Comment } from "@/app/modules/types";
@@ -11,31 +11,45 @@ interface CommentForm {
   userComment: string;
 }
 
-interface CommentInputProps {
-  fetchComments: any;
-  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
+interface ReplyInputProps {
   comment: Comment;
+  albumId: string;
+  fetchComments: any;
+  setShowReplyModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const CommentEditInput = ({ fetchComments, setIsEditing, comment }: CommentInputProps) => {
+export const ReplyInput = ({
+  comment,
+  albumId,
+  fetchComments,
+  setShowReplyModal,
+}: ReplyInputProps) => {
   const currentUserImage = useAtomValue(userImageAtom);
-  const { handleSubmit, register, reset } = useForm<CommentForm>({
+  const { handleSubmit, register, reset, watch } = useForm<CommentForm>({
     defaultValues: {
-      userComment: comment.userComment,
+      userComment: "",
     },
   });
   const userId = useAtomValue(userIdAtom);
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const userName = useAtomValue(userNameAtom);
+  const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   const onSubmit = handleSubmit(async (data) => {
     const { userComment } = data;
-    const commentId = comment._id;
-
-    const commentParams = { commentId, userId, userComment, date: new Date() };
+    const postReplyParams = {
+      commentId: comment._id,
+      commentUserId: comment.userId,
+      userId,
+      userName,
+      userComment,
+      albumId,
+      date: new Date(),
+    };
     try {
-      await editComment(commentParams);
+      await postReply(postReplyParams);
+      setShowReplyModal(false);
       reset();
-      setIsEditing(false);
       await fetchComments();
     } catch (error) {
       console.error(error, "Failed to sign up process");
@@ -44,13 +58,13 @@ export const CommentEditInput = ({ fetchComments, setIsEditing, comment }: Comme
 
   const handleTextareaClick = async () => {
     const response = await checkUserLoginStatus();
-    const isLoggedIn = response.ok;
-    if (!isLoggedIn) setShowModal(true);
+    setIsLoggedIn(response.ok);
+    if (!response.ok) setShowLoginModal(true);
   };
 
   return (
     <>
-      <LoginAlert showModal={showModal} setShowModal={setShowModal} />
+      <LoginAlert showModal={showLoginModal} setShowModal={setShowLoginModal} />
       <div className={styles.container} onSubmit={onSubmit}>
         <div className={styles.commentContainer}>
           <div className={styles.userImageWrapper}>
@@ -63,22 +77,12 @@ export const CommentEditInput = ({ fetchComments, setIsEditing, comment }: Comme
                 className={styles.textarea}
                 placeholder="Leave a comment"
                 onClick={handleTextareaClick}
+                value={isLoggedIn ? watch("userComment") : ""}
               />
             </div>
-            <div className={styles.buttonWrapper}>
-              <button
-                className={styles.button}
-                onClick={() => {
-                  setIsEditing(false);
-                }}
-                style={{ marginRight: "-1px" }}
-              >
-                취소
-              </button>
-              <button className={styles.button} onClick={onSubmit}>
-                수정
-              </button>
-            </div>
+            <button className={styles.button} onClick={onSubmit}>
+              제출하기
+            </button>
           </form>
         </div>
       </div>
