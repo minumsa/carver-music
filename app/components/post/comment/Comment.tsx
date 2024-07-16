@@ -104,11 +104,11 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
             const isReply = commentId === reply.commentId;
             return (
               isReply && (
-                <div className={styles.commentContainer}>
+                <div className={styles.commentContainer} key={reply._id}>
                   <div className={styles.userImageWrapper}>
                     <img src={userImage} alt="user-Image" className={styles.userImage} />
                   </div>
-                  <div className={styles.replyContainer} key={reply._id}>
+                  <div className={styles.replyContainer}>
                     <div className={styles.commentDetailWrapper}>
                       <div>{`${reply.userId} · ${formatTimeDifference(reply.date)}`}</div>
                       <div className={styles.commentRightDetailWrapper}>
@@ -168,16 +168,16 @@ export const CommentItems = ({ comments, replies, albumId, fetchComments }: Comm
       <div className={styles.commentCount}>{`댓글 ${commentCount}`}</div>
       {comments.map((comment: Comment) => {
         return (
-          <React.Fragment key={comment._id}>
-            <CommentItem
-              comment={comment}
-              albumId={albumId}
-              fetchComments={fetchComments}
-              replies={replies}
-            />
-          </React.Fragment>
+          // eslint-disable-next-line react/jsx-key
+          <CommentItem
+            key={comment._id}
+            comment={comment}
+            albumId={albumId}
+            fetchComments={fetchComments}
+            replies={replies}
+          />
         );
       })}
     </div>
-  ) : undefined;
+  ) : null;
 };

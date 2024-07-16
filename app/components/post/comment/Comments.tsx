@@ -24,8 +24,6 @@ export const Comments = ({ albumId }: CommentsProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [albumId]);
 
-  console.log("replies", replies);
-
   return (
     <div className={styles.container}>
       <CommentItems

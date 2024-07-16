@@ -85,8 +85,6 @@ export async function GET(request: Request) {
       .sort({ date: -1 })
       .toArray();
 
-    console.log("comments", comments);
-
     const replies = await db
       .collection("replies")
       .find({ commentId: comments[0]._id.toString() })
