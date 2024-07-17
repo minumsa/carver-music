@@ -39,24 +39,19 @@ export async function PUT(request: Request) {
   try {
     const { commentId, userId, userComment, date } = await request.json();
 
-    // MongoDB 연결하기
     const client = await MongoClient.connect(uri);
     const db = client.db();
 
-    // 댓글 찾기
     const prevComment = await db.collection("comments").findOne({ _id: new ObjectId(commentId) });
 
-    // 댓글이 없으면 404 응답
     if (!prevComment) {
       return NextResponse.json({ message: "해당 댓글을 찾을 수 없습니다." }, { status: 404 });
     }
 
-    // userId가 일치하지 않으면 권한 오류 응답
     if (prevComment.userId !== userId) {
       return NextResponse.json({ message: "댓글 수정 권한이 없습니다." }, { status: 403 });
     }
 
-    // 댓글 업데이트
     await db
       .collection("comments")
       .updateOne({ _id: new ObjectId(commentId) }, { $set: { userComment, date } });

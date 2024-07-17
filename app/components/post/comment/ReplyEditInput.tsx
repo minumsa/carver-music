@@ -2,7 +2,7 @@ import { useAtomValue } from "jotai";
 import styles from "./CommentInput.module.css";
 import { userIdAtom, userImageAtom } from "@/app/modules/atoms";
 import { useForm } from "react-hook-form";
-import { checkUserLoginStatus, editComment } from "@/app/modules/api";
+import { checkUserLoginStatus, editReply } from "@/app/modules/api";
 import { useState } from "react";
 import { LoginAlert } from "./LoginAlert";
 import { Reply } from "@/app/modules/types";
@@ -33,7 +33,7 @@ export const ReplyEditInput = ({ fetchComments, setReplyIsEditing, reply }: Repl
 
     const commentParams = { commentId, userId, userComment, date: new Date() };
     try {
-      await editComment(commentParams);
+      await editReply(commentParams);
       reset();
       setReplyIsEditing(false);
       await fetchComments();

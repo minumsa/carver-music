@@ -856,7 +856,35 @@ export async function editComment(editParams: EditCommentParams) {
 
     if (response.status === 403) {
       toast.warn("댓글 수정 권한이 없습니다.");
-      // alert("관리자 비밀번호가 틀렸습니다.");
+    } else if (response.status === 404) {
+      toast.error("해당 댓글을 찾을 수 없습니다.");
+    } else if (!response.ok) {
+      toast.error("시스템 오류로 댓글 수정에 실패했습니다.");
+    } else {
+      toast.success("댓글을 성공적으로 수정했습니다.");
+    }
+
+    return response;
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+}
+
+export async function editReply(editParams: EditCommentParams) {
+  try {
+    const url = `${BASE_URL}/api/auth/comment/reply`;
+    const { commentId, userId, userComment, date } = editParams;
+
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ commentId, userId, userComment, date }),
+    });
+
+    if (response.status === 403) {
+      toast.warn("댓글 수정 권한이 없습니다.");
     } else if (response.status === 404) {
       toast.error("해당 댓글을 찾을 수 없습니다.");
     } else if (!response.ok) {

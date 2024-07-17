@@ -38,6 +38,37 @@ export async function POST(request: Request) {
   }
 }
 
+export async function PUT(request: Request) {
+  try {
+    const { commentId, userId, userComment, date } = await request.json();
+
+    const client = await MongoClient.connect(uri);
+    const db = client.db();
+
+    const prevComment = await db.collection("replies").findOne({ _id: new ObjectId(commentId) });
+
+    if (!prevComment) {
+      return NextResponse.json({ message: "해당 댓글을 찾을 수 없습니다." }, { status: 404 });
+    }
+
+    if (prevComment.userId !== userId) {
+      return NextResponse.json({ message: "댓글 수정 권한이 없습니다." }, { status: 403 });
+    }
+
+    await db
+      .collection("replies")
+      .updateOne({ _id: new ObjectId(commentId) }, { $set: { userComment, date } });
+
+    client.close();
+
+    const response = NextResponse.json({ message: "댓글이 수정되었습니다." }, { status: 200 });
+    return response;
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: "Server Error" }, { status: 500 });
+  }
+}
+
 export async function DELETE(request: Request) {
   try {
     const { replyId, userId } = await request.json();
