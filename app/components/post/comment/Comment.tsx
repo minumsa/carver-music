@@ -24,13 +24,11 @@ interface CommentItemProps {
 }
 
 export const CommentItem = ({ comment, replies, albumId, fetchComments }: CommentItemProps) => {
-  const userImage = useAtomValue(userImageAtom);
-  const { userId, userName, userComment, date } = comment;
+  const { userId, userName, userComment, date, userImage } = comment;
   const dateDiff = formatTimeDifference(date);
   const [showCommentManageButtons, setShowCommentManageButtons] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const currentUserId = useAtomValue(userIdAtom);
-  const isUserCommentOwner = userId === currentUserId;
   const commentId = comment._id;
 
   const [showReplyManageButtons, setShowReplyManageButtons] = useState<boolean>(true);
@@ -44,7 +42,7 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
 
   const handleReply = (replyId: string) => {
     setActiveReplyId(replyId);
-    setShowReplyManageButtons(true);
+    setShowReplyManageButtons(!showReplyManageButtons);
   };
 
   return (
@@ -65,9 +63,9 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
           ) : (
             <>
               <div className={styles.detailWrapper}>
-                <div>{`${userId} · ${dateDiff}`}</div>
+                <div>{`${userName} · ${dateDiff}`}</div>
                 <div className={styles.commentRightDetailWrapper}>
-                  {isUserCommentOwner && (
+                  {currentUserId === comment.userId && (
                     <button onClick={handleComment} className={styles.dotButton}>
                       ···
                     </button>
@@ -128,13 +126,13 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
                   key={reply._id}
                 >
                   <div className={styles.userImageWrapper}>
-                    <img src={userImage} alt="user-Image" className={styles.userImage} />
+                    <img src={reply.userImage} alt="user-Image" className={styles.userImage} />
                   </div>
                   <div className={styles.replyContainer}>
                     <div className={styles.detailWrapper}>
-                      <div>{`${reply.userId} · ${formatTimeDifference(reply.date)}`}</div>
+                      <div>{`${reply.userName} · ${formatTimeDifference(reply.date)}`}</div>
                       <div className={styles.commentRightDetailWrapper}>
-                        {isUserCommentOwner && (
+                        {currentUserId === reply.userId && (
                           <button onClick={() => handleReply(reply._id)}>···</button>
                         )}
                         <ReplyManageButtons
@@ -151,7 +149,7 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
                     </div>
                     <form className={styles.formContainer}>
                       <div className={styles.textareaWrapper}>
-                        <span className={styles.commentUserId}>@{reply.commentUserId}</span>
+                        <span className={styles.commentUserId}>@{comment.userName}</span>
                         <span>{reply.userComment}</span>
                       </div>
                     </form>

@@ -133,6 +133,7 @@ export interface Comment {
   albumId: string;
   date: Date;
   likedUserIds: string[];
+  userImage: string;
 }
 
 export interface Reply extends Comment {

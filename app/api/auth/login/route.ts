@@ -18,11 +18,9 @@ export async function POST(request: Request) {
   try {
     const { userId, password } = await request.json();
 
-    // MongoDB 연결하기
     const client = await MongoClient.connect(uri);
     const db = client.db();
 
-    // 사용자가 존재하는지 확인하기
     const user = await db.collection("users").findOne({ userId });
 
     if (!user) {
@@ -33,7 +31,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // 비밀번호 확인
     const isValid = await bcrypt.compare(password, user.password);
 
     if (!isValid) {

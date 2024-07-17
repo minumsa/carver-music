@@ -7,6 +7,9 @@ require("dotenv").config();
 if (!process.env.MONGODB_COMMENTS_URI) throw new Error("env error");
 const uri: string = process.env.MONGODB_COMMENTS_URI;
 
+if (!process.env.MONGODB_USERS_URI) throw new Error("env error");
+const usersUri: string = process.env.MONGODB_USERS_URI;
+
 export async function POST(request: Request) {
   try {
     const { userId, userName, userComment, albumId, date } = await request.json();
@@ -66,6 +69,7 @@ export async function PUT(request: Request) {
   }
 }
 
+// TODO: 블로그에 정리
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
@@ -80,15 +84,54 @@ export async function GET(request: Request) {
       .sort({ date: 1 })
       .toArray();
 
+    const usersClient = await MongoClient.connect(usersUri);
+    const usersDb = usersClient.db();
+
+    // 유저 이미지를 추가하기 위한 userId 목록 생성
+    const commentUserIds = comments.map((comment) => comment.userId);
+
+    // 댓글 ID 목록 생성
+    const commentIds = comments.map((comment) => comment._id.toString());
+
     const replies = await db
       .collection("replies")
-      .find({ commentId: comments[0]._id.toString() })
+      .find({ commentId: { $in: commentIds } })
       .sort({ date: 1 })
       .toArray();
 
+    const replyUserIds = replies.map((reply) => reply.userId);
+
+    // 모든 userId 목록 병합 후 중복 제거
+    const allUserIds = Array.from(new Set([...commentUserIds, ...replyUserIds]));
+
+    const users = await usersDb
+      .collection("users")
+      .find({ userId: { $in: allUserIds } })
+      .toArray();
+
+    const userMap = users.reduce((acc: any, user) => {
+      acc[user.userId] = { userImage: user.userImage }; // userId를 키로 하여 userImage 및 userName 저장
+      return acc;
+    }, {});
+
+    // 각 댓글에 userImage 추가
+    const commentsWithImages = comments.map((comment) => ({
+      ...comment,
+      userImage: userMap[comment.userId]?.userImage || null, // userImage가 없을 경우 null 처리
+    }));
+
+    // 각 답글에 userImage 및 userName 추가
+    const repliesWithImages = replies.map((reply) => ({
+      ...reply,
+      userImage: userMap[reply.userId]?.userImage || null,
+    }));
+
     client.close();
 
-    const response = NextResponse.json({ comments, replies }, { status: 200 });
+    const response = NextResponse.json(
+      { comments: commentsWithImages, replies: repliesWithImages },
+      { status: 200 },
+    );
     return response;
   } catch (error) {
     console.error(error);

@@ -1037,13 +1037,13 @@ export async function toggleReplyLike(toggleLikeParams: toggleReplyLikeParams) {
       body: JSON.stringify({ replyId, userId, likedUserIds }),
     });
 
-    // if (response.status === 403) {
-    //   console.error("댓글에 좋아요를 누를 권한이 없습니다.");
-    // } else if (response.status === 404) {
-    //   console.error("해당 댓글을 찾을 수 없습니다.");
-    // } else if (!response.ok) {
-    //   console.error("시스템 오류로 좋아요 반영에 실패했습니다.");
-    // }
+    if (response.status === 403) {
+      console.error("댓글에 좋아요를 누를 권한이 없습니다.");
+    } else if (response.status === 404) {
+      console.error("해당 댓글을 찾을 수 없습니다.");
+    } else if (!response.ok) {
+      console.error("시스템 오류로 좋아요 반영에 실패했습니다.");
+    }
 
     return response.json();
   } catch (error) {
