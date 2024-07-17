@@ -5,11 +5,12 @@ import { Comment, Reply } from "@/app/modules/types";
 import React, { useState } from "react";
 import { CommentEditInput } from "./CommentEditInput";
 import { CommentManageButtons } from "./CommentManageButtons";
-import { Heart } from "./Heart";
+import { CommentHeart } from "./CommentHeart";
 import { ReplyInput } from "./ReplyInput";
 import { ReplyManageButtons } from "./ReplyManageButtons";
 import { ReplyEditInput } from "./ReplyEditInput";
 import { formatTimeDifference } from "@/app/modules/utils";
+import { ReplyHeart } from "./ReplyHeart";
 
 // FIXME: any 타입 모두 올바르게 지정
 // FIXME: userId 말고 userName 표시
@@ -63,7 +64,7 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
             />
           ) : (
             <>
-              <div className={styles.commentDetailWrapper}>
+              <div className={styles.detailWrapper}>
                 <div>{`${userId} · ${dateDiff}`}</div>
                 <div className={styles.commentRightDetailWrapper}>
                   {isUserCommentOwner && (
@@ -84,7 +85,7 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
               <form className={styles.formContainer}>
                 <div className={styles.textareaWrapper}>{userComment}</div>
               </form>
-              <div className={styles.commentDetailWrapper}>
+              <div className={styles.detailWrapper}>
                 <button
                   onClick={() => {
                     setShowReplyModal(!showReplyModal);
@@ -93,7 +94,7 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
                 >
                   답글
                 </button>
-                <Heart comment={comment} fetchComments={fetchComments} />
+                <CommentHeart comment={comment} fetchComments={fetchComments} />
               </div>
             </>
           )}
@@ -122,12 +123,15 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
                   setReplyIsEditing={setReplyIsEditing}
                 />
               ) : (
-                <div className={styles.commentContainer} key={reply._id}>
+                <div
+                  className={`${styles.commentContainer} ${styles.replyBackground}`}
+                  key={reply._id}
+                >
                   <div className={styles.userImageWrapper}>
                     <img src={userImage} alt="user-Image" className={styles.userImage} />
                   </div>
                   <div className={styles.replyContainer}>
-                    <div className={styles.commentDetailWrapper}>
+                    <div className={styles.detailWrapper}>
                       <div>{`${reply.userId} · ${formatTimeDifference(reply.date)}`}</div>
                       <div className={styles.commentRightDetailWrapper}>
                         {isUserCommentOwner && (
@@ -151,17 +155,9 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
                         <span>{reply.userComment}</span>
                       </div>
                     </form>
-                    <div className={styles.commentDetailWrapper}>
-                      <button
-                        onClick={() => {
-                          setShowReplyModal(!showReplyModal);
-                        }}
-                        className={styles.button}
-                      >
-                        답글
-                      </button>
+                    <div className={`${styles.detailWrapper} ${styles.replyHeartWrapper}`}>
                       {/* FIXME: 답글에 맞게 수정 */}
-                      <Heart comment={comment} fetchComments={fetchComments} />
+                      <ReplyHeart reply={reply} fetchComments={fetchComments} />
                     </div>
                     {/* {대댓글 input 자리} */}
                   </div>
@@ -184,10 +180,11 @@ interface CommentResultProps {
 
 export const CommentItems = ({ comments, replies, albumId, fetchComments }: CommentResultProps) => {
   const commentCount = comments?.length;
+  const replycount = replies?.length;
 
   return comments ? (
     <div>
-      <div className={styles.commentCount}>{`댓글 ${commentCount}`}</div>
+      <div className={styles.commentCount}>{`댓글 ${commentCount + replycount}`}</div>
       {comments.map((comment: Comment) => {
         return (
           // eslint-disable-next-line react/jsx-key

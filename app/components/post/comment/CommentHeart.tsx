@@ -1,18 +1,18 @@
-import { checkUserLoginStatus, toggleLike } from "@/app/modules/api";
+import { checkUserLoginStatus, toggleCommentLike } from "@/app/modules/api";
 import styles from "./Heart.module.css";
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAtomValue } from "jotai";
 import { userIdAtom } from "@/app/modules/atoms";
 import { Comment } from "@/app/modules/types";
 import { DARK_RED_COLOR } from "@/app/modules/constants";
 import { LoginAlert } from "./LoginAlert";
 
-interface HeartProps {
+interface CommentHeartProps {
   comment: Comment;
   fetchComments: any;
 }
 
-export const Heart = ({ comment, fetchComments }: HeartProps) => {
+export const CommentHeart = ({ comment, fetchComments }: CommentHeartProps) => {
   const [heartClickedBefore, setHeartClickedBefore] = useState<boolean>(false);
   const heartStyle = heartClickedBefore
     ? { fill: DARK_RED_COLOR, stroke: DARK_RED_COLOR }
@@ -21,14 +21,14 @@ export const Heart = ({ comment, fetchComments }: HeartProps) => {
   const [totalClickedHeart, setTotalClickedHeart] = useState<number>(comment.likedUserIds.length);
   const userId = useAtomValue(userIdAtom);
   const [currentLikeUserIds, setCurrentLikeUserIds] = useState<string[]>(comment.likedUserIds);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   async function fetchLike() {
     const response = await checkUserLoginStatus();
-    setIsLoggedIn(response.ok);
-    if (!response.ok) setShowLoginModal(true);
-    return;
+    if (!response.ok) {
+      setShowLoginModal(true);
+      return;
+    }
 
     let tmpCurrentLikeUserIds;
     if (heartClickedBefore) {
@@ -45,7 +45,7 @@ export const Heart = ({ comment, fetchComments }: HeartProps) => {
       userId,
       likedUserIds: tmpCurrentLikeUserIds,
     };
-    await toggleLike(toggleLikeParams);
+    await toggleCommentLike(toggleLikeParams);
     await fetchComments();
   }
 

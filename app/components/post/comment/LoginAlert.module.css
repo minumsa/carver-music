@@ -18,13 +18,12 @@
   justify-content: center;
   flex-direction: column;
   z-index: 1000;
-  width: 320px;
-  height: 200px;
   border: 1px solid var(--text-color);
   background-color: var(--input-background-color);
   row-gap: 20px;
   font-size: 1.125rem;
   color: var(--text-color);
+  padding: 60px 50px;
 }
 
 .buttonContainer {

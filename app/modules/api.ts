@@ -985,13 +985,13 @@ export async function getComment(albumId: string) {
   }
 }
 
-interface toggleLikeParams {
+interface toggleCommentLikeParams {
   commentId: string;
   userId: string;
   likedUserIds: string[];
 }
 
-export async function toggleLike(toggleLikeParams: toggleLikeParams) {
+export async function toggleCommentLike(toggleLikeParams: toggleCommentLikeParams) {
   try {
     const url = `${BASE_URL}/api/auth/comment/like`;
     const { commentId, userId, likedUserIds } = toggleLikeParams;
@@ -1005,7 +1005,7 @@ export async function toggleLike(toggleLikeParams: toggleLikeParams) {
     });
 
     if (response.status === 403) {
-      console.error("댓글 수정 권한이 없습니다.");
+      console.error("댓글에 좋아요를 누를 권한이 없습니다.");
     } else if (response.status === 404) {
       console.error("해당 댓글을 찾을 수 없습니다.");
     } else if (!response.ok) {
@@ -1013,6 +1013,39 @@ export async function toggleLike(toggleLikeParams: toggleLikeParams) {
     }
 
     return response;
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+}
+
+interface toggleReplyLikeParams {
+  replyId: string;
+  userId: string;
+  likedUserIds: string[];
+}
+
+export async function toggleReplyLike(toggleLikeParams: toggleReplyLikeParams) {
+  try {
+    const url = `${BASE_URL}/api/auth/comment/reply/like`;
+    const { replyId, userId, likedUserIds } = toggleLikeParams;
+
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ replyId, userId, likedUserIds }),
+    });
+
+    // if (response.status === 403) {
+    //   console.error("댓글에 좋아요를 누를 권한이 없습니다.");
+    // } else if (response.status === 404) {
+    //   console.error("해당 댓글을 찾을 수 없습니다.");
+    // } else if (!response.ok) {
+    //   console.error("시스템 오류로 좋아요 반영에 실패했습니다.");
+    // }
+
+    return response.json();
   } catch (error) {
     console.error("Error: ", error);
   }
