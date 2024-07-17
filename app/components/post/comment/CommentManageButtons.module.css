@@ -25,3 +25,7 @@
   border-radius: 0;
   background-color: var(--second-text-color);
 }
+
+.dotButton {
+  position: relative;
+}

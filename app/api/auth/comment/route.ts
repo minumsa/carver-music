@@ -82,13 +82,13 @@ export async function GET(request: Request) {
     const comments = await db
       .collection("comments")
       .find({ albumId: albumIdKey })
-      .sort({ date: -1 })
+      .sort({ date: 1 })
       .toArray();
 
     const replies = await db
       .collection("replies")
       .find({ commentId: comments[0]._id.toString() })
-      .sort({ date: -1 })
+      .sort({ date: 1 })
       .toArray();
 
     client.close();

@@ -114,3 +114,21 @@ export const validateUserId = (userId: string): boolean => {
   const userIdRegex = /^[a-z0-9]{3,15}$/;
   return userIdRegex.test(userId);
 };
+
+export const formatTimeDifference = (date: Date): string => {
+  const currentDate = new Date();
+  const differenceInMilliseconds = currentDate.getTime() - new Date(date).getTime();
+  const differenceInMinutes = differenceInMilliseconds / (1000 * 60);
+  const differenceInHours = differenceInMinutes / 60;
+  const differenceInDays = differenceInHours / 24;
+
+  if (differenceInMinutes < 1) {
+    return `방금 전`;
+  } else if (differenceInMinutes < 60) {
+    return `${Math.floor(differenceInMinutes)}분 전`;
+  } else if (differenceInHours < 24) {
+    return `${Math.floor(differenceInHours)}시간 전`;
+  } else {
+    return `${Math.floor(differenceInDays)}일 전`;
+  }
+};

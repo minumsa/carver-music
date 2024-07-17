@@ -876,10 +876,10 @@ interface DeleteCommentParams {
   userId: string;
 }
 
-export async function deleteComment(deleteParams: DeleteCommentParams) {
+export async function deleteComment(deleteCommentParams: DeleteCommentParams) {
   try {
     const url = `${BASE_URL}/api/auth/comment`;
-    const { userId, commentId } = deleteParams;
+    const { userId, commentId } = deleteCommentParams;
 
     const response = await fetch(url, {
       method: "DELETE",
@@ -897,6 +897,40 @@ export async function deleteComment(deleteParams: DeleteCommentParams) {
       toast.error("시스템 오류로 댓글 삭제에 실패했습니다.");
     } else {
       toast.success("댓글을 성공적으로 삭제했습니다.");
+    }
+
+    return response;
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+}
+
+interface DeleteReplyParams {
+  replyId: string;
+  userId: string;
+}
+
+export async function deleteReply(deleteReplyParams: DeleteReplyParams) {
+  try {
+    const url = `${BASE_URL}/api/auth/comment/reply`;
+    const { userId, replyId } = deleteReplyParams;
+
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ replyId, userId }),
+    });
+
+    if (response.status === 403) {
+      toast.warn("답글 삭제 권한이 없습니다.");
+    } else if (response.status === 404) {
+      toast.error("해당 답글을 찾을 수 없습니다.");
+    } else if (!response.ok) {
+      toast.error("시스템 오류로 답글 삭제에 실패했습니다.");
+    } else {
+      toast.success("답글을 성공적으로 삭제했습니다.");
     }
 
     return response;

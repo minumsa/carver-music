@@ -4,30 +4,16 @@ import { userIdAtom, userImageAtom } from "@/app/modules/atoms";
 import { Comment, Reply } from "@/app/modules/types";
 import React, { useState } from "react";
 import { CommentEditInput } from "./CommentEditInput";
-import { CommentManageModal } from "./CommentManageModal";
+import { CommentManageButtons } from "./CommentManageButtons";
 import { Heart } from "./Heart";
 import { ReplyInput } from "./ReplyInput";
+import { ReplyManageButtons } from "./ReplyManageButtons";
+import { ReplyEditInput } from "./ReplyEditInput";
+import { formatTimeDifference } from "@/app/modules/utils";
 
 // FIXME: any 타입 모두 올바르게 지정
 // FIXME: userId 말고 userName 표시
 // FIXME: 코드 정리
-const formatTimeDifference = (date: Date): string => {
-  const currentDate = new Date();
-  const differenceInMilliseconds = currentDate.getTime() - new Date(date).getTime();
-  const differenceInMinutes = differenceInMilliseconds / (1000 * 60);
-  const differenceInHours = differenceInMinutes / 60;
-  const differenceInDays = differenceInHours / 24;
-
-  if (differenceInMinutes < 1) {
-    return `방금 전`;
-  } else if (differenceInMinutes < 60) {
-    return `${Math.floor(differenceInMinutes)}분 전`;
-  } else if (differenceInHours < 24) {
-    return `${Math.floor(differenceInHours)}시간 전`;
-  } else {
-    return `${Math.floor(differenceInDays)}일 전`;
-  }
-};
 
 interface CommentItemProps {
   comment: Comment;
@@ -40,55 +26,78 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
   const userImage = useAtomValue(userImageAtom);
   const { userId, userName, userComment, date } = comment;
   const dateDiff = formatTimeDifference(date);
-  const [showHandleCommentModal, setShowHandleCommentModal] = useState<boolean>(false);
+  const [showCommentManageButtons, setShowCommentManageButtons] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const currentUserId = useAtomValue(userIdAtom);
   const isUserCommentOwner = userId === currentUserId;
-  const [showReplyModal, setShowReplyModal] = useState<boolean>(false);
   const commentId = comment._id;
-  const [showHandleReplyModal, setShowHandleReplyModal] = useState<boolean>(false);
+
+  const [showReplyManageButtons, setShowReplyManageButtons] = useState<boolean>(true);
+  const [showReplyModal, setShowReplyModal] = useState<boolean>(false);
+  const [replyIsEditing, setReplyIsEditing] = useState<boolean>(false);
+  const [activeReplyId, setActiveReplyId] = useState<string | null>();
 
   const handleComment = () => {
-    setShowHandleCommentModal(!showHandleCommentModal);
+    setShowCommentManageButtons(!showCommentManageButtons);
   };
 
-  return isEditing ? (
-    <CommentEditInput fetchComments={fetchComments} comment={comment} setIsEditing={setIsEditing} />
-  ) : (
+  const handleReply = (replyId: string) => {
+    setActiveReplyId(replyId);
+    setShowReplyManageButtons(true);
+  };
+
+  return (
     <div className={styles.container}>
       <div className={styles.commentContainer}>
-        <div className={styles.userImageWrapper}>
-          <img src={userImage} alt="user-Image" className={styles.userImage} />
-        </div>
+        {isEditing ? null : (
+          <div className={styles.userImageWrapper}>
+            <img src={userImage} alt="user-Image" className={styles.userImage} />
+          </div>
+        )}
         <div className={styles.rightContainer}>
-          <div className={styles.commentDetailWrapper}>
-            <div>{`${userId} · ${dateDiff}`}</div>
-            <div className={styles.commentRightDetailWrapper}>
-              {isUserCommentOwner && <button onClick={handleComment}>···</button>}
-              <CommentManageModal
-                userId={userId}
-                comment={comment}
-                showHandleCommentModal={showHandleCommentModal}
-                setShowHandleCommentModal={setShowHandleCommentModal}
-                setIsEditing={setIsEditing}
-                fetchComments={fetchComments}
-              />
-            </div>
-          </div>
-          <form className={styles.formContainer}>
-            <div className={styles.textareaWrapper}>{userComment}</div>
-          </form>
-          <div className={styles.commentDetailWrapper}>
-            <button
-              onClick={() => {
-                setShowReplyModal(!showReplyModal);
-              }}
-              className={styles.button}
-            >
-              답글
-            </button>
-            <Heart comment={comment} fetchComments={fetchComments} />
-          </div>
+          {isEditing ? (
+            <CommentEditInput
+              fetchComments={fetchComments}
+              comment={comment}
+              setIsEditing={setIsEditing}
+            />
+          ) : (
+            <>
+              <div className={styles.commentDetailWrapper}>
+                <div>{`${userId} · ${dateDiff}`}</div>
+                <div className={styles.commentRightDetailWrapper}>
+                  {isUserCommentOwner && (
+                    <button onClick={handleComment} className={styles.dotButton}>
+                      ···
+                    </button>
+                  )}
+                  <CommentManageButtons
+                    userId={userId}
+                    comment={comment}
+                    showHandleModal={showCommentManageButtons}
+                    setShowHandleModal={setShowCommentManageButtons}
+                    setIsEditing={setIsEditing}
+                    fetchComments={fetchComments}
+                  />
+                </div>
+              </div>
+              <form className={styles.formContainer}>
+                <div className={styles.textareaWrapper}>{userComment}</div>
+              </form>
+              <div className={styles.commentDetailWrapper}>
+                <button
+                  onClick={() => {
+                    setShowReplyModal(!showReplyModal);
+                  }}
+                  className={styles.button}
+                >
+                  답글
+                </button>
+                <Heart comment={comment} fetchComments={fetchComments} />
+              </div>
+            </>
+          )}
+
           <div>
             {showReplyModal && (
               <ReplyInput
@@ -102,8 +111,17 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
 
           {replies.map((reply) => {
             const isReply = commentId === reply.commentId;
+            const test = activeReplyId === reply._id;
             return (
-              isReply && (
+              isReply &&
+              (replyIsEditing && test ? (
+                <ReplyEditInput
+                  key={reply._id}
+                  fetchComments={fetchComments}
+                  reply={reply}
+                  setReplyIsEditing={setReplyIsEditing}
+                />
+              ) : (
                 <div className={styles.commentContainer} key={reply._id}>
                   <div className={styles.userImageWrapper}>
                     <img src={userImage} alt="user-Image" className={styles.userImage} />
@@ -112,13 +130,17 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
                     <div className={styles.commentDetailWrapper}>
                       <div>{`${reply.userId} · ${formatTimeDifference(reply.date)}`}</div>
                       <div className={styles.commentRightDetailWrapper}>
-                        {isUserCommentOwner && <button onClick={handleComment}>···</button>}
-                        <CommentManageModal
+                        {isUserCommentOwner && (
+                          <button onClick={() => handleReply(reply._id)}>···</button>
+                        )}
+                        <ReplyManageButtons
                           userId={userId}
-                          comment={reply}
-                          showHandleCommentModal={showHandleReplyModal}
-                          setShowHandleCommentModal={setShowHandleReplyModal}
-                          setIsEditing={setIsEditing}
+                          reply={reply}
+                          isActive={activeReplyId === reply._id}
+                          showReplyManageButtons={showReplyManageButtons}
+                          setShowReplyManageButtons={setShowReplyManageButtons}
+                          handleReply={() => handleReply(reply._id)}
+                          setReplyIsEditing={setReplyIsEditing}
                           fetchComments={fetchComments}
                         />
                       </div>
@@ -144,7 +166,7 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
                     {/* {대댓글 input 자리} */}
                   </div>
                 </div>
-              )
+              ))
             );
           })}
         </div>
