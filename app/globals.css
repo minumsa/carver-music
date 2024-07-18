@@ -259,3 +259,7 @@ abbr[title] {
     padding: 3px 20px 7px 20px;
   }
 }
+
+.toastui-editor-ww-container {
+  --scrollbar-track-color: var(--text-color);
+}

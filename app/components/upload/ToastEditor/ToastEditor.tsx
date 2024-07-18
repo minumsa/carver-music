@@ -4,6 +4,7 @@ import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-sy
 import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 import { Editor } from "@toast-ui/react-editor";
 import { toast } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
 
 interface ToastEditorProps {
   content: string;
@@ -35,11 +36,14 @@ const ToastEditor = ({ content = "", editorRef }: ToastEditorProps) => {
 
   const uploadImage = async (file: File) => {
     try {
+      const uuid = uuidv4();
+
       const fileNameWithoutExtension = file.name.replace(/\.[^/.]+$/, "");
+      const uniqueFileName = `post/${uuid}`;
 
       const formData = new FormData();
       formData.append("img", file);
-      formData.append("fileName", `post-image-${fileNameWithoutExtension}`);
+      formData.append("fileName", uniqueFileName);
 
       const response = await fetch("/api/aws", {
         method: "POST",
@@ -53,7 +57,7 @@ const ToastEditor = ({ content = "", editorRef }: ToastEditorProps) => {
       const data = await response.json();
       const imageUrl = data.imageUrl;
 
-      return `https://carver-bucket.s3.ap-northeast-2.amazonaws.com/post-image-${fileNameWithoutExtension}`;
+      return `https://carver-bucket.s3.ap-northeast-2.amazonaws.com/${uniqueFileName}`;
       // return imageUrl;
     } catch (error) {
       toast.error("이미지 저장에 실패했습니다.");
@@ -82,13 +86,12 @@ const ToastEditor = ({ content = "", editorRef }: ToastEditorProps) => {
           plugins={[colorSyntax]}
           theme={"dark"} // '' & 'dark'
           hooks={{
-            // Hook to handle image upload
             addImageBlobHook: (blob: Blob, callback) => {
               onUploadImage(blob as any, (imageUrl, fileName) => {
-                const altText = fileName; // Use fileName as alt text
-                callback(imageUrl, altText); // Insert image with URL and alt text
+                const altText = fileName;
+                callback(imageUrl, altText);
               });
-              return false; // Return false to prevent default behavior
+              return false;
             },
           }}
         />
