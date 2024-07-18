@@ -174,4 +174,6 @@ require("dotenv").config();
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
+// 컬러 변수
 export const PRIMARY_COLOR = "#007bff";
+export const DARK_RED_COLOR = "#D21312";

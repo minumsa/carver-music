@@ -43,6 +43,7 @@ export async function GET(request: Request) {
         { text: { $regex: new RegExp(currentKeyword, "i") } },
         { artist: { $regex: new RegExp(currentKeyword, "i") } },
         { album: { $regex: new RegExp(currentKeyword, "i") } },
+        { id: { $regex: new RegExp(currentKeyword, "i") } },
       ],
     })
       .sort(sortKey)

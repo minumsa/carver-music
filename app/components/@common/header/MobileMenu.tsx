@@ -3,9 +3,11 @@ import styles from "./MobileMenu.module.css";
 import Link from "next/link";
 import { toCalendarPage, toGenrePage, toPostPage } from "@/app/modules/paths";
 import { usePathname, useRouter } from "next/navigation";
-import { fetchRandomAlbumId } from "@/app/modules/api";
+import { checkUserLoginStatus, fetchRandomAlbumId, userLogout } from "@/app/modules/api";
 import { isAdminPage } from "@/app/modules/utils";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { userImageAtom, userNameAtom } from "@/app/modules/atoms";
+import { useAtom, useSetAtom } from "jotai";
 
 interface MobileMenuProps {
   showCategory: boolean;
@@ -14,6 +16,8 @@ interface MobileMenuProps {
 export const MobileMenu = ({ showCategory }: MobileMenuProps) => {
   const pathName = usePathname();
   const router = useRouter();
+  const setUserName = useSetAtom(userNameAtom);
+  const [userImage, setUserImage] = useAtom(userImageAtom);
 
   async function handleRandomButton() {
     const randomId = await fetchRandomAlbumId();
@@ -36,8 +40,37 @@ export const MobileMenu = ({ showCategory }: MobileMenuProps) => {
     return () => window.removeEventListener("touchmove", handleTouchMove);
   }, [showCategory]);
 
+  async function handleLogout() {
+    await userLogout();
+    setUserName("방문자");
+    setUserImage("/svgs/ghost.svg");
+  }
+
   return (
     <div className={`${styles.container} ${showCategory ? styles.show : undefined}`}>
+      <div className={styles.categoryContainer}>
+        <div className={styles.categoryWrapper}>
+          {userImage ? (
+            <div className={styles.profileItem}>
+              <li className={styles.categoryItem} onClick={handleLogout}>
+                로그아웃
+              </li>
+              <div className={styles.userImageWrapper}>
+                <img src={userImage} className={styles.userImage} alt="user-image" />
+              </div>
+            </div>
+          ) : (
+            <li
+              className={styles.categoryItem}
+              onClick={() => {
+                router.push("/login");
+              }}
+            >
+              로그인
+            </li>
+          )}
+        </div>
+      </div>
       <div className={styles.categoryContainer}>
         <div>게시판</div>
         <div className={styles.categoryWrapper}>

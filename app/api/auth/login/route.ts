@@ -18,11 +18,9 @@ export async function POST(request: Request) {
   try {
     const { userId, password } = await request.json();
 
-    // MongoDB 연결하기
     const client = await MongoClient.connect(uri);
     const db = client.db();
 
-    // 사용자가 존재하는지 확인하기
     const user = await db.collection("users").findOne({ userId });
 
     if (!user) {
@@ -33,7 +31,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // 비밀번호 확인
     const isValid = await bcrypt.compare(password, user.password);
 
     if (!isValid) {
@@ -76,7 +73,7 @@ export async function GET(request: Request) {
       ?.split("=")[1];
 
     if (!loginToken) {
-      return NextResponse.json({ message: "토큰이 없습니다." }, { status: 401 });
+      return NextResponse.json({ login: false });
     }
 
     // 토큰 검증
@@ -98,7 +95,16 @@ export async function GET(request: Request) {
       return NextResponse.json({ message: "사용자를 찾을 수 없습니다." }, { status: 404 });
     }
 
-    return NextResponse.json({ name: user.name }, { status: 200 });
+    return NextResponse.json(
+      {
+        login: true,
+        userId: user.userId,
+        userName: user.userName,
+        userImage: user.userImage,
+        role: user.role,
+      },
+      { status: 200 },
+    );
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Server Error" }, { status: 500 });

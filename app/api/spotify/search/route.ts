@@ -51,7 +51,7 @@ export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
     const searchKeyword = url.searchParams.get("searchKeyword");
-    const searchUrl = `https://api.spotify.com/v1/search?q=${searchKeyword}&type=album&limit=5`;
+    const searchUrl = `https://api.spotify.com/v1/search?q=${searchKeyword}&type=album&market=KR&locale=ko-KR&limit=5`;
 
     const accessToken = await getToken();
 

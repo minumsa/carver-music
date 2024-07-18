@@ -1,16 +1,13 @@
-import {
-  checkUserLoginStatus,
-  fetchRandomAlbumId,
-  isAdminLoggedIn,
-  userLogout,
-} from "@/app/modules/api";
+import { fetchRandomAlbumId, userLogout } from "@/app/modules/api";
 import { GENRES } from "@/app/modules/constants";
 import { toCalendarPage, toGenrePage, toPostPage } from "@/app/modules/paths";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./DesktopMenu.module.css";
 import { isAdminPage } from "@/app/modules/utils";
 import Link from "next/link";
+import { useAtom, useSetAtom } from "jotai";
+import { userIdAtom, userImageAtom, userNameAtom } from "@/app/modules/atoms";
 
 interface DesktopMenuProps {
   showCategory: boolean;
@@ -20,7 +17,9 @@ export const DesktopMenu = ({ showCategory }: DesktopMenuProps) => {
   const pathName = usePathname();
   const router = useRouter();
   const [hoveredItem, setHoveredItem] = useState<string | null>();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const setUserName = useSetAtom(userNameAtom);
+  const [userImage, setUserImage] = useAtom(userImageAtom);
+  const [userId, setUserId] = useAtom(userIdAtom);
 
   async function handleRandomButton() {
     const randomId = await fetchRandomAlbumId();
@@ -31,21 +30,11 @@ export const DesktopMenu = ({ showCategory }: DesktopMenuProps) => {
     router.push(toCalendarPage(pathName));
   }
 
-  useEffect(() => {
-    async function loginCheck() {
-      try {
-        const response = await checkUserLoginStatus();
-        if (response?.status) setIsLoggedIn(true);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    loginCheck();
-  }, [showCategory]);
-
   async function handleLogout() {
     await userLogout();
+    setUserId("");
+    setUserName("방문자");
+    setUserImage("/svgs/ghost.svg");
   }
 
   return (
@@ -76,10 +65,19 @@ export const DesktopMenu = ({ showCategory }: DesktopMenuProps) => {
             onMouseEnter={() => setHoveredItem("login")}
             onMouseLeave={() => setHoveredItem(null)}
             onClick={() => {
-              isLoggedIn ? handleLogout() : router.push("/login");
+              userId ? handleLogout() : router.push("/login");
             }}
           >
-            {isLoggedIn ? "로그아웃" : "로그인"}
+            {userId ? (
+              <div className={styles.profileItem}>
+                <div>로그아웃</div>
+                <div className={styles.userImageWrapper}>
+                  <img src={userImage} className={styles.userImage} alt="user-image" />
+                </div>
+              </div>
+            ) : (
+              "로그인"
+            )}
           </li>
           {isAdminPage(pathName) && (
             <li
