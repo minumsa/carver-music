@@ -158,6 +158,9 @@ export async function DELETE(request: Request) {
 
     await db.collection("comments").deleteOne({ _id: new ObjectId(commentId) });
 
+    // 해당 댓글의 모든 답글 삭제
+    await db.collection("replies").deleteMany({ commentId: commentId });
+
     return NextResponse.json({ message: "댓글이 성공적으로 삭제되었습니다." });
   } catch (error) {
     console.error(error);
