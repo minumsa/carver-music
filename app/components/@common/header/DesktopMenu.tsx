@@ -79,7 +79,7 @@ export const DesktopMenu = ({ showCategory }: DesktopMenuProps) => {
               "로그인"
             )}
           </li>
-          {isAdminPage(pathName) && (
+          {userId === "carver" && (
             <li
               className={`${styles.categoryItem} ${hoveredItem === "title" ? styles.hovered : ""}`}
               onMouseEnter={() => setHoveredItem("title")}

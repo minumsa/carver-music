@@ -11,7 +11,7 @@ const uri: string = process.env.MONGODB_USERS_URI;
 export async function POST(request: Request) {
   try {
     const { userId, userName, email, password } = await request.json();
-    const userImage = `https://carver-bucket.s3.ap-northeast-2.amazonaws.com/${userId}`;
+    const userImage = `https://carver-bucket.s3.ap-northeast-2.amazonaws.com/user-image-${userId}`;
     const role = "user";
 
     // MongoDB 연결하기

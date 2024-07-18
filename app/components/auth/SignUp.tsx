@@ -41,7 +41,7 @@ export const SignUp = () => {
     try {
       await imgSaveHandler();
       const response = await userSignUp(userId, userName, email, password);
-      if (response?.ok) router.push("/");
+      if (response?.ok) router.push("/login");
     } catch (error) {
       console.error(error, "Failed to sign up process");
     }
@@ -55,7 +55,7 @@ export const SignUp = () => {
 
     const formData = new FormData();
     formData.append("img", watch("userImage")[0]);
-    formData.append("userId", watch("userId"));
+    formData.append("userId", `user-image-${watch("userId")}`);
 
     const response = await fetch("/api/aws", {
       method: "POST",
