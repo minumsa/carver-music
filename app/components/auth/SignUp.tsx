@@ -55,7 +55,7 @@ export const SignUp = () => {
 
     const formData = new FormData();
     formData.append("img", watch("userImage")[0]);
-    formData.append("userId", `user-image-${watch("userId")}`);
+    formData.append("fileName", `user-image-${watch("userId")}`);
 
     const response = await fetch("/api/aws", {
       method: "POST",
