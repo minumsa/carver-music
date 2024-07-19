@@ -1,22 +1,29 @@
 import { useAtomValue } from "jotai";
-import styles from "./CommentInput.module.css";
+import styles from "./ReplyInput.module.css";
 import { userIdAtom, userImageAtom, userNameAtom } from "@/app/modules/atoms";
 import { useForm } from "react-hook-form";
-import { checkUserLoginStatus, postComment, postReply } from "@/app/modules/api";
+import { checkUserLoginStatus, postReply } from "@/app/modules/api";
 import { useState } from "react";
-import { LoginAlert } from "./LoginAlert";
+import { LoginAlert } from "../@common/LoginAlert";
 import { Comment } from "@/app/modules/types";
 
 interface CommentForm {
   userComment: string;
 }
 
-interface CommentInputProps {
+interface ReplyInputProps {
+  comment: Comment;
   albumId: string;
   fetchComments: any;
+  setShowReplyModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const CommentInput = ({ albumId, fetchComments }: CommentInputProps) => {
+export const ReplyInput = ({
+  comment,
+  albumId,
+  fetchComments,
+  setShowReplyModal,
+}: ReplyInputProps) => {
   const currentUserImage = useAtomValue(userImageAtom);
   const { handleSubmit, register, reset, watch } = useForm<CommentForm>({
     defaultValues: {
@@ -25,14 +32,23 @@ export const CommentInput = ({ albumId, fetchComments }: CommentInputProps) => {
   });
   const userId = useAtomValue(userIdAtom);
   const userName = useAtomValue(userNameAtom);
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   const onSubmit = handleSubmit(async (data) => {
     const { userComment } = data;
-    const postCommentParams = { userId, userName, userComment, albumId, date: new Date() };
+    const postReplyParams = {
+      commentId: comment._id,
+      commentUserId: comment.userId,
+      userId,
+      userName,
+      userComment,
+      albumId,
+      date: new Date(),
+    };
     try {
-      await postComment(postCommentParams);
+      await postReply(postReplyParams);
+      setShowReplyModal(false);
       reset();
       await fetchComments();
     } catch (error) {
@@ -43,12 +59,12 @@ export const CommentInput = ({ albumId, fetchComments }: CommentInputProps) => {
   const handleTextareaClick = async () => {
     const response = await checkUserLoginStatus();
     setIsLoggedIn(response.ok);
-    if (!response.ok) setShowModal(true);
+    if (!response.ok) setShowLoginModal(true);
   };
 
   return (
     <>
-      <LoginAlert showModal={showModal} setShowModal={setShowModal} />
+      <LoginAlert showModal={showLoginModal} setShowModal={setShowLoginModal} />
       <div className={styles.container} onSubmit={onSubmit}>
         <div className={styles.commentContainer}>
           <div className={styles.userImageWrapper}>
@@ -59,7 +75,7 @@ export const CommentInput = ({ albumId, fetchComments }: CommentInputProps) => {
               <textarea
                 {...register("userComment")}
                 className={styles.textarea}
-                placeholder="Leave a comment"
+                placeholder="댓글 작성"
                 onClick={handleTextareaClick}
                 value={isLoggedIn ? watch("userComment") : ""}
               />

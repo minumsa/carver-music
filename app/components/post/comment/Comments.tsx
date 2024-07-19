@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { CommentItems } from "./Comment";
-import { CommentInput } from "./CommentInput";
+import { CommentItems } from "./comment/Comment";
+import { CommentInput } from "./comment/CommentInput";
 import styles from "./Comments.module.css";
 import { getComment } from "@/app/modules/api";
 import { Comment, Reply } from "@/app/modules/types";
@@ -13,7 +13,7 @@ export const Comments = ({ albumId }: CommentsProps) => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [replies, setReplies] = useState<Reply[]>([]);
 
-  const fetchComments = async () => {
+  const fetchComments = async (): Promise<void> => {
     const response = await getComment(albumId);
     setComments(response.comments);
     setReplies(response.replies);

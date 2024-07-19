@@ -4,7 +4,7 @@ import { userIdAtom, userImageAtom } from "@/app/modules/atoms";
 import { useForm } from "react-hook-form";
 import { checkUserLoginStatus, editComment } from "@/app/modules/api";
 import { useState } from "react";
-import { LoginAlert } from "./LoginAlert";
+import { LoginAlert } from "../@common/LoginAlert";
 import { Comment } from "@/app/modules/types";
 
 interface CommentForm {
@@ -61,7 +61,7 @@ export const CommentEditInput = ({ fetchComments, setIsEditing, comment }: Comme
               <textarea
                 {...register("userComment")}
                 className={styles.textarea}
-                placeholder="Leave a comment"
+                placeholder="댓글 작성"
                 onClick={handleTextareaClick}
               />
             </div>

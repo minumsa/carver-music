@@ -2,7 +2,7 @@
 
 import { AlbumInfo } from "../../modules/types";
 import styles from "./PostContents.module.css";
-import { PostAlbumMetadata } from "./PostAlbumMetadata";
+import { PostMetadata } from "./PostMetadata";
 import dynamic from "next/dynamic";
 
 interface PostProps {
@@ -18,7 +18,7 @@ export const PostContents = ({ postData }: PostProps) => {
     <>
       {postData && (
         <section className={styles.container}>
-          <PostAlbumMetadata postData={postData} />
+          <PostMetadata postData={postData} />
           <PostTextNoSSR postData={postData} />
         </section>
       )}

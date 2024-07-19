@@ -1,41 +1,38 @@
 import { useAtomValue } from "jotai";
 import styles from "./CommentInput.module.css";
-import { userIdAtom, userImageAtom } from "@/app/modules/atoms";
+import { userIdAtom, userImageAtom, userNameAtom } from "@/app/modules/atoms";
 import { useForm } from "react-hook-form";
-import { checkUserLoginStatus, editReply } from "@/app/modules/api";
+import { checkUserLoginStatus, postComment } from "@/app/modules/api";
 import { useState } from "react";
-import { LoginAlert } from "./LoginAlert";
-import { Reply } from "@/app/modules/types";
+import { LoginAlert } from "../@common/LoginAlert";
 
-interface ReplyForm {
+interface CommentForm {
   userComment: string;
 }
 
-interface ReplyInputProps {
-  fetchComments: any;
-  setReplyIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
-  reply: Reply;
+interface CommentInputProps {
+  albumId: string;
+  fetchComments: () => Promise<void>;
 }
 
-export const ReplyEditInput = ({ fetchComments, setReplyIsEditing, reply }: ReplyInputProps) => {
+export const CommentInput = ({ albumId, fetchComments }: CommentInputProps) => {
   const currentUserImage = useAtomValue(userImageAtom);
-  const { handleSubmit, register, reset } = useForm<ReplyForm>({
+  const { handleSubmit, register, reset, watch } = useForm<CommentForm>({
     defaultValues: {
-      userComment: reply.userComment,
+      userComment: "",
     },
   });
   const userId = useAtomValue(userIdAtom);
+  const userName = useAtomValue(userNameAtom);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   const onSubmit = handleSubmit(async (data) => {
     const { userComment } = data;
-    const commentId = reply._id;
-
-    const commentParams = { commentId, userId, userComment, date: new Date() };
+    const postCommentParams = { userId, userName, userComment, albumId, date: new Date() };
     try {
-      await editReply(commentParams);
+      await postComment(postCommentParams);
       reset();
-      setReplyIsEditing(false);
       await fetchComments();
     } catch (error) {
       console.error(error, "Failed to sign up process");
@@ -44,8 +41,8 @@ export const ReplyEditInput = ({ fetchComments, setReplyIsEditing, reply }: Repl
 
   const handleTextareaClick = async () => {
     const response = await checkUserLoginStatus();
-    const isLoggedIn = response.ok;
-    if (!isLoggedIn) setShowModal(true);
+    setIsLoggedIn(response.ok);
+    if (!response.ok) setShowModal(true);
   };
 
   return (
@@ -61,24 +58,14 @@ export const ReplyEditInput = ({ fetchComments, setReplyIsEditing, reply }: Repl
               <textarea
                 {...register("userComment")}
                 className={styles.textarea}
-                placeholder="Leave a comment"
+                placeholder="댓글 작성"
                 onClick={handleTextareaClick}
+                value={isLoggedIn ? watch("userComment") : ""}
               />
             </div>
-            <div className={styles.buttonWrapper}>
-              <button
-                className={styles.button}
-                onClick={() => {
-                  setReplyIsEditing(false);
-                }}
-                style={{ marginRight: "-1px" }}
-              >
-                취소
-              </button>
-              <button className={styles.button} onClick={onSubmit}>
-                수정
-              </button>
-            </div>
+            <button className={styles.button} onClick={onSubmit}>
+              제출하기
+            </button>
           </form>
         </div>
       </div>

@@ -1,23 +1,28 @@
 .container {
   display: flex;
+  flex-direction: column;
 }
 
 .commentContainer {
   display: flex;
-  width: 100%;
-  margin: 10px 0 13px 0;
+  max-width: 100%;
   column-gap: 15px;
-  box-sizing: border-box;
+  padding: 10px;
 }
 
 .replyBackground {
+  display: flex;
+  column-gap: 15px;
+  width: 100%;
   background-color: var(--reply-container-color);
   padding: 20px;
+  margin-left: 60px;
+  box-sizing: border-box;
 }
 
 .userImageWrapper {
-  min-width: 44px;
-  height: 44px;
+  min-width: 45px;
+  height: 45px;
   overflow: hidden;
   border-radius: 50%;
 }
@@ -36,7 +41,7 @@
   align-items: flex-end;
   width: 100%;
   background-color: var(--input-background-color);
-  border: 1px solid var(--second-text-color);
+  border: 1px solid var(--text-color);
   padding: 10px 15px;
   box-sizing: border-box;
   row-gap: 10px;
@@ -59,7 +64,7 @@
   line-height: 100%;
 }
 
-.replyHeartWrapper {
+.likeReplyWrapper {
   justify-content: flex-end;
 }
 
@@ -84,6 +89,8 @@
   font-size: 0.95rem;
   color: var(--third-text-color);
   line-height: 100%;
+  padding: 0 10px;
+  box-sizing: border-box;
 }
 
 .commentRightDetailWrapper {

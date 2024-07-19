@@ -1,5 +1,5 @@
-import { deleteComment, deleteReply } from "@/app/modules/api";
-import styles from "./CommentManageButtons.module.css";
+import { deleteReply } from "@/app/modules/api";
+import styles from "../@common/ManageButtons.module.css";
 import { Comment } from "@/app/modules/types";
 
 interface ReplyManageModalProps {
@@ -34,7 +34,7 @@ export const ReplyManageButtons = ({
   return (
     isActive &&
     showReplyManageButtons && (
-      <div className={styles.buttonContainer}>
+      <div className={styles.container}>
         <button
           className={styles.button}
           style={{ marginBottom: "-1px" }}

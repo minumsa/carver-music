@@ -985,16 +985,16 @@ export async function getComment(albumId: string) {
   }
 }
 
-interface toggleCommentLikeParams {
+interface LikeCommentToggleParams {
   commentId: string;
   userId: string;
   likedUserIds: string[];
 }
 
-export async function toggleCommentLike(toggleLikeParams: toggleCommentLikeParams) {
+export async function likeCommentToggle(likeCommentToggleParams: LikeCommentToggleParams) {
   try {
     const url = `${BASE_URL}/api/auth/comment/like`;
-    const { commentId, userId, likedUserIds } = toggleLikeParams;
+    const { commentId, userId, likedUserIds } = likeCommentToggleParams;
 
     const response = await fetch(url, {
       method: "PUT",
@@ -1018,16 +1018,16 @@ export async function toggleCommentLike(toggleLikeParams: toggleCommentLikeParam
   }
 }
 
-interface toggleReplyLikeParams {
+interface LikeReplyToggleParams {
   replyId: string;
   userId: string;
   likedUserIds: string[];
 }
 
-export async function toggleReplyLike(toggleLikeParams: toggleReplyLikeParams) {
+export async function likeReplyToggle(likeReplyToggleParams: LikeReplyToggleParams) {
   try {
     const url = `${BASE_URL}/api/auth/comment/reply/like`;
-    const { replyId, userId, likedUserIds } = toggleLikeParams;
+    const { replyId, userId, likedUserIds } = likeReplyToggleParams;
 
     const response = await fetch(url, {
       method: "PUT",

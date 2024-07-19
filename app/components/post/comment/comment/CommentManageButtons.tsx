@@ -1,5 +1,5 @@
 import { deleteComment } from "@/app/modules/api";
-import styles from "./CommentManageButtons.module.css";
+import styles from "../@common/ManageButtons.module.css";
 import { Comment } from "@/app/modules/types";
 
 interface CommentManageModalProps {
@@ -28,7 +28,7 @@ export const CommentManageButtons = ({
 
   return (
     showHandleModal && (
-      <div className={styles.buttonContainer}>
+      <div className={styles.container}>
         <button
           className={styles.button}
           style={{ marginBottom: "-1px" }}
