@@ -6,7 +6,7 @@ import { AlbumInfo } from "../../modules/types";
 import { DEFAULT_TAGS, GENRES } from "@/app/modules/constants";
 import Markdown from "react-markdown";
 import { toGenrePage } from "@/app/modules/paths";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Comments } from "./comment/Comments";
 
 interface PostTextProps {
@@ -18,21 +18,28 @@ export const PostText = ({ postData }: PostTextProps) => {
   const { id, title, text, tagKeys, uploadDate, markdown, genre } = postData;
   const paragraphs = text.split("\n");
   const genreTag = `#${GENRES[genre]}`;
-  const [isShortTag, setIsShortTag] = useState(false);
-  const shortTextStyle = isShortTag ? { padding: "10px 0 30px 30px" } : undefined;
+  const [hasNoScroll, setHasNoScroll] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const checkScroll = () => {
+    if (containerRef.current) {
+      const hasNoScroll = containerRef.current.scrollHeight <= containerRef.current.clientHeight;
+      setHasNoScroll(hasNoScroll);
+    }
+  };
 
   useEffect(() => {
-    if (window.innerWidth > 800) {
-      if (markdown) {
-        if (markdown.length < 400) setIsShortTag(true);
-      } else {
-        if (text.length < 400) setIsShortTag(true);
-      }
-    }
-  }, [markdown, text]);
+    checkScroll();
+    window.addEventListener("resize", checkScroll);
+    return () => {
+      window.removeEventListener("resize", checkScroll);
+    };
+  }, []);
+
+  const noScrollStyle = hasNoScroll ? { padding: "10px 0 30px 30px" } : undefined;
 
   return (
-    <article className={styles.container} style={shortTextStyle}>
+    <article className={styles.container} style={noScrollStyle} ref={containerRef}>
       {title && <h1 className={styles.title}>{title}</h1>}
       {markdown ? (
         <div className={styles.viewerWrapper}>
