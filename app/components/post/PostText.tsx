@@ -22,9 +22,13 @@ export const PostText = ({ postData }: PostTextProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const checkScroll = () => {
-    if (containerRef.current) {
-      const hasNoScroll = containerRef.current.scrollHeight <= containerRef.current.clientHeight;
-      setHasNoScroll(hasNoScroll);
+    if (window.innerWidth > 800) {
+      if (containerRef.current) {
+        const hasNoScroll = containerRef.current.scrollHeight <= containerRef.current.clientHeight;
+        setHasNoScroll(hasNoScroll);
+      }
+    } else {
+      setHasNoScroll(false);
     }
   };
 

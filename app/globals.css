@@ -81,6 +81,10 @@ textarea {
   font-family: "Lato", "Pretendard Variable", Pretendard, sans-serif;
 }
 
+textarea {
+  border-radius: 0;
+}
+
 /* Selection Styles */
 p::selection,
 div::selection,
