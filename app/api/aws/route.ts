@@ -17,13 +17,13 @@ export async function POST(request: Request) {
   try {
     const formData = await request.formData();
     const files = formData.getAll("img") as File[];
-    const userId = formData.get("userId") as string;
+    const fileName = formData.get("fileName") as string;
     const Body = (await files[0].arrayBuffer()) as Buffer;
 
     s3.send(
       new PutObjectCommand({
         Bucket,
-        Key: userId, // 저장시 넣고 싶은 파일 이름
+        Key: fileName, // 저장시 넣고 싶은 파일 이름
         Body,
         ContentType: "image/jpg",
       }),
