@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { LoginAlert } from "../@common/LoginAlert";
 import { postComment } from "@/app/modules/api/comment";
-import { checkUserLoginStatus } from "@/app/modules/api/auth";
+import { verifyLoginStatus } from "@/app/modules/api/auth";
 
 interface CommentForm {
   userComment: string;
@@ -36,12 +36,12 @@ export const CommentInput = ({ albumId, fetchComments }: CommentInputProps) => {
       reset();
       await fetchComments();
     } catch (error) {
-      console.error(error, "Failed to sign up process");
+      console.error(error, "Failed to post comments");
     }
   });
 
-  const handleTextareaClick = async () => {
-    const response = await checkUserLoginStatus();
+  const verifyLogin = async () => {
+    const response = await verifyLoginStatus();
     setIsLoggedIn(response.ok);
     if (!response.ok) setShowModal(true);
   };
@@ -52,7 +52,7 @@ export const CommentInput = ({ albumId, fetchComments }: CommentInputProps) => {
       <div className={styles.container} onSubmit={onSubmit}>
         <div className={styles.commentContainer}>
           <div className={styles.userImageWrapper}>
-            <img src={currentUserImage} alt="user-Image" className={styles.userImage} />
+            <img src={currentUserImage} alt="user-image" className={styles.userImage} />
           </div>
           <form className={styles.formContainer}>
             <div className={styles.textareaWrapper}>
@@ -60,7 +60,7 @@ export const CommentInput = ({ albumId, fetchComments }: CommentInputProps) => {
                 {...register("userComment")}
                 className={styles.textarea}
                 placeholder="댓글 작성"
-                onClick={handleTextareaClick}
+                onClick={verifyLogin}
                 value={isLoggedIn ? watch("userComment") : ""}
               />
             </div>

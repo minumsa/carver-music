@@ -147,8 +147,7 @@ export async function isAdminLoggedIn(request: Request): Promise<boolean> {
   }
 }
 
-// TODO: 추후 삭제 예정
-export async function checkUserLoginStatus() {
+export async function verifyLoginStatus() {
   try {
     const url = `${BASE_URL}/api/auth/checkLogin`;
 

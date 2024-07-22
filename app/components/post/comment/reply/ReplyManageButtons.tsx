@@ -10,7 +10,7 @@ interface ReplyManageModalProps {
   setShowReplyManageButtons: React.Dispatch<React.SetStateAction<boolean>>;
   handleReply: React.Dispatch<React.SetStateAction<string>>;
   setReplyIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
-  fetchComments: any;
+  fetchComments: () => Promise<void>;
 }
 
 export const ReplyManageButtons = ({

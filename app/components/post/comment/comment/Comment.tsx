@@ -5,35 +5,34 @@ import { Comment, Reply } from "@/app/modules/types";
 import React, { useState } from "react";
 import { CommentEditInput } from "./CommentEditInput";
 import { CommentManageButtons } from "./CommentManageButtons";
-import { LikeComment } from "../like/LikeComment";
+import { LikeCommentButton } from "../like/LikeCommentButton";
 import { ReplyInput } from "../reply/ReplyInput";
 import { ReplyManageButtons } from "../reply/ReplyManageButtons";
-import { ReplyEditInput } from "../reply/ReplyEditInput";
+import { ReplyEditingInput } from "../reply/ReplyEditInput";
 import { formatTimeDifference } from "@/app/modules/utils";
-import { LikeReply } from "../like/LikeReply";
-
-// FIXME: any 타입 모두 올바르게 지정
-// FIXME: userId 말고 userName 표시
-// FIXME: 코드 정리
+import { LikeReplyButton } from "../like/LikeReplyButton";
 
 interface CommentItemProps {
   comment: Comment;
   replies: Reply[];
   albumId: string;
-  fetchComments: any;
+  fetchComments: () => Promise<void>;
 }
 
+// 댓글 - comment, 답글 - reply
 export const CommentItem = ({ comment, replies, albumId, fetchComments }: CommentItemProps) => {
   const { userId, userName, userComment, date, userImage } = comment;
   const dateDiff = formatTimeDifference(date);
   const [showCommentManageButtons, setShowCommentManageButtons] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const currentUserId = useAtomValue(userIdAtom);
+  const activeUserId = useAtomValue(userIdAtom);
   const commentId = comment._id;
   const [showReplyManageButtons, setShowReplyManageButtons] = useState<boolean>(false);
-  const [showReplyModal, setShowReplyModal] = useState<boolean>(false);
-  const [replyIsEditing, setReplyIsEditing] = useState<boolean>(false);
+  const [showReplyInput, setShowReplyInput] = useState<boolean>(false);
+  const [showReplyEditingInput, setShowReplyEditingInput] = useState<boolean>(false);
   const [activeReplyId, setActiveReplyId] = useState<string | null>();
+  const commentHeaderLabel = `${userName} · ${dateDiff}`;
+  const isUserCommentOwner = activeUserId === comment.userId;
 
   const handleComment = () => {
     setShowCommentManageButtons(!showCommentManageButtons);
@@ -55,13 +54,13 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
       ) : (
         <div className={styles.commentContainer}>
           <div className={styles.userImageWrapper}>
-            <img src={userImage} alt="user-Image" className={styles.userImage} />
+            <img src={userImage} alt="user-image" className={styles.userImage} />
           </div>
           <div className={styles.rightContainer}>
             <div className={styles.detailWrapper}>
-              <div>{`${userName} · ${dateDiff}`}</div>
+              <p>{commentHeaderLabel}</p>
               <div className={styles.commentRightDetailWrapper}>
-                {currentUserId === comment.userId && (
+                {isUserCommentOwner && (
                   <button onClick={handleComment} className={styles.dotButton}>
                     ···
                   </button>
@@ -77,55 +76,57 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
               </div>
             </div>
             <form className={styles.formContainer}>
-              <div className={styles.textareaWrapper}>{userComment}</div>
+              <p className={styles.textareaWrapper}>{userComment}</p>
             </form>
             <div className={styles.detailWrapper}>
               <button
                 onClick={() => {
-                  setShowReplyModal(!showReplyModal);
+                  setShowReplyInput(!showReplyInput);
                 }}
                 className={styles.button}
               >
                 답글
               </button>
-              <LikeComment comment={comment} fetchComments={fetchComments} />
+              <LikeCommentButton comment={comment} fetchComments={fetchComments} />
             </div>
           </div>
         </div>
       )}
 
-      {showReplyModal && (
+      {showReplyInput && (
         <ReplyInput
           comment={comment}
           albumId={albumId}
           fetchComments={fetchComments}
-          setShowReplyModal={setShowReplyModal}
+          setShowReplyInput={setShowReplyInput}
         />
       )}
 
       {replies.map((reply) => {
         const isReply = commentId === reply.commentId;
-        const test = activeReplyId === reply._id;
+        const isActiveReply = activeReplyId === reply._id;
+        const replyDetails = `${reply.userName} · ${formatTimeDifference(reply.date)}`;
+        const isUserReplyOwner = activeUserId === reply.userId;
         return (
           isReply &&
-          (replyIsEditing && test ? (
-            <ReplyEditInput
+          (isActiveReply && showReplyEditingInput ? (
+            <ReplyEditingInput
               key={reply._id}
               fetchComments={fetchComments}
               reply={reply}
-              setReplyIsEditing={setReplyIsEditing}
+              setShowReplyEditingInput={setShowReplyEditingInput}
             />
           ) : (
             <div className={styles.commentContainer} key={reply._id}>
               <div className={styles.replyBackground}>
                 <div className={styles.userImageWrapper}>
-                  <img src={reply.userImage} alt="user-Image" className={styles.userImage} />
+                  <img src={reply.userImage} alt="user-image" className={styles.userImage} />
                 </div>
                 <div className={styles.replyContainer}>
                   <div className={styles.detailWrapper}>
-                    <div>{`${reply.userName} · ${formatTimeDifference(reply.date)}`}</div>
+                    <p>{replyDetails}</p>
                     <div className={styles.commentRightDetailWrapper}>
-                      {currentUserId === reply.userId && (
+                      {isUserReplyOwner && (
                         <button onClick={() => handleReply(reply._id)}>···</button>
                       )}
                       <ReplyManageButtons
@@ -135,19 +136,19 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
                         showReplyManageButtons={showReplyManageButtons}
                         setShowReplyManageButtons={setShowReplyManageButtons}
                         handleReply={() => handleReply(reply._id)}
-                        setReplyIsEditing={setReplyIsEditing}
+                        setReplyIsEditing={setShowReplyEditingInput}
                         fetchComments={fetchComments}
                       />
                     </div>
                   </div>
                   <form className={styles.formContainer}>
-                    <div className={styles.textareaWrapper}>
+                    <p className={styles.textareaWrapper}>
                       <span className={styles.commentUserId}>@{comment.userName}</span>
                       <span>{reply.userComment}</span>
-                    </div>
+                    </p>
                   </form>
                   <div className={`${styles.detailWrapper} ${styles.likeReplyWrapper}`}>
-                    <LikeReply reply={reply} fetchComments={fetchComments} />
+                    <LikeReplyButton reply={reply} fetchComments={fetchComments} />
                   </div>
                 </div>
               </div>
@@ -166,13 +167,14 @@ interface CommentResultProps {
   fetchComments: () => Promise<void>;
 }
 
-export const CommentItems = ({ comments, replies, albumId, fetchComments }: CommentResultProps) => {
+export const CommentList = ({ comments, replies, albumId, fetchComments }: CommentResultProps) => {
   const commentsCount = comments?.length;
   const repliescount = replies?.length;
+  const commentSummaryCount = `댓글 ${commentsCount + repliescount}`;
 
   return comments ? (
     <>
-      <div className={styles.commentCount}>{`댓글 ${commentsCount + repliescount}`}</div>
+      <p className={styles.commentCount}>{commentSummaryCount}</p>
       {comments.map((comment: Comment) => {
         return (
           <CommentItem

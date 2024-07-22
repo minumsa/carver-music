@@ -230,23 +230,23 @@ export async function getComment(albumId: string) {
   }
 }
 
-interface LikeCommentToggleParams {
-  commentId: string;
+interface LikeToggleParams {
+  entityIdKey: string;
   userId: string;
   likedUserIds: string[];
 }
 
-export async function likeCommentToggle(likeCommentToggleParams: LikeCommentToggleParams) {
+export async function likeCommentToggle(likeCommentToggleParams: LikeToggleParams) {
   try {
     const url = `${BASE_URL}/api/auth/comment/like`;
-    const { commentId, userId, likedUserIds } = likeCommentToggleParams;
+    const { entityIdKey, userId, likedUserIds } = likeCommentToggleParams;
 
     const response = await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ commentId, userId, likedUserIds }),
+      body: JSON.stringify({ commentId: entityIdKey, userId, likedUserIds }),
     });
 
     if (response.status === 403) {
@@ -263,23 +263,17 @@ export async function likeCommentToggle(likeCommentToggleParams: LikeCommentTogg
   }
 }
 
-interface LikeReplyToggleParams {
-  replyId: string;
-  userId: string;
-  likedUserIds: string[];
-}
-
-export async function likeReplyToggle(likeReplyToggleParams: LikeReplyToggleParams) {
+export async function likeReplyToggle(likeReplyToggleParams: LikeToggleParams) {
   try {
     const url = `${BASE_URL}/api/auth/comment/reply/like`;
-    const { replyId, userId, likedUserIds } = likeReplyToggleParams;
+    const { entityIdKey, userId, likedUserIds } = likeReplyToggleParams;
 
     const response = await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ replyId, userId, likedUserIds }),
+      body: JSON.stringify({ replyId: entityIdKey, userId, likedUserIds }),
     });
 
     if (response.status === 403) {

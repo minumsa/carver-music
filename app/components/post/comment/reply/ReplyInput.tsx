@@ -6,7 +6,8 @@ import { useState } from "react";
 import { LoginAlert } from "../@common/LoginAlert";
 import { Comment } from "@/app/modules/types";
 import { postReply } from "@/app/modules/api/comment";
-import { checkUserLoginStatus } from "@/app/modules/api/auth";
+import { verifyLoginStatus } from "@/app/modules/api/auth";
+import { toast } from "react-toastify";
 
 interface CommentForm {
   userComment: string;
@@ -15,15 +16,15 @@ interface CommentForm {
 interface ReplyInputProps {
   comment: Comment;
   albumId: string;
-  fetchComments: any;
-  setShowReplyModal: React.Dispatch<React.SetStateAction<boolean>>;
+  fetchComments: () => Promise<void>;
+  setShowReplyInput: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const ReplyInput = ({
   comment,
   albumId,
   fetchComments,
-  setShowReplyModal,
+  setShowReplyInput,
 }: ReplyInputProps) => {
   const currentUserImage = useAtomValue(userImageAtom);
   const { handleSubmit, register, reset, watch } = useForm<CommentForm>({
@@ -49,16 +50,16 @@ export const ReplyInput = ({
     };
     try {
       await postReply(postReplyParams);
-      setShowReplyModal(false);
+      setShowReplyInput(false);
       reset();
       await fetchComments();
     } catch (error) {
-      console.error(error, "Failed to sign up process");
+      toast.error("답글을 제출하는 데 실패했습니다.");
     }
   });
 
   const handleTextareaClick = async () => {
-    const response = await checkUserLoginStatus();
+    const response = await verifyLoginStatus();
     setIsLoggedIn(response.ok);
     if (!response.ok) setShowLoginModal(true);
   };
@@ -69,7 +70,7 @@ export const ReplyInput = ({
       <div className={styles.container} onSubmit={onSubmit}>
         <div className={styles.commentContainer}>
           <div className={styles.userImageWrapper}>
-            <img src={currentUserImage} alt="user-Image" className={styles.userImage} />
+            <img src={currentUserImage} alt="user-image" className={styles.userImage} />
           </div>
           <form className={styles.formContainer}>
             <div className={styles.textareaWrapper}>

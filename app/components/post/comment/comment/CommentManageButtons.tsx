@@ -8,7 +8,7 @@ interface CommentManageModalProps {
   showHandleModal: boolean;
   setShowHandleModal: React.Dispatch<React.SetStateAction<boolean>>;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
-  fetchComments: any;
+  fetchComments: () => Promise<void>;
 }
 
 export const CommentManageButtons = ({

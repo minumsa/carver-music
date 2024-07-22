@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CommentItems } from "./comment/Comment";
+import { CommentList } from "./comment/Comment";
 import { CommentInput } from "./comment/CommentInput";
 import styles from "./Comments.module.css";
 import { Comment, Reply } from "@/app/modules/types";
@@ -26,7 +26,7 @@ export const Comments = ({ albumId }: CommentsProps) => {
 
   return (
     <div className={styles.container}>
-      <CommentItems
+      <CommentList
         albumId={albumId}
         fetchComments={fetchComments}
         comments={comments}

@@ -6,14 +6,14 @@ import { useState } from "react";
 import { LoginAlert } from "../@common/LoginAlert";
 import { Comment } from "@/app/modules/types";
 import { editComment } from "@/app/modules/api/comment";
-import { checkUserLoginStatus } from "@/app/modules/api/auth";
+import { verifyLoginStatus } from "@/app/modules/api/auth";
 
 interface CommentForm {
   userComment: string;
 }
 
 interface CommentInputProps {
-  fetchComments: any;
+  fetchComments: () => Promise<void>;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
   comment: Comment;
 }
@@ -44,7 +44,7 @@ export const CommentEditInput = ({ fetchComments, setIsEditing, comment }: Comme
   });
 
   const handleTextareaClick = async () => {
-    const response = await checkUserLoginStatus();
+    const response = await verifyLoginStatus();
     const isLoggedIn = response.ok;
     if (!isLoggedIn) setShowModal(true);
   };
@@ -55,7 +55,7 @@ export const CommentEditInput = ({ fetchComments, setIsEditing, comment }: Comme
       <div className={styles.container} onSubmit={onSubmit}>
         <div className={styles.commentContainer}>
           <div className={styles.userImageWrapper}>
-            <img src={currentUserImage} alt="user-Image" className={styles.userImage} />
+            <img src={currentUserImage} alt="user-image" className={styles.userImage} />
           </div>
           <form className={styles.formContainer}>
             <div className={styles.textareaWrapper}>

@@ -6,7 +6,7 @@ import { useState } from "react";
 import { LoginAlert } from "../@common/LoginAlert";
 import { Reply } from "@/app/modules/types";
 import { editReply } from "@/app/modules/api/comment";
-import { checkUserLoginStatus } from "@/app/modules/api/auth";
+import { verifyLoginStatus } from "@/app/modules/api/auth";
 
 interface ReplyForm {
   userComment: string;
@@ -14,11 +14,15 @@ interface ReplyForm {
 
 interface ReplyInputProps {
   fetchComments: any;
-  setReplyIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowReplyEditingInput: React.Dispatch<React.SetStateAction<boolean>>;
   reply: Reply;
 }
 
-export const ReplyEditInput = ({ fetchComments, setReplyIsEditing, reply }: ReplyInputProps) => {
+export const ReplyEditingInput = ({
+  fetchComments,
+  setShowReplyEditingInput,
+  reply,
+}: ReplyInputProps) => {
   const currentUserImage = useAtomValue(userImageAtom);
   const { handleSubmit, register, reset } = useForm<ReplyForm>({
     defaultValues: {
@@ -36,7 +40,7 @@ export const ReplyEditInput = ({ fetchComments, setReplyIsEditing, reply }: Repl
     try {
       await editReply(commentParams);
       reset();
-      setReplyIsEditing(false);
+      setShowReplyEditingInput(false);
       await fetchComments();
     } catch (error) {
       console.error(error, "Failed to sign up process");
@@ -44,7 +48,7 @@ export const ReplyEditInput = ({ fetchComments, setReplyIsEditing, reply }: Repl
   });
 
   const handleTextareaClick = async () => {
-    const response = await checkUserLoginStatus();
+    const response = await verifyLoginStatus();
     const isLoggedIn = response.ok;
     if (!isLoggedIn) setShowModal(true);
   };
@@ -55,7 +59,7 @@ export const ReplyEditInput = ({ fetchComments, setReplyIsEditing, reply }: Repl
       <div className={styles.container} onSubmit={onSubmit}>
         <div className={styles.commentContainer}>
           <div className={styles.userImageWrapper}>
-            <img src={currentUserImage} alt="user-Image" className={styles.userImage} />
+            <img src={currentUserImage} alt="user-image" className={styles.userImage} />
           </div>
           <form className={styles.formContainer}>
             <div className={styles.textareaWrapper}>
@@ -70,7 +74,7 @@ export const ReplyEditInput = ({ fetchComments, setReplyIsEditing, reply }: Repl
               <button
                 className={styles.button}
                 onClick={() => {
-                  setReplyIsEditing(false);
+                  setShowReplyEditingInput(false);
                 }}
                 style={{ marginRight: "-1px" }}
               >

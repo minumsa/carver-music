@@ -13,9 +13,9 @@ export const LoginAlert = ({ showModal, setShowModal }: LoginAlertProps) => {
     showModal && (
       <div className={styles.dimWrapper}>
         <div className={styles.container}>
-          <div className={styles.text}>로그인 후 댓글 기능을 사용할 수 있습니다.</div>
+          <p className={styles.text}>로그인 후 댓글 기능을 사용할 수 있습니다.</p>
           <div className={styles.buttonContainer}>
-            <div
+            <button
               className={styles.button}
               style={{ marginRight: "-1px" }}
               onClick={() => {
@@ -23,15 +23,15 @@ export const LoginAlert = ({ showModal, setShowModal }: LoginAlertProps) => {
               }}
             >
               취소
-            </div>
-            <div
+            </button>
+            <button
               className={styles.button}
               onClick={() => {
                 router.push("/login");
               }}
             >
               로그인
-            </div>
+            </button>
           </div>
         </div>
       </div>
