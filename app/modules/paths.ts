@@ -1,7 +1,6 @@
 import { isAdminPage } from "./utils";
 
 // FIXME: /admin 인지 /인지 판단해서 처리해주는 함수 만들기 => 코드 줄이기
-
 export const toPostPage = (pathName: string, albumId: string) =>
   isAdminPage(pathName) ? `/admin/post/${albumId}` : `/post/${albumId}`;
 

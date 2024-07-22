@@ -492,7 +492,7 @@ export async function fetchCalendarDataSSR(year: number, month: number) {
   }
 }
 
-export async function fetchCalendarDataCSR(currentDate: any) {
+export async function fetchCalendarDataCSR(currentDate: Date) {
   try {
     const { year, month } = getYearMonthFromDate(currentDate);
     const queryString = `?year=${year}&month=${month}`;

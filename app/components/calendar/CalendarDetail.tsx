@@ -72,6 +72,7 @@ export const CalendarDetail = ({ calendarData, day }: CalendarDetailProps) => {
       <h3 className={styles.month}>{month}월</h3>
       {sortedDates.map((date) => {
         const dataCountByDate = groupedCalendarDataByDate[date].length;
+        const totalCalendarDataByMonth = `${dataCountByDate}개`;
         const dayFromDate = new Date(date).getDate();
         const isClickedDay = day === dayFromDate;
         return (
@@ -80,14 +81,14 @@ export const CalendarDetail = ({ calendarData, day }: CalendarDetailProps) => {
             className={styles.dateGroupContainer}
             ref={isClickedDay ? clickedDayRef : null}
           >
-            <div className={styles.dateGroupTitle}>
-              <div
+            <div className={styles.dateHeaderWrapper}>
+              <p
                 className={styles.dateToNumber}
                 style={{ color: isClickedDay ? PRIMARY_COLOR : undefined }}
               >
                 {dayFromDate}
-              </div>
-              <div className={styles.dataCountByDate}>{`${dataCountByDate}개`}</div>
+              </p>
+              <p className={styles.dataCountByDate}>{totalCalendarDataByMonth}</p>
             </div>
             <div className={styles.dateGroup}>
               {groupedCalendarDataByDate[date].map((calendarData) => {
@@ -119,7 +120,7 @@ export const CalendarDetail = ({ calendarData, day }: CalendarDetailProps) => {
                     >
                       {album}
                     </button>
-                    {/* FIXME: 별 이미지 svg로 교체 */}
+                    {/* FIXME: 별 이미지 svg 파일로 교체 */}
                     <div className={styles.starContainer}>
                       <img
                         className={styles.coloredStar}

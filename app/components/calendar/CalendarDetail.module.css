@@ -31,7 +31,7 @@
   column-gap: 30px;
 }
 
-.dateGroupTitle {
+.dateHeaderWrapper {
   display: flex;
   flex-direction: column;
   min-width: 150px;
@@ -110,7 +110,7 @@
     column-gap: 0;
   }
 
-  .dateGroupTitle {
+  .dateHeaderWrapper {
     display: flex;
     flex-direction: column;
     min-width: 55px;

@@ -87,10 +87,7 @@ export async function GET(request: Request) {
     const usersClient = await MongoClient.connect(usersUri);
     const usersDb = usersClient.db();
 
-    // 유저 이미지를 추가하기 위한 userId 목록 생성
     const commentUserIds = comments.map((comment) => comment.userId);
-
-    // 댓글 ID 목록 생성
     const commentIds = comments.map((comment) => comment._id.toString());
 
     const replies = await db

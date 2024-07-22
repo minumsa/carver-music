@@ -58,7 +58,7 @@ export const AlbumPanel = ({ albumData }: AlbumProps) => {
                     <h2 className={styles.albumTitle}>{album}</h2>
                   </Link>
                   {/* 별점 */}
-                  {/* FIXME: star-color.webp => svg 파일로 변경하기 */}
+                  {/* FIXME: 별 이미지 svg 파일로 교체 */}
                   <div className={styles.starContainer}>
                     <img
                       className={styles.coloredStar}

@@ -9,7 +9,6 @@ import { CalendarData } from "@/app/modules/types";
 import { useAtom } from "jotai";
 import { currentCalendarDataAtom, currentDateAtom } from "@/app/modules/atoms";
 import { toCalendarDetailPage } from "@/app/modules/paths";
-import { LoadingIcon } from "../landingPage/LoadingIcon";
 import SpinningCircles from "react-loading-icons/dist/esm/components/spinning-circles";
 // import "react-calendar/dist/Calendar.css";
 
@@ -74,28 +73,18 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
     return "";
   };
 
-  const getCaldendarData = async (activeStartDate: any) => {
+  const getCaldendarData = async (activeStartDate: Date | null) => {
     try {
       setIsLoading(true);
-      const response = await fetchCalendarDataCSR(activeStartDate);
-      setCurrentCalendarData(response);
+      if (activeStartDate) {
+        const response = await fetchCalendarDataCSR(activeStartDate);
+        setCurrentCalendarData(response);
+      }
     } catch (error) {
       console.error("Failed to fetch calendar data");
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const goToToday = async () => {
-    setCurrentDate(today);
-    getCaldendarData(today);
-  };
-
-  const tileDisabled = ({ date, view }: { date: Date; view: string }) => {
-    if (view === "month") {
-      return date.getMonth() !== currentDate.getMonth();
-    }
-    return false;
   };
 
   return (
@@ -109,9 +98,6 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
         tileClassName={tileClassName}
         onActiveStartDateChange={({ activeStartDate }) => getCaldendarData(activeStartDate)}
         minDetail={"month"}
-        // navigationLabel={renderCustomNavigation}
-        // tileDisabled={tileDisabled}
-        // activeStartDate={activeStartDate}
       />
     </div>
   );

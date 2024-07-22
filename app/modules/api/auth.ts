@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import { validateEmail, validatePassword, validateUserId, validateUserName } from "../utils";
-import { verify } from "jsonwebtoken";
+import { JwtPayload, verify } from "jsonwebtoken";
 import { BASE_URL } from "../constants/apiUrls";
 
 export async function userSignUp(

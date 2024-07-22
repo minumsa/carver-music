@@ -13,7 +13,7 @@ interface ReplyForm {
 }
 
 interface ReplyInputProps {
-  fetchComments: any;
+  fetchComments: () => Promise<void>;
   setShowReplyEditingInput: React.Dispatch<React.SetStateAction<boolean>>;
   reply: Reply;
 }

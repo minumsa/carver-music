@@ -328,7 +328,6 @@ export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
         <ToastEditorNoSSR content={getValues("markdown") ?? ""} editorRef={editorRef} />
       </div>
 
-      {/* FIXME: setValues props 타입 최대한 적절하게 변경 */}
       {/* 태그 */}
       <TagsEditor
         currentTagKeys={watch("currentTagKeys").flat()}
