@@ -3,11 +3,12 @@ import styles from "./PostText.module.css";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { AlbumInfo } from "../../modules/types";
-import { DEFAULT_TAGS, GENRES } from "@/app/modules/constants";
+import { DEFAULT_TAGS } from "@/app/modules/constants/tags";
 import Markdown from "react-markdown";
 import { toGenrePage } from "@/app/modules/paths";
 import { useEffect, useRef, useState } from "react";
 import { Comments } from "./comment/Comments";
+import { GENRES } from "@/app/modules/constants/genres";
 
 interface PostTextProps {
   postData: AlbumInfo;

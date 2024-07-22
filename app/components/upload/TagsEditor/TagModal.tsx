@@ -1,5 +1,5 @@
 import React from "react";
-import { UPLOAD_PAGE_GROUP_TAGS } from "@/app/modules/constants";
+import { UPLOAD_PAGE_GROUP_TAGS } from "@/app/modules/constants/tags";
 import styles from "./TagModal.module.css";
 
 interface TagModalProps {

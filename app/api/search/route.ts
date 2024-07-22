@@ -1,8 +1,8 @@
 import connectMongoDB from "@/app/modules/mongodb";
 import Music from "@/models/music";
 import { NextResponse } from "next/server";
-import { SUB_PER_PAGE_COUNT } from "../../modules/constants";
 import { SortKey } from "@/app/modules/types";
+import { SUB_PER_PAGE_COUNT } from "@/app/modules/config";
 
 export const dynamic = "force-dynamic";
 

@@ -2,8 +2,8 @@ import { MusicLayout } from "@/app/components/@common/MusicLayout";
 import { Metadata } from "next";
 import { PageProps } from "@/app/modules/types";
 import { fetchPostData } from "@/app/modules/api/album";
-import { SITE_TITLE } from "@/app/modules/constants";
 import { PostContents } from "@/app/components/post/PostContents";
+import { SITE_TITLE } from "@/app/modules/config";
 
 export default async function Page({ params }: PageProps) {
   const currentId = params.id;

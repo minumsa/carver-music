@@ -1,5 +1,5 @@
 import { useAtom, useSetAtom } from "jotai";
-import { ACTIVE_TAG_STYLES, LANDING_PAGE_TAGS } from "../../modules/constants";
+import { LANDING_PAGE_TAGS } from "../../modules/constants/tags";
 import styles from "./MobileTagDisplay.module.css";
 import {
   albumDataAtom,
@@ -11,7 +11,7 @@ import {
 } from "../../modules/atoms";
 import { memo } from "react";
 import { usePathname } from "next/navigation";
-import { isLandingPage } from "@/app/modules/utils";
+import { ACTIVE_TAG_STYLES, isLandingPage } from "@/app/modules/utils";
 
 const MobileTagDisplay = () => {
   const setAlbumData = useSetAtom(albumDataAtom);

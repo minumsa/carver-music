@@ -2,7 +2,6 @@
 
 import { CalendarData } from "@/app/modules/types";
 import styles from "./CalendarDetail.module.css";
-import { PRIMARY_COLOR } from "@/app/modules/constants";
 import { useEffect, useRef } from "react";
 import { toArtistPage, toPostPage } from "@/app/modules/paths";
 import { usePathname, useRouter } from "next/navigation";
@@ -22,6 +21,8 @@ interface GroupedCalendarData {
     score: number;
   }[];
 }
+
+const PRIMARY_COLOR = "#007bff";
 
 export const CalendarDetail = ({ calendarData, day }: CalendarDetailProps) => {
   const pathName = usePathname();

@@ -11,8 +11,8 @@ import {
 } from "../../../modules/atoms";
 import { isAdminPage, isLandingPage } from "../../../modules/utils";
 import { toSearchPage } from "../../../modules/paths";
-import { SITE_TITLE } from "@/app/modules/constants";
 import { usePathname } from "next/navigation";
+import { SITE_TITLE } from "@/app/modules/config";
 
 export const Category = () => {
   const pathName = usePathname();

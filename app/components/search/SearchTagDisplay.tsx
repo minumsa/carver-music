@@ -1,7 +1,7 @@
-import { ACTIVE_TAG_STYLES, DEFAULT_TAGS } from "@/app/modules/constants";
+import { DEFAULT_TAGS } from "@/app/modules/constants/tags";
 import styles from "./SearchTagDisplay.module.css";
 import { usePathname, useRouter } from "next/navigation";
-import { isAdminPage } from "@/app/modules/utils";
+import { ACTIVE_TAG_STYLES, isAdminPage } from "@/app/modules/utils";
 
 interface SearchTagDisplayProps {
   currentTag: string;

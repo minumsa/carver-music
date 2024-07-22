@@ -1,5 +1,4 @@
 import { fetchRandomAlbumId } from "@/app/modules/api/album";
-import { GENRES } from "@/app/modules/constants";
 import { toCalendarPage, toGenrePage, toPostPage } from "@/app/modules/paths";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -8,6 +7,7 @@ import Link from "next/link";
 import { useAtom, useSetAtom } from "jotai";
 import { userIdAtom, userImageAtom, userNameAtom } from "@/app/modules/atoms";
 import { userLogout } from "@/app/modules/api/auth";
+import { GENRES } from "@/app/modules/constants/genres";
 
 interface DesktopMenuProps {
   showCategory: boolean;

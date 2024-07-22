@@ -2,10 +2,10 @@ import Error from "@/app/components/@common/Error";
 import ArtistContents from "../../../../components/artist/ArtistContents";
 import { MusicLayout } from "@/app/components/@common/MusicLayout";
 import { fetchArtistData } from "@/app/modules/api/album";
-import { SITE_TITLE } from "@/app/modules/constants";
 import { PageProps } from "@/app/modules/types";
 import React from "react";
 import { Metadata } from "next";
+import { SITE_TITLE } from "@/app/modules/config";
 
 export default async function Page({ params }: PageProps): Promise<React.ReactElement> {
   const artistId = params.id;

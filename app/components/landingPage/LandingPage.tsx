@@ -18,12 +18,12 @@ import {
   scrollPositionAtom,
   isScrollingAtom,
 } from "../../modules/atoms";
-import { MIN_SCROLL_COUNT, PER_PAGE_COUNT } from "../../modules/constants";
 import { toArtistPage, toPostPage } from "../../modules/paths";
 import { AlbumFilters, AlbumInfoLandingPage } from "../../modules/types";
 import { BlurImg } from "../@common/BlurImg";
 import MobileLoadingView from "../@common/MobileLoadingView";
 import { fetchAlbumDataCSR } from "@/app/modules/api/album";
+import { MIN_SCROLL_COUNT, PER_PAGE_COUNT } from "@/app/modules/config";
 
 interface LandingPageProps {
   initialData: AlbumInfoLandingPage[];

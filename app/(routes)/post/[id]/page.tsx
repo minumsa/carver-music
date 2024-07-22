@@ -2,9 +2,9 @@ import { MusicLayout } from "../../../components/@common/MusicLayout";
 import { Metadata } from "next/dist/lib/metadata/types/metadata-interface";
 import { PageProps } from "../../../modules/types";
 import { fetchPostData } from "../../../modules/api/album";
-import { SITE_TITLE } from "@/app/modules/constants";
 import Error from "@/app/components/@common/Error";
 import { PostContents } from "@/app/components/post/PostContents";
+import { SITE_TITLE } from "@/app/modules/config";
 
 export default async function Page({ params }: PageProps): Promise<React.ReactElement> {
   const currentId = params.id;

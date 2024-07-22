@@ -10,7 +10,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import Rate from "rc-rate";
 import "rc-rate/assets/index.css";
 import { AlbumInfo, SearchData, SpotifyAlbumData, Video } from "../../modules/types";
-import { GENRES } from "../../modules/constants";
 import { useForm } from "react-hook-form";
 import { AlbumSearchModal } from "./AlbumSearchModal";
 import VideoLinksEditor from "./VideoLinksEditor/VideoLinksEditor";
@@ -20,6 +19,7 @@ import { ToastEditorNoSSR } from "./ToastEditor/ToastEditorNoSSR";
 import { Editor as ToastEditor } from "@toast-ui/react-editor";
 import { useRouter } from "next/navigation";
 import { fetchSpotify, searchSpotify } from "@/app/modules/api/spotify";
+import { GENRES } from "@/app/modules/constants/genres";
 
 const TYPING_DELAY_MS = 1000;
 

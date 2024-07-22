@@ -1,4 +1,3 @@
-import { DARK_RED_COLOR } from "@/app/modules/constants";
 import styles from "./LikeIcon.module.css";
 
 interface LikeIconProps {
@@ -6,6 +5,8 @@ interface LikeIconProps {
   likeCount: number;
   fetchLike: () => Promise<void>;
 }
+
+const DARK_RED_COLOR = "#D21312";
 
 export const LikeIcon = ({ isLiked, likeCount, fetchLike }: LikeIconProps) => {
   const clickedLikeStyle = isLiked ? { fill: DARK_RED_COLOR, stroke: DARK_RED_COLOR } : undefined;

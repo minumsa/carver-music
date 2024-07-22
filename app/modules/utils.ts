@@ -132,3 +132,8 @@ export const formatTimeDifference = (date: Date): string => {
     return `${Math.floor(differenceInDays)}일 전`;
   }
 };
+
+export const ACTIVE_TAG_STYLES = (isActiveTag: boolean, pathName: string) =>
+  isActiveTag
+    ? { boxShadow: "inset 0 0 0 1px var(--text-color)", order: isLandingPage(pathName) ? -1 : 0 }
+    : undefined;

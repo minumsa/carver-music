@@ -1,7 +1,7 @@
 import { AlbumPanel } from "./AlbumPanel";
 import styles from "./AlbumContents.module.css";
 import { AlbumInfo } from "../../../modules/types";
-import { SUB_PER_PAGE_COUNT } from "../../../modules/constants";
+import { SUB_PER_PAGE_COUNT } from "@/app/modules/config";
 
 interface AlbumContentsProps {
   albumData: AlbumInfo[];

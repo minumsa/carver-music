@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { BASE_URL } from "../constants";
+import { BASE_URL } from "../constants/apiUrls";
 
 interface PostCommentParams {
   userId: string;

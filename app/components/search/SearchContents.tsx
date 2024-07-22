@@ -8,7 +8,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { AlbumInfo } from "../../modules/types";
 import { isAdminPage } from "../../modules/utils";
 import { SearchTagDisplay } from "./SearchTagDisplay";
-import { DEFAULT_TAGS } from "@/app/modules/constants";
+import { DEFAULT_TAGS } from "@/app/modules/constants/tags";
 
 interface SearchInfo {
   currentKeyword: string;

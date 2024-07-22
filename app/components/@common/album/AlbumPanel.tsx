@@ -1,5 +1,5 @@
 import { usePathname } from "next/navigation";
-import { getFormattedDuration, isAdminPage, isSearchPage } from "../../../modules/utils";
+import { getFormattedDuration, isAdminPage } from "../../../modules/utils";
 import styles from "./AlbumPanel.module.css";
 import { useRef } from "react";
 import { DeleteButton } from "../assets/DeleteButton";
@@ -8,7 +8,8 @@ import Link from "next/link";
 import { BlurImg } from "../BlurImg";
 import { AlbumInfo } from "../../../modules/types";
 import { toArtistPage, toTagPage, toPostPage, toGenrePage } from "../../../modules/paths";
-import { DEFAULT_TAGS, GENRES } from "../../../modules/constants";
+import { DEFAULT_TAGS } from "../../../modules/constants/tags";
+import { GENRES } from "@/app/modules/constants/genres";
 
 interface AlbumProps {
   albumData: AlbumInfo;

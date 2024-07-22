@@ -1,8 +1,8 @@
 import GenreContents from "@/app/components/@common/GenreContents";
 import { MusicLayout } from "../../../components/@common/MusicLayout";
 import { fetchGenreData } from "../../../modules/api/album";
-import { FIRST_PAGE } from "../../../modules/constants";
 import { PageProps } from "../../../modules/types";
+import { FIRST_PAGE } from "@/app/modules/config";
 
 export default async function Page({ params }: PageProps) {
   const currentGenre = params.genre;

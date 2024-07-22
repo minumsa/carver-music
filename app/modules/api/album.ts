@@ -1,9 +1,10 @@
 import { toast } from "react-toastify";
-import { BASE_URL, MIN_SCROLL_COUNT, PER_PAGE_COUNT } from "../constants";
 import { AlbumFilters, AlbumInfo, AlbumInfoLandingPage, SortKey, SpotifyAlbumData } from "../types";
 import connectMongoDB from "../mongodb";
 import Music from "@/models/music";
 import { getYearMonthFromDate } from "../utils";
+import { MIN_SCROLL_COUNT, PER_PAGE_COUNT } from "../config";
+import { BASE_URL } from "../constants/apiUrls";
 
 interface InitialAlbumDataResult {
   albumData: AlbumInfo[];

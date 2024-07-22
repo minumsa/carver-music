@@ -1,4 +1,3 @@
-import { GENRES } from "@/app/modules/constants";
 import styles from "./MobileMenu.module.css";
 import Link from "next/link";
 import { toCalendarPage, toGenrePage, toPostPage } from "@/app/modules/paths";
@@ -9,6 +8,7 @@ import { useEffect } from "react";
 import { userImageAtom, userNameAtom } from "@/app/modules/atoms";
 import { useAtom, useSetAtom } from "jotai";
 import { userLogout } from "@/app/modules/api/auth";
+import { GENRES } from "@/app/modules/constants/genres";
 
 interface MobileMenuProps {
   showCategory: boolean;

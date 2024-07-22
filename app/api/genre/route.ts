@@ -1,8 +1,8 @@
 import connectMongoDB from "@/app/modules/mongodb";
 import Music from "@/models/music";
 import { NextResponse } from "next/server";
-import { SUB_PER_PAGE_COUNT } from "../../modules/constants";
 import { Genres, SortKey } from "@/app/modules/types";
+import { SUB_PER_PAGE_COUNT } from "@/app/modules/config";
 
 interface Query {
   genre: Genres[keyof Genres]; // Genres 인터페이스의 키 값들 중 하나
