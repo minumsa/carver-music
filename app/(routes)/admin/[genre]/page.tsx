@@ -1,6 +1,6 @@
 import GenreContents from "@/app/components/@common/GenreContents";
 import { MusicLayout } from "../../../components/@common/MusicLayout";
-import { fetchGenreData } from "../../../modules/api";
+import { fetchGenreData } from "../../../modules/api/album";
 import { FIRST_PAGE } from "../../../modules/constants";
 import { PageProps } from "../../../modules/types";
 

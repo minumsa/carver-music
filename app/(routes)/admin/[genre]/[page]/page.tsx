@@ -1,6 +1,6 @@
 import { MusicLayout } from "@/app/components/@common/MusicLayout";
 import { PageProps } from "@/app/modules/types";
-import { fetchGenreData } from "@/app/modules/api";
+import { fetchGenreData } from "@/app/modules/api/album";
 import GenreContents from "@/app/components/@common/GenreContents";
 
 export default async function Page({ params }: PageProps) {

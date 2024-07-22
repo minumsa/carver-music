@@ -1,7 +1,7 @@
 import SearchContents from "@/app/components/search/SearchContents";
 import { MusicLayout } from "@/app/components/@common/MusicLayout";
 import { PageProps } from "@/app/modules/types";
-import { fetchTagData } from "@/app/modules/api";
+import { fetchTagData } from "@/app/modules/api/album";
 
 export default async function Page({ params }: PageProps) {
   const currentTag: string = params.tagName;

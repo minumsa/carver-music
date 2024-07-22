@@ -23,7 +23,7 @@ import { toArtistPage, toPostPage } from "../../modules/paths";
 import { AlbumFilters, AlbumInfoLandingPage } from "../../modules/types";
 import { BlurImg } from "../@common/BlurImg";
 import MobileLoadingView from "../@common/MobileLoadingView";
-import { fetchAlbumDataCSR } from "@/app/modules/api";
+import { fetchAlbumDataCSR } from "@/app/modules/api/album";
 
 interface LandingPageProps {
   initialData: AlbumInfoLandingPage[];

@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { deleteData } from "../../../modules/api";
+import { deleteData } from "../../../modules/api/album";
 import { AlbumInfo } from "../../../modules/types";
 import styles from "./Button.module.css";
 

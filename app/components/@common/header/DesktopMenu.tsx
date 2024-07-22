@@ -1,4 +1,4 @@
-import { fetchRandomAlbumId } from "@/app/modules/api";
+import { fetchRandomAlbumId } from "@/app/modules/api/album";
 import { GENRES } from "@/app/modules/constants";
 import { toCalendarPage, toGenrePage, toPostPage } from "@/app/modules/paths";
 import { usePathname, useRouter } from "next/navigation";

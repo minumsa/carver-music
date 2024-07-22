@@ -3,13 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./UploadUpdate.module.css";
 import React from "react";
-import {
-  NewDataForUpdate,
-  fetchSpotify,
-  searchSpotify,
-  updateData,
-  uploadData,
-} from "../../modules/api";
+import { NewDataForUpdate, updateData, uploadData } from "../../modules/api/album";
 import DatePicker from "react-datepicker";
 import { ko } from "date-fns/esm/locale";
 import "react-datepicker/dist/react-datepicker.css";
@@ -25,6 +19,7 @@ import { getBlurhash, getDecade } from "@/app/modules/utils";
 import { ToastEditorNoSSR } from "./ToastEditor/ToastEditorNoSSR";
 import { Editor as ToastEditor } from "@toast-ui/react-editor";
 import { useRouter } from "next/navigation";
+import { fetchSpotify, searchSpotify } from "@/app/modules/api/spotify";
 
 const TYPING_DELAY_MS = 1000;
 

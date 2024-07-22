@@ -1,7 +1,7 @@
 import ArtistContents from "@/app/components/artist/ArtistContents";
 import { MusicLayout } from "@/app/components/@common/MusicLayout";
 import { PageProps } from "@/app/modules/types";
-import { fetchArtistData } from "@/app/modules/api";
+import { fetchArtistData } from "@/app/modules/api/album";
 
 export default async function Page({ params }: PageProps) {
   const artistId = params.id;

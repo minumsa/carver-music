@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import styles from "./Calendar.module.css";
-import { fetchCalendarDataCSR } from "@/app/modules/api";
+import { fetchCalendarDataCSR } from "@/app/modules/api/album";
 import { usePathname, useRouter } from "next/navigation";
 import { CalendarData } from "@/app/modules/types";
 import { useAtom } from "jotai";

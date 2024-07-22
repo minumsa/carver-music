@@ -1,6 +1,6 @@
 import Error from "@/app/components/@common/Error";
 import { MusicLayout } from "../../../components/@common/MusicLayout";
-import { fetchGenreData } from "../../../modules/api";
+import { fetchGenreData } from "../../../modules/api/album";
 import { PageProps } from "../../../modules/types";
 import GenreContents from "@/app/components/@common/GenreContents";
 

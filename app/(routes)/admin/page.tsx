@@ -1,7 +1,7 @@
 import { LandingPage } from "../../components/landingPage/LandingPage";
 import { MusicLayout } from "../../components/@common/MusicLayout";
 import { PER_PAGE_COUNT } from "@/app/modules/constants";
-import { fetchAlbumDataSSR } from "@/app/modules/api";
+import { fetchAlbumDataSSR } from "@/app/modules/api/album";
 
 export default async function Page() {
   try {

@@ -1,7 +1,7 @@
 import SearchContents from "@/app/components/search/SearchContents";
 import { MusicLayout } from "@/app/components/@common/MusicLayout";
 import { PageProps } from "@/app/modules/types";
-import { fetchTagData } from "@/app/modules/api";
+import { fetchTagData } from "@/app/modules/api/album";
 import Error from "@/app/components/@common/Error";
 
 export default async function Page({ params }: PageProps): Promise<React.ReactElement> {
