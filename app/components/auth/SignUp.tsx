@@ -1,11 +1,11 @@
 "use client";
 
-import { userSignUp } from "@/app/modules/api";
 import styles from "./SignUp.module.css";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { ChangeEvent, useState } from "react";
+import { userSignUp } from "@/app/modules/api/auth";
 
 interface SignUpForm {
   userId: string;

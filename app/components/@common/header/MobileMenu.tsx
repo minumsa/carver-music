@@ -3,11 +3,12 @@ import styles from "./MobileMenu.module.css";
 import Link from "next/link";
 import { toCalendarPage, toGenrePage, toPostPage } from "@/app/modules/paths";
 import { usePathname, useRouter } from "next/navigation";
-import { checkUserLoginStatus, fetchRandomAlbumId, userLogout } from "@/app/modules/api";
+import { fetchRandomAlbumId } from "@/app/modules/api";
 import { isAdminPage } from "@/app/modules/utils";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { userImageAtom, userNameAtom } from "@/app/modules/atoms";
 import { useAtom, useSetAtom } from "jotai";
+import { userLogout } from "@/app/modules/api/auth";
 
 interface MobileMenuProps {
   showCategory: boolean;

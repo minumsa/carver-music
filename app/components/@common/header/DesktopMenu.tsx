@@ -1,13 +1,13 @@
-import { fetchRandomAlbumId, userLogout } from "@/app/modules/api";
+import { fetchRandomAlbumId } from "@/app/modules/api";
 import { GENRES } from "@/app/modules/constants";
 import { toCalendarPage, toGenrePage, toPostPage } from "@/app/modules/paths";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import styles from "./DesktopMenu.module.css";
-import { isAdminPage } from "@/app/modules/utils";
 import Link from "next/link";
 import { useAtom, useSetAtom } from "jotai";
 import { userIdAtom, userImageAtom, userNameAtom } from "@/app/modules/atoms";
+import { userLogout } from "@/app/modules/api/auth";
 
 interface DesktopMenuProps {
   showCategory: boolean;

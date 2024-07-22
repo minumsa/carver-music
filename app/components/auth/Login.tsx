@@ -1,12 +1,12 @@
 "use client";
 
 import styles from "./Login.module.css";
-import { getUserInfo, userLogin } from "@/app/modules/api";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSetAtom } from "jotai";
 import { userIdAtom, userImageAtom, userNameAtom } from "@/app/modules/atoms";
+import { getUserInfo, userLogin } from "@/app/modules/api/auth";
 
 require("dotenv").config();
 

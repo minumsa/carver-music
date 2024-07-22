@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { PER_PAGE_COUNT } from "../modules/constants";
 import Music from "@/models/music";
 import { SortKey } from "../modules/types";
-import { isAdminLoggedIn } from "../modules/api";
+import { isAdminLoggedIn } from "../modules/api/auth";
 
 interface Query {
   tagKeys?: string; // tag는 모바일 환경에서 태그 클릭 시에만 존재해서 ? 처리

@@ -1,4 +1,3 @@
-import { checkUserLoginStatus } from "@/app/modules/api";
 import { useEffect, useState } from "react";
 import { useAtomValue } from "jotai";
 import { userIdAtom } from "@/app/modules/atoms";
@@ -6,6 +5,7 @@ import { Comment } from "@/app/modules/types";
 import { LoginAlert } from "../@common/LoginAlert";
 import { LikeIcon } from "./LikeIcon";
 import { likeCommentToggle } from "@/app/modules/api/comment";
+import { checkUserLoginStatus } from "@/app/modules/api/auth";
 
 interface LikeCommentProps {
   comment: Comment;
