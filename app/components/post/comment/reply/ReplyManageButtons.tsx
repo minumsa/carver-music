@@ -1,4 +1,4 @@
-import { deleteReply } from "@/app/modules/api";
+import { deleteReply } from "@/app/modules/api/comment";
 import styles from "../@common/ManageButtons.module.css";
 import { Comment } from "@/app/modules/types";
 

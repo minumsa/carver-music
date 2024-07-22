@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { CommentItems } from "./comment/Comment";
 import { CommentInput } from "./comment/CommentInput";
 import styles from "./Comments.module.css";
-import { getComment } from "@/app/modules/api";
 import { Comment, Reply } from "@/app/modules/types";
+import { getComment } from "@/app/modules/api/comment";
 
 interface CommentsProps {
   albumId: string;

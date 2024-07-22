@@ -2,9 +2,10 @@ import { useAtomValue } from "jotai";
 import styles from "./CommentInput.module.css";
 import { userIdAtom, userImageAtom, userNameAtom } from "@/app/modules/atoms";
 import { useForm } from "react-hook-form";
-import { checkUserLoginStatus, postComment } from "@/app/modules/api";
+import { checkUserLoginStatus } from "@/app/modules/api";
 import { useState } from "react";
 import { LoginAlert } from "../@common/LoginAlert";
+import { postComment } from "@/app/modules/api/comment";
 
 interface CommentForm {
   userComment: string;

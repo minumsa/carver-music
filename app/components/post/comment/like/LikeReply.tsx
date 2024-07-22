@@ -1,10 +1,11 @@
-import { checkUserLoginStatus, likeReplyToggle } from "@/app/modules/api";
+import { checkUserLoginStatus } from "@/app/modules/api";
 import { useEffect, useState } from "react";
 import { useAtomValue } from "jotai";
 import { userIdAtom } from "@/app/modules/atoms";
 import { Reply } from "@/app/modules/types";
 import { LoginAlert } from "../@common/LoginAlert";
 import { LikeIcon } from "./LikeIcon";
+import { likeReplyToggle } from "@/app/modules/api/comment";
 
 interface LikeReplyProps {
   reply: Reply;
