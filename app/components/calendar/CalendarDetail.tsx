@@ -2,9 +2,8 @@
 
 import { CalendarData } from "@/app/modules/types";
 import styles from "./CalendarDetail.module.css";
-import { useEffect, useRef } from "react";
-import { toArtistPage, toPostPage } from "@/app/modules/paths";
-import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useMemo, useRef } from "react";
+import { CalendarDetailAlbumItem } from "./CalendarDetailAlbumItem";
 
 interface CalendarDetailProps {
   calendarData: CalendarData[];
@@ -12,36 +11,36 @@ interface CalendarDetailProps {
 }
 
 interface GroupedCalendarData {
-  [date: string]: {
-    album: string;
-    artist: string;
-    artistId: string;
-    id: string;
-    imgUrl: string;
-    score: number;
-  }[];
+  [date: string]: CalendarData[];
 }
 
 const PRIMARY_COLOR = "#007bff";
 
 export const CalendarDetail = ({ calendarData, day }: CalendarDetailProps) => {
-  const pathName = usePathname();
-  const router = useRouter();
   const month = new Date(calendarData[0].uploadDate).getMonth() + 1;
-  const groupedCalendarDataByDate = calendarData.reduce<GroupedCalendarData>(
-    (acc, calendarData) => {
+  const groupedCalendarDataByDate = useMemo(() => {
+    return calendarData.reduce<GroupedCalendarData>((acc, calendarData) => {
       const { album, artist, artistId, id, imgUrl, uploadDate, score } = calendarData;
       const date = uploadDate.split("T")[0];
       if (!acc[date]) acc[date] = [];
-      acc[date].push({ album, artist, artistId, id, imgUrl, score });
+      acc[date].push({
+        album,
+        artist,
+        artistId,
+        id,
+        imgUrl,
+        score,
+        uploadDate: "",
+      });
       return acc;
-    },
-    {},
-  );
+    }, {});
+  }, [calendarData]);
 
-  const sortedDates = Object.keys(groupedCalendarDataByDate).sort(
-    (a, b) => new Date(a).getTime() - new Date(b).getTime(),
-  );
+  const sortedDates = useMemo(() => {
+    return Object.keys(groupedCalendarDataByDate).sort(
+      (a, b) => new Date(a).getTime() - new Date(b).getTime(),
+    );
+  }, [groupedCalendarDataByDate]);
 
   function goBack() {
     window.history.back();
@@ -92,57 +91,8 @@ export const CalendarDetail = ({ calendarData, day }: CalendarDetailProps) => {
             </div>
             <div className={styles.dateGroup}>
               {groupedCalendarDataByDate[date].map((calendarData) => {
-                const { artist, artistId, album, id, imgUrl, score } = calendarData;
-                const percentageScore = 100 - score * 20;
                 return (
-                  <div key={album} className={styles.albumInfoContainer}>
-                    <div
-                      className={styles.albumArtWrapper}
-                      onClick={() => {
-                        router.push(toPostPage(pathName, id));
-                      }}
-                    >
-                      <img src={imgUrl} alt={album} />
-                    </div>
-                    <button
-                      className={styles.ellipsis}
-                      onClick={() => {
-                        router.push(toArtistPage(pathName, artistId));
-                      }}
-                    >
-                      {artist}
-                    </button>
-                    <button
-                      className={styles.ellipsis}
-                      onClick={() => {
-                        router.push(toPostPage(pathName, id));
-                      }}
-                    >
-                      {album}
-                    </button>
-                    {/* FIXME: 별 이미지 svg 파일로 교체 */}
-                    <div className={styles.starContainer}>
-                      <img
-                        className={styles.coloredStar}
-                        src="/images/star-color.webp"
-                        alt="colored-star"
-                        style={
-                          score
-                            ? {
-                                clipPath: `inset(0 ${percentageScore}% 0 0)`,
-                              }
-                            : undefined
-                        }
-                        loading="lazy"
-                      />
-                      <img
-                        className={styles.monoStar}
-                        src="/images/star-mono.webp"
-                        alt="mono-star"
-                        loading="lazy"
-                      />
-                    </div>
-                  </div>
+                  <CalendarDetailAlbumItem calendarData={calendarData} key={calendarData.id} />
                 );
               })}
             </div>

@@ -11,7 +11,7 @@ export default async function Page() {
 
     return (
       <MusicLayout>
-        <CalendarNoSSR calendarData={calendarData} />
+        <CalendarNoSSR initialCalendarData={calendarData} />
       </MusicLayout>
     );
   } catch (error) {

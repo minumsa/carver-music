@@ -9,8 +9,8 @@ export const totalScrollCountAtom = atom<number>(0);
 export const albumDataAtom = atom<AlbumInfoLandingPage[]>([]);
 export const tagAtom = atom<string>("");
 export const showAllTagItemsAtom = atom<boolean>(false);
-export const currentDateAtom = atom<Date>(new Date());
-export const currentCalendarDataAtom = atom<CalendarData[]>([]);
+export const activeDateAtom = atom<Date>(new Date());
+export const activeCalendarDataAtom = atom<CalendarData[]>([]);
 
 // 로그인 데이터 관련
 export const userNameAtom = atom<string>("방문자");
