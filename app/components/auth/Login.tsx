@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useSetAtom } from "jotai";
 import { userIdAtom, userImageAtom, userNameAtom } from "@/app/modules/atoms";
 import { getUserInfo, userLogin } from "@/app/modules/api/auth";
+import { getRedirectPathForAdmin, getRedirectPathForUser } from "@/app/modules/paths";
 
 require("dotenv").config();
 
@@ -28,14 +29,6 @@ export const Login = () => {
   const setCurrentUserImage = useSetAtom(userImageAtom);
   const setCurrentUserId = useSetAtom(userIdAtom);
 
-  const getRedirectPathForAdmin = (baseURL: string, isAdminURL: boolean, prevURL: URL) => {
-    return isAdminURL ? `${baseURL}/${prevURL.pathname}` : `${baseURL}/admin${prevURL.pathname}`;
-  };
-
-  const getRedirectPathForUser = (baseURL: string, prevURL: URL) => {
-    return `${baseURL}${prevURL.pathname}`;
-  };
-
   const getDefaultRedirectPath = (role: string) => {
     if (role === "admin") {
       return "/admin";
@@ -44,7 +37,7 @@ export const Login = () => {
     }
   };
 
-  const handleLoginRedirect = (role: string, baseURL: string, prevURL?: URL) => {
+  const getLoginRedirectPath = (role: string, baseURL: string, prevURL?: URL) => {
     if (!prevURL) return getDefaultRedirectPath(role);
 
     const prevURLString = prevURL.toString();
@@ -73,8 +66,8 @@ export const Login = () => {
       setCurrentUserId(userId);
       const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
       if (baseURL) {
-        const redirectURL: any = handleLoginRedirect(role, baseURL, prevURL);
-        router.push(redirectURL);
+        const redirectURL = getLoginRedirectPath(role, baseURL, prevURL);
+        if (redirectURL) router.push(redirectURL);
       }
     } catch (error) {
       console.error(error, "Failed to sign up process");

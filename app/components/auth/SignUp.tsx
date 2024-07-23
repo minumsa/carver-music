@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { ChangeEvent, useState } from "react";
-import { userSignUp } from "@/app/modules/api/auth";
+import { userLogin, userSignUp } from "@/app/modules/api/auth";
 
 interface SignUpForm {
   userId: string;
@@ -41,7 +41,7 @@ export const SignUp = () => {
     try {
       await imgSaveHandler();
       const response = await userSignUp(userId, userName, email, password);
-      if (response?.ok) router.push("/login");
+      if (response?.ok) await userLogin(userId, password);
     } catch (error) {
       console.error(error, "Failed to sign up process");
     }

@@ -21,3 +21,11 @@ export const toCalendarPage = (pathName: string) =>
 
 export const toCalendarDetailPage = (pathName: string, date: string) =>
   isAdminPage(pathName) ? `/admin/calendar/${date}` : `/calendar/${date}`;
+
+export const getRedirectPathForAdmin = (baseURL: string, isAdminURL: boolean, prevURL: URL) => {
+  return isAdminURL ? `${baseURL}/${prevURL.pathname}` : `${baseURL}/admin${prevURL.pathname}`;
+};
+
+export const getRedirectPathForUser = (baseURL: string, prevURL: URL) => {
+  return `${baseURL}${prevURL.pathname}`;
+};
