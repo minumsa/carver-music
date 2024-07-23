@@ -76,7 +76,7 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
               </div>
             </div>
             <form className={styles.formContainer}>
-              <p className={styles.textareaWrapper}>{userComment}</p>
+              <div className={styles.textareaWrapper}>{userComment}</div>
             </form>
             <div className={styles.detailWrapper}>
               <button
@@ -142,10 +142,10 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
                     </div>
                   </div>
                   <form className={styles.formContainer}>
-                    <p className={styles.textareaWrapper}>
+                    <div className={styles.textareaWrapper}>
                       <span className={styles.commentUserId}>@{comment.userName}</span>
                       <span>{reply.userComment}</span>
-                    </p>
+                    </div>
                   </form>
                   <div className={`${styles.detailWrapper} ${styles.likeReplyWrapper}`}>
                     <LikeReplyButton reply={reply} fetchComments={fetchComments} />
@@ -174,7 +174,7 @@ export const CommentList = ({ comments, replies, albumId, fetchComments }: Comme
 
   return comments ? (
     <>
-      <p className={styles.commentCount}>{commentSummaryCount}</p>
+      <div className={styles.commentCount}>{commentSummaryCount}</div>
       {comments.map((comment: Comment) => {
         return (
           <CommentItem

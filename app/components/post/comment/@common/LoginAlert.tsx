@@ -13,7 +13,7 @@ export const LoginAlert = ({ showModal, setShowModal }: LoginAlertProps) => {
     showModal && (
       <div className={styles.dimWrapper}>
         <div className={styles.container}>
-          <p className={styles.text}>로그인 후 댓글 기능을 사용할 수 있습니다.</p>
+          <div className={styles.text}>로그인 후 댓글 기능을 사용할 수 있습니다.</div>
           <div className={styles.buttonContainer}>
             <button
               className={styles.button}

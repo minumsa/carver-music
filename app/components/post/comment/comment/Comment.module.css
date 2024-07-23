@@ -61,7 +61,7 @@
   box-sizing: border-box;
   font-size: 0.95rem;
   color: var(--third-text-color);
-  line-height: 100%;
+  line-height: 0;
 }
 
 .likeReplyWrapper {
