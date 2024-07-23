@@ -7,7 +7,11 @@ import { useEffect, useState } from "react";
 import { useSetAtom } from "jotai";
 import { userIdAtom, userImageAtom, userNameAtom } from "@/app/modules/atoms";
 import { getUserInfo, userLogin } from "@/app/modules/api/auth";
-import { getRedirectPathForAdmin, getRedirectPathForUser } from "@/app/modules/paths";
+import {
+  getDefaultRedirectPath,
+  getRedirectPathForAdmin,
+  getRedirectPathForUser,
+} from "@/app/modules/paths";
 
 require("dotenv").config();
 
@@ -28,14 +32,6 @@ export const Login = () => {
   const setCurrentUserName = useSetAtom(userNameAtom);
   const setCurrentUserImage = useSetAtom(userImageAtom);
   const setCurrentUserId = useSetAtom(userIdAtom);
-
-  const getDefaultRedirectPath = (role: string) => {
-    if (role === "admin") {
-      return "/admin";
-    } else {
-      return "/";
-    }
-  };
 
   const getLoginRedirectPath = (role: string, baseURL: string, prevURL?: URL) => {
     if (!prevURL) return getDefaultRedirectPath(role);

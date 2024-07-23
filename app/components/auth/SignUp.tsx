@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { ChangeEvent, useState } from "react";
 import { userLogin, userSignUp } from "@/app/modules/api/auth";
+import { getDefaultRedirectPath } from "@/app/modules/paths";
 
 interface SignUpForm {
   userId: string;
@@ -41,7 +42,10 @@ export const SignUp = () => {
     try {
       await imgSaveHandler();
       const response = await userSignUp(userId, userName, email, password);
-      if (response?.ok) await userLogin(userId, password);
+      if (response?.ok) {
+        await userLogin(userId, password);
+        getDefaultRedirectPath("user");
+      }
     } catch (error) {
       console.error(error, "Failed to sign up process");
     }

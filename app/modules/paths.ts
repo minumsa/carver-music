@@ -29,3 +29,11 @@ export const getRedirectPathForAdmin = (baseURL: string, isAdminURL: boolean, pr
 export const getRedirectPathForUser = (baseURL: string, prevURL: URL) => {
   return `${baseURL}${prevURL.pathname}`;
 };
+
+export const getDefaultRedirectPath = (role: string) => {
+  if (role === "admin") {
+    return "/admin";
+  } else {
+    return "/";
+  }
+};
