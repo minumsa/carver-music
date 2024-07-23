@@ -1,6 +1,6 @@
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import styles from "./CommentInput.module.css";
-import { userIdAtom, userImageAtom } from "@/app/modules/atoms";
+import { commentsAtom, repliesAtom, userIdAtom, userImageAtom } from "@/app/modules/atoms";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { LoginAlert } from "../@common/LoginAlert";
@@ -13,12 +13,11 @@ interface CommentForm {
 }
 
 interface CommentInputProps {
-  fetchComments: () => Promise<void>;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
   comment: Comment;
 }
 
-export const CommentEditInput = ({ fetchComments, setIsEditing, comment }: CommentInputProps) => {
+export const CommentEditInput = ({ setIsEditing, comment }: CommentInputProps) => {
   const currentUserImage = useAtomValue(userImageAtom);
   const { handleSubmit, register, reset } = useForm<CommentForm>({
     defaultValues: {
@@ -27,17 +26,26 @@ export const CommentEditInput = ({ fetchComments, setIsEditing, comment }: Comme
   });
   const userId = useAtomValue(userIdAtom);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const setComments = useSetAtom(commentsAtom);
+  const setReplies = useSetAtom(repliesAtom);
 
   const onSubmit = handleSubmit(async (data) => {
     const { userComment } = data;
     const commentId = comment._id;
 
-    const commentParams = { commentId, userId, userComment, date: new Date() };
+    const commentParams = {
+      albumId: comment.albumId,
+      commentId,
+      userId,
+      userComment,
+      date: new Date(),
+    };
     try {
-      await editComment(commentParams);
+      const response = await editComment(commentParams);
       reset();
       setIsEditing(false);
-      await fetchComments();
+      setComments(response.comments);
+      setReplies(response.replies);
     } catch (error) {
       console.error(error, "Failed to sign up process");
     }

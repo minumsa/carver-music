@@ -1,6 +1,6 @@
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import styles from "./ReplyInput.module.css";
-import { userIdAtom, userImageAtom } from "@/app/modules/atoms";
+import { commentsAtom, repliesAtom, userIdAtom, userImageAtom } from "@/app/modules/atoms";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { LoginAlert } from "../@common/LoginAlert";
@@ -13,16 +13,13 @@ interface ReplyForm {
 }
 
 interface ReplyInputProps {
-  fetchComments: () => Promise<void>;
   setShowReplyEditingInput: React.Dispatch<React.SetStateAction<boolean>>;
   reply: Reply;
 }
 
-export const ReplyEditingInput = ({
-  fetchComments,
-  setShowReplyEditingInput,
-  reply,
-}: ReplyInputProps) => {
+export const ReplyEditingInput = ({ setShowReplyEditingInput, reply }: ReplyInputProps) => {
+  const setComments = useSetAtom(commentsAtom);
+  const setReplies = useSetAtom(repliesAtom);
   const currentUserImage = useAtomValue(userImageAtom);
   const { handleSubmit, register, reset } = useForm<ReplyForm>({
     defaultValues: {
@@ -36,12 +33,19 @@ export const ReplyEditingInput = ({
     const { userComment } = data;
     const commentId = reply._id;
 
-    const commentParams = { commentId, userId, userComment, date: new Date() };
+    const commentParams = {
+      albumId: reply.albumId,
+      commentId,
+      userId,
+      userComment,
+      date: new Date(),
+    };
     try {
-      await editReply(commentParams);
+      const response = await editReply(commentParams);
       reset();
       setShowReplyEditingInput(false);
-      await fetchComments();
+      setComments(response.comments);
+      setReplies(response.replies);
     } catch (error) {
       console.error(error, "Failed to sign up process");
     }

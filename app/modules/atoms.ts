@@ -1,5 +1,5 @@
 import { atom } from "jotai";
-import { AlbumInfoLandingPage, CalendarData } from "./types";
+import { AlbumInfoLandingPage, CalendarData, Comment, Reply } from "./types";
 
 // 앨범 데이터 관련
 export const scrollCountAtom = atom<number>(1);
@@ -16,3 +16,7 @@ export const activeCalendarDataAtom = atom<CalendarData[]>([]);
 export const userNameAtom = atom<string>("방문자");
 export const userImageAtom = atom<string>("/svgs/ghost.svg");
 export const userIdAtom = atom<string>("");
+
+// 댓글 관련
+export const commentsAtom = atom<Comment[]>([]);
+export const repliesAtom = atom<Reply[]>([]);

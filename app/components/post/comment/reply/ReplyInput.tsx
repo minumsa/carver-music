@@ -1,6 +1,12 @@
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import styles from "./ReplyInput.module.css";
-import { userIdAtom, userImageAtom, userNameAtom } from "@/app/modules/atoms";
+import {
+  commentsAtom,
+  repliesAtom,
+  userIdAtom,
+  userImageAtom,
+  userNameAtom,
+} from "@/app/modules/atoms";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { LoginAlert } from "../@common/LoginAlert";
@@ -16,16 +22,12 @@ interface CommentForm {
 interface ReplyInputProps {
   comment: Comment;
   albumId: string;
-  fetchComments: () => Promise<void>;
   setShowReplyInput: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const ReplyInput = ({
-  comment,
-  albumId,
-  fetchComments,
-  setShowReplyInput,
-}: ReplyInputProps) => {
+export const ReplyInput = ({ comment, albumId, setShowReplyInput }: ReplyInputProps) => {
+  const setComments = useSetAtom(commentsAtom);
+  const setReplies = useSetAtom(repliesAtom);
   const currentUserImage = useAtomValue(userImageAtom);
   const { handleSubmit, register, reset, watch } = useForm<CommentForm>({
     defaultValues: {
@@ -49,10 +51,11 @@ export const ReplyInput = ({
       date: new Date(),
     };
     try {
-      await postReply(postReplyParams);
+      const response = await postReply(postReplyParams);
       setShowReplyInput(false);
       reset();
-      await fetchComments();
+      setComments(response.comments);
+      setReplies(response.replies);
     } catch (error) {
       toast.error("답글을 제출하는 데 실패했습니다.");
     }

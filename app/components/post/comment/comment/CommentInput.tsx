@@ -1,6 +1,12 @@
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import styles from "./CommentInput.module.css";
-import { userIdAtom, userImageAtom, userNameAtom } from "@/app/modules/atoms";
+import {
+  commentsAtom,
+  repliesAtom,
+  userIdAtom,
+  userImageAtom,
+  userNameAtom,
+} from "@/app/modules/atoms";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { LoginAlert } from "../@common/LoginAlert";
@@ -13,10 +19,9 @@ interface CommentForm {
 
 interface CommentInputProps {
   albumId: string;
-  fetchComments: () => Promise<void>;
 }
 
-export const CommentInput = ({ albumId, fetchComments }: CommentInputProps) => {
+export const CommentInput = ({ albumId }: CommentInputProps) => {
   const currentUserImage = useAtomValue(userImageAtom);
   const { handleSubmit, register, reset, watch } = useForm<CommentForm>({
     defaultValues: {
@@ -25,6 +30,8 @@ export const CommentInput = ({ albumId, fetchComments }: CommentInputProps) => {
   });
   const userId = useAtomValue(userIdAtom);
   const userName = useAtomValue(userNameAtom);
+  const setComments = useSetAtom(commentsAtom);
+  const setReplies = useSetAtom(repliesAtom);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
@@ -32,9 +39,10 @@ export const CommentInput = ({ albumId, fetchComments }: CommentInputProps) => {
     const { userComment } = data;
     const postCommentParams = { userId, userName, userComment, albumId, date: new Date() };
     try {
-      await postComment(postCommentParams);
+      const response = await postComment(postCommentParams);
       reset();
-      await fetchComments();
+      setComments(response.comments);
+      setReplies(response.replies);
     } catch (error) {
       console.error(error, "Failed to post comments");
     }

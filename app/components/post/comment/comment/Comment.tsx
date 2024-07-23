@@ -1,6 +1,6 @@
-import { useAtomValue } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import styles from "./Comment.module.css";
-import { userIdAtom } from "@/app/modules/atoms";
+import { commentsAtom, repliesAtom, userIdAtom } from "@/app/modules/atoms";
 import { Comment, Reply } from "@/app/modules/types";
 import React, { useState } from "react";
 import { CommentEditInput } from "./CommentEditInput";
@@ -16,11 +16,10 @@ interface CommentItemProps {
   comment: Comment;
   replies: Reply[];
   albumId: string;
-  fetchComments: () => Promise<void>;
 }
 
 // 댓글 - comment, 답글 - reply
-export const CommentItem = ({ comment, replies, albumId, fetchComments }: CommentItemProps) => {
+export const CommentItem = ({ comment, replies, albumId }: CommentItemProps) => {
   const { userId, userName, userComment, date, userImage } = comment;
   const dateDiff = formatTimeDifference(date);
   const [showCommentManageButtons, setShowCommentManageButtons] = useState<boolean>(false);
@@ -46,11 +45,7 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
   return (
     <div className={styles.container}>
       {isEditing ? (
-        <CommentEditInput
-          fetchComments={fetchComments}
-          comment={comment}
-          setIsEditing={setIsEditing}
-        />
+        <CommentEditInput comment={comment} setIsEditing={setIsEditing} />
       ) : (
         <div className={styles.commentContainer}>
           <div className={styles.userImageWrapper}>
@@ -71,7 +66,6 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
                   showHandleModal={showCommentManageButtons}
                   setShowHandleModal={setShowCommentManageButtons}
                   setIsEditing={setIsEditing}
-                  fetchComments={fetchComments}
                 />
               </div>
             </div>
@@ -87,19 +81,14 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
               >
                 답글
               </button>
-              <LikeCommentButton comment={comment} fetchComments={fetchComments} />
+              <LikeCommentButton comment={comment} />
             </div>
           </div>
         </div>
       )}
 
       {showReplyInput && (
-        <ReplyInput
-          comment={comment}
-          albumId={albumId}
-          fetchComments={fetchComments}
-          setShowReplyInput={setShowReplyInput}
-        />
+        <ReplyInput comment={comment} albumId={albumId} setShowReplyInput={setShowReplyInput} />
       )}
 
       {replies.map((reply) => {
@@ -112,7 +101,6 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
           (isActiveReply && showReplyEditingInput ? (
             <ReplyEditingInput
               key={reply._id}
-              fetchComments={fetchComments}
               reply={reply}
               setShowReplyEditingInput={setShowReplyEditingInput}
             />
@@ -137,7 +125,6 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
                         setShowReplyManageButtons={setShowReplyManageButtons}
                         handleReply={() => handleReply(reply._id)}
                         setReplyIsEditing={setShowReplyEditingInput}
-                        fetchComments={fetchComments}
                       />
                     </div>
                   </div>
@@ -148,7 +135,7 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
                     </div>
                   </form>
                   <div className={`${styles.detailWrapper} ${styles.likeReplyWrapper}`}>
-                    <LikeReplyButton reply={reply} fetchComments={fetchComments} />
+                    <LikeReplyButton reply={reply} />
                   </div>
                 </div>
               </div>
@@ -161,13 +148,12 @@ export const CommentItem = ({ comment, replies, albumId, fetchComments }: Commen
 };
 
 interface CommentResultProps {
-  comments: Comment[];
-  replies: Reply[];
   albumId: string;
-  fetchComments: () => Promise<void>;
 }
 
-export const CommentList = ({ comments, replies, albumId, fetchComments }: CommentResultProps) => {
+export const CommentList = ({ albumId }: CommentResultProps) => {
+  const comments = useAtomValue(commentsAtom);
+  const replies = useAtomValue(repliesAtom);
   const commentsCount = comments?.length;
   const repliescount = replies?.length;
   const commentSummaryCount = `댓글 ${commentsCount + repliescount}`;
@@ -177,13 +163,7 @@ export const CommentList = ({ comments, replies, albumId, fetchComments }: Comme
       <div className={styles.commentCount}>{commentSummaryCount}</div>
       {comments.map((comment: Comment) => {
         return (
-          <CommentItem
-            key={comment._id}
-            comment={comment}
-            albumId={albumId}
-            fetchComments={fetchComments}
-            replies={replies}
-          />
+          <CommentItem key={comment._id} comment={comment} albumId={albumId} replies={replies} />
         );
       })}
     </>

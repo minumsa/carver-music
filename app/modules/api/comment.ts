@@ -34,7 +34,7 @@ export async function postComment(postCommentParams: PostCommentParams) {
       toast.success("댓글을 성공적으로 등록했습니다.");
     }
 
-    return response;
+    return response.json();
   } catch (error) {
     console.error("Error: ", error);
   }
@@ -73,13 +73,14 @@ export async function postReply(postReplyParams: PostReplyParams) {
       toast.success("답글을 성공적으로 등록했습니다.");
     }
 
-    return response;
+    return response.json();
   } catch (error) {
     console.error("Error: ", error);
   }
 }
 
 interface EditCommentParams {
+  albumId: string;
   commentId: string;
   userId: string;
   userComment: string;
@@ -89,14 +90,14 @@ interface EditCommentParams {
 export async function editComment(editParams: EditCommentParams) {
   try {
     const url = `${BASE_URL}/api/auth/comment`;
-    const { commentId, userId, userComment, date } = editParams;
+    const { albumId, commentId, userId, userComment, date } = editParams;
 
     const response = await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ commentId, userId, userComment, date }),
+      body: JSON.stringify({ albumId, commentId, userId, userComment, date }),
     });
 
     if (response.status === 403) {
@@ -109,7 +110,7 @@ export async function editComment(editParams: EditCommentParams) {
       toast.success("댓글을 성공적으로 수정했습니다.");
     }
 
-    return response;
+    return response.json();
   } catch (error) {
     console.error("Error: ", error);
   }
@@ -118,14 +119,14 @@ export async function editComment(editParams: EditCommentParams) {
 export async function editReply(editParams: EditCommentParams) {
   try {
     const url = `${BASE_URL}/api/auth/comment/reply`;
-    const { commentId, userId, userComment, date } = editParams;
+    const { albumId, commentId, userId, userComment, date } = editParams;
 
     const response = await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ commentId, userId, userComment, date }),
+      body: JSON.stringify({ albumId, commentId, userId, userComment, date }),
     });
 
     if (response.status === 403) {
@@ -138,13 +139,14 @@ export async function editReply(editParams: EditCommentParams) {
       toast.success("댓글을 성공적으로 수정했습니다.");
     }
 
-    return response;
+    return response.json();
   } catch (error) {
     console.error("Error: ", error);
   }
 }
 
 interface DeleteCommentParams {
+  albumId: string;
   commentId: string;
   userId: string;
 }
@@ -152,14 +154,14 @@ interface DeleteCommentParams {
 export async function deleteComment(deleteCommentParams: DeleteCommentParams) {
   try {
     const url = `${BASE_URL}/api/auth/comment`;
-    const { userId, commentId } = deleteCommentParams;
+    const { albumId, userId, commentId } = deleteCommentParams;
 
     const response = await fetch(url, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ commentId, userId }),
+      body: JSON.stringify({ albumId, commentId, userId }),
     });
 
     if (response.status === 403) {
@@ -172,13 +174,14 @@ export async function deleteComment(deleteCommentParams: DeleteCommentParams) {
       toast.success("댓글을 성공적으로 삭제했습니다.");
     }
 
-    return response;
+    return response.json();
   } catch (error) {
     console.error("Error: ", error);
   }
 }
 
 interface DeleteReplyParams {
+  albumId: string;
   replyId: string;
   userId: string;
 }
@@ -186,14 +189,14 @@ interface DeleteReplyParams {
 export async function deleteReply(deleteReplyParams: DeleteReplyParams) {
   try {
     const url = `${BASE_URL}/api/auth/comment/reply`;
-    const { userId, replyId } = deleteReplyParams;
+    const { albumId, userId, replyId } = deleteReplyParams;
 
     const response = await fetch(url, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ replyId, userId }),
+      body: JSON.stringify({ albumId, replyId, userId }),
     });
 
     if (response.status === 403) {
@@ -206,7 +209,7 @@ export async function deleteReply(deleteReplyParams: DeleteReplyParams) {
       toast.success("답글을 성공적으로 삭제했습니다.");
     }
 
-    return response;
+    return response.json();
   } catch (error) {
     console.error("Error: ", error);
   }
