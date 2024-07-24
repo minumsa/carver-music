@@ -30,7 +30,7 @@ export async function POST(request: Request) {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const status = await db.collection("users").insertOne({
+    await db.collection("users").insertOne({
       userId,
       userName,
       email,

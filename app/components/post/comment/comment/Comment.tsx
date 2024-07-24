@@ -1,7 +1,7 @@
-import { useAtom, useAtomValue } from "jotai";
+import { useAtomValue } from "jotai";
 import styles from "./Comment.module.css";
 import { commentsAtom, repliesAtom, userIdAtom } from "@/app/modules/atoms";
-import { Comment, Reply } from "@/app/modules/types";
+import { Comment } from "@/app/modules/types";
 import React, { useState } from "react";
 import { CommentEditInput } from "./CommentEditInput";
 import { CommentManageButtons } from "./CommentManageButtons";

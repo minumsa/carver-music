@@ -1,6 +1,6 @@
 import { useAtomValue, useSetAtom } from "jotai";
 import styles from "./CommentInput.module.css";
-import { commentsAtom, repliesAtom, userIdAtom, userImageAtom } from "@/app/modules/atoms";
+import { commentsAtom, userIdAtom, userImageAtom } from "@/app/modules/atoms";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { LoginAlert } from "../@common/LoginAlert";
@@ -27,7 +27,6 @@ export const CommentEditInput = ({ setIsEditing, comment }: CommentInputProps) =
   const userId = useAtomValue(userIdAtom);
   const [showModal, setShowModal] = useState<boolean>(false);
   const setComments = useSetAtom(commentsAtom);
-  const setReplies = useSetAtom(repliesAtom);
 
   const onSubmit = handleSubmit(async (data) => {
     const { userComment } = data;
@@ -45,7 +44,6 @@ export const CommentEditInput = ({ setIsEditing, comment }: CommentInputProps) =
       reset();
       setIsEditing(false);
       setComments(response.comments);
-      setReplies(response.replies);
     } catch (error) {
       console.error(error, "Failed to sign up process");
     }

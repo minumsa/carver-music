@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     // comments 컬렉션에 복합 인덱스 추가 (이미 존재하는 경우 오류 무시)
     await db.collection("comments").createIndex({ albumId: 1, date: -1 });
 
-    const status = await db.collection("comments").insertOne({
+    await db.collection("comments").insertOne({
       userId,
       userName,
       userComment,
@@ -38,18 +38,9 @@ export async function POST(request: Request) {
     const usersDb = usersClient.db();
 
     const commentUserIds = comments.map((comment) => comment.userId);
-    const commentIds = comments.map((comment) => comment._id.toString());
-
-    const replies = await db
-      .collection("replies")
-      .find({ commentId: { $in: commentIds } })
-      .sort({ date: 1 })
-      .toArray();
-
-    const replyUserIds = replies.map((reply) => reply.userId);
 
     // 모든 userId 목록 병합 후 중복 제거
-    const allUserIds = Array.from(new Set([...commentUserIds, ...replyUserIds]));
+    const allUserIds = Array.from([...commentUserIds]);
 
     const users = await usersDb
       .collection("users")
@@ -67,18 +58,9 @@ export async function POST(request: Request) {
       userImage: userMap[comment.userId]?.userImage || null, // userImage가 없을 경우 null 처리
     }));
 
-    // 각 답글에 userImage 및 userName 추가
-    const repliesWithImages = replies.map((reply) => ({
-      ...reply,
-      userImage: userMap[reply.userId]?.userImage || null,
-    }));
-
     client.close();
 
-    const response = NextResponse.json(
-      { comments: commentsWithImages, replies: repliesWithImages },
-      { status: 200 },
-    );
+    const response = NextResponse.json({ comments: commentsWithImages }, { status: 200 });
     return response;
   } catch (error) {
     console.error(error);
@@ -114,18 +96,9 @@ export async function PUT(request: Request) {
     const usersDb = usersClient.db();
 
     const commentUserIds = comments.map((comment) => comment.userId);
-    const commentIds = comments.map((comment) => comment._id.toString());
-
-    const replies = await db
-      .collection("replies")
-      .find({ commentId: { $in: commentIds } })
-      .sort({ date: 1 })
-      .toArray();
-
-    const replyUserIds = replies.map((reply) => reply.userId);
 
     // 모든 userId 목록 병합 후 중복 제거
-    const allUserIds = Array.from(new Set([...commentUserIds, ...replyUserIds]));
+    const allUserIds = Array.from(new Set([...commentUserIds]));
 
     const users = await usersDb
       .collection("users")
@@ -143,18 +116,9 @@ export async function PUT(request: Request) {
       userImage: userMap[comment.userId]?.userImage || null, // userImage가 없을 경우 null 처리
     }));
 
-    // 각 답글에 userImage 및 userName 추가
-    const repliesWithImages = replies.map((reply) => ({
-      ...reply,
-      userImage: userMap[reply.userId]?.userImage || null,
-    }));
-
     client.close();
 
-    const response = NextResponse.json(
-      { comments: commentsWithImages, replies: repliesWithImages },
-      { status: 200 },
-    );
+    const response = NextResponse.json({ comments: commentsWithImages }, { status: 200 });
     return response;
   } catch (error) {
     console.error(error);
@@ -258,18 +222,7 @@ export async function DELETE(request: Request) {
     const usersDb = usersClient.db();
 
     const commentUserIds = comments.map((comment) => comment.userId);
-    const commentIds = comments.map((comment) => comment._id.toString());
-
-    const replies = await db
-      .collection("replies")
-      .find({ commentId: { $in: commentIds } })
-      .sort({ date: 1 })
-      .toArray();
-
-    const replyUserIds = replies.map((reply) => reply.userId);
-
-    // 모든 userId 목록 병합 후 중복 제거
-    const allUserIds = Array.from(new Set([...commentUserIds, ...replyUserIds]));
+    const allUserIds = Array.from([...commentUserIds]);
 
     const users = await usersDb
       .collection("users")
@@ -287,18 +240,9 @@ export async function DELETE(request: Request) {
       userImage: userMap[comment.userId]?.userImage || null, // userImage가 없을 경우 null 처리
     }));
 
-    // 각 답글에 userImage 및 userName 추가
-    const repliesWithImages = replies.map((reply) => ({
-      ...reply,
-      userImage: userMap[reply.userId]?.userImage || null,
-    }));
-
     client.close();
 
-    const response = NextResponse.json(
-      { comments: commentsWithImages, replies: repliesWithImages },
-      { status: 200 },
-    );
+    const response = NextResponse.json({ comments: commentsWithImages }, { status: 200 });
     return response;
   } catch (error) {
     console.error(error);

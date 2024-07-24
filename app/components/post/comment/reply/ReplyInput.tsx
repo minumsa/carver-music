@@ -1,12 +1,6 @@
 import { useAtomValue, useSetAtom } from "jotai";
 import styles from "./ReplyInput.module.css";
-import {
-  commentsAtom,
-  repliesAtom,
-  userIdAtom,
-  userImageAtom,
-  userNameAtom,
-} from "@/app/modules/atoms";
+import { repliesAtom, userIdAtom, userImageAtom, userNameAtom } from "@/app/modules/atoms";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { LoginAlert } from "../@common/LoginAlert";
@@ -26,7 +20,6 @@ interface ReplyInputProps {
 }
 
 export const ReplyInput = ({ comment, albumId, setShowReplyInput }: ReplyInputProps) => {
-  const setComments = useSetAtom(commentsAtom);
   const setReplies = useSetAtom(repliesAtom);
   const currentUserImage = useAtomValue(userImageAtom);
   const { handleSubmit, register, reset, watch } = useForm<CommentForm>({
@@ -54,7 +47,6 @@ export const ReplyInput = ({ comment, albumId, setShowReplyInput }: ReplyInputPr
       const response = await postReply(postReplyParams);
       setShowReplyInput(false);
       reset();
-      setComments(response.comments);
       setReplies(response.replies);
     } catch (error) {
       toast.error("답글을 제출하는 데 실패했습니다.");

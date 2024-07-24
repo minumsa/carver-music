@@ -1,6 +1,6 @@
 import { useAtomValue, useSetAtom } from "jotai";
 import styles from "./ReplyInput.module.css";
-import { commentsAtom, repliesAtom, userIdAtom, userImageAtom } from "@/app/modules/atoms";
+import { repliesAtom, userIdAtom, userImageAtom } from "@/app/modules/atoms";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { LoginAlert } from "../@common/LoginAlert";
@@ -18,7 +18,6 @@ interface ReplyInputProps {
 }
 
 export const ReplyEditingInput = ({ setShowReplyEditingInput, reply }: ReplyInputProps) => {
-  const setComments = useSetAtom(commentsAtom);
   const setReplies = useSetAtom(repliesAtom);
   const currentUserImage = useAtomValue(userImageAtom);
   const { handleSubmit, register, reset } = useForm<ReplyForm>({
@@ -44,7 +43,6 @@ export const ReplyEditingInput = ({ setShowReplyEditingInput, reply }: ReplyInpu
       const response = await editReply(commentParams);
       reset();
       setShowReplyEditingInput(false);
-      setComments(response.comments);
       setReplies(response.replies);
     } catch (error) {
       console.error(error, "Failed to sign up process");

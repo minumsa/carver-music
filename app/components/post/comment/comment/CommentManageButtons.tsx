@@ -2,7 +2,7 @@ import { deleteComment } from "@/app/modules/api/comment";
 import styles from "../@common/ManageButtons.module.css";
 import { Comment } from "@/app/modules/types";
 import { useSetAtom } from "jotai";
-import { commentsAtom, repliesAtom } from "@/app/modules/atoms";
+import { commentsAtom } from "@/app/modules/atoms";
 
 interface CommentManageModalProps {
   userId: string;
@@ -20,14 +20,12 @@ export const CommentManageButtons = ({
   setIsEditing,
 }: CommentManageModalProps) => {
   const setComments = useSetAtom(commentsAtom);
-  const setReplies = useSetAtom(repliesAtom);
 
   const handleDeleteComment = async () => {
     const deleteParams = { albumId: comment.albumId, userId, commentId: comment._id };
     const response = await deleteComment(deleteParams);
     setShowHandleModal(false);
     setComments(response.comments);
-    setReplies(response.replies);
   };
 
   return (

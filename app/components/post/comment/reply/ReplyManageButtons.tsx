@@ -2,7 +2,7 @@ import { deleteReply } from "@/app/modules/api/comment";
 import styles from "../@common/ManageButtons.module.css";
 import { Comment } from "@/app/modules/types";
 import { useSetAtom } from "jotai";
-import { commentsAtom, repliesAtom } from "@/app/modules/atoms";
+import { repliesAtom } from "@/app/modules/atoms";
 
 interface ReplyManageModalProps {
   userId: string;
@@ -23,14 +23,12 @@ export const ReplyManageButtons = ({
   handleReply,
   setReplyIsEditing,
 }: ReplyManageModalProps) => {
-  const setComments = useSetAtom(commentsAtom);
   const setReplies = useSetAtom(repliesAtom);
   const replyId = reply._id;
   const handleDeleteReply = async () => {
     const deleteReplyParams = { albumId: reply.albumId, userId, replyId };
     const response = await deleteReply(deleteReplyParams);
     handleReply(replyId);
-    setComments(response.comments);
     setReplies(response.replies);
   };
 

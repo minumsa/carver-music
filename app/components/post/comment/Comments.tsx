@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { CommentList } from "./comment/Comment";
 import { CommentInput } from "./comment/CommentInput";
 import styles from "./Comments.module.css";
-import { Comment, Reply } from "@/app/modules/types";
 import { getComment } from "@/app/modules/api/comment";
-import { useAtom, useSetAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import { commentsAtom, repliesAtom } from "@/app/modules/atoms";
 import { toast } from "react-toastify";
 

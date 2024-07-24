@@ -1,12 +1,6 @@
 import { useAtomValue, useSetAtom } from "jotai";
 import styles from "./CommentInput.module.css";
-import {
-  commentsAtom,
-  repliesAtom,
-  userIdAtom,
-  userImageAtom,
-  userNameAtom,
-} from "@/app/modules/atoms";
+import { commentsAtom, userIdAtom, userImageAtom, userNameAtom } from "@/app/modules/atoms";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { LoginAlert } from "../@common/LoginAlert";
@@ -31,7 +25,6 @@ export const CommentInput = ({ albumId }: CommentInputProps) => {
   const userId = useAtomValue(userIdAtom);
   const userName = useAtomValue(userNameAtom);
   const setComments = useSetAtom(commentsAtom);
-  const setReplies = useSetAtom(repliesAtom);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
@@ -42,7 +35,6 @@ export const CommentInput = ({ albumId }: CommentInputProps) => {
       const response = await postComment(postCommentParams);
       reset();
       setComments(response.comments);
-      setReplies(response.replies);
     } catch (error) {
       console.error(error, "Failed to post comments");
     }
