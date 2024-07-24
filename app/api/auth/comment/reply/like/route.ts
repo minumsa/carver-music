@@ -20,10 +20,7 @@ export async function PUT(request: Request) {
     const prevReply = await db.collection("replies").findOne({ _id: new ObjectId(replyId) });
 
     if (!prevReply) {
-      return NextResponse.json(
-        { ok: false, message: "해당 답글을 찾을 수 없습니다." },
-        { status: 404 },
-      );
+      return NextResponse.json({ message: "해당 답글을 찾을 수 없습니다." }, { status: 404 });
     }
 
     // FIXME: 로그인 상태가 아닐 때 쿠키 이용하는 방식으로 코드 변경

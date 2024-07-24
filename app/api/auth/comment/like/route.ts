@@ -32,7 +32,6 @@ export async function PUT(request: Request) {
       .collection("comments")
       .updateOne({ _id: new ObjectId(commentId) }, { $set: { likedUserIds } });
 
-    // FIXME: 댓글 업로드/수정/삭제 후 결괏값으로 댓글 목록을 보내주는데, 관련 코드 중복되는 부분 리팩토링 방법 찾기
     // 댓글 수정 후 업데이트된 댓글 목록 보내주기
     const comments = await db.collection("comments").find({ albumId }).sort({ date: 1 }).toArray();
 

@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import { BASE_URL } from "../constants/apiUrls";
+import { ApiError, CommentError, LikeError, ReplyError } from "../errors";
 
 interface PostCommentParams {
   userId: string;
@@ -29,14 +30,19 @@ export async function postComment(postCommentParams: PostCommentParams) {
     });
 
     if (!response.ok) {
-      toast.error("시스템 오류로 댓글 등록에 실패했습니다.");
-    } else {
-      toast.success("댓글을 성공적으로 등록했습니다.");
+      const error = CommentError.fromResponse(response);
+      toast.error(error.message);
+      throw error;
     }
 
     return response.json();
   } catch (error) {
-    console.error("Error: ", error);
+    if (!(error instanceof CommentError)) {
+      const systemErrorMessage = "댓글 처리 중 시스템 오류가 발생했습니다.";
+      toast.error(systemErrorMessage);
+      throw new Error(systemErrorMessage);
+    }
+    throw error;
   }
 }
 
@@ -68,14 +74,19 @@ export async function postReply(postReplyParams: PostReplyParams) {
     });
 
     if (!response.ok) {
-      toast.error("시스템 오류로 답글 등록에 실패했습니다.");
-    } else {
-      toast.success("답글을 성공적으로 등록했습니다.");
+      const error = ReplyError.fromResponse(response);
+      toast.error(error.message);
+      throw error;
     }
 
     return response.json();
   } catch (error) {
-    console.error("Error: ", error);
+    if (!(error instanceof ReplyError)) {
+      const systemErrorMessage = "답글 처리 중 시스템 오류가 발생했습니다.";
+      toast.error(systemErrorMessage);
+      throw new Error(systemErrorMessage);
+    }
+    throw error;
   }
 }
 
@@ -100,19 +111,20 @@ export async function editComment(editParams: EditCommentParams) {
       body: JSON.stringify({ albumId, commentId, userId, userComment, date }),
     });
 
-    if (response.status === 403) {
-      toast.warn("댓글 수정 권한이 없습니다.");
-    } else if (response.status === 404) {
-      toast.error("해당 댓글을 찾을 수 없습니다.");
-    } else if (!response.ok) {
-      toast.error("시스템 오류로 댓글 수정에 실패했습니다.");
-    } else {
-      toast.success("댓글을 성공적으로 수정했습니다.");
+    if (!response.ok) {
+      const error = CommentError.fromResponse(response);
+      toast.error(error.message);
+      throw error;
     }
 
     return response.json();
   } catch (error) {
-    console.error("Error: ", error);
+    if (!(error instanceof CommentError)) {
+      const systemErrorMessage = "댓글 처리 중 시스템 오류가 발생했습니다.";
+      toast.error(systemErrorMessage);
+      throw new Error(systemErrorMessage);
+    }
+    throw error;
   }
 }
 
@@ -129,19 +141,20 @@ export async function editReply(editParams: EditCommentParams) {
       body: JSON.stringify({ albumId, commentId, userId, userComment, date }),
     });
 
-    if (response.status === 403) {
-      toast.warn("댓글 수정 권한이 없습니다.");
-    } else if (response.status === 404) {
-      toast.error("해당 댓글을 찾을 수 없습니다.");
-    } else if (!response.ok) {
-      toast.error("시스템 오류로 댓글 수정에 실패했습니다.");
-    } else {
-      toast.success("댓글을 성공적으로 수정했습니다.");
+    if (!response.ok) {
+      const error = ReplyError.fromResponse(response);
+      toast.error(error.message);
+      throw error;
     }
 
     return response.json();
   } catch (error) {
-    console.error("Error: ", error);
+    if (!(error instanceof ReplyError)) {
+      const systemErrorMessage = "답글 처리 중 시스템 오류가 발생했습니다.";
+      toast.error(systemErrorMessage);
+      throw new Error(systemErrorMessage);
+    }
+    throw error;
   }
 }
 
@@ -164,19 +177,20 @@ export async function deleteComment(deleteCommentParams: DeleteCommentParams) {
       body: JSON.stringify({ albumId, commentId, userId }),
     });
 
-    if (response.status === 403) {
-      toast.warn("댓글 삭제 권한이 없습니다.");
-    } else if (response.status === 404) {
-      toast.error("해당 댓글을 찾을 수 없습니다.");
-    } else if (!response.ok) {
-      toast.error("시스템 오류로 댓글 삭제에 실패했습니다.");
-    } else {
-      toast.success("댓글을 성공적으로 삭제했습니다.");
+    if (!response.ok) {
+      const error = CommentError.fromResponse(response);
+      toast.error(error.message);
+      throw error;
     }
 
     return response.json();
   } catch (error) {
-    console.error("Error: ", error);
+    if (!(error instanceof CommentError)) {
+      const systemErrorMessage = "댓글 처리 중 시스템 오류가 발생했습니다.";
+      toast.error(systemErrorMessage);
+      throw new Error(systemErrorMessage);
+    }
+    throw error;
   }
 }
 
@@ -199,19 +213,20 @@ export async function deleteReply(deleteReplyParams: DeleteReplyParams) {
       body: JSON.stringify({ albumId, replyId, userId }),
     });
 
-    if (response.status === 403) {
-      toast.warn("답글 삭제 권한이 없습니다.");
-    } else if (response.status === 404) {
-      toast.error("해당 답글을 찾을 수 없습니다.");
-    } else if (!response.ok) {
-      toast.error("시스템 오류로 답글 삭제에 실패했습니다.");
-    } else {
-      toast.success("답글을 성공적으로 삭제했습니다.");
+    if (!response.ok) {
+      const error = ReplyError.fromResponse(response);
+      toast.error(error.message);
+      throw error;
     }
 
     return response.json();
   } catch (error) {
-    console.error("Error: ", error);
+    if (!(error instanceof ReplyError)) {
+      const systemErrorMessage = "댓글 처리 중 시스템 오류가 발생했습니다.";
+      toast.error(systemErrorMessage);
+      throw new Error(systemErrorMessage);
+    }
+    throw error;
   }
 }
 
@@ -227,9 +242,20 @@ export async function getComment(albumId: string) {
       },
     });
 
+    if (!response.ok) {
+      const error = CommentError.fromResponse(response);
+      toast.error(error.message);
+      throw error;
+    }
+
     return response.json();
   } catch (error) {
-    console.error("Error: ", error);
+    if (!(error instanceof CommentError)) {
+      const systemErrorMessage = "댓글 처리 중 시스템 오류가 발생했습니다.";
+      toast.error(systemErrorMessage);
+      throw new Error(systemErrorMessage);
+    }
+    throw error;
   }
 }
 
@@ -253,25 +279,28 @@ export async function likeCommentToggle(likeCommentToggleParams: LikeToggleParam
       body: JSON.stringify({ albumId, commentId: entityIdKey, userId, likedUserIds }),
     });
 
-    if (response.status === 401) {
-      toast.error("로그인 상태가 아닙니다.");
-    } else if (response.status === 404) {
-      toast.error("해당 댓글을 찾을 수 없습니다.");
-    } else if (!response.ok) {
-      toast.error("시스템 오류로 좋아요 반영에 실패했습니다.");
+    if (!response.ok) {
+      const error = LikeError.fromResponse(response);
+      toast.error(error.message);
+      throw error;
     }
 
     return response.json();
   } catch (error) {
-    console.error("Error: ", error);
+    if (!(error instanceof LikeError)) {
+      const systemErrorMessage = "좋아요 처리 중 시스템 오류가 발생했습니다.";
+      toast.error(systemErrorMessage);
+      throw new Error(systemErrorMessage);
+    }
+    throw error;
   }
 }
 
 export async function likeReplyToggle(likeReplyToggleParams: LikeToggleParams) {
-  try {
-    const url = `${BASE_URL}/api/auth/comment/reply/like`;
-    const { albumId, entityIdKey, userId, likedUserIds } = likeReplyToggleParams;
+  const url = `${BASE_URL}/api/auth/comment/reply/like`;
+  const { albumId, entityIdKey, userId, likedUserIds } = likeReplyToggleParams;
 
+  try {
     const response = await fetch(url, {
       method: "PUT",
       headers: {
@@ -280,16 +309,19 @@ export async function likeReplyToggle(likeReplyToggleParams: LikeToggleParams) {
       body: JSON.stringify({ albumId, replyId: entityIdKey, userId, likedUserIds }),
     });
 
-    if (response.status === 401) {
-      toast.error("로그인 상태가 아닙니다.");
-    } else if (response.status === 404) {
-      toast.error("해당 댓글을 찾을 수 없습니다.");
-    } else if (!response.ok) {
-      toast.error("시스템 오류로 좋아요 반영에 실패했습니다.");
+    if (!response.ok) {
+      const error = LikeError.fromResponse(response);
+      toast.error(error.message);
+      throw error;
     }
 
     return response.json();
   } catch (error) {
-    console.error("Error: ", error);
+    if (!(error instanceof LikeError)) {
+      const systemErrorMessage = "좋아요 처리 중 시스템 오류가 발생했습니다.";
+      toast.error(systemErrorMessage);
+      throw new Error(systemErrorMessage);
+    }
+    throw error;
   }
 }

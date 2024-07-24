@@ -1,7 +1,8 @@
 import { toast } from "react-toastify";
 import { validateEmail, validatePassword, validateUserId, validateUserName } from "../utils";
-import { JwtPayload, verify } from "jsonwebtoken";
+import { verify } from "jsonwebtoken";
 import { BASE_URL } from "../constants/apiUrls";
+import { GetLoginInfoError, LoginError, SignUpError } from "../errors";
 
 export async function userSignUp(
   userId: string,
@@ -48,18 +49,20 @@ export async function userSignUp(
       }),
     });
 
-    if (response.status === 409) {
-      toast.error("이미 가입된 이메일입니다.");
-    } else if (!response.ok) {
-      toast.error("회원가입에 실패했습니다.");
-    } else {
-      toast.success("회원가입에 성공했습니다.");
+    if (!response.ok) {
+      const error = SignUpError.fromResponse(response);
+      toast.error(error.message);
+      throw error;
     }
 
     return response;
   } catch (error) {
-    console.error("Error: ", error);
-    toast.error("회원가입 과정에서 오류가 발생했습니다.");
+    if (!(error instanceof SignUpError)) {
+      const systemErrorMessage = "회원가입 처리 중 시스템 오류가 발생했습니다.";
+      toast.error(systemErrorMessage);
+      throw new Error(systemErrorMessage);
+    }
+    throw error;
   }
 }
 
@@ -79,14 +82,19 @@ export async function userLogin(id: string, password: string) {
     });
 
     if (!response.ok) {
-      toast.error("로그인에 실패했습니다.");
-    } else {
-      toast.success("로그인에 성공했습니다.");
+      const error = LoginError.fromResponse(response);
+      toast.error(error.message);
+      throw error;
     }
 
     return response;
   } catch (error) {
-    console.error("Error: ", error);
+    if (!(error instanceof LoginError)) {
+      const systemErrorMessage = "로그인 처리 중 시스템 오류가 발생했습니다.";
+      toast.error(systemErrorMessage);
+      throw new Error(systemErrorMessage);
+    }
+    throw error;
   }
 }
 
@@ -101,9 +109,20 @@ export async function getUserInfo() {
       },
     });
 
+    if (!response.ok) {
+      const error = GetLoginInfoError.fromResponse(response);
+      toast.error(error.message);
+      throw error;
+    }
+
     return response.json();
   } catch (error) {
-    console.error("Error: ", error);
+    if (!(error instanceof GetLoginInfoError)) {
+      const systemErrorMessage = "로그인 정보 처리 중 시스템 오류가 발생했습니다.";
+      toast.error(systemErrorMessage);
+      throw new Error(systemErrorMessage);
+    }
+    throw error;
   }
 }
 
