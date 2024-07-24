@@ -14,12 +14,11 @@ import { LikeReplyButton } from "../like/LikeReplyButton";
 
 interface CommentItemProps {
   comment: Comment;
-  replies: Reply[];
   albumId: string;
 }
 
 // 댓글 - comment, 답글 - reply
-export const CommentItem = ({ comment, replies, albumId }: CommentItemProps) => {
+export const CommentItem = ({ comment, albumId }: CommentItemProps) => {
   const { userId, userName, userComment, date, userImage } = comment;
   const dateDiff = formatTimeDifference(date);
   const [showCommentManageButtons, setShowCommentManageButtons] = useState<boolean>(false);
@@ -32,6 +31,7 @@ export const CommentItem = ({ comment, replies, albumId }: CommentItemProps) => 
   const [activeReplyId, setActiveReplyId] = useState<string | null>();
   const commentHeaderLabel = `${userName} · ${dateDiff}`;
   const isUserCommentOwner = activeUserId === comment.userId;
+  const replies = useAtomValue(repliesAtom);
 
   const handleComment = () => {
     setShowCommentManageButtons(!showCommentManageButtons);
@@ -154,18 +154,14 @@ interface CommentResultProps {
 export const CommentList = ({ albumId }: CommentResultProps) => {
   const comments = useAtomValue(commentsAtom);
   const replies = useAtomValue(repliesAtom);
-  const commentsCount = comments?.length;
-  const repliescount = replies?.length;
-  const commentSummaryCount = `댓글 ${commentsCount + repliescount}`;
+  const commentSummaryCount = `댓글 ${comments.length + replies.length}`;
 
-  return comments ? (
+  return (
     <>
       <div className={styles.commentCount}>{commentSummaryCount}</div>
       {comments.map((comment: Comment) => {
-        return (
-          <CommentItem key={comment._id} comment={comment} albumId={albumId} replies={replies} />
-        );
+        return <CommentItem key={comment._id} comment={comment} albumId={albumId} />;
       })}
     </>
-  ) : null;
+  );
 };

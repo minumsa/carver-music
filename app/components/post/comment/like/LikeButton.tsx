@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useAtomValue } from "jotai";
-import { userIdAtom } from "@/app/modules/atoms";
+import { useAtomValue, useSetAtom } from "jotai";
+import { commentsAtom, repliesAtom, userIdAtom } from "@/app/modules/atoms";
 import { LoginAlert } from "../@common/LoginAlert";
 import { LikeIcon } from "./LikeIcon";
 import { likeCommentToggle, likeReplyToggle } from "@/app/modules/api/comment";
@@ -23,7 +23,10 @@ export const LikeButton = ({
   const [likeCount, setLikeCount] = useState<number>(likedUserIds.length);
   const [currentLikeUserIds, setCurrentLikeUserIds] = useState<string[]>(likedUserIds);
   const [showLoginModal, setShowLoginModal] = useState(false);
+
   const activeUserId = useAtomValue(userIdAtom);
+  const setComments = useSetAtom(commentsAtom);
+  const setReplies = useSetAtom(repliesAtom);
 
   async function handleLikeToggle() {
     const loginResponse = await verifyLoginStatus();
@@ -47,9 +50,11 @@ export const LikeButton = ({
     };
 
     if (entityIdKey === "comment") {
-      await likeCommentToggle(likeToggleParams);
+      const response = await likeCommentToggle(likeToggleParams);
+      setComments(response.comments);
     } else if (entityIdKey === "reply") {
-      await likeReplyToggle(likeToggleParams);
+      const response = await likeReplyToggle(likeToggleParams);
+      setReplies(response.replies);
     }
   }
 

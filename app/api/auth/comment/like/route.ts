@@ -37,23 +37,12 @@ export async function PUT(request: Request) {
     const comments = await db.collection("comments").find({ albumId }).sort({ date: 1 }).toArray();
 
     const usersClient = await MongoClient.connect(usersUri);
-    const usersDb = usersClient.db();
+    const userDB = usersClient.db();
 
     const commentUserIds = comments.map((comment) => comment.userId);
-    const commentIds = comments.map((comment) => comment._id.toString());
+    const allUserIds = Array.from([...commentUserIds]);
 
-    const replies = await db
-      .collection("replies")
-      .find({ commentId: { $in: commentIds } })
-      .sort({ date: 1 })
-      .toArray();
-
-    const replyUserIds = replies.map((reply) => reply.userId);
-
-    // 모든 userId 목록 병합 후 중복 제거
-    const allUserIds = Array.from(new Set([...commentUserIds, ...replyUserIds]));
-
-    const users = await usersDb
+    const users = await userDB
       .collection("users")
       .find({ userId: { $in: allUserIds } })
       .toArray();
@@ -69,18 +58,9 @@ export async function PUT(request: Request) {
       userImage: userMap[comment.userId]?.userImage || null, // userImage가 없을 경우 null 처리
     }));
 
-    // 각 답글에 userImage 및 userName 추가
-    const repliesWithImages = replies.map((reply) => ({
-      ...reply,
-      userImage: userMap[reply.userId]?.userImage || null,
-    }));
-
     client.close();
 
-    const response = NextResponse.json(
-      { comments: commentsWithImages, replies: repliesWithImages },
-      { status: 200 },
-    );
+    const response = NextResponse.json({ comments: commentsWithImages }, { status: 200 });
     return response;
   } catch (error) {
     console.error(error);

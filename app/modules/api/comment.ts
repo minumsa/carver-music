@@ -261,7 +261,7 @@ export async function likeCommentToggle(likeCommentToggleParams: LikeToggleParam
       toast.error("시스템 오류로 좋아요 반영에 실패했습니다.");
     }
 
-    return response;
+    return response.json();
   } catch (error) {
     console.error("Error: ", error);
   }
