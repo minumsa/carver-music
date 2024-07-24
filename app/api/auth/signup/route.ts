@@ -23,7 +23,7 @@ export async function POST(request: Request) {
 
     if (checkExisting) {
       client.close();
-      return NextResponse.json({ message: "이미 가입된 계정입니다." }, { status: 422 });
+      return NextResponse.json({ message: "이미 가입된 계정입니다." }, { status: 409 });
     }
 
     // 비밀번호 암호화

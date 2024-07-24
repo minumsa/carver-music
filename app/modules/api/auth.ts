@@ -48,7 +48,7 @@ export async function userSignUp(
       }),
     });
 
-    if (response.status === 422) {
+    if (response.status === 409) {
       toast.error("이미 가입된 이메일입니다. 🙀");
     } else if (!response.ok) {
       toast.error("회원가입에 실패했습니다. 😿");
