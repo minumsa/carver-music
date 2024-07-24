@@ -23,6 +23,11 @@ export async function PUT(request: Request) {
       );
     }
 
+    // FIXME: 로그인 상태가 아닐 때 쿠키 이용하는 방식으로 코드 변경
+    if (!userId) {
+      return NextResponse.json({ message: "로그인 상태가 아닙니다." }, { status: 401 });
+    }
+
     await db
       .collection("replies")
       .updateOne({ _id: new ObjectId(replyId) }, { $set: { likedUserIds } });

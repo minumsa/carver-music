@@ -7,17 +7,17 @@ import { likeCommentToggle, likeReplyToggle } from "@/app/modules/api/comment";
 import { verifyLoginStatus } from "@/app/modules/api/auth";
 
 interface LikeButtonProps {
+  albumId: string;
   entityIdKey: "comment" | "reply";
   entityIdValue: string;
   likedUserIds: string[];
-  fetchComments: () => Promise<void>;
 }
 
 export const LikeButton = ({
+  albumId,
   entityIdKey,
   entityIdValue,
   likedUserIds,
-  fetchComments,
 }: LikeButtonProps) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(likedUserIds.length);
@@ -40,6 +40,7 @@ export const LikeButton = ({
     setCurrentLikeUserIds(updatedLikeUserIds);
 
     const likeToggleParams = {
+      albumId,
       entityIdKey: entityIdValue,
       userId: activeUserId,
       likedUserIds: updatedLikeUserIds,
@@ -50,8 +51,6 @@ export const LikeButton = ({
     } else if (entityIdKey === "reply") {
       await likeReplyToggle(likeToggleParams);
     }
-
-    await fetchComments();
   }
 
   useEffect(() => {

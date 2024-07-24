@@ -234,6 +234,7 @@ export async function getComment(albumId: string) {
 }
 
 interface LikeToggleParams {
+  albumId: string;
   entityIdKey: string;
   userId: string;
   likedUserIds: string[];
@@ -242,22 +243,22 @@ interface LikeToggleParams {
 export async function likeCommentToggle(likeCommentToggleParams: LikeToggleParams) {
   try {
     const url = `${BASE_URL}/api/auth/comment/like`;
-    const { entityIdKey, userId, likedUserIds } = likeCommentToggleParams;
+    const { albumId, entityIdKey, userId, likedUserIds } = likeCommentToggleParams;
 
     const response = await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ commentId: entityIdKey, userId, likedUserIds }),
+      body: JSON.stringify({ albumId, commentId: entityIdKey, userId, likedUserIds }),
     });
 
-    if (response.status === 403) {
-      console.error("댓글에 좋아요를 누를 권한이 없습니다.");
+    if (response.status === 401) {
+      toast.error("로그인 상태가 아닙니다.");
     } else if (response.status === 404) {
-      console.error("해당 댓글을 찾을 수 없습니다.");
+      toast.error("해당 댓글을 찾을 수 없습니다.");
     } else if (!response.ok) {
-      console.error("시스템 오류로 좋아요 반영에 실패했습니다.");
+      toast.error("시스템 오류로 좋아요 반영에 실패했습니다.");
     }
 
     return response;
@@ -269,22 +270,22 @@ export async function likeCommentToggle(likeCommentToggleParams: LikeToggleParam
 export async function likeReplyToggle(likeReplyToggleParams: LikeToggleParams) {
   try {
     const url = `${BASE_URL}/api/auth/comment/reply/like`;
-    const { entityIdKey, userId, likedUserIds } = likeReplyToggleParams;
+    const { albumId, entityIdKey, userId, likedUserIds } = likeReplyToggleParams;
 
     const response = await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ replyId: entityIdKey, userId, likedUserIds }),
+      body: JSON.stringify({ albumId, replyId: entityIdKey, userId, likedUserIds }),
     });
 
-    if (response.status === 403) {
-      console.error("댓글에 좋아요를 누를 권한이 없습니다.");
+    if (response.status === 401) {
+      toast.error("로그인 상태가 아닙니다.");
     } else if (response.status === 404) {
-      console.error("해당 댓글을 찾을 수 없습니다.");
+      toast.error("해당 댓글을 찾을 수 없습니다.");
     } else if (!response.ok) {
-      console.error("시스템 오류로 좋아요 반영에 실패했습니다.");
+      toast.error("시스템 오류로 좋아요 반영에 실패했습니다.");
     }
 
     return response.json();

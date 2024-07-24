@@ -3,16 +3,15 @@ import { LikeButton } from "./LikeButton";
 
 interface LikeReplyButtonProps {
   reply: Reply;
-  fetchComments: () => Promise<void>;
 }
 
-export const LikeReplyButton = ({ reply, fetchComments }: LikeReplyButtonProps) => {
+export const LikeReplyButton = ({ reply }: LikeReplyButtonProps) => {
   return (
     <LikeButton
-      entityIdKey="replyId"
+      albumId={reply.albumId}
+      entityIdKey="reply"
       entityIdValue={reply._id}
       likedUserIds={reply.likedUserIds}
-      fetchComments={fetchComments}
     />
   );
 };
