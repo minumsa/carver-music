@@ -353,15 +353,15 @@ export async function uploadData({ newData }: UploadDataParams) {
         }),
       });
 
-      if (response.status === 401) {
-        toast.warn("관리자 로그인 상태가 아닙니다. 🙀");
+      if (response.status === 403) {
+        toast.warn("관리자 로그인 상태가 아닙니다.");
       } else if (response.status === 409) {
-        toast.warn("이미 존재하는 앨범입니다! 🙀");
+        toast.warn("이미 존재하는 앨범입니다.");
       } else if (!response.ok) {
-        toast.error("데이터 업로드 실패 😿");
+        toast.error("데이터 업로드에 실패했습니다.");
         throw new Error("데이터 업로드에 실패했습니다.");
       } else {
-        toast.success("데이터 업로드 완료 😻");
+        toast.success("데이터 업로드에 성공했습니다.");
       }
 
       return response;
@@ -410,14 +410,14 @@ export const updateData = async ({ newData }: UpdateDataParams) => {
         }),
       });
 
-      if (response.status === 401) {
-        toast.warn("관리자 로그인 상태가 아닙니다. 😾");
+      if (response.status === 403) {
+        toast.warn("관리자 로그인 상태가 아닙니다.");
       } else if (response.status === 404) {
-        toast.warn("존재하지 않는 앨범입니다. 🙀");
+        toast.warn("존재하지 않는 앨범입니다.");
       } else if (!response.ok) {
-        toast.error("데이터 수정에 실패했습니다. 😿");
+        toast.error("데이터 수정에 실패했습니다.");
       } else {
-        toast.success("데이터를 성공적으로 수정했습니다. 😻");
+        toast.success("데이터를 성공적으로 수정했습니다.");
       }
 
       return response;
@@ -437,14 +437,14 @@ export const deleteData = async (id: string) => {
       body: JSON.stringify({ id }),
     });
 
-    if (response.status === 401) {
-      toast.warn("관리자 로그인 상태가 아닙니다. 😾");
+    if (response.status === 403) {
+      toast.warn("관리자 로그인 상태가 아닙니다.");
     } else if (response.status === 404) {
-      toast.warn("존재하지 않는 데이터입니다. 🙀");
+      toast.warn("존재하지 않는 데이터입니다.");
     } else if (!response.ok) {
-      toast.warn("데이터를 삭제하는 데 실패했습니다. 😿");
+      toast.warn("데이터를 삭제하는 데 실패했습니다.");
     } else {
-      toast.warn("데이터가 성공적으로 삭제되었습니다. 😻");
+      toast.warn("데이터가 성공적으로 삭제되었습니다.");
     }
 
     return response;

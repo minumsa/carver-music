@@ -83,7 +83,7 @@ export async function POST(request: Request) {
     } = newSpotifyAlbumData;
 
     if (!(await isAdminLoggedIn(request))) {
-      return NextResponse.json({ message: "관리자 로그인 상태가 아닙니다." }, { status: 401 });
+      return NextResponse.json({ message: "관리자 로그인 상태가 아닙니다." }, { status: 403 });
     }
 
     const existingData = await Music.findOne({ id });
@@ -156,7 +156,7 @@ export async function PUT(request: Request) {
     } = newSpotifyAlbumData;
 
     if (!(await isAdminLoggedIn(request))) {
-      return NextResponse.json({ message: "관리자 로그인 상태가 아닙니다." }, { status: 401 });
+      return NextResponse.json({ message: "관리자 로그인 상태가 아닙니다." }, { status: 403 });
     }
 
     // 수정할 데이터를 id로 찾아 originalData에 할당
@@ -205,7 +205,7 @@ export async function DELETE(request: Request) {
     const { id } = await request.json();
 
     if (!(await isAdminLoggedIn(request))) {
-      return NextResponse.json({ message: "관리자 로그인 상태가 아닙니다." }, { status: 401 });
+      return NextResponse.json({ message: "관리자 로그인 상태가 아닙니다." }, { status: 403 });
     }
 
     const existingData = await Music.findOne({ id });
