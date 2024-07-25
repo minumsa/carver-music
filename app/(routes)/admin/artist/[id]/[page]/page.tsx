@@ -5,17 +5,17 @@ import { fetchArtistData } from "@/app/modules/api/album";
 
 export default async function Page({ params }: PageProps) {
   const artistId = params.id;
-  const currentPage = params.page;
+  const activePage = params.page;
 
   try {
-    const { artistData, artistDataCount } = await fetchArtistData(artistId, currentPage);
+    const { artistData, artistDataCount } = await fetchArtistData(artistId, activePage);
 
     return (
       <MusicLayout>
         <ArtistContents
           artistData={artistData}
           artistDataCount={artistDataCount}
-          currentPage={currentPage}
+          activePage={activePage}
         />
       </MusicLayout>
     );

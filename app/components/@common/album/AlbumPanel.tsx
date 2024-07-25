@@ -6,13 +6,13 @@ import { DeleteButton } from "../assets/DeleteButton";
 import { EditButton } from "../assets/EditButton";
 import Link from "next/link";
 import { BlurImg } from "../BlurImg";
-import { AlbumInfo } from "../../../modules/types";
+import { AlbumData } from "../../../modules/types";
 import { toArtistPage, toTagPage, toPostPage, toGenrePage } from "../../../modules/paths";
 import { DEFAULT_TAGS } from "../../../modules/constants/tags";
 import { GENRES } from "@/app/modules/constants/genres";
 
 interface AlbumProps {
-  albumData: AlbumInfo;
+  albumData: AlbumData;
 }
 
 export const AlbumPanel = ({ albumData }: AlbumProps) => {

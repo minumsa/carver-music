@@ -1,12 +1,12 @@
 import { atom } from "jotai";
-import { AlbumInfoLandingPage, CalendarData, Comment, Reply } from "./types";
+import { AlbumDataLandingPage, CalendarData, Comment, Reply } from "./types";
 
 // 앨범 데이터 관련
 export const scrollCountAtom = atom<number>(1);
 export const isScrollingAtom = atom<boolean>(false);
 export const scrollPositionAtom = atom<number>(0);
 export const totalScrollCountAtom = atom<number>(0);
-export const albumDataAtom = atom<AlbumInfoLandingPage[]>([]);
+export const albumDataAtom = atom<AlbumDataLandingPage[]>([]);
 export const tagAtom = atom<string>("");
 export const showAllTagItemsAtom = atom<boolean>(false);
 export const activeDateAtom = atom<Date>(new Date());

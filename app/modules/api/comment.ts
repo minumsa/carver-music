@@ -1,14 +1,14 @@
 import { toast } from "react-toastify";
 import { BASE_URL } from "../constants/apiUrls";
-import { ApiError, CommentError, LikeError, ReplyError } from "../errors";
-
-interface PostCommentParams {
-  userId: string;
-  userName: string;
-  userComment: string;
-  albumId: string;
-  date: Date;
-}
+import { CommentError, LikeError, ReplyError } from "../errors";
+import {
+  DeleteCommentParams,
+  DeleteReplyParams,
+  EditCommentParams,
+  LikeToggleParams,
+  PostCommentParams,
+  PostReplyParams,
+} from "./commentTypes";
 
 export async function postComment(postCommentParams: PostCommentParams) {
   try {
@@ -44,11 +44,6 @@ export async function postComment(postCommentParams: PostCommentParams) {
     }
     throw error;
   }
-}
-
-interface PostReplyParams extends PostCommentParams {
-  commentId: string;
-  commentUserId: string;
 }
 
 export async function postReply(postReplyParams: PostReplyParams) {
@@ -88,14 +83,6 @@ export async function postReply(postReplyParams: PostReplyParams) {
     }
     throw error;
   }
-}
-
-interface EditCommentParams {
-  albumId: string;
-  commentId: string;
-  userId: string;
-  userComment: string;
-  date: Date;
 }
 
 export async function editComment(editParams: EditCommentParams) {
@@ -158,12 +145,6 @@ export async function editReply(editParams: EditCommentParams) {
   }
 }
 
-interface DeleteCommentParams {
-  albumId: string;
-  commentId: string;
-  userId: string;
-}
-
 export async function deleteComment(deleteCommentParams: DeleteCommentParams) {
   try {
     const url = `${BASE_URL}/api/auth/comment`;
@@ -192,12 +173,6 @@ export async function deleteComment(deleteCommentParams: DeleteCommentParams) {
     }
     throw error;
   }
-}
-
-interface DeleteReplyParams {
-  albumId: string;
-  replyId: string;
-  userId: string;
 }
 
 export async function deleteReply(deleteReplyParams: DeleteReplyParams) {
@@ -257,13 +232,6 @@ export async function getComment(albumId: string) {
     }
     throw error;
   }
-}
-
-interface LikeToggleParams {
-  albumId: string;
-  entityIdKey: string;
-  userId: string;
-  likedUserIds: string[];
 }
 
 export async function likeCommentToggle(likeCommentToggleParams: LikeToggleParams) {

@@ -6,10 +6,10 @@ import { EditButton } from "../@common/assets/EditButton";
 import Link from "next/link";
 import { LinkIcon } from "../@common/assets/LinkIcon";
 import { BlurImg } from "../@common/BlurImg";
-import { AlbumInfo } from "../../modules/types";
+import { AlbumData } from "../../modules/types";
 
 interface PostMetadataProps {
-  postData: AlbumInfo;
+  postData: AlbumData;
 }
 
 export const PostMetadata = ({ postData }: PostMetadataProps) => {

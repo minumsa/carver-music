@@ -116,8 +116,8 @@ export const validateUserId = (userId: string): boolean => {
 };
 
 export const formatTimeDifference = (date: Date): string => {
-  const currentDate = new Date();
-  const differenceInMilliseconds = currentDate.getTime() - new Date(date).getTime();
+  const activeDate = new Date();
+  const differenceInMilliseconds = activeDate.getTime() - new Date(date).getTime();
   const differenceInMinutes = differenceInMilliseconds / (1000 * 60);
   const differenceInHours = differenceInMinutes / 60;
   const differenceInDays = differenceInHours / 24;

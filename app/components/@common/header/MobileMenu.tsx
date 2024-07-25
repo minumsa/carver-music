@@ -2,7 +2,7 @@ import styles from "./MobileMenu.module.css";
 import Link from "next/link";
 import { toCalendarPage, toGenrePage, toPostPage } from "@/app/modules/paths";
 import { usePathname, useRouter } from "next/navigation";
-import { fetchRandomAlbumId } from "@/app/modules/api/album";
+import { getRandomAlbumId } from "@/app/modules/api/album";
 import { isAdminPage } from "@/app/modules/utils";
 import { useEffect } from "react";
 import { userImageAtom, userNameAtom } from "@/app/modules/atoms";
@@ -21,7 +21,7 @@ export const MobileMenu = ({ showCategory }: MobileMenuProps) => {
   const [userImage, setUserImage] = useAtom(userImageAtom);
 
   async function handleRandomButton() {
-    const randomId = await fetchRandomAlbumId();
+    const randomId = await getRandomAlbumId();
     router.push(toPostPage(pathName, randomId));
   }
 

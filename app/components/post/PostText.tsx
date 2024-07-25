@@ -2,7 +2,7 @@ import { formatDate, isAdminPage } from "../../modules/utils";
 import styles from "./PostText.module.css";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { AlbumInfo } from "../../modules/types";
+import { AlbumData } from "../../modules/types";
 import { DEFAULT_TAGS } from "@/app/modules/constants/tags";
 import Markdown from "react-markdown";
 import { toGenrePage } from "@/app/modules/paths";
@@ -11,7 +11,7 @@ import { Comments } from "./comment/Comments";
 import { GENRES } from "@/app/modules/constants/genres";
 
 interface PostTextProps {
-  postData: AlbumInfo;
+  postData: AlbumData;
 }
 
 export const PostText = ({ postData }: PostTextProps) => {

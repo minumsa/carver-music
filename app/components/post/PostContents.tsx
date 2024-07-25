@@ -1,12 +1,12 @@
 "use client";
 
-import { AlbumInfo } from "../../modules/types";
+import { AlbumData } from "../../modules/types";
 import styles from "./PostContents.module.css";
 import { PostMetadata } from "./PostMetadata";
 import dynamic from "next/dynamic";
 
 interface PostProps {
-  postData: AlbumInfo;
+  postData: AlbumData;
 }
 
 const PostTextNoSSR = dynamic(() => import("./PostText").then((mod) => mod.PostText), {

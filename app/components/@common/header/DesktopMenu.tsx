@@ -1,4 +1,4 @@
-import { fetchRandomAlbumId } from "@/app/modules/api/album";
+import { getRandomAlbumId } from "@/app/modules/api/album";
 import { toCalendarPage, toGenrePage, toPostPage } from "@/app/modules/paths";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -22,7 +22,7 @@ export const DesktopMenu = ({ showCategory }: DesktopMenuProps) => {
   const [userId, setUserId] = useAtom(userIdAtom);
 
   async function handleRandomButton() {
-    const randomId = await fetchRandomAlbumId();
+    const randomId = await getRandomAlbumId();
     router.push(`${toPostPage(pathName, randomId)}`);
   }
 

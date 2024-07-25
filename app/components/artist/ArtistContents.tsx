@@ -3,21 +3,21 @@
 import { AlbumContents } from "../@common/album/AlbumContents";
 import { ContentLayout } from "../@common/ContentLayout";
 import { ArtistHeader } from "./ArtistHeader";
-import { AlbumInfo } from "../../modules/types";
+import { AlbumData } from "../../modules/types";
 
 interface ArtistContentProps {
-  artistData: AlbumInfo[];
+  artistData: AlbumData[];
   artistDataCount: number;
-  currentPage: number;
+  activePage: number;
 }
 
 export default function ArtistContents({
   artistData,
   artistDataCount,
-  currentPage,
+  activePage,
 }: ArtistContentProps) {
   return (
-    <ContentLayout currentPage={currentPage} dataCount={artistDataCount}>
+    <ContentLayout activePage={activePage} dataCount={artistDataCount}>
       <ArtistHeader artistData={artistData} />
       <AlbumContents albumData={artistData} />
     </ContentLayout>

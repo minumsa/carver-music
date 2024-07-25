@@ -5,30 +5,30 @@ import { AlbumContents } from "../@common/album/AlbumContents";
 import { ContentLayout } from "../@common/ContentLayout";
 import styles from "./SearchContents.module.css";
 import { usePathname, useRouter } from "next/navigation";
-import { AlbumInfo } from "../../modules/types";
+import { AlbumData } from "../../modules/types";
 import { isAdminPage } from "../../modules/utils";
 import { SearchTagDisplay } from "./SearchTagDisplay";
 import { DEFAULT_TAGS } from "@/app/modules/constants/tags";
 
 interface SearchInfo {
-  currentKeyword: string;
-  currentPage: number;
-  currentTagName: string;
+  activeKeyword: string;
+  activePage: number;
+  activeTagName: string;
   totalDataLength: number;
 }
 
 interface SearchContentProps {
-  data: AlbumInfo[];
+  data: AlbumData[];
   searchInfo: SearchInfo;
 }
 
 export default function SearchContents({ data, searchInfo }: SearchContentProps) {
-  const { currentKeyword, currentPage, currentTagName, totalDataLength } = searchInfo;
+  const { activeKeyword, activePage, activeTagName, totalDataLength } = searchInfo;
   const router = useRouter();
   const pathName = usePathname();
-  const decodedKeyword = decodeURIComponent(currentKeyword);
+  const decodedKeyword = decodeURIComponent(activeKeyword);
   const [keyword, setKeyword] = useState("");
-  const [currentText, setCurrentText] = useState(
+  const [activeText, setCurrentText] = useState(
     "앨범 제목, 아티스트 또는 키워드 등을 검색해보세요.",
   );
 
@@ -53,15 +53,15 @@ export default function SearchContents({ data, searchInfo }: SearchContentProps)
       }
     }
 
-    if (currentTagName) {
+    if (activeTagName) {
       setCurrentText(
-        `${DEFAULT_TAGS[currentTagName]} 태그에 관련된 총 ${totalDataLength}건의 검색 결과`,
+        `${DEFAULT_TAGS[activeTagName]} 태그에 관련된 총 ${totalDataLength}건의 검색 결과`,
       );
     }
-  }, [currentTagName, decodedKeyword, totalDataLength]);
+  }, [activeTagName, decodedKeyword, totalDataLength]);
 
   return (
-    <ContentLayout currentPage={currentPage} dataCount={totalDataLength}>
+    <ContentLayout activePage={activePage} dataCount={totalDataLength}>
       <div className={styles.container}>
         <div className={styles.inputContainer}>
           <input
@@ -78,8 +78,8 @@ export default function SearchContents({ data, searchInfo }: SearchContentProps)
             alt="magnifyingGlass"
           />
         </div>
-        <p className={styles.searchResultText}>{currentText}</p>
-        <SearchTagDisplay currentTag={currentTagName} />
+        <p className={styles.searchResultText}>{activeText}</p>
+        <SearchTagDisplay activeTag={activeTagName} />
       </div>
       {data && <AlbumContents albumData={data} />}
     </ContentLayout>

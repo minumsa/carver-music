@@ -21,7 +21,7 @@ export const LikeButton = ({
 }: LikeButtonProps) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(likedUserIds.length);
-  const [currentLikeUserIds, setCurrentLikeUserIds] = useState<string[]>(likedUserIds);
+  const [activeLikeUserIds, setCurrentLikeUserIds] = useState<string[]>(likedUserIds);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   const activeUserId = useAtomValue(userIdAtom);
@@ -36,8 +36,8 @@ export const LikeButton = ({
     }
 
     const updatedLikeUserIds = isLiked
-      ? currentLikeUserIds.filter((userId) => userId !== activeUserId)
-      : [...currentLikeUserIds, activeUserId];
+      ? activeLikeUserIds.filter((userId) => userId !== activeUserId)
+      : [...activeLikeUserIds, activeUserId];
 
     setIsLiked(!isLiked);
     setCurrentLikeUserIds(updatedLikeUserIds);
@@ -64,8 +64,8 @@ export const LikeButton = ({
   }, [likedUserIds, activeUserId]);
 
   useEffect(() => {
-    setLikeCount(currentLikeUserIds.length);
-  }, [currentLikeUserIds]);
+    setLikeCount(activeLikeUserIds.length);
+  }, [activeLikeUserIds]);
 
   return (
     <>

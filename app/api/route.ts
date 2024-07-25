@@ -89,7 +89,7 @@ export async function POST(request: Request) {
     const existingData = await Music.findOne({ id });
 
     if (existingData) {
-      return NextResponse.json({ message: "이미 존재하는 앨범입니다." }, { status: 409 });
+      return NextResponse.json({ message: "이미 존재하는 데이터입니다." }, { status: 409 });
     }
 
     const newData = new Music({
@@ -130,7 +130,7 @@ export async function PUT(request: Request) {
 
     const {
       newSpotifyAlbumData,
-      originalAlbumId,
+      prevAlbumId,
       title,
       genre,
       link,
@@ -159,8 +159,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ message: "관리자 로그인 상태가 아닙니다." }, { status: 403 });
     }
 
-    // 수정할 데이터를 id로 찾아 originalData에 할당
-    const prevData = await Music.findOne({ id: originalAlbumId });
+    const prevData = await Music.findOne({ id: prevAlbumId });
 
     if (!prevData) {
       return NextResponse.json({ message: "해당 데이터를 찾을 수 없습니다." }, { status: 404 });

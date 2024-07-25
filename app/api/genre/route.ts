@@ -15,13 +15,13 @@ export async function GET(request: Request) {
     await connectMongoDB();
 
     const url = new URL(request.url);
-    const currentPage = Number(url.searchParams.get("currentPage"));
-    const currentGenre = url.searchParams.get("currentGenre");
+    const activePage = Number(url.searchParams.get("activePage"));
+    const activeGenre = url.searchParams.get("activeGenre");
 
     const sortKey: SortKey = { score: -1, artist: 1 };
-    const query: Query = { genre: currentGenre as Genres[keyof Genres] };
+    const query: Query = { genre: activeGenre as Genres[keyof Genres] };
 
-    const skipCount = SUB_PER_PAGE_COUNT * currentPage - SUB_PER_PAGE_COUNT;
+    const skipCount = SUB_PER_PAGE_COUNT * activePage - SUB_PER_PAGE_COUNT;
     const projection = {
       _id: 0,
       album: 1,

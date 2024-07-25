@@ -6,14 +6,14 @@ import { fetchGenreData } from "../../modules/api/album";
 import { PageProps } from "../../modules/types";
 
 export default async function Page({ params }: PageProps): Promise<React.ReactElement> {
-  const currentGenre = params.genre;
+  const activeGenre = params.genre;
 
   try {
-    const { genreData, genreDataCount } = await fetchGenreData(currentGenre, FIRST_PAGE);
+    const { genreData, genreDataCount } = await fetchGenreData(activeGenre, FIRST_PAGE);
 
     return (
       <MusicLayout>
-        <GenreContents data={genreData} dataCount={genreDataCount} currentPage={FIRST_PAGE} />
+        <GenreContents data={genreData} dataCount={genreDataCount} activePage={FIRST_PAGE} />
       </MusicLayout>
     );
   } catch (error) {

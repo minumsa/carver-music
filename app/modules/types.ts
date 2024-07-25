@@ -43,7 +43,7 @@ export interface SpotifyAlbumData {
   tracks: number;
 }
 
-export interface AlbumInfoLandingPage {
+export interface AlbumDataLandingPage {
   album: string;
   artist: string;
   artistId: string;
@@ -52,7 +52,7 @@ export interface AlbumInfoLandingPage {
   imgUrl: string;
 }
 
-export interface AlbumInfo {
+export interface AlbumData {
   title: string;
   id: string;
   artistId: string;
@@ -96,7 +96,7 @@ type Artist = { name: string };
 type Image = { url: string };
 
 export interface SearchData {
-  albums: AlbumInfo[];
+  albums: AlbumData[];
   artists: Artist[];
   name: string;
   release_date: string;
@@ -112,7 +112,7 @@ export type CashedAccessToken = string | null;
 
 export interface AlbumFilters {
   scrollCount: number;
-  currentTag: string;
+  activeTag: string;
 }
 
 export interface CalendarData {

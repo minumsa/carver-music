@@ -5,11 +5,11 @@ import { TagItem } from "./TagItem";
 import { TagModal } from "./TagModal";
 
 interface TagsEditorProps {
-  currentTagKeys: string[];
+  activeTagKeys: string[];
   setCurrentTagKeys: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-export const TagsEditor = ({ currentTagKeys, setCurrentTagKeys }: TagsEditorProps) => {
+export const TagsEditor = ({ activeTagKeys, setCurrentTagKeys }: TagsEditorProps) => {
   const [newTagKey, setNewTagKey] = useState("");
   const [showTagsModal, setShowTagsModal] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -25,7 +25,7 @@ export const TagsEditor = ({ currentTagKeys, setCurrentTagKeys }: TagsEditorProp
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    const isExisingTag = currentTagKeys.includes(newTagKey);
+    const isExisingTag = activeTagKeys.includes(newTagKey);
 
     if (e.key === "Enter") {
       if (!isExisingTag) setCurrentTagKeys((prevTagKeys) => [...prevTagKeys, newTagKey]);
@@ -43,12 +43,12 @@ export const TagsEditor = ({ currentTagKeys, setCurrentTagKeys }: TagsEditorProp
     <div ref={modalRef} className={styles.blockContainer}>
       <label className={styles.blockTitle}>태그</label>
       <div className={styles.tagListContainer}>
-        {currentTagKeys.map((tag: string) => {
+        {activeTagKeys.map((tag: string) => {
           return <TagItem key={tag} tagKey={tag} onDelete={deleteTagItem} />;
         })}
         {showTagsModal && (
           <TagModal
-            currentTagKeys={currentTagKeys}
+            activeTagKeys={activeTagKeys}
             addTagItem={addTagItem}
             onClose={() => setShowTagsModal(false)}
           />

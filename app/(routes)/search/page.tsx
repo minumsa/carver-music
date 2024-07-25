@@ -3,9 +3,9 @@ import { MusicLayout } from "@/app/components/@common/MusicLayout";
 
 export default function Page() {
   const searchInfo = {
-    currentKeyword: "",
-    currentPage: 0,
-    currentTagName: "",
+    activeKeyword: "",
+    activePage: 0,
+    activeTagName: "",
     totalDataLength: 0,
   };
 

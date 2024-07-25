@@ -3,13 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./UploadUpdate.module.css";
 import React from "react";
-import { NewDataForUpdate, updateData, uploadData } from "../../modules/api/album";
+import { updateData, uploadData } from "../../modules/api/album";
 import DatePicker from "react-datepicker";
 import { ko } from "date-fns/esm/locale";
 import "react-datepicker/dist/react-datepicker.css";
 import Rate from "rc-rate";
 import "rc-rate/assets/index.css";
-import { AlbumInfo, SearchData, SpotifyAlbumData, Video } from "../../modules/types";
+import { AlbumData, SearchData, SpotifyAlbumData, Video } from "../../modules/types";
 import { useForm } from "react-hook-form";
 import { AlbumSearchModal } from "./AlbumSearchModal";
 import VideoLinksEditor from "./VideoLinksEditor/VideoLinksEditor";
@@ -20,11 +20,12 @@ import { Editor as ToastEditor } from "@toast-ui/react-editor";
 import { useRouter } from "next/navigation";
 import { fetchSpotify, searchSpotify } from "@/app/modules/api/spotify";
 import { GENRES } from "@/app/modules/constants/genres";
+import { UpdatedDataForUpdate } from "@/app/modules/api/albumTypes";
 
 const TYPING_DELAY_MS = 1000;
 
 interface UpdateProps {
-  initialAlbumData?: AlbumInfo;
+  initialAlbumData?: AlbumData;
 }
 
 export interface UploadUpdateForm {
@@ -44,7 +45,7 @@ export interface UploadUpdateForm {
   uploadDate: Date;
   videos: Video[];
   videoCount: number;
-  currentTagKeys: string[];
+  activeTagKeys: string[];
 }
 
 export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
@@ -72,7 +73,7 @@ export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
       uploadDate: new Date(),
       videos: [{ title: "", url: "" }],
       videoCount: 1,
-      currentTagKeys: [],
+      activeTagKeys: [],
       markdown: "",
     },
   });
@@ -89,7 +90,7 @@ export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
       score,
       videos,
       uploadDate,
-      currentTagKeys,
+      activeTagKeys,
     } = data;
     const filteredText = text.replace(/\[\d+\]/g, "");
     const newSpotifyAlbumData: SpotifyAlbumData | undefined = await fetchSpotify(newAlbumId);
@@ -98,24 +99,24 @@ export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
     const markdown = editorIns?.getMarkdown();
 
     if (newSpotifyAlbumData) {
-      const newData: NewDataForUpdate = {
+      const updatedData: UpdatedDataForUpdate = {
         newSpotifyAlbumData,
         title,
-        originalAlbumId: albumId,
+        prevAlbumId: albumId,
         genre,
         link,
         text: filteredText,
         uploadDate,
         score,
         videos,
-        tagKeys: currentTagKeys.flat(),
+        tagKeys: activeTagKeys.flat(),
         blurHash,
         markdown,
       };
 
       try {
         const apiMethod = isUpdatePage ? updateData : uploadData;
-        const response = await apiMethod({ newData });
+        const response = await apiMethod({ updatedData });
         if (response?.status === 401) {
           router.push("/login");
         }
@@ -165,7 +166,7 @@ export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
         setValue("albumReleaseDate", new Date(releaseDate).toString());
         setValue("title", title);
         setValue("markdown", markdown ? markdown : text);
-        setValue("currentTagKeys", hasDecadeTag ? tagKeys : [...tagKeys, decade]);
+        setValue("activeTagKeys", hasDecadeTag ? tagKeys : [...tagKeys, decade]);
 
         if (hasVideo) {
           setValue("videos", trueVideos);
@@ -204,7 +205,7 @@ export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
     setValue("artist", artist);
     setValue("newAlbumId", id);
     setValue("searchKeyword", name);
-    if (!watch("currentTagKeys")) setValue("currentTagKeys", [decade]);
+    if (!watch("activeTagKeys")) setValue("activeTagKeys", [decade]);
     setSearchData(undefined);
     setIsTyping(false);
   };
@@ -330,11 +331,10 @@ export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
 
       {/* 태그 */}
       <TagsEditor
-        currentTagKeys={watch("currentTagKeys").flat()}
+        activeTagKeys={watch("activeTagKeys").flat()}
         setCurrentTagKeys={(action) => {
-          const result =
-            typeof action === "function" ? action(getValues("currentTagKeys")) : action;
-          setValue("currentTagKeys", result);
+          const result = typeof action === "function" ? action(getValues("activeTagKeys")) : action;
+          setValue("activeTagKeys", result);
         }}
       />
 

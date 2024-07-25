@@ -6,9 +6,9 @@ import { PageProps } from "../../../modules/types";
 
 export default function Page({ params }: PageProps) {
   const searchInfo = {
-    currentKeyword: "",
-    currentPage: params.page,
-    currentTagName: "",
+    activeKeyword: "",
+    activePage: params.page,
+    activeTagName: "",
     totalDataLength: 0,
   };
 

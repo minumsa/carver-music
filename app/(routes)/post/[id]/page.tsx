@@ -7,10 +7,10 @@ import { PostContents } from "@/app/components/post/PostContents";
 import { SITE_TITLE } from "@/app/modules/config";
 
 export default async function Page({ params }: PageProps): Promise<React.ReactElement> {
-  const currentId = params.id;
+  const activeId = params.id;
 
   try {
-    const postData = await fetchPostData(currentId);
+    const postData = await fetchPostData(activeId);
 
     return (
       <MusicLayout>
@@ -23,13 +23,13 @@ export default async function Page({ params }: PageProps): Promise<React.ReactEl
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const currentId = params.id;
+  const activeId = params.id;
 
-  const postData = await fetchPostData(currentId);
+  const postData = await fetchPostData(activeId);
   const { imgUrl, artist, album, text } = postData;
   const title = `${artist} - ${album}`;
   const textPreview = text.length > 30 ? text.substring(0, 30) + "..." : text;
-  const currentUrl = `https://music.divdivdiv.com/post/${currentId}`;
+  const activeUrl = `https://music.divdivdiv.com/post/${activeId}`;
 
   return {
     title: title,
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: title,
       images: [imgUrl],
       description: textPreview,
-      url: currentUrl,
+      url: activeUrl,
       type: "website",
       siteName: SITE_TITLE,
     },

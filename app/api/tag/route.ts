@@ -11,12 +11,12 @@ export async function GET(request: Request) {
     await connectMongoDB();
 
     const url = new URL(request.url);
-    const currentPage = Number(url.searchParams.get("currentPage"));
-    const currentTag = url.searchParams.get("currentTag");
+    const activePage = Number(url.searchParams.get("activePage"));
+    const activeTag = url.searchParams.get("activeTag");
 
     const sortKey: SortKey = { score: -1, artist: 1 };
-    const query = { tagKeys: currentTag as string };
-    const skipCount = SUB_PER_PAGE_COUNT * currentPage - SUB_PER_PAGE_COUNT;
+    const query = { tagKeys: activeTag as string };
+    const skipCount = SUB_PER_PAGE_COUNT * activePage - SUB_PER_PAGE_COUNT;
     const projection = {
       _id: 0,
       album: 1,

@@ -4,15 +4,15 @@ import { fetchGenreData } from "@/app/modules/api/album";
 import GenreContents from "@/app/components/@common/GenreContents";
 
 export default async function Page({ params }: PageProps) {
-  const currentGenre = params.genre;
-  const currentPage = params.page;
+  const activeGenre = params.genre;
+  const activePage = params.page;
 
   try {
-    const { genreData, genreDataCount } = await fetchGenreData(currentGenre, currentPage);
+    const { genreData, genreDataCount } = await fetchGenreData(activeGenre, activePage);
 
     return (
       <MusicLayout>
-        <GenreContents data={genreData} dataCount={genreDataCount} currentPage={currentPage} />
+        <GenreContents data={genreData} dataCount={genreDataCount} activePage={activePage} />
       </MusicLayout>
     );
   } catch (error) {

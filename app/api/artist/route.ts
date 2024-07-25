@@ -13,8 +13,8 @@ export async function GET(request: Request) {
 
     const url = new URL(request.url);
     const artistId = url.searchParams.get("artistId");
-    const currentPage = Number(url.searchParams.get("currentPage"));
-    const skipCount = SUB_PER_PAGE_COUNT * currentPage - SUB_PER_PAGE_COUNT;
+    const activePage = Number(url.searchParams.get("activePage"));
+    const skipCount = SUB_PER_PAGE_COUNT * activePage - SUB_PER_PAGE_COUNT;
     const projection = {
       album: 1,
       artist: 1,

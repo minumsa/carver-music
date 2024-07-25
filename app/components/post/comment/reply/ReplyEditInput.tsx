@@ -19,7 +19,7 @@ interface ReplyInputProps {
 
 export const ReplyEditingInput = ({ setShowReplyEditingInput, reply }: ReplyInputProps) => {
   const setReplies = useSetAtom(repliesAtom);
-  const currentUserImage = useAtomValue(userImageAtom);
+  const activeUserImage = useAtomValue(userImageAtom);
   const { handleSubmit, register, reset } = useForm<ReplyForm>({
     defaultValues: {
       userComment: reply.userComment,
@@ -61,7 +61,7 @@ export const ReplyEditingInput = ({ setShowReplyEditingInput, reply }: ReplyInpu
       <div className={styles.container} onSubmit={onSubmit}>
         <div className={styles.commentContainer}>
           <div className={styles.userImageWrapper}>
-            <img src={currentUserImage} alt="user-image" className={styles.userImage} />
+            <img src={activeUserImage} alt="user-image" className={styles.userImage} />
           </div>
           <form className={styles.formContainer}>
             <div className={styles.textareaWrapper}>

@@ -1,50 +1,26 @@
 import { toast } from "react-toastify";
-import { AlbumFilters, AlbumInfo, AlbumInfoLandingPage, SortKey, SpotifyAlbumData } from "../types";
+import { AlbumFilters, AlbumData, SortKey } from "../types";
 import connectMongoDB from "../mongodb";
 import Music from "@/models/music";
 import { getYearMonthFromDate } from "../utils";
-import { MIN_SCROLL_COUNT, PER_PAGE_COUNT } from "../config";
+import { PER_PAGE_COUNT } from "../config";
 import { BASE_URL } from "../constants/apiUrls";
-
-interface InitialAlbumDataResult {
-  albumData: AlbumInfo[];
-  totalScrollCount: number;
-}
-
-export async function fetchInitialAlbumData(): Promise<InitialAlbumDataResult> {
-  try {
-    const queryString = `?scrollCount=${MIN_SCROLL_COUNT}`;
-    const url = `${BASE_URL}/api${queryString}`;
-
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch initial music data");
-    }
-
-    const { albumData, albumDataCount } = await response.json();
-    const totalScrollCount = Math.ceil(albumDataCount / PER_PAGE_COUNT);
-
-    return { albumData, totalScrollCount };
-  } catch (error) {
-    throw new Error("Failed to fetch initial music data");
-  }
-}
-
-interface AlbumDataResult {
-  albumData: AlbumInfoLandingPage[];
-  albumDataCount: number;
-}
+import { AlbumError } from "../errors";
+import {
+  AlbumDataResult,
+  ArtistDataResult,
+  GenreDataResult,
+  Query,
+  SearchDataResult,
+  TagDataResult,
+  UpdateDataParams,
+  UploadDataParams,
+} from "./albumTypes";
 
 export async function fetchAlbumDataCSR(albumFilters: AlbumFilters): Promise<AlbumDataResult> {
   try {
-    const { scrollCount, currentTag } = albumFilters;
-    const queryString = `?scrollCount=${scrollCount}&tag=${currentTag}`;
+    const { scrollCount, activeTag } = albumFilters;
+    const queryString = `?scrollCount=${scrollCount}&tag=${activeTag}`;
     const url = `${BASE_URL}/api${queryString}`;
 
     const response = await fetch(url, {
@@ -55,35 +31,38 @@ export async function fetchAlbumDataCSR(albumFilters: AlbumFilters): Promise<Alb
     });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch music data");
+      const error = AlbumError.fromResponse(response);
+      toast.error(error.message);
+      throw error;
     }
 
     const { albumData, albumDataCount } = await response.json();
     return { albumData, albumDataCount };
   } catch (error) {
-    throw new Error("Failed to fetch music data");
+    if (!(error instanceof AlbumError)) {
+      const systemErrorMessage = "앨범 데이터 처리 중 시스템 오류가 발생했습니다.";
+      toast.error(systemErrorMessage);
+      throw new Error(systemErrorMessage);
+    }
+    throw error;
   }
-}
-
-interface Query {
-  tagKeys?: string; // tag는 모바일 환경에서 태그 클릭 시에만 존재해서 ? 처리
 }
 
 export async function fetchAlbumDataSSR() {
   try {
     const albumFilters: AlbumFilters = {
       scrollCount: 1,
-      currentTag: "",
+      activeTag: "",
     };
-    const { scrollCount, currentTag } = albumFilters;
+    const { scrollCount, activeTag } = albumFilters;
 
     await connectMongoDB();
 
     const sortKey: SortKey = { score: -1, artist: 1 };
     const query: Query = {};
 
-    if (currentTag) {
-      query.tagKeys = currentTag;
+    if (activeTag) {
+      query.tagKeys = activeTag;
     }
 
     const skipCount = PER_PAGE_COUNT * scrollCount - PER_PAGE_COUNT;
@@ -110,13 +89,18 @@ export async function fetchAlbumDataSSR() {
 
     return { albumData: simplifiedAlbumData, albumDataCount: simplifiedAlbumDataCount };
   } catch (error) {
-    throw new Error("Failed to fetch music data");
+    if (!(error instanceof AlbumError)) {
+      const systemErrorMessage = "앨범 데이터 처리 중 시스템 오류가 발생했습니다.";
+      toast.error(systemErrorMessage);
+      throw new Error(systemErrorMessage);
+    }
+    throw error;
   }
 }
 
-export async function fetchPostData(currentId: string): Promise<AlbumInfo> {
+export async function fetchPostData(activeId: string): Promise<AlbumData> {
   try {
-    const queryString = `?albumId=${currentId}`;
+    const queryString = `?albumId=${activeId}`;
     const url = `${BASE_URL}/api/post${queryString}`;
 
     const response = await fetch(url, {
@@ -127,18 +111,24 @@ export async function fetchPostData(currentId: string): Promise<AlbumInfo> {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch post data");
+      const error = AlbumError.fromResponse(response);
+      toast.error(error.message);
+      throw error;
     }
 
-    const postData: AlbumInfo = await response.json();
-
+    const postData: AlbumData = await response.json();
     return postData;
   } catch (error) {
-    throw new Error("Failed to fetch post data");
+    if (!(error instanceof AlbumError)) {
+      const systemErrorMessage = "앨범 데이터 처리 중 시스템 오류가 발생했습니다.";
+      toast.error(systemErrorMessage);
+      throw new Error(systemErrorMessage);
+    }
+    throw error;
   }
 }
 
-export async function fetchRandomAlbumId(): Promise<string> {
+export async function getRandomAlbumId(): Promise<string> {
   try {
     const url = `${BASE_URL}/api/randomPost`;
 
@@ -150,28 +140,29 @@ export async function fetchRandomAlbumId(): Promise<string> {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch random album id");
+      const error = AlbumError.fromResponse(response);
+      toast.error(error.message);
+      throw error;
     }
 
     const albumId = await response.json();
-
     return albumId;
   } catch (error) {
-    throw new Error("Failed to fetch post data");
+    if (!(error instanceof AlbumError)) {
+      const systemErrorMessage = "앨범 데이터 처리 중 시스템 오류가 발생했습니다.";
+      toast.error(systemErrorMessage);
+      throw new Error(systemErrorMessage);
+    }
+    throw error;
   }
 }
 
-interface GenreDataResult {
-  genreData: AlbumInfo[];
-  genreDataCount: number;
-}
-
 export async function fetchGenreData(
-  currentGenre: string,
-  currentPage: number,
+  activeGenre: string,
+  activePage: number,
 ): Promise<GenreDataResult> {
   try {
-    const queryString = `?currentGenre=${currentGenre}&currentPage=${currentPage}`;
+    const queryString = `?activeGenre=${activeGenre}&activePage=${activePage}`;
     const url = `${BASE_URL}/api/genre${queryString}`;
 
     const response = await fetch(url, {
@@ -182,27 +173,29 @@ export async function fetchGenreData(
     });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch genre data");
+      const error = AlbumError.fromResponse(response);
+      toast.error(error.message);
+      throw error;
     }
 
     const { genreData, genreDataCount } = await response.json();
     return { genreData, genreDataCount };
   } catch (error) {
-    throw new Error("Failed to fetch genre data");
+    if (!(error instanceof AlbumError)) {
+      const systemErrorMessage = "앨범 데이터 처리 중 시스템 오류가 발생했습니다.";
+      toast.error(systemErrorMessage);
+      throw new Error(systemErrorMessage);
+    }
+    throw error;
   }
-}
-
-interface ArtistDataResult {
-  artistData: AlbumInfo[];
-  artistDataCount: number;
 }
 
 export async function fetchArtistData(
   artistId: string,
-  currentPage: number,
+  activePage: number,
 ): Promise<ArtistDataResult> {
   try {
-    const queryString = `?artistId=${artistId}&currentPage=${currentPage}`;
+    const queryString = `?artistId=${artistId}&activePage=${activePage}`;
     const url = `${BASE_URL}/api/artist${queryString}`;
 
     const response = await fetch(url, {
@@ -213,27 +206,26 @@ export async function fetchArtistData(
     });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch artist data");
+      const error = AlbumError.fromResponse(response);
+      toast.error(error.message);
+      throw error;
     }
 
     const { artistData, artistDataCount } = await response.json();
     return { artistData, artistDataCount };
   } catch (error) {
-    throw new Error("Failed to fetch artist data");
+    if (!(error instanceof AlbumError)) {
+      const systemErrorMessage = "앨범 데이터 처리 중 시스템 오류가 발생했습니다.";
+      toast.error(systemErrorMessage);
+      throw new Error(systemErrorMessage);
+    }
+    throw error;
   }
 }
 
-interface TagDataResult {
-  tagData: AlbumInfo[];
-  tagDataCount: number;
-}
-
-export async function fetchTagData(
-  currentTag: string,
-  currentPage: number,
-): Promise<TagDataResult> {
+export async function fetchTagData(activeTag: string, activePage: number): Promise<TagDataResult> {
   try {
-    const queryString = `?currentTag=${currentTag}&currentPage=${currentPage}`;
+    const queryString = `?activeTag=${activeTag}&activePage=${activePage}`;
     const url = `${BASE_URL}/api/tag${queryString}`;
 
     const response = await fetch(url, {
@@ -244,27 +236,29 @@ export async function fetchTagData(
     });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch artist data");
+      const error = AlbumError.fromResponse(response);
+      toast.error(error.message);
+      throw error;
     }
 
     const { tagData, tagDataCount } = await response.json();
     return { tagData, tagDataCount };
   } catch (error) {
-    throw new Error("Failed to fetch tag data");
+    if (!(error instanceof AlbumError)) {
+      const systemErrorMessage = "앨범 데이터 처리 중 시스템 오류가 발생했습니다.";
+      toast.error(systemErrorMessage);
+      throw new Error(systemErrorMessage);
+    }
+    throw error;
   }
 }
 
-interface SearchDataResult {
-  searchData: AlbumInfo[];
-  searchDataCount: number;
-}
-
 export async function fetchSearchData(
-  currentKeyword: string,
-  currentPage: number,
+  activeKeyword: string,
+  activePage: number,
 ): Promise<SearchDataResult> {
   try {
-    const queryString = `?currentKeyword=${currentKeyword}&currentPage=${currentPage}`;
+    const queryString = `?activeKeyword=${activeKeyword}&activePage=${activePage}`;
     const url = `${BASE_URL}/api/search${queryString}`;
 
     const response = await fetch(url, {
@@ -275,48 +269,24 @@ export async function fetchSearchData(
     });
 
     if (!response.ok) {
-      throw new Error("Failed to search data");
+      const error = AlbumError.fromResponse(response);
+      toast.error(error.message);
+      throw error;
     }
 
     const { searchData, searchDataCount } = await response.json();
     return { searchData, searchDataCount };
   } catch (error) {
-    throw new Error("Failed to search data");
+    if (!(error instanceof AlbumError)) {
+      const systemErrorMessage = "앨범 데이터 처리 중 시스템 오류가 발생했습니다.";
+      toast.error(systemErrorMessage);
+      throw new Error(systemErrorMessage);
+    }
+    throw error;
   }
 }
 
-interface Video {
-  title: string;
-  url: string;
-}
-
-export interface NewData {
-  title?: string;
-  newSpotifyAlbumData: SpotifyAlbumData;
-  genre: string;
-  link: string;
-  text: string;
-  uploadDate: Date;
-  score: number;
-  videos?: Video[];
-  tagKeys: string[];
-  blurHash: string;
-  markdown?: string;
-}
-
-export interface NewDataForUpdate extends NewData {
-  originalAlbumId: string;
-}
-
-export interface UploadDataParams {
-  newData: NewData;
-}
-
-export interface UpdateDataParams {
-  newData: NewDataForUpdate;
-}
-
-export async function uploadData({ newData }: UploadDataParams) {
+export async function uploadData({ updatedData }: UploadDataParams) {
   const {
     newSpotifyAlbumData,
     title,
@@ -329,9 +299,9 @@ export async function uploadData({ newData }: UploadDataParams) {
     tagKeys,
     blurHash,
     markdown,
-  } = newData;
+  } = updatedData;
 
-  if (newData) {
+  if (updatedData) {
     try {
       const response = await fetch(`${BASE_URL}/api`, {
         method: "POST",
@@ -353,28 +323,28 @@ export async function uploadData({ newData }: UploadDataParams) {
         }),
       });
 
-      if (response.status === 403) {
-        toast.warn("관리자 로그인 상태가 아닙니다.");
-      } else if (response.status === 409) {
-        toast.warn("이미 존재하는 앨범입니다.");
-      } else if (!response.ok) {
-        toast.error("데이터 업로드에 실패했습니다.");
-        throw new Error("데이터 업로드에 실패했습니다.");
-      } else {
-        toast.success("데이터 업로드에 성공했습니다.");
+      if (!response.ok) {
+        const error = AlbumError.fromResponse(response);
+        toast.error(error.message);
+        throw error;
       }
 
       return response;
     } catch (error) {
-      console.error("Error: ", error);
+      if (!(error instanceof AlbumError)) {
+        const systemErrorMessage = "앨범 데이터 처리 중 시스템 오류가 발생했습니다.";
+        toast.error(systemErrorMessage);
+        throw new Error(systemErrorMessage);
+      }
+      throw error;
     }
   }
 }
 
-export const updateData = async ({ newData }: UpdateDataParams) => {
+export const updateData = async ({ updatedData }: UpdateDataParams) => {
   const {
     newSpotifyAlbumData,
-    originalAlbumId,
+    prevAlbumId,
     title,
     genre,
     link,
@@ -385,9 +355,9 @@ export const updateData = async ({ newData }: UpdateDataParams) => {
     tagKeys,
     blurHash,
     markdown,
-  } = newData;
+  } = updatedData;
 
-  if (newData !== null) {
+  if (updatedData !== null) {
     try {
       const response = await fetch(`${BASE_URL}/api`, {
         method: "PUT",
@@ -396,7 +366,7 @@ export const updateData = async ({ newData }: UpdateDataParams) => {
         },
         body: JSON.stringify({
           newSpotifyAlbumData,
-          originalAlbumId,
+          prevAlbumId,
           title,
           genre,
           link,
@@ -410,19 +380,20 @@ export const updateData = async ({ newData }: UpdateDataParams) => {
         }),
       });
 
-      if (response.status === 403) {
-        toast.warn("관리자 로그인 상태가 아닙니다.");
-      } else if (response.status === 404) {
-        toast.warn("존재하지 않는 앨범입니다.");
-      } else if (!response.ok) {
-        toast.error("데이터 수정에 실패했습니다.");
-      } else {
-        toast.success("데이터를 성공적으로 수정했습니다.");
+      if (!response.ok) {
+        const error = AlbumError.fromResponse(response);
+        toast.error(error.message);
+        throw error;
       }
 
       return response;
     } catch (error) {
-      console.error(error);
+      if (!(error instanceof AlbumError)) {
+        const systemErrorMessage = "앨범 데이터 처리 중 시스템 오류가 발생했습니다.";
+        toast.error(systemErrorMessage);
+        throw new Error(systemErrorMessage);
+      }
+      throw error;
     }
   }
 };
@@ -437,19 +408,20 @@ export const deleteData = async (id: string) => {
       body: JSON.stringify({ id }),
     });
 
-    if (response.status === 403) {
-      toast.warn("관리자 로그인 상태가 아닙니다.");
-    } else if (response.status === 404) {
-      toast.warn("존재하지 않는 데이터입니다.");
-    } else if (!response.ok) {
-      toast.warn("데이터를 삭제하는 데 실패했습니다.");
-    } else {
-      toast.warn("데이터가 성공적으로 삭제되었습니다.");
+    if (!response.ok) {
+      const error = AlbumError.fromResponse(response);
+      toast.error(error.message);
+      throw error;
     }
 
     return response;
   } catch (error) {
-    console.error(error);
+    if (!(error instanceof AlbumError)) {
+      const systemErrorMessage = "앨범 데이터 처리 중 시스템 오류가 발생했습니다.";
+      toast.error(systemErrorMessage);
+      throw new Error(systemErrorMessage);
+    }
+    throw error;
   }
 };
 
@@ -492,9 +464,9 @@ export async function fetchCalendarDataSSR(year: number, month: number) {
   }
 }
 
-export async function fetchCalendarDataCSR(currentDate: Date) {
+export async function fetchCalendarDataCSR(activeDate: Date) {
   try {
-    const { year, month } = getYearMonthFromDate(currentDate);
+    const { year, month } = getYearMonthFromDate(activeDate);
     const queryString = `?year=${year}&month=${month}`;
     const url = `${BASE_URL}/api/calendar${queryString}`;
 
@@ -506,12 +478,19 @@ export async function fetchCalendarDataCSR(currentDate: Date) {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch initial music data");
+      const error = AlbumError.fromResponse(response);
+      toast.error(error.message);
+      throw error;
     }
 
     const data = await response.json();
     return data;
   } catch (error) {
-    throw new Error("Failed to fetch initial music data");
+    if (!(error instanceof AlbumError)) {
+      const systemErrorMessage = "앨범 데이터 처리 중 시스템 오류가 발생했습니다.";
+      toast.error(systemErrorMessage);
+      throw new Error(systemErrorMessage);
+    }
+    throw error;
   }
 }

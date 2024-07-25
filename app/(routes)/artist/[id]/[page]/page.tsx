@@ -9,17 +9,17 @@ import { SITE_TITLE } from "@/app/modules/config";
 
 export default async function Page({ params }: PageProps): Promise<React.ReactElement> {
   const artistId = params.id;
-  const currentPage = params.page;
+  const activePage = params.page;
 
   try {
-    const { artistData, artistDataCount } = await fetchArtistData(artistId, currentPage);
+    const { artistData, artistDataCount } = await fetchArtistData(artistId, activePage);
 
     return (
       <MusicLayout>
         <ArtistContents
           artistData={artistData}
           artistDataCount={artistDataCount}
-          currentPage={currentPage}
+          activePage={activePage}
         />
       </MusicLayout>
     );
@@ -30,9 +30,9 @@ export default async function Page({ params }: PageProps): Promise<React.ReactEl
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const artistId = params.id;
-  const currentPage = params.page;
+  const activePage = params.page;
 
-  const { artistData } = await fetchArtistData(artistId, currentPage);
+  const { artistData } = await fetchArtistData(artistId, activePage);
   const [firstArtistData] = artistData;
 
   if (!firstArtistData) {
@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const { artistImgUrl, artist, text } = firstArtistData;
   const title = artist;
-  const currentUrl = `https://music.divdivdiv.com/artist/${artistId}/1`;
+  const activeUrl = `https://music.divdivdiv.com/artist/${artistId}/1`;
   const textPreview = text.length > 30 ? text.substring(0, 30) + "..." : text;
 
   return {
@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title: title,
       images: [artistImgUrl],
-      url: currentUrl,
+      url: activeUrl,
       type: "website",
       siteName: SITE_TITLE,
       description: textPreview,

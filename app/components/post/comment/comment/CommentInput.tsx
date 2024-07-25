@@ -16,7 +16,7 @@ interface CommentInputProps {
 }
 
 export const CommentInput = ({ albumId }: CommentInputProps) => {
-  const currentUserImage = useAtomValue(userImageAtom);
+  const activeUserImage = useAtomValue(userImageAtom);
   const { handleSubmit, register, reset, watch } = useForm<CommentForm>({
     defaultValues: {
       userComment: "",
@@ -52,7 +52,7 @@ export const CommentInput = ({ albumId }: CommentInputProps) => {
       <div className={styles.container} onSubmit={onSubmit}>
         <div className={styles.commentContainer}>
           <div className={styles.userImageWrapper}>
-            <img src={currentUserImage} alt="user-image" className={styles.userImage} />
+            <img src={activeUserImage} alt="user-image" className={styles.userImage} />
           </div>
           <form className={styles.formContainer}>
             <div className={styles.textareaWrapper}>
