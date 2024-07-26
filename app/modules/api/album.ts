@@ -116,6 +116,7 @@ export async function fetchPostData(activeId: string): Promise<AlbumData> {
       throw error;
     }
 
+    toast.success("데이터 업로드에 성공했습니다.");
     const postData: AlbumData = await response.json();
     return postData;
   } catch (error) {
@@ -329,6 +330,7 @@ export async function uploadData({ updatedData }: UploadDataParams) {
         throw error;
       }
 
+      toast.success("데이터 업로드에 성공했습니다.");
       return response;
     } catch (error) {
       if (!(error instanceof AlbumError)) {
@@ -386,6 +388,7 @@ export const updateData = async ({ updatedData }: UpdateDataParams) => {
         throw error;
       }
 
+      toast.success("데이터 수정에 성공했습니다.");
       return response;
     } catch (error) {
       if (!(error instanceof AlbumError)) {
@@ -414,6 +417,7 @@ export const deleteData = async (id: string) => {
       throw error;
     }
 
+    toast.success("데이터 삭제에 성공했습니다.");
     return response;
   } catch (error) {
     if (!(error instanceof AlbumError)) {

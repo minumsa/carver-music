@@ -44,7 +44,7 @@ export const SignUp = () => {
       const response = await userSignUp(userId, userName, email, password);
       if (response?.ok) {
         await userLogin(userId, password);
-        getDefaultRedirectPath("user");
+        router.push("/");
       }
     } catch (error) {
       console.error(error, "Failed to sign up process");
