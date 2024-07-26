@@ -116,13 +116,11 @@ export async function fetchPostData(activeId: string): Promise<AlbumData> {
       throw error;
     }
 
-    toast.success("데이터 업로드에 성공했습니다.");
     const postData: AlbumData = await response.json();
     return postData;
   } catch (error) {
     if (!(error instanceof AlbumError)) {
       const systemErrorMessage = "앨범 데이터 처리 중 시스템 오류가 발생했습니다.";
-      toast.error(systemErrorMessage);
       throw new Error(systemErrorMessage);
     }
     throw error;

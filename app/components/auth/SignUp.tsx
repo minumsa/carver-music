@@ -43,7 +43,7 @@ export const SignUp = () => {
       await imgSaveHandler();
       const response = await userSignUp(userId, userName, email, password);
       if (response?.ok) {
-        await userLogin(userId, password);
+        // FIXME: 회원가입 후 자동 로그인 로직을 구현했는데, 바로 메인화면으로 넘어가서 사용자가 회원가입이 정상적으로 된 건지, 로그인 된 상태인지 잘 모를 듯. 이에 관한 적절한 보완 작업 필요.
         router.push("/");
       }
     } catch (error) {
