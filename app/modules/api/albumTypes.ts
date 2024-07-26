@@ -1,12 +1,13 @@
 import { AlbumData, AlbumDataLandingPage, SpotifyAlbumData } from "../types";
 
+export interface Query {
+  tagKeys?: string; // tag는 모바일 환경에서 태그 클릭 시에만 존재해서 ? 처리
+}
+
+// return 타입
 export interface AlbumDataResult {
   albumData: AlbumDataLandingPage[];
   albumDataCount: number;
-}
-
-export interface Query {
-  tagKeys?: string; // tag는 모바일 환경에서 태그 클릭 시에만 존재해서 ? 처리
 }
 
 export interface GenreDataResult {
@@ -29,6 +30,7 @@ export interface SearchDataResult {
   searchDataCount: number;
 }
 
+// params 타입
 export interface Video {
   title: string;
   url: string;

@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { AlbumFilters, AlbumData, SortKey } from "../types";
+import { AlbumFilters, AlbumData, SortKey, CalendarData } from "../types";
 import connectMongoDB from "../mongodb";
 import Music from "@/models/music";
 import { getYearMonthFromDate } from "../utils";
@@ -16,6 +16,7 @@ import {
   UpdateDataParams,
   UploadDataParams,
 } from "./albumTypes";
+import { NextResponse } from "next/server";
 
 export async function fetchAlbumDataCSR(albumFilters: AlbumFilters): Promise<AlbumDataResult> {
   try {
@@ -48,7 +49,7 @@ export async function fetchAlbumDataCSR(albumFilters: AlbumFilters): Promise<Alb
   }
 }
 
-export async function fetchAlbumDataSSR() {
+export async function fetchAlbumDataSSR(): Promise<AlbumDataResult> {
   try {
     const albumFilters: AlbumFilters = {
       scrollCount: 1,
@@ -285,21 +286,7 @@ export async function fetchSearchData(
   }
 }
 
-export async function uploadData({ updatedData }: UploadDataParams) {
-  const {
-    newSpotifyAlbumData,
-    title,
-    genre,
-    link,
-    text,
-    uploadDate,
-    score,
-    videos,
-    tagKeys,
-    blurHash,
-    markdown,
-  } = updatedData;
-
+export async function uploadData({ updatedData }: UploadDataParams): Promise<Response | void> {
   if (updatedData) {
     try {
       const response = await fetch(`${BASE_URL}/api`, {
@@ -307,19 +294,7 @@ export async function uploadData({ updatedData }: UploadDataParams) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          newSpotifyAlbumData,
-          title,
-          genre,
-          link,
-          text,
-          uploadDate,
-          score,
-          videos,
-          tagKeys,
-          blurHash,
-          markdown,
-        }),
+        body: JSON.stringify(updatedData),
       });
 
       if (!response.ok) {
@@ -341,22 +316,7 @@ export async function uploadData({ updatedData }: UploadDataParams) {
   }
 }
 
-export const updateData = async ({ updatedData }: UpdateDataParams) => {
-  const {
-    newSpotifyAlbumData,
-    prevAlbumId,
-    title,
-    genre,
-    link,
-    text,
-    uploadDate,
-    score,
-    videos,
-    tagKeys,
-    blurHash,
-    markdown,
-  } = updatedData;
-
+export const updateData = async ({ updatedData }: UpdateDataParams): Promise<Response | void> => {
   if (updatedData !== null) {
     try {
       const response = await fetch(`${BASE_URL}/api`, {
@@ -364,20 +324,7 @@ export const updateData = async ({ updatedData }: UpdateDataParams) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          newSpotifyAlbumData,
-          prevAlbumId,
-          title,
-          genre,
-          link,
-          text,
-          uploadDate,
-          score,
-          videos,
-          tagKeys,
-          blurHash,
-          markdown,
-        }),
+        body: JSON.stringify(updatedData),
       });
 
       if (!response.ok) {
@@ -399,7 +346,7 @@ export const updateData = async ({ updatedData }: UpdateDataParams) => {
   }
 };
 
-export const deleteData = async (id: string) => {
+export const deleteData = async (id: string): Promise<Response | void> => {
   try {
     const response = await fetch(`${BASE_URL}/api`, {
       method: "DELETE",
@@ -427,7 +374,7 @@ export const deleteData = async (id: string) => {
   }
 };
 
-export async function fetchCalendarDataSSR(year: number, month: number) {
+export async function fetchCalendarDataSSR(year: number, month: number): Promise<CalendarData[]> {
   try {
     await connectMongoDB();
 
@@ -466,7 +413,7 @@ export async function fetchCalendarDataSSR(year: number, month: number) {
   }
 }
 
-export async function fetchCalendarDataCSR(activeDate: Date) {
+export async function fetchCalendarDataCSR(activeDate: Date): Promise<CalendarData[]> {
   try {
     const { year, month } = getYearMonthFromDate(activeDate);
     const queryString = `?year=${year}&month=${month}`;

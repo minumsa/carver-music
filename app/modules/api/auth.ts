@@ -3,13 +3,14 @@ import { validateEmail, validatePassword, validateUserId, validateUserName } fro
 import { verify } from "jsonwebtoken";
 import { BASE_URL } from "../constants/apiUrls";
 import { GetLoginInfoError, LoginError, LogoutError, SignUpError } from "../errors";
+import { UserLoginResult } from "./authTypes";
 
 export async function userSignUp(
   userId: string,
   userName: string,
   email: string,
   password: string,
-) {
+): Promise<Response | void> {
   try {
     if (!validateUserId(userId)) {
       toast.error(
@@ -66,7 +67,7 @@ export async function userSignUp(
   }
 }
 
-export async function userLogin(id: string, password: string) {
+export async function userLogin(id: string, password: string): Promise<UserLoginResult> {
   try {
     const url = `${BASE_URL}/api/auth/login`;
 
@@ -87,7 +88,7 @@ export async function userLogin(id: string, password: string) {
       throw error;
     }
 
-    return response;
+    return response.json();
   } catch (error) {
     if (!(error instanceof LoginError)) {
       const systemErrorMessage = "로그인 처리 중 시스템 오류가 발생했습니다.";

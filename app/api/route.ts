@@ -56,6 +56,8 @@ export async function POST(request: Request) {
     require("dotenv").config();
     await connectMongoDB();
 
+    const updatedData = await request.json();
+
     const {
       newSpotifyAlbumData,
       title,
@@ -68,7 +70,8 @@ export async function POST(request: Request) {
       tagKeys,
       blurHash,
       markdown,
-    } = await request.json();
+    } = updatedData;
+
     const {
       id,
       imgUrl,
@@ -92,7 +95,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "이미 존재하는 데이터입니다." }, { status: 409 });
     }
 
-    const newData = new Music({
+    const uploadData = new Music({
       title,
       id,
       imgUrl,
@@ -114,8 +117,8 @@ export async function POST(request: Request) {
       blurHash,
       markdown,
     });
-    await newData.save();
-    return NextResponse.json(newData.toJSON());
+    await uploadData.save();
+    return NextResponse.json({ message: "데이터가 성공적으로 업로드되었습니다." }, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Server Error" }, { status: 500 });
@@ -127,6 +130,8 @@ export async function PUT(request: Request) {
   try {
     require("dotenv").config();
     await connectMongoDB();
+
+    const updatedData = await request.json();
 
     const {
       newSpotifyAlbumData,
@@ -141,7 +146,8 @@ export async function PUT(request: Request) {
       tagKeys,
       blurHash,
       markdown,
-    } = await request.json();
+    } = updatedData;
+
     const {
       id,
       imgUrl,
@@ -189,7 +195,7 @@ export async function PUT(request: Request) {
     });
 
     await prevData.save();
-    return NextResponse.json(prevData.toJSON());
+    return NextResponse.json({ message: "데이터가 성공적으로 수정되었습니다." }, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Server Error" }, { status: 500 });
@@ -215,7 +221,7 @@ export async function DELETE(request: Request) {
 
     await existingData.deleteOne();
 
-    return NextResponse.json({ message: "데이터가 성공적으로 삭제되었습니다." });
+    return NextResponse.json({ message: "데이터가 성공적으로 삭제되었습니다." }, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Server Error" }, { status: 500 });

@@ -63,12 +63,14 @@ export async function POST(request: Request) {
 
     // 쿠키에 토큰 저장
     const response = NextResponse.json({ message: "로그인 성공" }, { status: 200 });
+
     response.cookies.set("loginToken", loginToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: 60 * 60, // 1 hour
       path: "/",
     });
+
     return response;
   } catch (error) {
     return NextResponse.json({ message: "Server Error" }, { status: 500 });

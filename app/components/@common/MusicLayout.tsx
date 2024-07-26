@@ -22,6 +22,7 @@ export const MusicLayout = ({ children }: { children: React.ReactNode }) => {
     () => async () => {
       try {
         const response = await getUserInfo();
+
         if (response.login) {
           setUserId(response.userId);
           setUserName(response.userName);
