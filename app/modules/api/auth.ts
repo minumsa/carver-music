@@ -3,7 +3,7 @@ import { validateEmail, validatePassword, validateUserId, validateUserName } fro
 import { verify } from "jsonwebtoken";
 import { BASE_URL } from "../constants/apiUrls";
 import { GetLoginInfoError, LoginError, LogoutError, SignUpError } from "../errors";
-import { UserLoginResult } from "./authTypes";
+import { UserInfoResult, UserLoginResult, VerifyLoginResult } from "./authTypes";
 
 export async function userSignUp(
   userId: string,
@@ -99,7 +99,7 @@ export async function userLogin(id: string, password: string): Promise<UserLogin
   }
 }
 
-export async function getUserInfo() {
+export async function getUserInfo(): Promise<UserInfoResult> {
   try {
     const url = `${BASE_URL}/api/auth/login`;
 
@@ -167,9 +167,9 @@ export async function isAdminLoggedIn(request: Request): Promise<boolean> {
   }
 }
 
-export async function verifyLoginStatus() {
+export async function verifyLoginStatus(): Promise<VerifyLoginResult> {
   try {
-    const url = `${BASE_URL}/api/auth/checkLogin`;
+    const url = `${BASE_URL}/api/auth/verifyLogin`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -178,14 +178,24 @@ export async function verifyLoginStatus() {
       },
     });
 
+    if (!response.ok) {
+      const error = LoginError.fromResponse(response);
+      toast.error(error.message);
+      throw error;
+    }
+
     return response.json();
   } catch (error) {
-    console.error("Error checking login status:", error);
-    return false;
+    if (!(error instanceof LoginError)) {
+      const systemErrorMessage = "로그인 데이터 체크 중 시스템 오류가 발생했습니다.";
+      toast.error(systemErrorMessage);
+      throw new Error(systemErrorMessage);
+    }
+    throw error;
   }
 }
 
-export async function userLogout() {
+export async function userLogout(): Promise<Response | void> {
   try {
     const url = `${BASE_URL}/api/auth/logout`;
 

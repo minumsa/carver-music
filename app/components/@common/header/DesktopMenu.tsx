@@ -64,6 +64,7 @@ export const DesktopMenu = ({ showCategory }: DesktopMenuProps) => {
             className={`${styles.categoryItem} ${hoveredItem === "login" ? styles.hovered : ""}`}
             onMouseEnter={() => setHoveredItem("login")}
             onMouseLeave={() => setHoveredItem(null)}
+            // window.open("/login", "_blank", "width=800,height=600");
             onClick={() => {
               userId ? handleLogout() : router.push("/login");
             }}

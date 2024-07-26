@@ -50,8 +50,7 @@ export const CommentEditInput = ({ setIsEditing, comment }: CommentInputProps) =
   });
 
   const handleTextareaClick = async () => {
-    const response = await verifyLoginStatus();
-    const isLoggedIn = response.ok;
+    const { isLoggedIn } = await verifyLoginStatus();
     if (!isLoggedIn) setShowModal(true);
   };
 

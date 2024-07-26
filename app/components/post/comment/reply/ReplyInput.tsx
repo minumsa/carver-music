@@ -54,9 +54,9 @@ export const ReplyInput = ({ comment, albumId, setShowReplyInput }: ReplyInputPr
   });
 
   const handleTextareaClick = async () => {
-    const response = await verifyLoginStatus();
-    setIsLoggedIn(response.ok);
-    if (!response.ok) setShowLoginModal(true);
+    const { isLoggedIn } = await verifyLoginStatus();
+    setIsLoggedIn(isLoggedIn);
+    if (!isLoggedIn) setShowLoginModal(true);
   };
 
   return (

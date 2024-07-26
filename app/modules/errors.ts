@@ -125,7 +125,7 @@ export class LogoutError extends ApiError {
   static fromResponse(response: Response) {
     switch (response.status) {
       case 401:
-        return new LogoutError(response.status, "비밀번호가 일치하지 않습니다.");
+        return new LogoutError(response.status, "유효하지 않은 토큰입니다.");
       case 404:
         return new LogoutError(response.status, "존재하지 않는 아이디입니다.");
       default:

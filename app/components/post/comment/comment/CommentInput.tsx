@@ -41,9 +41,8 @@ export const CommentInput = ({ albumId }: CommentInputProps) => {
   });
 
   const verifyLogin = async () => {
-    const response = await verifyLoginStatus();
-    setIsLoggedIn(response.ok);
-    if (!response.ok) setShowModal(true);
+    const { isLoggedIn } = await verifyLoginStatus();
+    if (!isLoggedIn) setShowModal(true);
   };
 
   return (

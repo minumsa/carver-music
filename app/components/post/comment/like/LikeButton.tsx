@@ -29,8 +29,8 @@ export const LikeButton = ({
   const setReplies = useSetAtom(repliesAtom);
 
   async function handleLikeToggle() {
-    const loginResponse = await verifyLoginStatus();
-    if (!loginResponse.ok) {
+    const { isLoggedIn } = await verifyLoginStatus();
+    if (!isLoggedIn) {
       setShowLoginModal(true);
       return;
     }
