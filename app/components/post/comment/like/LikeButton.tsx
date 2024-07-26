@@ -69,7 +69,7 @@ export const LikeButton = ({
 
   return (
     <>
-      <LoginAlert showModal={showLoginModal} setShowModal={setShowLoginModal} />
+      <LoginAlert showLoginModal={showLoginModal} setShowLoginModal={setShowLoginModal} />
       <LikeIcon isLiked={isLiked} likeCount={likeCount} fetchLike={handleLikeToggle} />
     </>
   );

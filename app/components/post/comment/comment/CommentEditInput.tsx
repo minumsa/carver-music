@@ -56,7 +56,7 @@ export const CommentEditInput = ({ setIsEditing, comment }: CommentInputProps) =
 
   return (
     <>
-      <LoginAlert showModal={showModal} setShowModal={setShowModal} />
+      <LoginAlert showLoginModal={showModal} setShowLoginModal={setShowModal} />
       <div className={styles.container} onSubmit={onSubmit}>
         <div className={styles.commentContainer}>
           <div className={styles.userImageWrapper}>

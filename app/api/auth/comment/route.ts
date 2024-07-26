@@ -60,8 +60,7 @@ export async function POST(request: Request) {
 
     client.close();
 
-    const response = NextResponse.json({ comments: commentsWithImages }, { status: 200 });
-    return response;
+    return NextResponse.json({ comments: commentsWithImages }, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Server Error" }, { status: 500 });

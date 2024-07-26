@@ -44,24 +44,24 @@ export const ReplyInput = ({ comment, albumId, setShowReplyInput }: ReplyInputPr
       date: new Date(),
     };
     try {
-      const response = await postReply(postReplyParams);
+      const { replies } = await postReply(postReplyParams);
       setShowReplyInput(false);
       reset();
-      setReplies(response.replies);
+      setReplies(replies);
     } catch (error) {
       toast.error("답글을 제출하는 데 실패했습니다.");
     }
   });
 
   const handleTextareaClick = async () => {
-    const { isLoggedIn } = await verifyLoginStatus();
-    setIsLoggedIn(isLoggedIn);
-    if (!isLoggedIn) setShowLoginModal(true);
+    const response = await verifyLoginStatus();
+    setIsLoggedIn(response.isLoggedIn);
+    if (!response.isLoggedIn) setShowLoginModal(true);
   };
 
   return (
     <>
-      <LoginAlert showModal={showLoginModal} setShowModal={setShowLoginModal} />
+      <LoginAlert showLoginModal={showLoginModal} setShowLoginModal={setShowLoginModal} />
       <div className={styles.container} onSubmit={onSubmit}>
         <div className={styles.commentContainer}>
           <div className={styles.userImageWrapper}>

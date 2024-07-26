@@ -25,29 +25,30 @@ export const CommentInput = ({ albumId }: CommentInputProps) => {
   const userId = useAtomValue(userIdAtom);
   const userName = useAtomValue(userNameAtom);
   const setComments = useSetAtom(commentsAtom);
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   const onSubmit = handleSubmit(async (data) => {
     const { userComment } = data;
     const postCommentParams = { userId, userName, userComment, albumId, date: new Date() };
     try {
-      const response = await postComment(postCommentParams);
+      const { comments } = await postComment(postCommentParams);
       reset();
-      setComments(response.comments);
+      setComments(comments);
     } catch (error) {
       console.error(error, "Failed to post comments");
     }
   });
 
   const verifyLogin = async () => {
-    const { isLoggedIn } = await verifyLoginStatus();
-    if (!isLoggedIn) setShowModal(true);
+    const response = await verifyLoginStatus();
+    setIsLoggedIn(response.isLoggedIn);
+    if (!response.isLoggedIn) setShowLoginModal(true);
   };
 
   return (
     <>
-      <LoginAlert showModal={showModal} setShowModal={setShowModal} />
+      <LoginAlert showLoginModal={showLoginModal} setShowLoginModal={setShowLoginModal} />
       <div className={styles.container} onSubmit={onSubmit}>
         <div className={styles.commentContainer}>
           <div className={styles.userImageWrapper}>
