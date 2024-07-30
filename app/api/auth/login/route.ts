@@ -25,10 +25,7 @@ export async function POST(request: Request) {
 
     if (!user) {
       client.close();
-      return NextResponse.json(
-        { message: "유효하지 않은 이메일 또는 비밀번호입니다." },
-        { status: 401 },
-      );
+      return NextResponse.json({ message: "존재하지 않는 아이디입니다." }, { status: 404 });
     }
 
     const isValid = await bcrypt.compare(password, user.password);
@@ -50,13 +47,19 @@ export async function POST(request: Request) {
     client.close();
 
     // 쿠키에 토큰 저장
-    const response = NextResponse.json({ message: "로그인 성공" }, { status: 200 });
+    const response = NextResponse.json(
+      { message: "로그인 성공", role: user.role },
+      { status: 200 },
+    );
+
+    // 로그인 토큰 쿠키에 저장
     response.cookies.set("loginToken", loginToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: 60 * 60, // 1 hour
       path: "/",
     });
+
     return response;
   } catch (error) {
     console.error(error);
@@ -92,7 +95,7 @@ export async function GET(request: Request) {
     client.close();
 
     if (!user) {
-      return NextResponse.json({ message: "사용자를 찾을 수 없습니다." }, { status: 404 });
+      return NextResponse.json({ message: "존재하지 않는 아이디입니다." }, { status: 404 });
     }
 
     return NextResponse.json(

@@ -7,6 +7,9 @@ require("dotenv").config();
 if (!process.env.MONGODB_COMMENTS_URI) throw new Error("env error");
 const uri: string = process.env.MONGODB_COMMENTS_URI;
 
+if (!process.env.MONGODB_USERS_URI) throw new Error("env error");
+const usersUri: string = process.env.MONGODB_USERS_URI;
+
 export async function POST(request: Request) {
   try {
     const { commentId, commentUserId, userId, userName, userComment, albumId, date } =
@@ -19,7 +22,7 @@ export async function POST(request: Request) {
     // comments 컬렉션에 복합 인덱스 추가 (이미 존재하는 경우 오류 무시)
     await db.collection("comments").createIndex({ albumId: 1, date: -1 });
 
-    const status = await db.collection("replies").insertOne({
+    await db.collection("replies").insertOne({
       commentId,
       commentUserId,
       userId,
@@ -30,7 +33,45 @@ export async function POST(request: Request) {
       likedUserIds: [],
     });
 
-    const response = NextResponse.json({ message: "로그인 성공" }, { status: 200 });
+    // 댓글 수정 후 업데이트된 댓글 목록 보내주기
+    const comments = await db.collection("comments").find({ albumId }).sort({ date: 1 }).toArray();
+
+    const usersClient = await MongoClient.connect(usersUri);
+    const usersDb = usersClient.db();
+
+    const commentUserIds = comments.map((comment) => comment.userId);
+    const commentIds = comments.map((comment) => comment._id.toString());
+
+    const replies = await db
+      .collection("replies")
+      .find({ commentId: { $in: commentIds } })
+      .sort({ date: 1 })
+      .toArray();
+
+    const replyUserIds = replies.map((reply) => reply.userId);
+
+    // 모든 userId 목록 병합 후 중복 제거
+    const allUserIds = Array.from(new Set([...commentUserIds, ...replyUserIds]));
+
+    const users = await usersDb
+      .collection("users")
+      .find({ userId: { $in: allUserIds } })
+      .toArray();
+
+    const userMap = users.reduce((acc: any, user) => {
+      acc[user.userId] = { userImage: user.userImage }; // userId를 키로 하여 userImage 및 userName 저장
+      return acc;
+    }, {});
+
+    // 각 답글에 userImage 및 userName 추가
+    const repliesWithImages = replies.map((reply) => ({
+      ...reply,
+      userImage: userMap[reply.userId]?.userImage || null,
+    }));
+
+    client.close();
+
+    const response = NextResponse.json({ replies: repliesWithImages }, { status: 200 });
     return response;
   } catch (error) {
     console.error(error);
@@ -40,7 +81,7 @@ export async function POST(request: Request) {
 
 export async function PUT(request: Request) {
   try {
-    const { commentId, userId, userComment, date } = await request.json();
+    const { albumId, commentId, userId, userComment, date } = await request.json();
 
     const client = await MongoClient.connect(uri);
     const db = client.db();
@@ -59,9 +100,45 @@ export async function PUT(request: Request) {
       .collection("replies")
       .updateOne({ _id: new ObjectId(commentId) }, { $set: { userComment, date } });
 
+    // 댓글 수정 후 업데이트된 댓글 목록 보내주기
+    const comments = await db.collection("comments").find({ albumId }).sort({ date: 1 }).toArray();
+
+    const usersClient = await MongoClient.connect(usersUri);
+    const usersDb = usersClient.db();
+
+    const commentUserIds = comments.map((comment) => comment.userId);
+    const commentIds = comments.map((comment) => comment._id.toString());
+
+    const replies = await db
+      .collection("replies")
+      .find({ commentId: { $in: commentIds } })
+      .sort({ date: 1 })
+      .toArray();
+
+    const replyUserIds = replies.map((reply) => reply.userId);
+
+    // 모든 userId 목록 병합 후 중복 제거
+    const allUserIds = Array.from(new Set([...commentUserIds, ...replyUserIds]));
+
+    const users = await usersDb
+      .collection("users")
+      .find({ userId: { $in: allUserIds } })
+      .toArray();
+
+    const userMap = users.reduce((acc: any, user) => {
+      acc[user.userId] = { userImage: user.userImage }; // userId를 키로 하여 userImage 및 userName 저장
+      return acc;
+    }, {});
+
+    // 각 답글에 userImage 및 userName 추가
+    const repliesWithImages = replies.map((reply) => ({
+      ...reply,
+      userImage: userMap[reply.userId]?.userImage || null,
+    }));
+
     client.close();
 
-    const response = NextResponse.json({ message: "댓글이 수정되었습니다." }, { status: 200 });
+    const response = NextResponse.json({ replies: repliesWithImages }, { status: 200 });
     return response;
   } catch (error) {
     console.error(error);
@@ -71,7 +148,7 @@ export async function PUT(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
-    const { replyId, userId } = await request.json();
+    const { replyId, userId, albumId } = await request.json();
 
     const client = await MongoClient.connect(uri);
     const db = client.db();
@@ -88,7 +165,46 @@ export async function DELETE(request: Request) {
 
     await db.collection("replies").deleteOne({ _id: new ObjectId(replyId) });
 
-    return NextResponse.json({ message: "답글이 성공적으로 삭제되었습니다." });
+    // 댓글 수정 후 업데이트된 댓글 목록 보내주기
+    const comments = await db.collection("comments").find({ albumId }).sort({ date: 1 }).toArray();
+
+    const usersClient = await MongoClient.connect(usersUri);
+    const usersDb = usersClient.db();
+
+    const commentUserIds = comments.map((comment) => comment.userId);
+    const commentIds = comments.map((comment) => comment._id.toString());
+
+    const replies = await db
+      .collection("replies")
+      .find({ commentId: { $in: commentIds } })
+      .sort({ date: 1 })
+      .toArray();
+
+    const replyUserIds = replies.map((reply) => reply.userId);
+
+    // 모든 userId 목록 병합 후 중복 제거
+    const allUserIds = Array.from(new Set([...commentUserIds, ...replyUserIds]));
+
+    const users = await usersDb
+      .collection("users")
+      .find({ userId: { $in: allUserIds } })
+      .toArray();
+
+    const userMap = users.reduce((acc: any, user) => {
+      acc[user.userId] = { userImage: user.userImage }; // userId를 키로 하여 userImage 및 userName 저장
+      return acc;
+    }, {});
+
+    // 각 답글에 userImage 및 userName 추가
+    const repliesWithImages = replies.map((reply) => ({
+      ...reply,
+      userImage: userMap[reply.userId]?.userImage || null,
+    }));
+
+    client.close();
+
+    const response = NextResponse.json({ replies: repliesWithImages }, { status: 200 });
+    return response;
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Server Error" }, { status: 500 });

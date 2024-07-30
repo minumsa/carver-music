@@ -1,8 +1,8 @@
 import connectMongoDB from "@/app/modules/mongodb";
 import Music from "@/models/music";
 import { NextResponse } from "next/server";
-import { SUB_PER_PAGE_COUNT } from "../../modules/constants";
 import { Genres, SortKey } from "@/app/modules/types";
+import { SUB_PER_PAGE_COUNT } from "@/app/modules/config";
 
 interface Query {
   genre: Genres[keyof Genres]; // Genres 인터페이스의 키 값들 중 하나
@@ -15,13 +15,13 @@ export async function GET(request: Request) {
     await connectMongoDB();
 
     const url = new URL(request.url);
-    const currentPage = Number(url.searchParams.get("currentPage"));
-    const currentGenre = url.searchParams.get("currentGenre");
+    const activePage = Number(url.searchParams.get("activePage"));
+    const activeGenre = url.searchParams.get("activeGenre");
 
     const sortKey: SortKey = { score: -1, artist: 1 };
-    const query: Query = { genre: currentGenre as Genres[keyof Genres] };
+    const query: Query = { genre: activeGenre as Genres[keyof Genres] };
 
-    const skipCount = SUB_PER_PAGE_COUNT * currentPage - SUB_PER_PAGE_COUNT;
+    const skipCount = SUB_PER_PAGE_COUNT * activePage - SUB_PER_PAGE_COUNT;
     const projection = {
       _id: 0,
       album: 1,

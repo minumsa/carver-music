@@ -1,7 +1,7 @@
 import Error from "@/app/components/@common/Error";
 import { MusicLayout } from "@/app/components/@common/MusicLayout";
 import { CalendarDetail } from "@/app/components/calendar/CalendarDetail";
-import { fetchCalendarDataSSR } from "@/app/modules/api";
+import { fetchCalendarDataSSR } from "@/app/modules/api/album";
 import { PageProps } from "@/app/modules/types";
 import { getYearMonthFromStr } from "@/app/modules/utils";
 

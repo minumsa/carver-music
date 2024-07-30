@@ -1,29 +1,4 @@
-import { GenreTranslations, Genres, Tags } from "./types";
-import { isLandingPage } from "./utils";
-
-export const SITE_TITLE: string = "카버뮤직";
-
-export const FIRST_PAGE: number = 1;
-export const MIN_SCROLL_COUNT: number = 1;
-export const PER_PAGE_COUNT: number = 50;
-export const SUB_PER_PAGE_COUNT: number = 5;
-
-export const GENRES: GenreTranslations = {
-  pop: "팝",
-  kpop: "케이팝",
-  jpop: "제이팝",
-  rock: "록",
-  alternative: "얼터너티브",
-  disco: "디스코",
-  electronic: "일렉트로닉",
-  jazz: "재즈",
-  soul: "알앤비/소울",
-  hiphop: "힙합",
-  folk: "포크",
-  country: "컨트리",
-  classic: "클래식",
-  soundtrack: "사운드트랙",
-};
+import { Tags } from "../types";
 
 export const DEFAULT_TAGS: Tags = {
   // 연도별
@@ -155,25 +130,3 @@ export const UPLOAD_PAGE_GROUP_TAGS: GroupTags = {
     "": "모두 보기",
   },
 };
-
-export const ALBUM_ART_SIZES = {
-  width: 300,
-  height: 300,
-  mobile: {
-    width: 250,
-    height: 250,
-  },
-};
-
-export const ACTIVE_TAG_STYLES = (isActiveTag: boolean, pathName: string) =>
-  isActiveTag
-    ? { boxShadow: "inset 0 0 0 1px var(--text-color)", order: isLandingPage(pathName) ? -1 : 0 }
-    : undefined;
-
-require("dotenv").config();
-
-export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
-// 컬러 변수
-export const PRIMARY_COLOR = "#007bff";
-export const DARK_RED_COLOR = "#D21312";

@@ -65,8 +65,8 @@ const ToastEditor = ({ content = "", editorRef }: ToastEditorProps) => {
   };
 
   // const handleClick = () => {
-  //   if (editorRef.current) {
-  //     const markdown = editorRef.current.getInstance().getMarkdown();
+  //   if (editorRef.active) {
+  //     const markdown = editorRef.active.getInstance().getMarkdown();
   //   }
   // };
 

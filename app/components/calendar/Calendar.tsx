@@ -3,48 +3,47 @@
 import React, { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import styles from "./Calendar.module.css";
-import { fetchCalendarDataCSR } from "@/app/modules/api";
+import { fetchCalendarDataCSR } from "@/app/modules/api/album";
 import { usePathname, useRouter } from "next/navigation";
 import { CalendarData } from "@/app/modules/types";
 import { useAtom } from "jotai";
-import { currentCalendarDataAtom, currentDateAtom } from "@/app/modules/atoms";
+import { activeCalendarDataAtom, activeDateAtom } from "@/app/modules/atoms";
 import { toCalendarDetailPage } from "@/app/modules/paths";
-import { LoadingIcon } from "../landingPage/LoadingIcon";
 import SpinningCircles from "react-loading-icons/dist/esm/components/spinning-circles";
 // import "react-calendar/dist/Calendar.css";
 
 interface CalendarComponentProps {
-  calendarData: CalendarData[];
+  initialCalendarData: CalendarData[];
 }
 
-// TODO: 기능 구현 끝나면 any 타입 정상적으로 다 바꾸기
-const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
-  const [currentDate, setCurrentDate] = useAtom(currentDateAtom);
-  const [currentCalendarData, setCurrentCalendarData] = useAtom(currentCalendarDataAtom);
+const CalendarComponent = ({ initialCalendarData }: CalendarComponentProps) => {
+  const [activeDate, setActiveDate] = useAtom(activeDateAtom);
+  const [activeCalendarData, setActiveCalendarData] = useAtom(activeCalendarDataAtom);
   const today = new Date();
   const pathName = usePathname();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (!currentCalendarData) setCurrentCalendarData(calendarData);
+    // 최초 페이지 진입 시(activeCalendarData가 없을 때)에만 SSR을 통해 가져온 달력 데이터 사용
+    if (!activeCalendarData) setActiveCalendarData(initialCalendarData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleDateChange = (value: any) => {
-    setCurrentDate(value);
+    setActiveDate(value);
   };
 
   const tileContent = ({ date, view }: { date: Date; view: string }) => {
     if (view === "month") {
-      const events = currentCalendarData?.filter(
+      const events = activeCalendarData?.filter(
         (event: any) => new Date(event.uploadDate).toDateString() === date.toDateString(),
       );
       const totalContents = events?.length ?? 0;
       const hasVariousContents = totalContents >= 2;
 
       return events?.map((event: any, index: number) => {
-        const clickedDate = event.uploadDate.slice(0, 10);
+        const clickedDate = event.uploadDate.split("T")[0];
         return (
           <div key={index} className={styles.event}>
             {hasVariousContents && <div className={styles.totalContents}>{totalContents}</div>}
@@ -74,28 +73,18 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
     return "";
   };
 
-  const getCaldendarData = async (activeStartDate: any) => {
+  const getCaldendarData = async (activeStartDate: Date | null) => {
     try {
       setIsLoading(true);
-      const response = await fetchCalendarDataCSR(activeStartDate);
-      setCurrentCalendarData(response);
+      if (activeStartDate) {
+        const response = await fetchCalendarDataCSR(activeStartDate);
+        setActiveCalendarData(response);
+      }
     } catch (error) {
       console.error("Failed to fetch calendar data");
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const goToToday = async () => {
-    setCurrentDate(today);
-    getCaldendarData(today);
-  };
-
-  const tileDisabled = ({ date, view }: { date: Date; view: string }) => {
-    if (view === "month") {
-      return date.getMonth() !== currentDate.getMonth();
-    }
-    return false;
   };
 
   return (
@@ -104,14 +93,11 @@ const CalendarComponent = ({ calendarData }: CalendarComponentProps) => {
       <Calendar
         calendarType="gregory"
         onChange={handleDateChange}
-        value={currentDate}
+        value={activeDate}
         tileContent={tileContent}
         tileClassName={tileClassName}
         onActiveStartDateChange={({ activeStartDate }) => getCaldendarData(activeStartDate)}
         minDetail={"month"}
-        // navigationLabel={renderCustomNavigation}
-        // tileDisabled={tileDisabled}
-        // activeStartDate={activeStartDate}
       />
     </div>
   );

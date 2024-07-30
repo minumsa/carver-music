@@ -1,13 +1,13 @@
-import { fetchRandomAlbumId, userLogout } from "@/app/modules/api";
-import { GENRES } from "@/app/modules/constants";
+import { getRandomAlbumId } from "@/app/modules/api/album";
 import { toCalendarPage, toGenrePage, toPostPage } from "@/app/modules/paths";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import styles from "./DesktopMenu.module.css";
-import { isAdminPage } from "@/app/modules/utils";
 import Link from "next/link";
 import { useAtom, useSetAtom } from "jotai";
 import { userIdAtom, userImageAtom, userNameAtom } from "@/app/modules/atoms";
+import { userLogout } from "@/app/modules/api/auth";
+import { GENRES } from "@/app/modules/constants/genres";
 
 interface DesktopMenuProps {
   showCategory: boolean;
@@ -22,7 +22,7 @@ export const DesktopMenu = ({ showCategory }: DesktopMenuProps) => {
   const [userId, setUserId] = useAtom(userIdAtom);
 
   async function handleRandomButton() {
-    const randomId = await fetchRandomAlbumId();
+    const randomId = await getRandomAlbumId();
     router.push(`${toPostPage(pathName, randomId)}`);
   }
 
@@ -64,6 +64,7 @@ export const DesktopMenu = ({ showCategory }: DesktopMenuProps) => {
             className={`${styles.categoryItem} ${hoveredItem === "login" ? styles.hovered : ""}`}
             onMouseEnter={() => setHoveredItem("login")}
             onMouseLeave={() => setHoveredItem(null)}
+            // window.open("/login", "_blank", "width=800,height=600");
             onClick={() => {
               userId ? handleLogout() : router.push("/login");
             }}

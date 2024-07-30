@@ -1,18 +1,18 @@
 import SearchContents from "@/app/components/search/SearchContents";
 import { MusicLayout } from "@/app/components/@common/MusicLayout";
 import { PageProps } from "@/app/modules/types";
-import { fetchTagData } from "@/app/modules/api";
+import { fetchTagData } from "@/app/modules/api/album";
 
 export default async function Page({ params }: PageProps) {
-  const currentTag: string = params.tagName;
-  const currentPage: number = params.page;
+  const activeTag: string = params.tagName;
+  const activePage: number = params.page;
 
   try {
-    const { tagData, tagDataCount } = await fetchTagData(currentTag, currentPage);
+    const { tagData, tagDataCount } = await fetchTagData(activeTag, activePage);
     const searchInfo = {
-      currentKeyword: "",
-      currentPage,
-      currentTagName: currentTag,
+      activeKeyword: "",
+      activePage,
+      activeTagName: activeTag,
       totalDataLength: tagDataCount,
     };
 

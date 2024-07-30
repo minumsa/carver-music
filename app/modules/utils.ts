@@ -116,8 +116,8 @@ export const validateUserId = (userId: string): boolean => {
 };
 
 export const formatTimeDifference = (date: Date): string => {
-  const currentDate = new Date();
-  const differenceInMilliseconds = currentDate.getTime() - new Date(date).getTime();
+  const activeDate = new Date();
+  const differenceInMilliseconds = activeDate.getTime() - new Date(date).getTime();
   const differenceInMinutes = differenceInMilliseconds / (1000 * 60);
   const differenceInHours = differenceInMinutes / 60;
   const differenceInDays = differenceInHours / 24;
@@ -132,3 +132,8 @@ export const formatTimeDifference = (date: Date): string => {
     return `${Math.floor(differenceInDays)}일 전`;
   }
 };
+
+export const ACTIVE_TAG_STYLES = (isActiveTag: boolean, pathName: string) =>
+  isActiveTag
+    ? { boxShadow: "inset 0 0 0 1px var(--text-color)", order: isLandingPage(pathName) ? -1 : 0 }
+    : undefined;

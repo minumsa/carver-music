@@ -1,13 +1,13 @@
-import { ACTIVE_TAG_STYLES, DEFAULT_TAGS } from "@/app/modules/constants";
+import { DEFAULT_TAGS } from "@/app/modules/constants/tags";
 import styles from "./SearchTagDisplay.module.css";
 import { usePathname, useRouter } from "next/navigation";
-import { isAdminPage } from "@/app/modules/utils";
+import { ACTIVE_TAG_STYLES, isAdminPage } from "@/app/modules/utils";
 
 interface SearchTagDisplayProps {
-  currentTag: string;
+  activeTag: string;
 }
 
-export const SearchTagDisplay = ({ currentTag }: SearchTagDisplayProps) => {
+export const SearchTagDisplay = ({ activeTag }: SearchTagDisplayProps) => {
   const tags = Object.keys(DEFAULT_TAGS);
   const router = useRouter();
   const pathName = usePathname();
@@ -20,7 +20,7 @@ export const SearchTagDisplay = ({ currentTag }: SearchTagDisplayProps) => {
   return (
     <div className={styles.container}>
       {tags.map((tag) => {
-        const isClickedTag = currentTag === tag;
+        const isClickedTag = activeTag === tag;
         const isActiveTag = pathName.includes(tag);
         return (
           <div

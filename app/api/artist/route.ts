@@ -1,8 +1,8 @@
 import connectMongoDB from "@/app/modules/mongodb";
 import Music from "@/models/music";
 import { NextResponse } from "next/server";
-import { SUB_PER_PAGE_COUNT } from "../../modules/constants";
 import { SortKey } from "@/app/modules/types";
+import { SUB_PER_PAGE_COUNT } from "@/app/modules/config";
 
 export const dynamic = "force-dynamic";
 
@@ -13,8 +13,8 @@ export async function GET(request: Request) {
 
     const url = new URL(request.url);
     const artistId = url.searchParams.get("artistId");
-    const currentPage = Number(url.searchParams.get("currentPage"));
-    const skipCount = SUB_PER_PAGE_COUNT * currentPage - SUB_PER_PAGE_COUNT;
+    const activePage = Number(url.searchParams.get("activePage"));
+    const skipCount = SUB_PER_PAGE_COUNT * activePage - SUB_PER_PAGE_COUNT;
     const projection = {
       album: 1,
       artist: 1,

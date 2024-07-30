@@ -1,10 +1,10 @@
 import { useRouter } from "next/navigation";
-import { deleteData } from "../../../modules/api";
-import { AlbumInfo } from "../../../modules/types";
+import { deleteData } from "../../../modules/api/album";
+import { AlbumData } from "../../../modules/types";
 import styles from "./Button.module.css";
 
 interface DeleteButtonProps {
-  data: AlbumInfo;
+  data: AlbumData;
 }
 
 export const DeleteButton = ({ data }: DeleteButtonProps) => {

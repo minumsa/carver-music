@@ -1,16 +1,16 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { SUB_PER_PAGE_COUNT } from "../../../modules/constants";
 import styles from "./PageNumbers.module.css";
+import { SUB_PER_PAGE_COUNT } from "@/app/modules/config";
 
 interface PageNumbersProps {
-  currentPage: number;
+  activePage: number;
   dataCount: number;
 }
 
 const PAGE_SIZE = 5;
 
-export const PageNumbers = ({ currentPage, dataCount }: PageNumbersProps) => {
+export const PageNumbers = ({ activePage, dataCount }: PageNumbersProps) => {
   const router = useRouter();
   const [totalPageCount, setTotalPageCount] = useState(1);
   const pageArray = Array.from({ length: totalPageCount }, (_, i) => i + 1);
@@ -19,8 +19,8 @@ export const PageNumbers = ({ currentPage, dataCount }: PageNumbersProps) => {
   const [maxPage, setMaxPage] = useState<number>(PAGE_SIZE);
 
   useEffect(() => {
-    setMaxPage(Math.ceil(currentPage / SUB_PER_PAGE_COUNT) * SUB_PER_PAGE_COUNT);
-  }, [currentPage]);
+    setMaxPage(Math.ceil(activePage / SUB_PER_PAGE_COUNT) * SUB_PER_PAGE_COUNT);
+  }, [activePage]);
 
   useEffect(() => {
     if (dataCount) setTotalPageCount(Math.max(1, Math.ceil(dataCount / SUB_PER_PAGE_COUNT)));
@@ -44,7 +44,7 @@ export const PageNumbers = ({ currentPage, dataCount }: PageNumbersProps) => {
 
   return (
     <footer className={styles.pageContainer}>
-      {currentPage > PAGE_SIZE && (
+      {activePage > PAGE_SIZE && (
         <div className={styles.page} onClick={goToPrevPage}>
           〈
         </div>
@@ -53,7 +53,7 @@ export const PageNumbers = ({ currentPage, dataCount }: PageNumbersProps) => {
         const minPage = maxPage - SUB_PER_PAGE_COUNT + 1;
         const pageNumber = index + 1;
         const isPageNumberInRange = pageNumber >= minPage && pageNumber <= maxPage;
-        const isCurrentPageEqualPageNumber = currentPage == pageNumber;
+        const isCurrentPageEqualPageNumber = activePage == pageNumber;
         if (isPageNumberInRange) {
           return (
             <div

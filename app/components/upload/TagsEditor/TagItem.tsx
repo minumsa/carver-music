@@ -1,4 +1,4 @@
-import { DEFAULT_TAGS } from "@/app/modules/constants";
+import { DEFAULT_TAGS } from "@/app/modules/constants/tags";
 import styles from "./TagItem.module.css";
 
 interface TagItemProps {

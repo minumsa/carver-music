@@ -1,11 +1,11 @@
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import styles from "./CommentInput.module.css";
-import { userIdAtom, userImageAtom, userNameAtom } from "@/app/modules/atoms";
+import { commentsAtom, userIdAtom, userImageAtom, userNameAtom } from "@/app/modules/atoms";
 import { useForm } from "react-hook-form";
-import { checkUserLoginStatus, postComment, postReply } from "@/app/modules/api";
 import { useState } from "react";
-import { LoginAlert } from "./LoginAlert";
-import { Comment } from "@/app/modules/types";
+import { LoginAlert } from "../@common/LoginAlert";
+import { postComment } from "@/app/modules/api/comment";
+import { verifyLoginStatus } from "@/app/modules/api/auth";
 
 interface CommentForm {
   userComment: string;
@@ -13,11 +13,10 @@ interface CommentForm {
 
 interface CommentInputProps {
   albumId: string;
-  fetchComments: any;
 }
 
-export const CommentInput = ({ albumId, fetchComments }: CommentInputProps) => {
-  const currentUserImage = useAtomValue(userImageAtom);
+export const CommentInput = ({ albumId }: CommentInputProps) => {
+  const activeUserImage = useAtomValue(userImageAtom);
   const { handleSubmit, register, reset, watch } = useForm<CommentForm>({
     defaultValues: {
       userComment: "",
@@ -25,42 +24,43 @@ export const CommentInput = ({ albumId, fetchComments }: CommentInputProps) => {
   });
   const userId = useAtomValue(userIdAtom);
   const userName = useAtomValue(userNameAtom);
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const setComments = useSetAtom(commentsAtom);
+  const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   const onSubmit = handleSubmit(async (data) => {
     const { userComment } = data;
     const postCommentParams = { userId, userName, userComment, albumId, date: new Date() };
     try {
-      await postComment(postCommentParams);
+      const { comments } = await postComment(postCommentParams);
       reset();
-      await fetchComments();
+      setComments(comments);
     } catch (error) {
-      console.error(error, "Failed to sign up process");
+      console.error(error, "Failed to post comments");
     }
   });
 
-  const handleTextareaClick = async () => {
-    const response = await checkUserLoginStatus();
-    setIsLoggedIn(response.ok);
-    if (!response.ok) setShowModal(true);
+  const verifyLogin = async () => {
+    const response = await verifyLoginStatus();
+    setIsLoggedIn(response.isLoggedIn);
+    if (!response.isLoggedIn) setShowLoginModal(true);
   };
 
   return (
     <>
-      <LoginAlert showModal={showModal} setShowModal={setShowModal} />
+      <LoginAlert showLoginModal={showLoginModal} setShowLoginModal={setShowLoginModal} />
       <div className={styles.container} onSubmit={onSubmit}>
         <div className={styles.commentContainer}>
           <div className={styles.userImageWrapper}>
-            <img src={currentUserImage} alt="user-Image" className={styles.userImage} />
+            <img src={activeUserImage} alt="user-image" className={styles.userImage} />
           </div>
           <form className={styles.formContainer}>
             <div className={styles.textareaWrapper}>
               <textarea
                 {...register("userComment")}
                 className={styles.textarea}
-                placeholder="Leave a comment"
-                onClick={handleTextareaClick}
+                placeholder="댓글 작성"
+                onClick={verifyLogin}
                 value={isLoggedIn ? watch("userComment") : ""}
               />
             </div>

@@ -31,7 +31,7 @@
   column-gap: 30px;
 }
 
-.dateGroupTitle {
+.dateHeaderWrapper {
   display: flex;
   flex-direction: column;
   min-width: 150px;
@@ -43,54 +43,8 @@
   font-weight: 600;
 }
 
-.albumArtWrapper {
-  display: flex;
-  flex-direction: column;
-  width: 160px;
-  height: 160px;
-  aspect-ratio: 1 / 1;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-}
-
-.albumInfoContainer {
-  display: flex;
-  flex-direction: column;
-  row-gap: 5px;
-}
-
-.ellipsis {
-  width: 160px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 1.05rem;
-}
-
 .dataCountByDate {
   font-size: 0.95rem;
-}
-
-.starContainer {
-  display: flex;
-  position: relative;
-  align-items: center;
-  margin: 3px 0 0 0;
-}
-
-.coloredStar {
-  display: absolute;
-  z-index: 2;
-  width: 80px;
-  height: 16px;
-}
-
-.monoStar {
-  position: absolute;
-  z-index: 1;
-  width: 80px;
-  height: 16px;
 }
 
 @media (max-width: 525px) {
@@ -110,25 +64,11 @@
     column-gap: 0;
   }
 
-  .dateGroupTitle {
+  .dateHeaderWrapper {
     display: flex;
     flex-direction: column;
     min-width: 55px;
     row-gap: 7px;
-  }
-
-  .albumArtWrapper {
-    width: 130px;
-    height: 130px;
-  }
-
-  .ellipsis {
-    width: 130px;
-    font-size: 1rem;
-  }
-
-  .starContainer {
-    display: none;
   }
 
   .dataCountByDate {

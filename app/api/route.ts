@@ -1,9 +1,9 @@
 import connectMongoDB from "@/app/modules/mongodb";
 import { NextResponse } from "next/server";
-import { PER_PAGE_COUNT } from "../modules/constants";
 import Music from "@/models/music";
 import { SortKey } from "../modules/types";
-import { isAdminLoggedIn } from "../modules/api";
+import { isAdminLoggedIn } from "../modules/api/auth";
+import { PER_PAGE_COUNT } from "../modules/config";
 
 interface Query {
   tagKeys?: string; // tag는 모바일 환경에서 태그 클릭 시에만 존재해서 ? 처리
@@ -56,6 +56,8 @@ export async function POST(request: Request) {
     require("dotenv").config();
     await connectMongoDB();
 
+    const updatedData = await request.json();
+
     const {
       newSpotifyAlbumData,
       title,
@@ -68,7 +70,8 @@ export async function POST(request: Request) {
       tagKeys,
       blurHash,
       markdown,
-    } = await request.json();
+    } = updatedData;
+
     const {
       id,
       imgUrl,
@@ -83,16 +86,16 @@ export async function POST(request: Request) {
     } = newSpotifyAlbumData;
 
     if (!(await isAdminLoggedIn(request))) {
-      return NextResponse.json({ message: "관리자 로그인 상태가 아닙니다." }, { status: 401 });
+      return NextResponse.json({ message: "관리자 로그인 상태가 아닙니다." }, { status: 403 });
     }
 
     const existingData = await Music.findOne({ id });
 
     if (existingData) {
-      return NextResponse.json({ message: "이미 존재하는 앨범입니다." }, { status: 409 });
+      return NextResponse.json({ message: "이미 존재하는 데이터입니다." }, { status: 409 });
     }
 
-    const newData = new Music({
+    const uploadData = new Music({
       title,
       id,
       imgUrl,
@@ -114,8 +117,8 @@ export async function POST(request: Request) {
       blurHash,
       markdown,
     });
-    await newData.save();
-    return NextResponse.json(newData.toJSON());
+    await uploadData.save();
+    return NextResponse.json({ message: "데이터가 성공적으로 업로드되었습니다." }, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Server Error" }, { status: 500 });
@@ -128,9 +131,11 @@ export async function PUT(request: Request) {
     require("dotenv").config();
     await connectMongoDB();
 
+    const updatedData = await request.json();
+
     const {
       newSpotifyAlbumData,
-      originalAlbumId,
+      prevAlbumId,
       title,
       genre,
       link,
@@ -141,7 +146,8 @@ export async function PUT(request: Request) {
       tagKeys,
       blurHash,
       markdown,
-    } = await request.json();
+    } = updatedData;
+
     const {
       id,
       imgUrl,
@@ -156,11 +162,10 @@ export async function PUT(request: Request) {
     } = newSpotifyAlbumData;
 
     if (!(await isAdminLoggedIn(request))) {
-      return NextResponse.json({ message: "관리자 로그인 상태가 아닙니다." }, { status: 401 });
+      return NextResponse.json({ message: "관리자 로그인 상태가 아닙니다." }, { status: 403 });
     }
 
-    // 수정할 데이터를 id로 찾아 originalData에 할당
-    const prevData = await Music.findOne({ id: originalAlbumId });
+    const prevData = await Music.findOne({ id: prevAlbumId });
 
     if (!prevData) {
       return NextResponse.json({ message: "해당 데이터를 찾을 수 없습니다." }, { status: 404 });
@@ -190,7 +195,7 @@ export async function PUT(request: Request) {
     });
 
     await prevData.save();
-    return NextResponse.json(prevData.toJSON());
+    return NextResponse.json({ message: "데이터가 성공적으로 수정되었습니다." }, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Server Error" }, { status: 500 });
@@ -205,7 +210,7 @@ export async function DELETE(request: Request) {
     const { id } = await request.json();
 
     if (!(await isAdminLoggedIn(request))) {
-      return NextResponse.json({ message: "관리자 로그인 상태가 아닙니다." }, { status: 401 });
+      return NextResponse.json({ message: "관리자 로그인 상태가 아닙니다." }, { status: 403 });
     }
 
     const existingData = await Music.findOne({ id });
@@ -216,7 +221,7 @@ export async function DELETE(request: Request) {
 
     await existingData.deleteOne();
 
-    return NextResponse.json({ message: "데이터가 성공적으로 삭제되었습니다." });
+    return NextResponse.json({ message: "데이터가 성공적으로 삭제되었습니다." }, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Server Error" }, { status: 500 });

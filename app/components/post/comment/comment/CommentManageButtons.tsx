@@ -1,6 +1,8 @@
-import { deleteComment } from "@/app/modules/api";
-import styles from "./CommentManageButtons.module.css";
+import { deleteComment } from "@/app/modules/api/comment";
+import styles from "../@common/ManageButtons.module.css";
 import { Comment } from "@/app/modules/types";
+import { useSetAtom } from "jotai";
+import { commentsAtom } from "@/app/modules/atoms";
 
 interface CommentManageModalProps {
   userId: string;
@@ -8,7 +10,6 @@ interface CommentManageModalProps {
   showHandleModal: boolean;
   setShowHandleModal: React.Dispatch<React.SetStateAction<boolean>>;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
-  fetchComments: any;
 }
 
 export const CommentManageButtons = ({
@@ -17,18 +18,19 @@ export const CommentManageButtons = ({
   showHandleModal,
   setShowHandleModal,
   setIsEditing,
-  fetchComments,
 }: CommentManageModalProps) => {
+  const setComments = useSetAtom(commentsAtom);
+
   const handleDeleteComment = async () => {
-    const deleteParams = { userId, commentId: comment._id };
-    await deleteComment(deleteParams);
+    const deleteParams = { albumId: comment.albumId, userId, commentId: comment._id };
+    const response = await deleteComment(deleteParams);
     setShowHandleModal(false);
-    await fetchComments();
+    setComments(response.comments);
   };
 
   return (
     showHandleModal && (
-      <div className={styles.buttonContainer}>
+      <div className={styles.container}>
         <button
           className={styles.button}
           style={{ marginBottom: "-1px" }}

@@ -1,7 +1,6 @@
 import { isAdminPage } from "./utils";
 
 // FIXME: /admin 인지 /인지 판단해서 처리해주는 함수 만들기 => 코드 줄이기
-
 export const toPostPage = (pathName: string, albumId: string) =>
   isAdminPage(pathName) ? `/admin/post/${albumId}` : `/post/${albumId}`;
 
@@ -22,3 +21,19 @@ export const toCalendarPage = (pathName: string) =>
 
 export const toCalendarDetailPage = (pathName: string, date: string) =>
   isAdminPage(pathName) ? `/admin/calendar/${date}` : `/calendar/${date}`;
+
+export const getRedirectPathForAdmin = (baseURL: string, isAdminURL: boolean, prevURL: URL) => {
+  return isAdminURL ? `${baseURL}/${prevURL.pathname}` : `${baseURL}/admin${prevURL.pathname}`;
+};
+
+export const getRedirectPathForUser = (baseURL: string, prevURL: URL) => {
+  return `${baseURL}${prevURL.pathname}`;
+};
+
+export const getDefaultRedirectPath = (role: string) => {
+  if (role === "admin") {
+    return "/admin";
+  } else {
+    return "/";
+  }
+};

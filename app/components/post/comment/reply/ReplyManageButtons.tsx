@@ -1,6 +1,8 @@
-import { deleteComment, deleteReply } from "@/app/modules/api";
-import styles from "./CommentManageButtons.module.css";
+import { deleteReply } from "@/app/modules/api/comment";
+import styles from "../@common/ManageButtons.module.css";
 import { Comment } from "@/app/modules/types";
+import { useSetAtom } from "jotai";
+import { repliesAtom } from "@/app/modules/atoms";
 
 interface ReplyManageModalProps {
   userId: string;
@@ -10,7 +12,6 @@ interface ReplyManageModalProps {
   setShowReplyManageButtons: React.Dispatch<React.SetStateAction<boolean>>;
   handleReply: React.Dispatch<React.SetStateAction<string>>;
   setReplyIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
-  fetchComments: any;
 }
 
 export const ReplyManageButtons = ({
@@ -21,20 +22,20 @@ export const ReplyManageButtons = ({
   setShowReplyManageButtons,
   handleReply,
   setReplyIsEditing,
-  fetchComments,
 }: ReplyManageModalProps) => {
+  const setReplies = useSetAtom(repliesAtom);
   const replyId = reply._id;
   const handleDeleteReply = async () => {
-    const deleteReplyParams = { userId, replyId };
-    await deleteReply(deleteReplyParams);
+    const deleteReplyParams = { albumId: reply.albumId, userId, replyId };
+    const response = await deleteReply(deleteReplyParams);
     handleReply(replyId);
-    await fetchComments();
+    setReplies(response.replies);
   };
 
   return (
     isActive &&
     showReplyManageButtons && (
-      <div className={styles.buttonContainer}>
+      <div className={styles.container}>
         <button
           className={styles.button}
           style={{ marginBottom: "-1px" }}

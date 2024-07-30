@@ -1,14 +1,14 @@
 import React from "react";
-import { UPLOAD_PAGE_GROUP_TAGS } from "@/app/modules/constants";
+import { UPLOAD_PAGE_GROUP_TAGS } from "@/app/modules/constants/tags";
 import styles from "./TagModal.module.css";
 
 interface TagModalProps {
-  currentTagKeys: string[];
+  activeTagKeys: string[];
   addTagItem: (tag: string) => void;
   onClose: () => void;
 }
 
-export const TagModal = ({ currentTagKeys, addTagItem, onClose }: TagModalProps) => {
+export const TagModal = ({ activeTagKeys, addTagItem, onClose }: TagModalProps) => {
   return (
     <div className={styles.container} onClick={onClose}>
       <div className={styles.tagModal} onClick={(e) => e.stopPropagation()}>
@@ -20,7 +20,7 @@ export const TagModal = ({ currentTagKeys, addTagItem, onClose }: TagModalProps)
                 <div className={styles.tagTheme}>{tagTheme}</div>
                 <div className={styles.tagWrapper}>
                   {Object.keys(UPLOAD_PAGE_GROUP_TAGS[tagTheme]).map((tag) => {
-                    const isExistingTag = currentTagKeys.includes(tag);
+                    const isExistingTag = activeTagKeys.includes(tag);
                     const tagName = UPLOAD_PAGE_GROUP_TAGS[tagTheme][tag];
                     return (
                       !isExistingTag && (

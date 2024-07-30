@@ -1,5 +1,5 @@
 import { useAtom, useSetAtom } from "jotai";
-import { ACTIVE_TAG_STYLES, LANDING_PAGE_TAGS } from "../../modules/constants";
+import { LANDING_PAGE_TAGS } from "../../modules/constants/tags";
 import styles from "./MobileTagDisplay.module.css";
 import {
   albumDataAtom,
@@ -11,7 +11,7 @@ import {
 } from "../../modules/atoms";
 import { memo } from "react";
 import { usePathname } from "next/navigation";
-import { isLandingPage } from "@/app/modules/utils";
+import { ACTIVE_TAG_STYLES, isLandingPage } from "@/app/modules/utils";
 
 const MobileTagDisplay = () => {
   const setAlbumData = useSetAtom(albumDataAtom);
@@ -19,7 +19,7 @@ const MobileTagDisplay = () => {
   const setTotalScrollCount = useSetAtom(totalScrollCountAtom);
   const setScrollPosition = useSetAtom(scrollPositionAtom);
   const [showAllTagItems, setShowAllTagItems] = useAtom(showAllTagItemsAtom);
-  const [currentTag, setCurrentTag] = useAtom(tagAtom);
+  const [activeTag, setCurrentTag] = useAtom(tagAtom);
   const pathName = usePathname();
 
   const handleTagSelection = (tag: string) => {
@@ -36,7 +36,7 @@ const MobileTagDisplay = () => {
       {isLandingPage(pathName) && (
         <div className={styles.container} style={{ flexWrap: showAllTagItems ? "wrap" : "nowrap" }}>
           {Object.keys(LANDING_PAGE_TAGS).map((tag) => {
-            const isActiveTag = currentTag === tag || (currentTag === "" && tag === "all");
+            const isActiveTag = activeTag === tag || (activeTag === "" && tag === "all");
             const tagName = LANDING_PAGE_TAGS[tag];
             return (
               <div

@@ -1,17 +1,18 @@
 import { usePathname } from "next/navigation";
-import { getFormattedDuration, isAdminPage, isSearchPage } from "../../../modules/utils";
+import { getFormattedDuration, isAdminPage } from "../../../modules/utils";
 import styles from "./AlbumPanel.module.css";
 import { useRef } from "react";
 import { DeleteButton } from "../assets/DeleteButton";
 import { EditButton } from "../assets/EditButton";
 import Link from "next/link";
 import { BlurImg } from "../BlurImg";
-import { AlbumInfo } from "../../../modules/types";
+import { AlbumData } from "../../../modules/types";
 import { toArtistPage, toTagPage, toPostPage, toGenrePage } from "../../../modules/paths";
-import { DEFAULT_TAGS, GENRES } from "../../../modules/constants";
+import { DEFAULT_TAGS } from "../../../modules/constants/tags";
+import { GENRES } from "@/app/modules/constants/genres";
 
 interface AlbumProps {
-  albumData: AlbumInfo;
+  albumData: AlbumData;
 }
 
 export const AlbumPanel = ({ albumData }: AlbumProps) => {
@@ -57,7 +58,7 @@ export const AlbumPanel = ({ albumData }: AlbumProps) => {
                     <h2 className={styles.albumTitle}>{album}</h2>
                   </Link>
                   {/* 별점 */}
-                  {/* FIXME: star-color.webp => svg 파일로 변경하기 */}
+                  {/* FIXME: 별 이미지 svg 파일로 교체 */}
                   <div className={styles.starContainer}>
                     <img
                       className={styles.coloredStar}

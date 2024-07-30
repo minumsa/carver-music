@@ -1,24 +1,25 @@
-import { useAtomValue } from "jotai";
-import styles from "./CommentInput.module.css";
-import { userIdAtom, userImageAtom } from "@/app/modules/atoms";
+import { useAtomValue, useSetAtom } from "jotai";
+import styles from "./ReplyInput.module.css";
+import { repliesAtom, userIdAtom, userImageAtom } from "@/app/modules/atoms";
 import { useForm } from "react-hook-form";
-import { checkUserLoginStatus, editReply } from "@/app/modules/api";
 import { useState } from "react";
-import { LoginAlert } from "./LoginAlert";
+import { LoginAlert } from "../@common/LoginAlert";
 import { Reply } from "@/app/modules/types";
+import { editReply } from "@/app/modules/api/comment";
+import { verifyLoginStatus } from "@/app/modules/api/auth";
 
 interface ReplyForm {
   userComment: string;
 }
 
 interface ReplyInputProps {
-  fetchComments: any;
-  setReplyIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowReplyEditingInput: React.Dispatch<React.SetStateAction<boolean>>;
   reply: Reply;
 }
 
-export const ReplyEditInput = ({ fetchComments, setReplyIsEditing, reply }: ReplyInputProps) => {
-  const currentUserImage = useAtomValue(userImageAtom);
+export const ReplyEditingInput = ({ setShowReplyEditingInput, reply }: ReplyInputProps) => {
+  const setReplies = useSetAtom(repliesAtom);
+  const activeUserImage = useAtomValue(userImageAtom);
   const { handleSubmit, register, reset } = useForm<ReplyForm>({
     defaultValues: {
       userComment: reply.userComment,
@@ -31,37 +32,42 @@ export const ReplyEditInput = ({ fetchComments, setReplyIsEditing, reply }: Repl
     const { userComment } = data;
     const commentId = reply._id;
 
-    const commentParams = { commentId, userId, userComment, date: new Date() };
+    const commentParams = {
+      albumId: reply.albumId,
+      commentId,
+      userId,
+      userComment,
+      date: new Date(),
+    };
     try {
-      await editReply(commentParams);
+      const response = await editReply(commentParams);
       reset();
-      setReplyIsEditing(false);
-      await fetchComments();
+      setShowReplyEditingInput(false);
+      setReplies(response.replies);
     } catch (error) {
       console.error(error, "Failed to sign up process");
     }
   });
 
   const handleTextareaClick = async () => {
-    const response = await checkUserLoginStatus();
-    const isLoggedIn = response.ok;
+    const { isLoggedIn } = await verifyLoginStatus();
     if (!isLoggedIn) setShowModal(true);
   };
 
   return (
     <>
-      <LoginAlert showModal={showModal} setShowModal={setShowModal} />
+      <LoginAlert showLoginModal={showModal} setShowLoginModal={setShowModal} />
       <div className={styles.container} onSubmit={onSubmit}>
         <div className={styles.commentContainer}>
           <div className={styles.userImageWrapper}>
-            <img src={currentUserImage} alt="user-Image" className={styles.userImage} />
+            <img src={activeUserImage} alt="user-image" className={styles.userImage} />
           </div>
           <form className={styles.formContainer}>
             <div className={styles.textareaWrapper}>
               <textarea
                 {...register("userComment")}
                 className={styles.textarea}
-                placeholder="Leave a comment"
+                placeholder="댓글 작성"
                 onClick={handleTextareaClick}
               />
             </div>
@@ -69,7 +75,7 @@ export const ReplyEditInput = ({ fetchComments, setReplyIsEditing, reply }: Repl
               <button
                 className={styles.button}
                 onClick={() => {
-                  setReplyIsEditing(false);
+                  setShowReplyEditingInput(false);
                 }}
                 style={{ marginRight: "-1px" }}
               >

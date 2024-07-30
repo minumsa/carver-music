@@ -13,11 +13,11 @@ export async function GET(request: Request) {
       ?.split("=")[1];
 
     if (!loginToken) {
-      return NextResponse.json({ message: "로그아웃할 수 없습니다: 토큰 없음" }, { status: 401 });
+      return NextResponse.json({ message: "유효하지 않은 토큰입니다." }, { status: 401 });
     }
 
     // 쿠키 제거 설정
-    const response = NextResponse.json({ message: "로그아웃 성공" }, { status: 200 });
+    const response = NextResponse.json({ message: "로그아웃에 성공했습니다." }, { status: 200 });
     response.cookies.delete("loginToken");
     return response;
   } catch (error) {

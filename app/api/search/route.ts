@@ -1,8 +1,8 @@
 import connectMongoDB from "@/app/modules/mongodb";
 import Music from "@/models/music";
 import { NextResponse } from "next/server";
-import { SUB_PER_PAGE_COUNT } from "../../modules/constants";
 import { SortKey } from "@/app/modules/types";
+import { SUB_PER_PAGE_COUNT } from "@/app/modules/config";
 
 export const dynamic = "force-dynamic";
 
@@ -13,12 +13,12 @@ export async function GET(request: Request) {
     await connectMongoDB();
 
     const url = new URL(request.url);
-    const currentPage = Number(url.searchParams.get("currentPage"));
-    const currentKeyword = url.searchParams.get("currentKeyword") ?? "";
+    const activePage = Number(url.searchParams.get("activePage"));
+    const activeKeyword = url.searchParams.get("activeKeyword") ?? "";
 
     const sortKey: SortKey = { artist: 1, releaseDate: 1 };
 
-    const skipCount = SUB_PER_PAGE_COUNT * currentPage - SUB_PER_PAGE_COUNT;
+    const skipCount = SUB_PER_PAGE_COUNT * activePage - SUB_PER_PAGE_COUNT;
     const projection = {
       _id: 0,
       album: 1,
@@ -40,10 +40,10 @@ export async function GET(request: Request) {
 
     const searchData = await Music.find({
       $or: [
-        { text: { $regex: new RegExp(currentKeyword, "i") } },
-        { artist: { $regex: new RegExp(currentKeyword, "i") } },
-        { album: { $regex: new RegExp(currentKeyword, "i") } },
-        { id: { $regex: new RegExp(currentKeyword, "i") } },
+        { text: { $regex: new RegExp(activeKeyword, "i") } },
+        { artist: { $regex: new RegExp(activeKeyword, "i") } },
+        { album: { $regex: new RegExp(activeKeyword, "i") } },
+        { id: { $regex: new RegExp(activeKeyword, "i") } },
       ],
     })
       .sort(sortKey)

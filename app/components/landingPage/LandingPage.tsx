@@ -18,15 +18,15 @@ import {
   scrollPositionAtom,
   isScrollingAtom,
 } from "../../modules/atoms";
-import { MIN_SCROLL_COUNT, PER_PAGE_COUNT } from "../../modules/constants";
 import { toArtistPage, toPostPage } from "../../modules/paths";
-import { AlbumFilters, AlbumInfoLandingPage } from "../../modules/types";
+import { AlbumFilters, AlbumDataLandingPage } from "../../modules/types";
 import { BlurImg } from "../@common/BlurImg";
 import MobileLoadingView from "../@common/MobileLoadingView";
-import { fetchAlbumDataCSR } from "@/app/modules/api";
+import { fetchAlbumDataCSR } from "@/app/modules/api/album";
+import { MIN_SCROLL_COUNT, PER_PAGE_COUNT } from "@/app/modules/config";
 
 interface LandingPageProps {
-  initialData: AlbumInfoLandingPage[];
+  initialData: AlbumDataLandingPage[];
   initialTotalScrollCount: number;
 }
 
@@ -43,7 +43,7 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
     threshold: 0,
     triggerOnce: true,
   });
-  const currentTag = useAtomValue(tagAtom);
+  const activeTag = useAtomValue(tagAtom);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const isFirstFetch = scrollCount === 1;
 
@@ -55,7 +55,7 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
       try {
         const albumFilters: AlbumFilters = {
           scrollCount,
-          currentTag,
+          activeTag,
         };
 
         const { albumData, albumDataCount } = await fetchAlbumDataCSR(albumFilters);
@@ -66,7 +66,7 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
           setData((prevData) => [...prevData, ...albumData]);
         }
 
-        if (currentTag) {
+        if (activeTag) {
           const totalScrollCount = Math.ceil(albumDataCount / PER_PAGE_COUNT);
           setTotalScrollCount(totalScrollCount);
         }
@@ -78,14 +78,14 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isFirstFetch, currentTag],
+    [isFirstFetch, activeTag],
   );
 
   useEffect(() => {
-    const isInitialScroll = !currentTag && scrollCount === MIN_SCROLL_COUNT;
+    const isInitialScroll = !activeTag && scrollCount === MIN_SCROLL_COUNT;
     const scrollDetected =
       inView && scrollCount > MIN_SCROLL_COUNT && scrollCount <= totalScrollCount;
-    const mobileTagButtonClicked = currentTag && scrollCount === MIN_SCROLL_COUNT;
+    const mobileTagButtonClicked = activeTag && scrollCount === MIN_SCROLL_COUNT;
     const hasNoData = totalScrollCount === 0;
     const hasReachedScrollLimit = scrollCount === totalScrollCount;
 
@@ -107,7 +107,7 @@ export const LandingPage = ({ initialData, initialTotalScrollCount }: LandingPag
     if (hasReachedScrollLimit) setScrollCount(UNREACHABLE_SCROLL_LIMIT);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialData, scrollCount, currentTag, totalScrollCount]);
+  }, [initialData, scrollCount, activeTag, totalScrollCount]);
 
   function updateScrollPosition() {
     setScrollPosition(window.scrollY);

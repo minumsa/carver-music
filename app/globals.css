@@ -45,7 +45,6 @@
 :root {
   --background-color: #000;
   --text-color: #ababab;
-  --second-text-color: #6c757d;
   --third-text-color: #586069;
   --text-hover-color: #949494;
   --border-color: #2c2c2c;
@@ -79,6 +78,10 @@ body,
 input,
 textarea {
   font-family: "Lato", "Pretendard Variable", Pretendard, sans-serif;
+}
+
+textarea {
+  border-radius: 0;
 }
 
 /* Selection Styles */

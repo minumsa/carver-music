@@ -7,12 +7,10 @@ import { isUploadPage } from "../../modules/utils";
 import { ToastContainer } from "react-toastify";
 import MobileTagDisplay from "../landingPage/MobileTagDisplay";
 import "react-toastify/dist/ReactToastify.css";
-import { Snow } from "./Snow";
-import { Footer } from "./footer/Footer";
 import { useEffect, useMemo } from "react";
-import { getUserInfo } from "@/app/modules/api";
 import { useSetAtom } from "jotai";
 import { userIdAtom, userImageAtom, userNameAtom } from "@/app/modules/atoms";
+import { getUserInfo } from "@/app/modules/api/auth";
 
 export const MusicLayout = ({ children }: { children: React.ReactNode }) => {
   const pathName = usePathname();
@@ -24,6 +22,7 @@ export const MusicLayout = ({ children }: { children: React.ReactNode }) => {
     () => async () => {
       try {
         const response = await getUserInfo();
+
         if (response.login) {
           setUserId(response.userId);
           setUserName(response.userName);

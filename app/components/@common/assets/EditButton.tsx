@@ -1,9 +1,9 @@
-import { AlbumInfo } from "../../../modules/types";
+import { AlbumData } from "../../../modules/types";
 import styles from "./Button.module.css";
 import Link from "next/link";
 
 interface EditButtonProps {
-  data: AlbumInfo;
+  data: AlbumData;
 }
 
 export const EditButton = ({ data }: EditButtonProps) => {

@@ -1,7 +1,7 @@
 import Error from "@/app/components/@common/Error";
 import { MusicLayout } from "@/app/components/@common/MusicLayout";
 import { CalendarNoSSR } from "@/app/components/calendar/CaldendarNoSSR";
-import { fetchCalendarDataSSR } from "@/app/modules/api";
+import { fetchCalendarDataSSR } from "@/app/modules/api/album";
 import { getTodaysYearMonth } from "@/app/modules/utils";
 
 export default async function Page() {
@@ -11,7 +11,7 @@ export default async function Page() {
 
     return (
       <MusicLayout>
-        <CalendarNoSSR calendarData={calendarData} />
+        <CalendarNoSSR initialCalendarData={calendarData} />
       </MusicLayout>
     );
   } catch (error) {

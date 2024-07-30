@@ -1,8 +1,8 @@
-import { AlbumInfo } from "../../modules/types";
+import { AlbumData } from "../../modules/types";
 import styles from "./ArtistHeader.module.css";
 
 interface ArtistPageImageProps {
-  artistData: AlbumInfo[];
+  artistData: AlbumData[];
 }
 
 export const ArtistHeader = ({ artistData }: ArtistPageImageProps) => {

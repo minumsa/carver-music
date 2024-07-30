@@ -1,19 +1,19 @@
 import SearchContents from "@/app/components/search/SearchContents";
 import { MusicLayout } from "@/app/components/@common/MusicLayout";
 import { PageProps } from "@/app/modules/types";
-import { fetchSearchData } from "@/app/modules/api";
+import { fetchSearchData } from "@/app/modules/api/album";
 import Error from "@/app/components/@common/Error";
 
 export default async function Page({ params }: PageProps): Promise<React.ReactElement> {
-  const currentKeyword: string = params.keyword;
-  const currentPage: number = params.page;
+  const activeKeyword: string = params.keyword;
+  const activePage: number = params.page;
 
   try {
-    const { searchData, searchDataCount } = await fetchSearchData(currentKeyword, currentPage);
+    const { searchData, searchDataCount } = await fetchSearchData(activeKeyword, activePage);
     const searchInfo = {
-      currentKeyword,
-      currentPage,
-      currentTagName: "",
+      activeKeyword,
+      activePage,
+      activeTagName: "",
       totalDataLength: searchDataCount,
     };
 

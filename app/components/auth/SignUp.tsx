@@ -1,16 +1,17 @@
 "use client";
 
-import { userSignUp } from "@/app/modules/api";
 import styles from "./SignUp.module.css";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { ChangeEvent, useState } from "react";
+import { userLogin, userSignUp } from "@/app/modules/api/auth";
+import { getDefaultRedirectPath } from "@/app/modules/paths";
 
 interface SignUpForm {
   userId: string;
   userName: string;
-  userImage: any;
+  userImage: FileList;
   email: string;
   password: string;
   passwordCheck: string;
@@ -23,7 +24,7 @@ export const SignUp = () => {
     defaultValues: {
       userId: "",
       userName: "",
-      userImage: "",
+      userImage: undefined,
       email: "",
       password: "",
       passwordCheck: "",
@@ -41,7 +42,10 @@ export const SignUp = () => {
     try {
       await imgSaveHandler();
       const response = await userSignUp(userId, userName, email, password);
-      if (response?.ok) router.push("/login");
+      if (response?.ok) {
+        // FIXME: 회원가입 후 자동 로그인 로직을 구현했는데, 바로 메인화면으로 넘어가서 사용자가 회원가입이 정상적으로 된 건지, 로그인 된 상태인지 잘 모를 듯. 이에 관한 적절한 보완 작업 필요.
+        router.push("/");
+      }
     } catch (error) {
       console.error(error, "Failed to sign up process");
     }
@@ -89,24 +93,24 @@ export const SignUp = () => {
     <div className={styles.container}>
       <div className={styles.formContainer}>
         <h3>회원가입</h3>
-        <div>카버뮤직 계정을 생성합니다. 모든 필드를 필수적으로 입력해야 합니다.</div>
+        <p>카버뮤직 계정을 생성합니다. 모든 필드를 필수적으로 입력해야 합니다.</p>
         <form onSubmit={onSubmit} className={styles.form}>
           <div className={styles.formWrapper}>
             <div className={styles.formLeft}>
               <div className={styles.item}>
-                <div className={styles.label}>아이디</div>
+                <p className={styles.label}>아이디</p>
                 <input className={styles.input} {...register("userId")} type="id" required />
               </div>
               <div className={styles.item}>
-                <div className={styles.label}>닉네임</div>
+                <p className={styles.label}>닉네임</p>
                 <input className={styles.input} {...register("userName")} type="name" required />
               </div>
               <div className={styles.item}>
-                <div className={styles.label}>이메일</div>
+                <p className={styles.label}>이메일</p>
                 <input className={styles.input} {...register("email")} type="email" required />
               </div>
               <div className={styles.item}>
-                <div className={styles.label}>비밀번호</div>
+                <p className={styles.label}>비밀번호</p>
                 <input
                   className={styles.input}
                   {...register("password")}
@@ -115,7 +119,7 @@ export const SignUp = () => {
                 />
               </div>
               <div className={styles.item}>
-                <div className={styles.label}>비밀번호 확인</div>
+                <p className={styles.label}>비밀번호 확인</p>
                 <input
                   className={styles.input}
                   {...register("passwordCheck")}
@@ -125,8 +129,8 @@ export const SignUp = () => {
               </div>
             </div>
             <div className={styles.formRight}>
-              <div className={`${styles.item} ${styles.userProfileItem}`}>
-                <div>프로필 사진</div>
+              <p className={`${styles.item} ${styles.userProfileItem}`}>
+                <p>프로필 사진</p>
                 <div className={styles.userImageContainer}>
                   <div className={styles.userImageWrapper}>
                     <img
@@ -146,22 +150,7 @@ export const SignUp = () => {
                 <label htmlFor="fileInput" className={styles.fileLabel}>
                   파일 선택
                 </label>
-                {/* <input
-                  className={`${styles.input} ${styles.userImageInput}`}
-                  onChange={(e) => fileHandler(e)}
-                  type="file"
-                  required
-                /> */}
-                {/* {watch("userImage") && (
-                  <div className={styles.userImageWrapper}>
-                    <img
-                      src={URL.createObjectURL(watch("userImage")[0])}
-                      alt="user-image"
-                      className={styles.userImage}
-                    />
-                  </div>
-                )} */}
-              </div>
+              </p>
             </div>
           </div>
           <button onClick={onSubmit} className={styles.button}>

@@ -1,12 +1,12 @@
 "use client";
 
-import { AlbumInfo } from "../../modules/types";
+import { AlbumData } from "../../modules/types";
 import styles from "./PostContents.module.css";
-import { PostAlbumMetadata } from "./PostAlbumMetadata";
+import { PostMetadata } from "./PostMetadata";
 import dynamic from "next/dynamic";
 
 interface PostProps {
-  postData: AlbumInfo;
+  postData: AlbumData;
 }
 
 const PostTextNoSSR = dynamic(() => import("./PostText").then((mod) => mod.PostText), {
@@ -18,7 +18,7 @@ export const PostContents = ({ postData }: PostProps) => {
     <>
       {postData && (
         <section className={styles.container}>
-          <PostAlbumMetadata postData={postData} />
+          <PostMetadata postData={postData} />
           <PostTextNoSSR postData={postData} />
         </section>
       )}
