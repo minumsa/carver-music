@@ -2,7 +2,7 @@
 
 - [카버뮤직](https://music.divdivdiv.com)은 음반 정보 및 리뷰를 제공하는 음악 블로그 사이트입니다.
 - 미리보기 GIF 이미지를 포함한 자세한 내용은 [포트폴리오 페이지](https://rust-ocicat-1b0.notion.site/f61c9cea780144819507bf0616d3bd70?pvs=74)에서 확인하실 수 있습니다.
-  ![alt text](image.png)
+  ![alt text](/public/images/thumbnail.png)
 
 ## 🧚‍♂️ Overview
 
