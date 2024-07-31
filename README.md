@@ -32,10 +32,8 @@ npm run dev
 ```bash
 .
 ├── README.md
-├── robots.txt
 ├── .gitignore
 ├── .prettierrc
-├── .next.config.mjs
 ├── package-lock.json
 ├── package.json
 ├── app
