@@ -27,6 +27,68 @@ npm install
 npm run dev
 ```
 
+## 📁 Directory
+
+```bash
+.
+├── README.md
+├── robots.txt
+├── .gitignore
+├── .prettierrc
+├── .next.config.mjs
+├── package-lock.json
+├── package.json
+├── app
+│   ├── (routes)
+│   │   ├── [genre]
+│   │   ├── admin
+│   │   ├── artist
+│   │   ├── calendar
+│   │   ├── login
+│   │   ├── post
+│   │   ├── search
+│   │   └── signup
+│   └── api
+│       ├── artist
+│       ├── auth
+│       ├── aws
+│       ├── calendar
+│       ├── genre
+│       ├── post
+│       ├── randomPost
+│       ├── search
+│       ├── spotify
+│       └── tag
+├── components
+│   ├── @common
+│   │   ├── album
+│   │   ├── assets
+│   │   ├── footer
+│   │   └── header
+│   ├── artist
+│   ├── auth
+│   ├── calendar
+│   ├── landingPage
+│   ├── post
+│   │   └── comment
+│   ├── search
+│   └── upload
+│       ├── TagsEditor
+│       ├── ToastEditor
+│       └── VideoLinksEditor
+├── hooks
+├── modules
+│   ├── api
+│   ├── config
+│   └── constants
+├── models
+└── public
+    ├── fonts
+    ├── images
+    └── svgs
+
+```
+
 ## ⚒️ Tech stacks
 
 - TypeScript
