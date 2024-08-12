@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { getRandomAlbumId } from "@/app/modules/api/album";
 import { isAdminPage } from "@/app/modules/utils";
 import { useEffect } from "react";
-import { userImageAtom, userNameAtom } from "@/app/modules/atoms";
+import { userIdAtom, userImageAtom, userNameAtom } from "@/app/modules/atoms";
 import { useAtom, useSetAtom } from "jotai";
 import { userLogout } from "@/app/modules/api/auth";
 import { GENRES } from "@/app/modules/constants/genres";
@@ -19,6 +19,7 @@ export const MobileMenu = ({ showCategory }: MobileMenuProps) => {
   const router = useRouter();
   const setUserName = useSetAtom(userNameAtom);
   const [userImage, setUserImage] = useAtom(userImageAtom);
+  const [userId, setUserId] = useAtom(userIdAtom);
 
   async function handleRandomButton() {
     const randomId = await getRandomAlbumId();
@@ -43,6 +44,7 @@ export const MobileMenu = ({ showCategory }: MobileMenuProps) => {
 
   async function handleLogout() {
     await userLogout();
+    setUserId("");
     setUserName("방문자");
     setUserImage("/svgs/ghost.svg");
   }
@@ -51,7 +53,7 @@ export const MobileMenu = ({ showCategory }: MobileMenuProps) => {
     <div className={`${styles.container} ${showCategory ? styles.show : undefined}`}>
       <div className={styles.categoryContainer}>
         <div className={styles.categoryWrapper}>
-          {userImage ? (
+          {userId ? (
             <div className={styles.profileItem}>
               <li className={styles.categoryItem} onClick={handleLogout}>
                 로그아웃

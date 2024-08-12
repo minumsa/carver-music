@@ -5,8 +5,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { ChangeEvent, useState } from "react";
-import { userLogin, userSignUp } from "@/app/modules/api/auth";
-import { getDefaultRedirectPath } from "@/app/modules/paths";
+import { userSignUp } from "@/app/modules/api/auth";
 
 interface SignUpForm {
   userId: string;
