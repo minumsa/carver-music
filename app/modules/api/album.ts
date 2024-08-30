@@ -17,6 +17,7 @@ import {
   UploadDataParams,
 } from "./albumTypes";
 import { NextResponse } from "next/server";
+import { handleAlbumApiResponse, handleAlbumApiError } from "./apiUtils";
 
 export async function fetchAlbumDataCSR(albumFilters: AlbumFilters): Promise<AlbumDataResult> {
   try {
@@ -111,19 +112,10 @@ export async function fetchPostData(activeId: string): Promise<AlbumData> {
       },
     });
 
-    if (!response.ok) {
-      const error = AlbumError.fromResponse(response);
-      toast.error(error.message);
-      throw error;
-    }
-
-    const postData: AlbumData = await response.json();
+    const postData = await handleAlbumApiResponse<AlbumData>(response);
     return postData;
   } catch (error) {
-    if (!(error instanceof AlbumError)) {
-      const systemErrorMessage = "앨범 데이터 처리 중 시스템 오류가 발생했습니다.";
-      throw new Error(systemErrorMessage);
-    }
+    handleAlbumApiError(error);
     throw error;
   }
 }
