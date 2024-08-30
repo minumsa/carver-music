@@ -1,6 +1,8 @@
 ## 🎧 음악 취향 공유 서비스 웹, 카버뮤직
 
-![alt text](https://file.notion.so/f/f/74a28231-9a14-42f3-bd53-a8b84388f018/0527c646-aa9b-4823-a13a-633230a93445/test2500.gif?table=block&id=4575cb79-d765-4782-9506-46f7a9f96953&spaceId=74a28231-9a14-42f3-bd53-a8b84388f018&expirationTimestamp=1724925600000&signature=dy4Is15qv4tAGgsTVnw8ZfcQruXyVmrZOMlNE19tOdY&downloadName=test2500.gif)
+| 카버뮤직 메인 페이지                                                                                                                                                                                                                                                                                                                              |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ![mainPage](https://file.notion.so/f/f/74a28231-9a14-42f3-bd53-a8b84388f018/0527c646-aa9b-4823-a13a-633230a93445/test2500.gif?table=block&id=4575cb79-d765-4782-9506-46f7a9f96953&spaceId=74a28231-9a14-42f3-bd53-a8b84388f018&expirationTimestamp=1725098400000&signature=wFBucX8Q7sXTHYWrXG7Iuu9BEc2qnWT2pjTNM7FXrL8&downloadName=test2500.gif) |
 
 - 배포 URL: https://music.divdivdiv.com
 
@@ -156,7 +158,7 @@ npm run dev
 
 | 메인 페이지                                                                                                                                                                                                                                                                                                                                       |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ![mainPage](https://file.notion.so/f/f/74a28231-9a14-42f3-bd53-a8b84388f018/0527c646-aa9b-4823-a13a-633230a93445/test2500.gif?table=block&id=4575cb79-d765-4782-9506-46f7a9f96953&spaceId=74a28231-9a14-42f3-bd53-a8b84388f018&expirationTimestamp=1725004800000&signature=BmWIsNkeHqa6sPmh9kLKJOkrwi4nOOuRlvchTfNhDP4&downloadName=test2500.gif) |
+| ![mainPage](https://file.notion.so/f/f/74a28231-9a14-42f3-bd53-a8b84388f018/0527c646-aa9b-4823-a13a-633230a93445/test2500.gif?table=block&id=4575cb79-d765-4782-9506-46f7a9f96953&spaceId=74a28231-9a14-42f3-bd53-a8b84388f018&expirationTimestamp=1725098400000&signature=wFBucX8Q7sXTHYWrXG7Iuu9BEc2qnWT2pjTNM7FXrL8&downloadName=test2500.gif) |
 
 <br>
 
