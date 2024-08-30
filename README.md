@@ -138,6 +138,12 @@ npm run dev
 - [카버뮤직 트러블 슈팅 모음](https://medium.com/@icycyi92/%EC%B9%B4%EB%B2%84%EB%AE%A4%EC%A7%81-%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85-%EB%AA%A8%EC%9D%8C-4b296a4ae616)
 - [최유일 포트폴리오](https://rust-ocicat-1b0.notion.site/f61c9cea780144819507bf0616d3bd70?pvs=4)
 
+## 신경 쓴 부분
+
+- API 모듈화
+- [Spotify API를 활용한 음악 데이터 입력 자동화](https://github.com/minumsa/carver-music/wiki/%EC%8B%A0%EA%B2%BD-%EC%93%B4-%EB%B6%80%EB%B6%84:-Spotify-API%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-%EC%9D%8C%EC%95%85-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%9E%85%EB%A0%A5-%EC%9E%90%EB%8F%99%ED%99%94)
+- [코드 가독성 개선](https://github.com/minumsa/carver-music/wiki/%EC%8B%A0%EA%B2%BD-%EC%93%B4-%EB%B6%80%EB%B6%84:-%EC%BD%94%EB%93%9C-%EA%B0%80%EB%8F%85%EC%84%B1-%EA%B0%9C%EC%84%A0)
+
 ## 페이지별 기능
 
 ### [메인 페이지]
@@ -246,7 +252,7 @@ npm run dev
 ### [관리자 페이지]
 
 - 관리자 아이디로 로그인 시 `JWT`를 검사하고, 관리자가 맞다면 관리자 페이지(/admin)로 이동합니다.
-- 관리자 페이지에서는 게시글을 수정하거나 삭제할 수 있는 UI를 제공합니다.
+- 관리자 페이지에서는 게시글을 수정하거나 삭제할 수 있는 UI를 별도로 제공합니다.
 - 업로드 페이지는 관리자 페이지의 일부로 관리자만 이용 가능하며, 앨범 제목 input에 키워드를 입력하면 Spotify API를 통해 관련 앨범을 검색하고, 원하는 앨범을 클릭 시 해당 데이터가 입력됩니다.
 
 | 관리자 페이지                                                                                                                                                                                                                                                                                                                                    |
