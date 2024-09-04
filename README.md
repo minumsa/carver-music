@@ -137,7 +137,6 @@ npm run dev
 
 ## 관련 문서
 
-- [카버뮤직 트러블 슈팅 모음](https://medium.com/@icycyi92/%EC%B9%B4%EB%B2%84%EB%AE%A4%EC%A7%81-%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85-%EB%AA%A8%EC%9D%8C-4b296a4ae616)
 - [최유일 포트폴리오](https://rust-ocicat-1b0.notion.site/f61c9cea780144819507bf0616d3bd70?pvs=4)
 
 ## 신경 쓴 부분
@@ -145,6 +144,7 @@ npm run dev
 - [API 모듈화](https://github.com/minumsa/carver-music/wiki/%EC%8B%A0%EA%B2%BD-%EC%93%B4-%EB%B6%80%EB%B6%84:-API-%EB%AA%A8%EB%93%88%ED%99%94)
 - [Spotify API를 활용한 음악 데이터 입력 자동화](https://github.com/minumsa/carver-music/wiki/%EC%8B%A0%EA%B2%BD-%EC%93%B4-%EB%B6%80%EB%B6%84:-Spotify-API%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-%EC%9D%8C%EC%95%85-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%9E%85%EB%A0%A5-%EC%9E%90%EB%8F%99%ED%99%94)
 - [코드 가독성 개선](https://github.com/minumsa/carver-music/wiki/%EC%8B%A0%EA%B2%BD-%EC%93%B4-%EB%B6%80%EB%B6%84:-%EC%BD%94%EB%93%9C-%EA%B0%80%EB%8F%85%EC%84%B1-%EA%B0%9C%EC%84%A0)
+- 이미지 최적화 작업
 
 ## 페이지별 기능
 
@@ -285,9 +285,21 @@ MongoDB를 통해 REST API를 직접 만들어 활용해보았습니다. 프로�
 <br>
 프로젝트를 완성한 지 한 달쯤 뒤에 전체 코드를 살펴볼 기회가 있었는데, 직접 짠 코드인데도 코드의 흐름을 파악하는 데 약간의 어려움이 있었습니다. 이후 리팩토링 작업을 진행하면서 다른 개발자가 보더라도 코드의 의도를 명확히 파악할 수 있도록 변수명을 변경해 코드의 가독성을 향상시켰습니다.
 
+## 트러블 슈팅
+
+- 페이지 로딩 속도 개선
+- CORS - Preflight Request 에러 해결
+
 ## 개선 목표
 
-- lighthouse Performance 향상
+- Lighthouse Performance 향상
+
+  - 모든 페이지에서 Performance 점수가 낮습니다.
+  - 원인을 파악해 Performance 점수 뿐만 아니라 Accessibillity, SEO 점수도 100점까지 올릴 예정입니다.
+
+|    **Lighthouse Performance**     |
+| :-------------------------------: |
+| <img src="image-1.png" width=400> |
 
 ## 개발자
 
