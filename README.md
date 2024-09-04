@@ -287,19 +287,19 @@ MongoDB를 통해 REST API를 직접 만들어 활용해보았습니다. 프로�
 
 ## 트러블 슈팅
 
-- 페이지 로딩 속도 개선
-- CORS - Preflight Request 에러 해결
+- [페이지 로딩 속도 개선](https://github.com/minumsa/carver-music/wiki/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85:-%ED%8E%98%EC%9D%B4%EC%A7%80-%EB%A1%9C%EB%94%A9-%EC%86%8D%EB%8F%84-%EA%B0%9C%EC%84%A0)
+- [CORS - Preflight Request 에러 해결](https://github.com/minumsa/carver-music/wiki/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85:-CORS-%E2%80%90-Preflight-Request-%EC%97%90%EB%9F%AC-%ED%95%B4%EA%B2%B0)
 
 ## 개선 목표
 
 - Lighthouse Performance 향상
 
-  - 모든 페이지에서 Performance 점수가 낮습니다.
-  - 원인을 파악해 Performance 점수 뿐만 아니라 Accessibillity, SEO 점수도 100점까지 올릴 예정입니다.
+  - 현재 모든 페이지에서 Performance 점수가 낮은 편입니다.
+  - 원인을 파악해 Performance 점수 뿐만 아니라 Accessibillity 및 SEO 점수까지 100점까지 올릴 예정입니다.
 
 |    **Lighthouse Performance**     |
 | :-------------------------------: |
-| <img src="image-1.png" width=400> |
+| <img src="image-1.png" width=500> |
 
 ## 개발자
 
