@@ -295,7 +295,7 @@ MongoDB를 통해 REST API를 직접 만들어 활용해보았습니다. 프로�
 - Lighthouse Performance 향상
 
   - 현재 모든 페이지에서 Performance 점수가 낮은 편입니다.
-  - 원인을 파악해 Performance 점수 뿐만 아니라 Accessibillity 및 SEO 점수까지 100점까지 올릴 예정입니다.
+  - 원인을 파악해 Performance 점수 뿐만 아니라 Accessibillity 및 SEO 점수도 100점까지 올릴 예정입니다.
 
 |    **Lighthouse Performance**     |
 | :-------------------------------: |
