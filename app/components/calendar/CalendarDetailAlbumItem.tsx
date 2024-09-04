@@ -56,7 +56,7 @@ export const CalendarDetailAlbumItem = ({ calendarData }: CalendarDetailAlbumIte
         />
         <img
           className={styles.monoStar}
-          src="/images/star-mono.webp"
+          src="/images/monoStar.webp"
           alt="monoStar"
           loading="lazy"
         />

@@ -75,7 +75,7 @@ export const AlbumPanel = ({ albumData }: AlbumProps) => {
                     />
                     <img
                       className={styles.monoStar}
-                      src="/images/star-mono.webp"
+                      src="/images/monoStar.webp"
                       alt="monoStar"
                       loading="lazy"
                     />
