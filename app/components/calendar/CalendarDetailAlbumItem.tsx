@@ -43,7 +43,7 @@ export const CalendarDetailAlbumItem = ({ calendarData }: CalendarDetailAlbumIte
       <div className={styles.starContainer}>
         <img
           className={styles.coloredStar}
-          src="/images/star-color.webp"
+          src="/images/coloredStar.webp"
           alt="colored-star"
           style={
             score
@@ -57,7 +57,7 @@ export const CalendarDetailAlbumItem = ({ calendarData }: CalendarDetailAlbumIte
         <img
           className={styles.monoStar}
           src="/images/star-mono.webp"
-          alt="mono-star"
+          alt="monoStar"
           loading="lazy"
         />
       </div>
