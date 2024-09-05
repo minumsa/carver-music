@@ -81,13 +81,13 @@ export const CalendarDetail = ({ calendarData, day }: CalendarDetailProps) => {
             ref={isClickedDay ? clickedDayRef : null}
           >
             <div className={styles.dateHeaderWrapper}>
-              <p
+              <div
                 className={styles.dateToNumber}
                 style={{ color: isClickedDay ? PRIMARY_COLOR : undefined }}
               >
                 {dayFromDate}
-              </p>
-              <p className={styles.dataCountByDate}>{totalCalendarDataByMonth}</p>
+              </div>
+              <div className={styles.dataCountByDate}>{totalCalendarDataByMonth}</div>
             </div>
             <div className={styles.dateGroup}>
               {groupedCalendarDataByDate[date].map((calendarData) => {
