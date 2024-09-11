@@ -26,7 +26,7 @@ const CalendarComponent = ({ initialCalendarData }: CalendarComponentProps) => {
 
   useEffect(() => {
     // 최초 페이지 진입 시(activeCalendarData가 없을 때)에만 SSR을 통해 가져온 달력 데이터 사용
-    if (!activeCalendarData) setActiveCalendarData(initialCalendarData);
+    setActiveCalendarData(initialCalendarData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
