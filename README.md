@@ -124,7 +124,6 @@ npm run dev
 │   └── constants
 ├── models
 └── public
-    ├── fonts
     ├── images
     └── svgs
 
