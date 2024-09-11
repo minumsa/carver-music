@@ -35,16 +35,7 @@
 .metadataTitle {
   display: flex;
   margin: 15px 0 5px 0;
-  font-weight: 600;
-}
-
-.blackMasking {
-  z-index: 2;
-  background-color: var(--background-color);
-  text-indent: 0;
-  line-height: 155%;
-  color: var(--text-color);
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .linkIcon {

@@ -52,14 +52,6 @@
   color: var(--primary-color);
 }
 
-.todayButton {
-  border: 1px solid var(--text-color);
-  padding: 5px 15px;
-  position: absolute;
-  top: 40px;
-  right: 30px;
-}
-
 .totalContents {
   display: flex;
   justify-content: center;
@@ -90,7 +82,7 @@
   .totalContents {
     width: 15px;
     height: 15px;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 0.7rem;
     top: 1.5px;
     right: 1.5px;

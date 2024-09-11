@@ -62,7 +62,7 @@ export const PostText = ({ postData }: PostTextProps) => {
             <p
               key={index}
               className={styles.paragraph}
-              style={isSubTitle ? { fontWeight: 600 } : undefined}
+              style={isSubTitle ? { fontWeight: 500 } : undefined}
             >
               {paragraph}
             </p>
