@@ -82,6 +82,7 @@ textarea {
 
 textarea {
   border-radius: 0;
+  font-weight: inherit;
 }
 
 /* Selection Styles */
@@ -145,6 +146,7 @@ button {
   box-sizing: unset;
   font-size: inherit;
   font-family: inherit;
+  font-weight: inherit;
 }
 
 /* Blockquote Styles */

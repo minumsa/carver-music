@@ -34,7 +34,7 @@
   display: block;
   position: absolute;
   width: 100%;
-  bottom: -12px;
+  bottom: -15px;
   background-color: var(--background-color);
   transition: inherit;
   transform: translateZ(0);

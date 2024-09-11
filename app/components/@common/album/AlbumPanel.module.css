@@ -132,8 +132,7 @@
   z-index: 200;
   cursor: pointer;
   color: var(--textColor);
-  font-size: 1.2rem;
-  font-weight: 450;
+  font-weight: 400;
 }
 
 .tagContainer {
@@ -233,7 +232,6 @@
     bottom: 0.5px;
     margin: 0 15px 0 0;
     font-size: 0.9rem;
-    font-weight: 500;
   }
 
   .buttonContainer {
