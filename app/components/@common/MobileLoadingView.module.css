@@ -39,3 +39,9 @@
   width: 100%;
   font-size: 1.1rem;
 }
+
+@media (max-width: 525px) {
+  .loadingText {
+    font-size: 0.95rem;
+  }
+}
