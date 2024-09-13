@@ -237,10 +237,12 @@
   .buttonContainer {
     justify-content: center;
   }
-}
 
-@media (max-width: 525px) {
   .albumTitle {
     text-align: center;
+  }
+
+  .tagItem {
+    font-size: 0.9rem;
   }
 }
