@@ -109,6 +109,7 @@ export async function fetchPostData(activeId: string): Promise<AlbumData> {
       headers: {
         "Content-Type": "application/json",
       },
+      cache: "no-store",
     });
 
     if (!response.ok) {
