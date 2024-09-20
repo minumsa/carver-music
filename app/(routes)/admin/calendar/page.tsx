@@ -3,6 +3,7 @@ import { MusicLayout } from "@/app/components/@common/MusicLayout";
 import { CalendarNoSSR } from "@/app/components/calendar/CaldendarNoSSR";
 import { fetchCalendarDataSSR } from "@/app/modules/api/album";
 import { getTodaysYearMonth } from "@/app/modules/utils";
+import { fetchCache } from "@/app/modules/api/cacheSettings";
 
 export default async function Page() {
   try {

@@ -16,38 +16,6 @@ import {
   UpdateDataParams,
   UploadDataParams,
 } from "./albumTypes";
-import { NextResponse } from "next/server";
-
-export async function fetchAlbumDataCSR(albumFilters: AlbumFilters): Promise<AlbumDataResult> {
-  try {
-    const { scrollCount, activeTag } = albumFilters;
-    const queryString = `?scrollCount=${scrollCount}&tag=${activeTag}`;
-    const url = `${BASE_URL}/api${queryString}`;
-
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      const error = AlbumError.fromResponse(response);
-      toast.error(error.message);
-      throw error;
-    }
-
-    const { albumData, albumDataCount } = await response.json();
-    return { albumData, albumDataCount };
-  } catch (error) {
-    if (!(error instanceof AlbumError)) {
-      const systemErrorMessage = "앨범 데이터 처리 중 시스템 오류가 발생했습니다.";
-      toast.error(systemErrorMessage);
-      throw new Error(systemErrorMessage);
-    }
-    throw error;
-  }
-}
 
 export async function fetchAlbumDataSSR(): Promise<AlbumDataResult> {
   try {
@@ -89,6 +57,37 @@ export async function fetchAlbumDataSSR(): Promise<AlbumDataResult> {
     const simplifiedAlbumDataCount = JSON.parse(JSON.stringify(albumDataCount));
 
     return { albumData: simplifiedAlbumData, albumDataCount: simplifiedAlbumDataCount };
+  } catch (error) {
+    if (!(error instanceof AlbumError)) {
+      const systemErrorMessage = "앨범 데이터 처리 중 시스템 오류가 발생했습니다.";
+      toast.error(systemErrorMessage);
+      throw new Error(systemErrorMessage);
+    }
+    throw error;
+  }
+}
+
+export async function fetchAlbumDataCSR(albumFilters: AlbumFilters): Promise<AlbumDataResult> {
+  try {
+    const { scrollCount, activeTag } = albumFilters;
+    const queryString = `?scrollCount=${scrollCount}&tag=${activeTag}`;
+    const url = `${BASE_URL}/api${queryString}`;
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      const error = AlbumError.fromResponse(response);
+      toast.error(error.message);
+      throw error;
+    }
+
+    const { albumData, albumDataCount } = await response.json();
+    return { albumData, albumDataCount };
   } catch (error) {
     if (!(error instanceof AlbumError)) {
       const systemErrorMessage = "앨범 데이터 처리 중 시스템 오류가 발생했습니다.";

@@ -224,6 +224,7 @@ export default function UploadUpdate({ initialAlbumData }: UpdateProps) {
             onChange={(e) => {
               setValue("genre", e.target.value);
             }}
+            required
           >
             <option value="">--장르를 선택해주세요--</option>
             {Object.entries(GENRES).map(([key, value]) => {

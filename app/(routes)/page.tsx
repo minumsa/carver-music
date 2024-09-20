@@ -3,6 +3,7 @@ import { MusicLayout } from "../components/@common/MusicLayout";
 import { LandingPage } from "../components/landingPage/LandingPage";
 import { fetchAlbumDataSSR } from "../modules/api/album";
 import { PER_PAGE_COUNT } from "../modules/config";
+import { fetchCache } from "@/app/modules/api/cacheSettings";
 
 export default async function Page() {
   try {
