@@ -28,12 +28,12 @@ export async function GET(request: Request) {
 
     const skipCount = PER_PAGE_COUNT * scrollCount - PER_PAGE_COUNT;
     const projection = {
+      _id: 0,
       album: 1,
       artist: 1,
       artistId: 1,
       blurHash: 1,
       id: 1,
-      _id: 0,
       imgUrl: 1,
     };
 

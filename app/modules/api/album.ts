@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { AlbumFilters, AlbumData, CalendarData } from "../types";
+import { AlbumFilters, AlbumData, CalendarData, SortKey } from "../types";
 import connectMongoDB from "../mongodb";
 import Music from "@/models/music";
 import { getYearMonthFromDate } from "../utils";
@@ -9,32 +9,54 @@ import {
   AlbumDataResult,
   ArtistDataResult,
   GenreDataResult,
+  Query,
   SearchDataResult,
   TagDataResult,
   UpdateDataParams,
   UploadDataParams,
 } from "./albumTypes";
+import { PER_PAGE_COUNT } from "../config";
 
 export async function fetchAlbumDataSSR(): Promise<AlbumDataResult> {
   try {
-    const url = `${BASE_URL}/api/ssr`;
+    const albumFilters: AlbumFilters = {
+      scrollCount: 1,
+      activeTag: "",
+    };
+    const { scrollCount, activeTag } = albumFilters;
 
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      cache: "no-store",
-    });
+    await connectMongoDB();
 
-    if (!response.ok) {
-      const error = AlbumError.fromResponse(response);
-      toast.error(error.message);
-      throw error;
+    const sortKey: SortKey = { score: -1, artist: 1 };
+    const query: Query = {};
+
+    if (activeTag) {
+      query.tagKeys = activeTag;
     }
 
-    const { albumData, albumDataCount } = await response.json();
-    return { albumData, albumDataCount };
+    const skipCount = PER_PAGE_COUNT * scrollCount - PER_PAGE_COUNT;
+    const projection = {
+      album: 1,
+      artist: 1,
+      artistId: 1,
+      blurHash: 1,
+      _id: 0,
+      id: 1,
+      imgUrl: 1,
+    };
+
+    const albumData = await Music.find(query)
+      .sort(sortKey)
+      .skip(skipCount)
+      .limit(PER_PAGE_COUNT)
+      .select(projection);
+    const albumDataCount = await Music.find(query).count();
+
+    // FIXME: 에러 막으려 도입, 추후에 나은 방법 찾으면 리팩토링
+    const simplifiedAlbumData = JSON.parse(JSON.stringify(albumData));
+    const simplifiedAlbumDataCount = JSON.parse(JSON.stringify(albumDataCount));
+
+    return { albumData: simplifiedAlbumData, albumDataCount: simplifiedAlbumDataCount };
   } catch (error) {
     if (!(error instanceof AlbumError)) {
       const systemErrorMessage = "앨범 데이터 처리 중 시스템 오류가 발생했습니다.";
@@ -44,6 +66,36 @@ export async function fetchAlbumDataSSR(): Promise<AlbumDataResult> {
     throw error;
   }
 }
+
+// export async function fetchAlbumDataSSR(): Promise<AlbumDataResult> {
+//   try {
+//     const url = `${BASE_URL}/api/ssr`;
+
+//     const response = await fetch(url, {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       cache: "no-store",
+//     });
+
+//     if (!response.ok) {
+//       const error = AlbumError.fromResponse(response);
+//       toast.error(error.message);
+//       throw error;
+//     }
+
+//     const { albumData, albumDataCount } = await response.json();
+//     return { albumData, albumDataCount };
+//   } catch (error) {
+//     if (!(error instanceof AlbumError)) {
+//       const systemErrorMessage = "앨범 데이터 처리 중 시스템 오류가 발생했습니다.";
+//       toast.error(systemErrorMessage);
+//       throw new Error(systemErrorMessage);
+//     }
+//     throw error;
+//   }
+// }
 
 export async function fetchAlbumDataCSR(albumFilters: AlbumFilters): Promise<AlbumDataResult> {
   try {

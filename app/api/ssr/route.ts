@@ -15,11 +15,11 @@ export async function GET() {
 
     const skipCount = 0;
     const projection = {
+      _id: 0,
       album: 1,
       artist: 1,
       artistId: 1,
       blurHash: 1,
-      _id: 0,
       id: 1,
       imgUrl: 1,
     };
@@ -31,6 +31,7 @@ export async function GET() {
       .select(projection);
 
     const albumDataCount = await Music.find(query).count();
+
     return NextResponse.json({ albumData, albumDataCount });
   } catch (error) {
     console.error(error);
