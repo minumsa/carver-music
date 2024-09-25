@@ -49,14 +49,12 @@ export async function fetchAlbumDataSSR(): Promise<AlbumDataResult> {
       .sort(sortKey)
       .skip(skipCount)
       .limit(PER_PAGE_COUNT)
-      .select(projection);
+      .select(projection)
+      .lean();
+
     const albumDataCount = await Music.find(query).count();
 
-    // FIXME: 에러 막으려 도입, 추후에 나은 방법 찾으면 리팩토링
-    const simplifiedAlbumData = JSON.parse(JSON.stringify(albumData));
-    const simplifiedAlbumDataCount = JSON.parse(JSON.stringify(albumDataCount));
-
-    return { albumData: simplifiedAlbumData, albumDataCount: simplifiedAlbumDataCount };
+    return { albumData, albumDataCount };
   } catch (error) {
     if (!(error instanceof AlbumError)) {
       const systemErrorMessage = "앨범 데이터 처리 중 시스템 오류가 발생했습니다.";
