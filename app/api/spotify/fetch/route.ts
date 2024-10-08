@@ -47,6 +47,8 @@ async function getToken() {
   }
 }
 
+// FIXME: REST API - URI 이름 리소스 표현에 중점 두고 명사 위주로 변경
+
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
