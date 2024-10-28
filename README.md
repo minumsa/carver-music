@@ -280,7 +280,7 @@ MongoDB를 통해 REST API를 직접 만들어 활용해보았습니다. 프로�
 ## 트러블 슈팅
 
 - [페이지 로딩 속도 개선](https://github.com/minumsa/carver-music/wiki/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85:-%ED%8E%98%EC%9D%B4%EC%A7%80-%EB%A1%9C%EB%94%A9-%EC%86%8D%EB%8F%84-%EA%B0%9C%EC%84%A0)
-- [CORS - Preflight Request 에러 해결](https://github.com/minumsa/carver-music/wiki/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85:-CORS-%E2%80%90-Preflight-Request-%EC%97%90%EB%9F%AC-%ED%95%B4%EA%B2%B0)
+- [CORS - Preflight Request 에러 해결](https://github.com/minumsa/carver-music/wiki/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85:-CORS-%E2%80%90-Preflight-%EC%9A%94%EC%B2%AD-%EC%97%90%EB%9F%AC-%ED%95%B4%EA%B2%B0)
 - [API 모듈화](https://github.com/minumsa/carver-music/wiki/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85:-API-%EB%AA%A8%EB%93%88%ED%99%94)
 - [Spotify API를 활용한 음악 데이터 입력 자동화](https://github.com/minumsa/carver-music/wiki/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85:-Spotify-API%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-%EC%9D%8C%EC%95%85-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%9E%85%EB%A0%A5-%EC%9E%90%EB%8F%99%ED%99%94)
 - [코드 가독성 개선](https://github.com/minumsa/carver-music/wiki/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85:-%EC%BD%94%EB%93%9C-%EA%B0%80%EB%8F%85%EC%84%B1-%EA%B0%9C%EC%84%A0)
